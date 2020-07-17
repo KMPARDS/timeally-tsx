@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './ethereum/instances';
 
 ReactDOM.render(
   <React.StrictMode>
