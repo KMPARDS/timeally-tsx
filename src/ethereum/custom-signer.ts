@@ -28,11 +28,9 @@ export class CustomSigner extends ethers.Wallet {
     if (tx.gasLimit == null) {
       tx.gasLimit = this.estimateGas(tx).catch(async (error) => {
         const { from, to, data, value } = tx;
-
-        // @ts-ignore send is only available on JsonRpcProvider
-        if (this.provider.send) {
-          // @ts-ignore
-          const result = await this.provider.send('trace_call', [
+        const provider = this.provider as ethers.providers.JsonRpcProvider;
+        if (provider.send) {
+          const result = await provider.send('trace_call', [
             { from, to: await to, data, value },
             ['vMtrace'],
           ]);
