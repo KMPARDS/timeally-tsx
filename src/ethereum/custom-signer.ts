@@ -25,20 +25,6 @@ export class CustomSigner extends ethers.Wallet {
       this.checkTransaction(transaction)
     );
 
-    if (tx.to != null) {
-      tx.to = Promise.resolve(tx.to).then((to) =>
-        this.resolveName(to ?? ethers.constants.AddressZero)
-      );
-    }
-
-    if (tx.gasPrice == null) {
-      tx.gasPrice = this.getGasPrice();
-    }
-
-    if (tx.nonce == null) {
-      tx.nonce = this.getTransactionCount('pending');
-    }
-
     if (tx.gasLimit == null) {
       tx.gasLimit = this.estimateGas(tx).catch(async (error) => {
         const { from, to, data, value } = tx;
@@ -71,24 +57,6 @@ export class CustomSigner extends ethers.Wallet {
       });
     }
 
-    if (tx.chainId == null) {
-      tx.chainId = this.getChainId();
-    } else {
-      tx.chainId = Promise.all([
-        Promise.resolve(tx.chainId),
-        this.getChainId(),
-      ]).then((results) => {
-        if (results[1] !== 0 && results[0] !== results[1]) {
-          logger.throwArgumentError(
-            'chainId address mismatch',
-            'transaction',
-            transaction
-          );
-        }
-        return results[0];
-      });
-    }
-
-    return await resolveProperties(tx);
+    return await super.populateTransaction(tx);
   }
 }
