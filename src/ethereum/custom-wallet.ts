@@ -6,16 +6,20 @@ import { ExternallyOwnedAccount } from '@ethersproject/abstract-signer';
 import { Logger } from '@ethersproject/logger';
 const logger = new Logger(version);
 
-export class CustomSigner extends ethers.Wallet {
+export class CustomWallet extends ethers.Wallet {
   constructor(
     privateKey:
       | string
       | ethers.utils.Bytes
       | ExternallyOwnedAccount
       | ethers.utils.SigningKey,
-    provider: ethers.providers.JsonRpcProvider
+    provider?: ethers.providers.JsonRpcProvider
   ) {
     super(privateKey, provider);
+  }
+
+  connect(provider: ethers.providers.JsonRpcProvider): CustomWallet {
+    return new CustomWallet(this.privateKey, provider);
   }
 
   async populateTransaction(
@@ -25,20 +29,31 @@ export class CustomSigner extends ethers.Wallet {
       this.checkTransaction(transaction)
     );
 
-    if (tx.gasLimit == null) {
-      tx.gasLimit = this.estimateGas(tx).catch(async (error) => {
+    if (tx.gasLimit == null || tx.gasLimit instanceof Promise) {
+      tx.gasLimit = await this.estimateGas(tx).catch(async (error) => {
         const { from, to, data, value } = tx;
+
         const provider = this.provider as ethers.providers.JsonRpcProvider;
+
         if (provider.send) {
-          const result = await provider.send('trace_call', [
-            { from, to: await to, data, value },
-            ['vMtrace'],
-          ]);
+          let result: any;
+          try {
+            result = await provider.send('trace_call', [
+              { from, to: await to, data, value },
+              ['vmtrace', 'trace'],
+            ]);
+          } catch (error) {
+            console.log('trace_call error:', error.message);
+          }
 
           if (result?.output) {
+            console.log(result);
+
             const i = new ethers.utils.Interface(['function Error(string)']);
             return logger.throwError(
-              i.decodeFunctionData('Error', result.output)[0],
+              result?.output !== '0x'
+                ? i.decodeFunctionData('Error', result.output)[0]
+                : 'Call was reverted without a revert reason',
               Logger.errors.CALL_EXCEPTION
             );
           }
