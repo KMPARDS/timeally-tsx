@@ -59,6 +59,8 @@ export class NavbarMain extends Component {
                       <Link to="/">Home</Link>
 
                       <Link to="/1life1time">1Life1Time</Link>
+
+                      <Link to="/dashboard">Dashboard</Link>
                     </Navbar.Collapse>
                   </Navbar>
                 </div>
