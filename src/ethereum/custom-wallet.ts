@@ -1,3 +1,5 @@
+/*eslint no-useless-constructor: "off"*/
+
 import { ethers, version } from 'ethers';
 import { Deferrable, resolveProperties } from '@ethersproject/properties';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
