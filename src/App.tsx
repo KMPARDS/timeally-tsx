@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Home } from './components/Home';
 import { NavbarMain } from './components/Navbar';
 import { OneLifeOneTime } from './components/OneLifeOneTime';
+import './style.css';
 
 function App() {
   return (
