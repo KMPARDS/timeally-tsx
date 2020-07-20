@@ -15,27 +15,23 @@ import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
 
 interface TimeAllyManagerInterface extends ethers.utils.Interface {
   functions: {
-    'addStakingPlan(uint256,uint256,bool)': FunctionFragment;
+    'defaultMonths()': FunctionFragment;
     'deployer()': FunctionFragment;
-    'getStakingPlan(uint256)': FunctionFragment;
-    'getStakingPlans()': FunctionFragment;
     'getTimeAllyMonthlyNRT(uint256)': FunctionFragment;
     'getTotalActiveStaking(uint256)': FunctionFragment;
     'increaseActiveStaking(uint256,uint256)': FunctionFragment;
     'isStakingContractValid(address)': FunctionFragment;
     'nrtManager()': FunctionFragment;
-    'setInitialValues(address,address)': FunctionFragment;
-    'stake(uint256)': FunctionFragment;
+    'prepaidEs()': FunctionFragment;
+    'prepaidFallback(address,uint256)': FunctionFragment;
+    'processNrtReward(uint256)': FunctionFragment;
+    'setInitialValues(address,address,address)': FunctionFragment;
+    'stake()': FunctionFragment;
     'validatorManager()': FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: 'addStakingPlan',
-    values: [BigNumberish, BigNumberish, boolean]
-  ): string;
+  encodeFunctionData(functionFragment: 'defaultMonths', values?: undefined): string;
   encodeFunctionData(functionFragment: 'deployer', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'getStakingPlan', values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: 'getStakingPlans', values?: undefined): string;
   encodeFunctionData(functionFragment: 'getTimeAllyMonthlyNRT', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalActiveStaking', values: [BigNumberish]): string;
   encodeFunctionData(
@@ -44,19 +40,26 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: 'isStakingContractValid', values: [string]): string;
   encodeFunctionData(functionFragment: 'nrtManager', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'setInitialValues', values: [string, string]): string;
-  encodeFunctionData(functionFragment: 'stake', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'prepaidEs', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'prepaidFallback', values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'processNrtReward', values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: 'setInitialValues',
+    values: [string, string, string]
+  ): string;
+  encodeFunctionData(functionFragment: 'stake', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: 'addStakingPlan', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'defaultMonths', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deployer', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'getStakingPlan', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'getStakingPlans', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTimeAllyMonthlyNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalActiveStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'increaseActiveStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'isStakingContractValid', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nrtManager', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'prepaidEs', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'prepaidFallback', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'processNrtReward', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'stake', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
@@ -82,44 +85,16 @@ export class TimeAllyManager extends Contract {
   interface: TimeAllyManagerInterface;
 
   functions: {
-    addStakingPlan(
-      _months: BigNumberish,
-      _fractionFrom15: BigNumberish,
-      _estMode: boolean,
-      overrides?: Overrides
-    ): Promise<ContractTransaction>;
+    defaultMonths(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
 
     deployer(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
-    }>;
-
-    getStakingPlan(
-      _stakingPlanId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        months: BigNumber;
-        fractionFrom15: BigNumber;
-        estMode: boolean;
-        0: BigNumber;
-        1: BigNumber;
-        2: boolean;
-      };
-    }>;
-
-    getStakingPlans(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        months: BigNumber;
-        fractionFrom15: BigNumber;
-        estMode: boolean;
-        0: BigNumber;
-        1: BigNumber;
-        2: boolean;
-      }[];
     }>;
 
     getTimeAllyMonthlyNRT(
@@ -155,13 +130,28 @@ export class TimeAllyManager extends Contract {
       0: string;
     }>;
 
-    setInitialValues(
-      _nrtAddress: string,
-      _validatorManager: string,
+    prepaidEs(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    prepaidFallback(
+      _sender: string,
+      _value: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
-    stake(_planId: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
+    processNrtReward(_reward: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+
+    setInitialValues(
+      _nrtAddress: string,
+      _validatorManager: string,
+      _prepaidEs: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
     validatorManager(
       overrides?: CallOverrides
@@ -170,39 +160,9 @@ export class TimeAllyManager extends Contract {
     }>;
   };
 
-  addStakingPlan(
-    _months: BigNumberish,
-    _fractionFrom15: BigNumberish,
-    _estMode: boolean,
-    overrides?: Overrides
-  ): Promise<ContractTransaction>;
+  defaultMonths(overrides?: CallOverrides): Promise<BigNumber>;
 
   deployer(overrides?: CallOverrides): Promise<string>;
-
-  getStakingPlan(
-    _stakingPlanId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<{
-    months: BigNumber;
-    fractionFrom15: BigNumber;
-    estMode: boolean;
-    0: BigNumber;
-    1: BigNumber;
-    2: boolean;
-  }>;
-
-  getStakingPlans(
-    overrides?: CallOverrides
-  ): Promise<
-    {
-      months: BigNumber;
-      fractionFrom15: BigNumber;
-      estMode: boolean;
-      0: BigNumber;
-      1: BigNumber;
-      2: boolean;
-    }[]
-  >;
 
   getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -218,50 +178,31 @@ export class TimeAllyManager extends Contract {
 
   nrtManager(overrides?: CallOverrides): Promise<string>;
 
-  setInitialValues(
-    _nrtAddress: string,
-    _validatorManager: string,
+  prepaidEs(overrides?: CallOverrides): Promise<string>;
+
+  prepaidFallback(
+    _sender: string,
+    _value: BigNumberish,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  stake(_planId: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
+  processNrtReward(_reward: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+
+  setInitialValues(
+    _nrtAddress: string,
+    _validatorManager: string,
+    _prepaidEs: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   validatorManager(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    addStakingPlan(
-      _months: BigNumberish,
-      _fractionFrom15: BigNumberish,
-      _estMode: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    defaultMonths(overrides?: CallOverrides): Promise<BigNumber>;
 
     deployer(overrides?: CallOverrides): Promise<string>;
-
-    getStakingPlan(
-      _stakingPlanId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      months: BigNumber;
-      fractionFrom15: BigNumber;
-      estMode: boolean;
-      0: BigNumber;
-      1: BigNumber;
-      2: boolean;
-    }>;
-
-    getStakingPlans(
-      overrides?: CallOverrides
-    ): Promise<
-      {
-        months: BigNumber;
-        fractionFrom15: BigNumber;
-        estMode: boolean;
-        0: BigNumber;
-        1: BigNumber;
-        2: boolean;
-      }[]
-    >;
 
     getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -277,13 +218,24 @@ export class TimeAllyManager extends Contract {
 
     nrtManager(overrides?: CallOverrides): Promise<string>;
 
+    prepaidEs(overrides?: CallOverrides): Promise<string>;
+
+    prepaidFallback(
+      _sender: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    processNrtReward(_reward: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
     setInitialValues(
       _nrtAddress: string,
       _validatorManager: string,
+      _prepaidEs: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    stake(_planId: BigNumberish, overrides?: CallOverrides): Promise<void>;
+    stake(overrides?: CallOverrides): Promise<void>;
 
     validatorManager(overrides?: CallOverrides): Promise<string>;
   };
@@ -293,92 +245,45 @@ export class TimeAllyManager extends Contract {
   };
 
   estimateGas: {
-    addStakingPlan(
-      _months: BigNumberish,
-      _fractionFrom15: BigNumberish,
-      _estMode: boolean,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    deployer(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getStakingPlan(_stakingPlanId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    getStakingPlans(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTotalActiveStaking(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    increaseActiveStaking(
-      _amount: BigNumberish,
-      _uptoMonth: BigNumberish,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    isStakingContractValid(_stakingContract: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
-
+    defaultMonths(): Promise<BigNumber>;
+    deployer(): Promise<BigNumber>;
+    getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<BigNumber>;
+    getTotalActiveStaking(_month: BigNumberish): Promise<BigNumber>;
+    increaseActiveStaking(_amount: BigNumberish, _uptoMonth: BigNumberish): Promise<BigNumber>;
+    isStakingContractValid(_stakingContract: string): Promise<BigNumber>;
+    nrtManager(): Promise<BigNumber>;
+    prepaidEs(): Promise<BigNumber>;
+    prepaidFallback(_sender: string, _value: BigNumberish): Promise<BigNumber>;
+    processNrtReward(_reward: BigNumberish): Promise<BigNumber>;
     setInitialValues(
       _nrtAddress: string,
       _validatorManager: string,
-      overrides?: Overrides
+      _prepaidEs: string
     ): Promise<BigNumber>;
-
-    stake(_planId: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
-
-    validatorManager(overrides?: CallOverrides): Promise<BigNumber>;
+    stake(): Promise<BigNumber>;
+    validatorManager(): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    addStakingPlan(
-      _months: BigNumberish,
-      _fractionFrom15: BigNumberish,
-      _estMode: boolean,
-      overrides?: Overrides
-    ): Promise<PopulatedTransaction>;
-
-    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getStakingPlan(
-      _stakingPlanId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getStakingPlans(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getTimeAllyMonthlyNRT(
-      _month: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTotalActiveStaking(
-      _month: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
+    defaultMonths(): Promise<PopulatedTransaction>;
+    deployer(): Promise<PopulatedTransaction>;
+    getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<PopulatedTransaction>;
+    getTotalActiveStaking(_month: BigNumberish): Promise<PopulatedTransaction>;
     increaseActiveStaking(
       _amount: BigNumberish,
-      _uptoMonth: BigNumberish,
-      overrides?: Overrides
+      _uptoMonth: BigNumberish
     ): Promise<PopulatedTransaction>;
-
-    isStakingContractValid(
-      _stakingContract: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
+    isStakingContractValid(_stakingContract: string): Promise<PopulatedTransaction>;
+    nrtManager(): Promise<PopulatedTransaction>;
+    prepaidEs(): Promise<PopulatedTransaction>;
+    prepaidFallback(_sender: string, _value: BigNumberish): Promise<PopulatedTransaction>;
+    processNrtReward(_reward: BigNumberish): Promise<PopulatedTransaction>;
     setInitialValues(
       _nrtAddress: string,
       _validatorManager: string,
-      overrides?: Overrides
+      _prepaidEs: string
     ): Promise<PopulatedTransaction>;
-
-    stake(_planId: BigNumberish, overrides?: PayableOverrides): Promise<PopulatedTransaction>;
-
-    validatorManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    stake(): Promise<PopulatedTransaction>;
+    validatorManager(): Promise<PopulatedTransaction>;
   };
 }

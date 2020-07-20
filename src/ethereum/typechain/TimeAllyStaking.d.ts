@@ -10,56 +10,65 @@ import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
 interface TimeAllyStakingInterface extends ethers.utils.Interface {
   functions: {
     'delegate(address,address,uint256,uint256[])': FunctionFragment;
+    'endMonth()': FunctionFragment;
     'getDelegation(uint256,uint256)': FunctionFragment;
     'getDelegations(uint256)': FunctionFragment;
+    'getMonthlyReward(uint256)': FunctionFragment;
     'getPrincipalAmount(uint256)': FunctionFragment;
     'isMonthClaimed(uint256)': FunctionFragment;
+    'nextMonthPrincipalAmount()': FunctionFragment;
     'nrtManager()': FunctionFragment;
-    'staker()': FunctionFragment;
-    'stakingEndMonth()': FunctionFragment;
-    'stakingPlanId()': FunctionFragment;
-    'stakingStartMonth()': FunctionFragment;
+    'owner()': FunctionFragment;
+    'prepaidFallback(address,uint256)': FunctionFragment;
+    'startMonth()': FunctionFragment;
     'timeAllyManager()': FunctionFragment;
     'timestamp()': FunctionFragment;
     'unboundedBasicAmount()': FunctionFragment;
     'validatorManager()': FunctionFragment;
+    'withdrawMonthlyNRT(uint256[])': FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: 'delegate',
     values: [string, string, BigNumberish, BigNumberish[]]
   ): string;
+  encodeFunctionData(functionFragment: 'endMonth', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'getDelegation',
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: 'getDelegations', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'getMonthlyReward', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getPrincipalAmount', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'isMonthClaimed', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'nextMonthPrincipalAmount', values?: undefined): string;
   encodeFunctionData(functionFragment: 'nrtManager', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'staker', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'stakingEndMonth', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'stakingPlanId', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'stakingStartMonth', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'prepaidFallback', values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'startMonth', values?: undefined): string;
   encodeFunctionData(functionFragment: 'timeAllyManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'timestamp', values?: undefined): string;
   encodeFunctionData(functionFragment: 'unboundedBasicAmount', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'withdrawMonthlyNRT', values: [BigNumberish[]]): string;
 
   decodeFunctionResult(functionFragment: 'delegate', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'endMonth', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getDelegation', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getDelegations', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getMonthlyReward', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getPrincipalAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'isMonthClaimed', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'nextMonthPrincipalAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nrtManager', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'staker', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'stakingEndMonth', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'stakingPlanId', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'stakingStartMonth', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'prepaidFallback', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'startMonth', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'timeAllyManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'timestamp', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unboundedBasicAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'withdrawMonthlyNRT', data: BytesLike): Result;
 
   events: {};
 }
@@ -85,6 +94,12 @@ export class TimeAllyStaking extends Contract {
       _months: BigNumberish[],
       overrides?: Overrides
     ): Promise<ContractTransaction>;
+
+    endMonth(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
 
     getDelegation(
       _month: BigNumberish,
@@ -115,6 +130,13 @@ export class TimeAllyStaking extends Contract {
       }[];
     }>;
 
+    getMonthlyReward(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     getPrincipalAmount(
       _month: BigNumberish,
       overrides?: CallOverrides
@@ -129,31 +151,31 @@ export class TimeAllyStaking extends Contract {
       0: boolean;
     }>;
 
+    nextMonthPrincipalAmount(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     nrtManager(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
     }>;
 
-    staker(
+    owner(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
     }>;
 
-    stakingEndMonth(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    prepaidFallback(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
 
-    stakingPlanId(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
-
-    stakingStartMonth(
+    startMonth(
       overrides?: CallOverrides
     ): Promise<{
       0: BigNumber;
@@ -182,6 +204,11 @@ export class TimeAllyStaking extends Contract {
     ): Promise<{
       0: string;
     }>;
+
+    withdrawMonthlyNRT(
+      _months: BigNumberish[],
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
   };
 
   delegate(
@@ -191,6 +218,8 @@ export class TimeAllyStaking extends Contract {
     _months: BigNumberish[],
     overrides?: Overrides
   ): Promise<ContractTransaction>;
+
+  endMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
   getDelegation(
     _month: BigNumberish,
@@ -219,19 +248,25 @@ export class TimeAllyStaking extends Contract {
     }[]
   >;
 
+  getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
   getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
+  nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
   nrtManager(overrides?: CallOverrides): Promise<string>;
 
-  staker(overrides?: CallOverrides): Promise<string>;
+  owner(overrides?: CallOverrides): Promise<string>;
 
-  stakingEndMonth(overrides?: CallOverrides): Promise<BigNumber>;
+  prepaidFallback(
+    arg0: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
 
-  stakingPlanId(overrides?: CallOverrides): Promise<BigNumber>;
-
-  stakingStartMonth(overrides?: CallOverrides): Promise<BigNumber>;
+  startMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
   timeAllyManager(overrides?: CallOverrides): Promise<string>;
 
@@ -241,6 +276,8 @@ export class TimeAllyStaking extends Contract {
 
   validatorManager(overrides?: CallOverrides): Promise<string>;
 
+  withdrawMonthlyNRT(_months: BigNumberish[], overrides?: Overrides): Promise<ContractTransaction>;
+
   callStatic: {
     delegate(
       _platform: string,
@@ -249,6 +286,8 @@ export class TimeAllyStaking extends Contract {
       _months: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
+
+    endMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
     getDelegation(
       _month: BigNumberish,
@@ -277,19 +316,25 @@ export class TimeAllyStaking extends Contract {
       }[]
     >;
 
+    getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
     getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
+    nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     nrtManager(overrides?: CallOverrides): Promise<string>;
 
-    staker(overrides?: CallOverrides): Promise<string>;
+    owner(overrides?: CallOverrides): Promise<string>;
 
-    stakingEndMonth(overrides?: CallOverrides): Promise<BigNumber>;
+    prepaidFallback(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
-    stakingPlanId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    stakingStartMonth(overrides?: CallOverrides): Promise<BigNumber>;
+    startMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
     timeAllyManager(overrides?: CallOverrides): Promise<string>;
 
@@ -298,6 +343,8 @@ export class TimeAllyStaking extends Contract {
     unboundedBasicAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     validatorManager(overrides?: CallOverrides): Promise<string>;
+
+    withdrawMonthlyNRT(_months: BigNumberish[], overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
@@ -307,39 +354,24 @@ export class TimeAllyStaking extends Contract {
       _platform: string,
       _delegatee: string,
       _amount: BigNumberish,
-      _months: BigNumberish[],
-      overrides?: Overrides
+      _months: BigNumberish[]
     ): Promise<BigNumber>;
-
-    getDelegation(
-      _month: BigNumberish,
-      _delegationIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getDelegations(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
-
-    staker(overrides?: CallOverrides): Promise<BigNumber>;
-
-    stakingEndMonth(overrides?: CallOverrides): Promise<BigNumber>;
-
-    stakingPlanId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    stakingStartMonth(overrides?: CallOverrides): Promise<BigNumber>;
-
-    timeAllyManager(overrides?: CallOverrides): Promise<BigNumber>;
-
-    timestamp(overrides?: CallOverrides): Promise<BigNumber>;
-
-    unboundedBasicAmount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    validatorManager(overrides?: CallOverrides): Promise<BigNumber>;
+    endMonth(): Promise<BigNumber>;
+    getDelegation(_month: BigNumberish, _delegationIndex: BigNumberish): Promise<BigNumber>;
+    getDelegations(_month: BigNumberish): Promise<BigNumber>;
+    getMonthlyReward(_month: BigNumberish): Promise<BigNumber>;
+    getPrincipalAmount(_month: BigNumberish): Promise<BigNumber>;
+    isMonthClaimed(_month: BigNumberish): Promise<BigNumber>;
+    nextMonthPrincipalAmount(): Promise<BigNumber>;
+    nrtManager(): Promise<BigNumber>;
+    owner(): Promise<BigNumber>;
+    prepaidFallback(arg0: string, _value: BigNumberish): Promise<BigNumber>;
+    startMonth(): Promise<BigNumber>;
+    timeAllyManager(): Promise<BigNumber>;
+    timestamp(): Promise<BigNumber>;
+    unboundedBasicAmount(): Promise<BigNumber>;
+    validatorManager(): Promise<BigNumber>;
+    withdrawMonthlyNRT(_months: BigNumberish[]): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -347,41 +379,26 @@ export class TimeAllyStaking extends Contract {
       _platform: string,
       _delegatee: string,
       _amount: BigNumberish,
-      _months: BigNumberish[],
-      overrides?: Overrides
+      _months: BigNumberish[]
     ): Promise<PopulatedTransaction>;
-
+    endMonth(): Promise<PopulatedTransaction>;
     getDelegation(
       _month: BigNumberish,
-      _delegationIndex: BigNumberish,
-      overrides?: CallOverrides
+      _delegationIndex: BigNumberish
     ): Promise<PopulatedTransaction>;
-
-    getDelegations(_month: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getPrincipalAmount(
-      _month: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    staker(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    stakingEndMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    stakingPlanId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    stakingStartMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    timeAllyManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    timestamp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    unboundedBasicAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    validatorManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getDelegations(_month: BigNumberish): Promise<PopulatedTransaction>;
+    getMonthlyReward(_month: BigNumberish): Promise<PopulatedTransaction>;
+    getPrincipalAmount(_month: BigNumberish): Promise<PopulatedTransaction>;
+    isMonthClaimed(_month: BigNumberish): Promise<PopulatedTransaction>;
+    nextMonthPrincipalAmount(): Promise<PopulatedTransaction>;
+    nrtManager(): Promise<PopulatedTransaction>;
+    owner(): Promise<PopulatedTransaction>;
+    prepaidFallback(arg0: string, _value: BigNumberish): Promise<PopulatedTransaction>;
+    startMonth(): Promise<PopulatedTransaction>;
+    timeAllyManager(): Promise<PopulatedTransaction>;
+    timestamp(): Promise<PopulatedTransaction>;
+    unboundedBasicAmount(): Promise<PopulatedTransaction>;
+    validatorManager(): Promise<PopulatedTransaction>;
+    withdrawMonthlyNRT(_months: BigNumberish[]): Promise<PopulatedTransaction>;
   };
 }
