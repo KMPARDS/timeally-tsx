@@ -58,9 +58,7 @@ export class NavbarMain extends Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                       <Link to="/">Home</Link>
 
-                      <Link to="/dashboard">Dashboard</Link>
-
-                      <Link to="/wallet">Wallet</Link>
+                      <Link to="/1life1time">1Life1Time</Link>
                     </Navbar.Collapse>
                   </Navbar>
                 </div>

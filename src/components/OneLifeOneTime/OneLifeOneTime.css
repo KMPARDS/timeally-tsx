@@ -1,0 +1,53 @@
+.black-head-txt {
+    color: #000000c9;
+    font-weight: 300;
+}
+
+.testimonial-txt{
+    font-size: 14px;
+    text-align: right;
+}
+
+.test-bg{
+    background-color: #263f8b;
+    background-size: auto;
+    background-size: cover;
+  }
+
+  .sm-calc-img{
+      width: 50px;
+      height: 60px;
+  }
+
+  .sm-calc-flex{
+      display: flex;
+      justify-content: center;
+  }
+
+  .loan-work-bg{
+    background: url(/images/chartbgd.jpg)no-repeat;
+    background-position-x: 0;
+    background-size: auto;
+    background-size: cover;
+    background-position-x: center;
+  }
+
+  .card-loan-hero-section{
+    padding-top: 60px;
+    padding-bottom: 50px;
+    background: rgba(128, 161, 228, 0.71);
+  }
+
+  .business-loan-sample{
+    background-color: #fff;
+    padding: 0px 0px  40px 0px;
+    border: 1px solid #dee4ee;
+    text-align: center;
+    margin-bottom: 30px; 
+  }
+
+  .loan-hnd-img{
+      height: 250px;
+      width: 100%;
+      object-fit: fill;
+  }
