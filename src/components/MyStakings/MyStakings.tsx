@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import { Card, Button, Accordion } from 'react-bootstrap';
 import { Layout } from '../Layout';
 import './MyStakings.css';
 
 export class MyStakings extends Component {
-  state = {};
-
-  componentDidMount = async () => {};
-
   render() {
     return (
       <Layout
