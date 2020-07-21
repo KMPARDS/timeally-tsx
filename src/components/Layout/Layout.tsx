@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 type LayoutProps = {
   title: string;
@@ -41,12 +42,24 @@ export class Layout extends Component<LayoutProps> {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
                     {this.props.button ? (
-                      <Button
-                        onClick={this.props.button.onClick}
-                        className={this.props.button.className}
-                      >
-                        {this.props.button.name}
-                      </Button>
+                      <>
+                        {(() => {
+                          const button = (
+                            <Button
+                              onClick={this.props.button.onClick}
+                              className={this.props.button.className}
+                            >
+                              {this.props.button.name}
+                            </Button>
+                          );
+
+                          if (this.props.button.link) {
+                            return <Link to={this.props.button.link}>{button}</Link>;
+                          } else {
+                            return button;
+                          }
+                        })()}
+                      </>
                     ) : null}
                   </div>
                 </div>
