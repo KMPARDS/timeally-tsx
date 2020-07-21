@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
+
+type Props = {
+  instance: TimeAllyStaking;
+};
 
 type State = {
   amount: string;
@@ -10,7 +15,7 @@ type State = {
   spinnerPrepaid: boolean;
 };
 
-export class Topup extends Component<{}, State> {
+export class Topup extends Component<Props, State> {
   state: State = {
     amount: '',
     liquidBalance: null,
@@ -18,6 +23,8 @@ export class Topup extends Component<{}, State> {
     spinnerLiquid: false,
     spinnerPrepaid: false,
   };
+
+  instance = this.props.instance;
 
   componentDidMount = async () => {
     this.updateBalances();
@@ -34,6 +41,25 @@ export class Topup extends Component<{}, State> {
       liquidBalance: await liquidBalancePromise,
       prepaidBalance: await prepaidBalancePromise,
     });
+  };
+
+  topupLiquid = async () => {
+    this.setState({ spinnerLiquid: true });
+    const tx = await window.wallet.sendTransaction({
+      to: this.instance.address,
+      value: ethers.utils.parseEther(this.state.amount),
+    });
+    await tx.wait();
+    this.setState({ spinnerLiquid: false });
+  };
+
+  topupPrepaid = async () => {
+    this.setState({ spinnerPrepaid: true });
+    const tx = await window.prepaidEsInstance
+      .connect(window.wallet)
+      .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
+    await tx.wait();
+    this.setState({ spinnerPrepaid: false });
   };
 
   render() {
@@ -56,6 +82,8 @@ export class Topup extends Component<{}, State> {
 
     const showAmountError: boolean =
       !!this.state.amount && (!isAmountValid || (!sufficientLiquid && !sufficientPrepaid));
+
+    const { spinnerLiquid, spinnerPrepaid } = this.state;
 
     return (
       <>
@@ -102,7 +130,12 @@ export class Topup extends Component<{}, State> {
               ) : null}
             </Form.Group>
 
-            <Button variant="primary" id="firstSubmit" type="submit" disabled={!sufficientLiquid}>
+            <Button
+              variant="primary"
+              onClick={this.topupLiquid}
+              id="firstSubmit"
+              disabled={!sufficientLiquid || spinnerLiquid || spinnerPrepaid}
+            >
               {this.state.spinnerLiquid ? (
                 <Spinner
                   as="span"
@@ -115,7 +148,12 @@ export class Topup extends Component<{}, State> {
               ) : null}
               {this.state.spinnerLiquid ? 'Please wait..' : 'Liquid'}
             </Button>
-            <Button variant="warning" id="firstSubmit" type="submit" disabled={!sufficientPrepaid}>
+            <Button
+              variant="warning"
+              onClick={this.topupPrepaid}
+              id="firstSubmit"
+              disabled={!sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
+            >
               {this.state.spinnerPrepaid ? (
                 <Spinner
                   as="span"
