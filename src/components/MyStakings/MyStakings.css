@@ -1,0 +1,89 @@
+.black-head-txt.bold-txt {
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  width: 120px;
+}
+th {
+  border-top-color: #ffffff;
+  text-align: center;
+  border-bottom-color: #263f8b;
+}
+
+.row.table-padding {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.btn.btn-default.main-btn-blue.view {
+  height: 30px;
+  padding-top: 9px;
+  color: #ffff;
+}
+
+.stack-bgd-color {
+  background-color: #263f8b;
+  margin-top: 20px;
+}
+
+.stack-link {
+  color: #ffffff !important;
+  font-size: 20px;
+}
+
+.row.stack-box-flex {
+  justify-content: space-evenly;
+}
+
+.stck-1 {
+  padding: 15px;
+}
+
+.green-status {
+  text-align: center;
+  color: #07bc4ce3;
+}
+
+.withdraw-data-flex {
+  display: flex;
+}
+
+.pink-btn {
+  background-color: #f51f8a;
+  color: #fff;
+  border-color: #f51f8a;
+}
+
+.wrapper-content-stack {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.btn.border-conv {
+  border: 1px solid #263f8b;
+  height: 40px;
+  padding-top: 13px;
+}
+
+.pink-btn-with {
+  background-color: #f51f8a;
+  color: #fff !important;
+  border-color: #f51f8a;
+  height: 40px;
+  padding-top: 13px;
+  padding: 10px;
+}
+
+.del-flex-right {
+  display: flex;
+  justify-content: end;
+}
