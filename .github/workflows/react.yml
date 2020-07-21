@@ -1,4 +1,4 @@
-name: react
+name: build
 
 on:
   push:
