@@ -1,4 +1,4 @@
-name: build
+name: react
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  test:
-    name: building react project
+  build:
+    name: project build
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,3 +23,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
       - run: yarn build
+  style:
+    name: code style check
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn add prettier --dev
+      - run: yarn style-check
