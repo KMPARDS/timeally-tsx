@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../../Layout';
 import { Withdraw } from './Withdraw';
+import { Topup } from './Topup';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import '../Stakings.css';
 
@@ -52,6 +53,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>>
 
         <Switch>
           <Route path={`${url}/withdraw`} exact component={Withdraw} />
+          <Route path={`${url}/topup`} exact component={Topup} />
         </Switch>
       </Layout>
     );
