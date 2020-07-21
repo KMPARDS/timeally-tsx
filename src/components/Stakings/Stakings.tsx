@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Layout } from '../Layout';
 import { TimeAllyStaking } from '../../ethereum/typechain/TimeAllyStaking';
 import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStakingFactory';
-import './MyStakings.css';
+import './Stakings.css';
 
-type MyStakingState = {
+type StakingsState = {
   stakings: TimeAllyStaking[];
   displayMessage: string;
 };
 
-export class MyStakings extends Component<{}, MyStakingState> {
-  state: MyStakingState = {
+export class Stakings extends Component<{}, StakingsState> {
+  state: StakingsState = {
     stakings: [],
     displayMessage: '',
   };
