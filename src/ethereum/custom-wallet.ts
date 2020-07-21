@@ -10,11 +10,7 @@ const logger = new Logger(version);
 
 export class CustomWallet extends ethers.Wallet {
   constructor(
-    privateKey:
-      | string
-      | ethers.utils.Bytes
-      | ExternallyOwnedAccount
-      | ethers.utils.SigningKey,
+    privateKey: string | ethers.utils.Bytes | ExternallyOwnedAccount | ethers.utils.SigningKey,
     provider?: ethers.providers.JsonRpcProvider
   ) {
     super(privateKey, provider);

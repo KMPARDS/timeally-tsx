@@ -14,17 +14,13 @@ export class OneLifeOneTime extends Component {
                 <div className="banner-con ">
                   <div className="hero-tab-block">
                     <div className="banner-in-bg pinside40">
-                      <h1 className="text-white">
-                        TimeAlly 1 Life Time Smart Contract
-                      </h1>
+                      <h1 className="text-white">TimeAlly 1 Life Time Smart Contract</h1>
                       <p className="text-white">
-                        Various versions have evolved over the years, sometimes
-                        by accident, sometimes on purpose
+                        Various versions have evolved over the years, sometimes by accident,
+                        sometimes on purpose
                       </p>
                       <div className="mt30">
-                        <a className="btn btn-default main-btn-blue">
-                          GET STARTED
-                        </a>
+                        <a className="btn btn-default main-btn-blue">GET STARTED</a>
                         <a href="/isstime-stack" className="btn  bg-txt-white">
                           VIEW MY ISSTYME
                         </a>
@@ -42,27 +38,22 @@ export class OneLifeOneTime extends Component {
                 <div className="col-xl-12 col-md-12 col-md-12 col-sm-12 col-12">
                   <div className="mb100 text-center section-title">
                     {/* section title start*/}
-                    <h2>
-                      FEATURES OF TIMEALLY 1LT REWARDS FOR PARTICIPANTS IN ES
-                    </h2>
+                    <h2>FEATURES OF TIMEALLY 1LT REWARDS FOR PARTICIPANTS IN ES</h2>
                   </div>
                   {/* /.section title start*/}
                   <div className="row">
                     <div className="col-md-4 pinside40 bor-right">
                       <div className="what-dapp ">
                         <h1>15% of NRT</h1>
-                        <p>
-                          TimeAlly can be claimed 50% in TimeAlly stakes and 50%
-                          in Liquid
-                        </p>
+                        <p>TimeAlly can be claimed 50% in TimeAlly stakes and 50% in Liquid</p>
                       </div>
                     </div>
                     <div className="col-md-4 pinside40 bor-right">
                       <div className="what-timeally">
                         <h1>10% of NRT</h1>
                         <p>
-                          Power Tokens can be sent 50% in TimeAlly stakes and
-                          50% in prepaid ES stakes
+                          Power Tokens can be sent 50% in TimeAlly stakes and 50% in prepaid ES
+                          stakes
                         </p>
                       </div>
                     </div>
@@ -70,8 +61,8 @@ export class OneLifeOneTime extends Component {
                       <div className="what-timeally">
                         <h1>12% of NRT</h1>
                         <p>
-                          ESN PoS CP can be claimed in prepaid ES stakes if POS
-                          deligated to ESN node
+                          ESN PoS CP can be claimed in prepaid ES stakes if POS deligated to ESN
+                          node
                         </p>
                       </div>
                     </div>
@@ -88,10 +79,7 @@ export class OneLifeOneTime extends Component {
                   <div className="section-title mb60 text-center">
                     {/* section title start*/}
                     <h1 className="black-head-txt">Lorem Ipsum Sample Text</h1>
-                    <p>
-                      We will match you with a loan program that meet your
-                      financial need.
-                    </p>
+                    <p>We will match you with a loan program that meet your financial need.</p>
                   </div>
                   {/* /.section title start*/}
                 </div>
@@ -131,24 +119,20 @@ export class OneLifeOneTime extends Component {
                       <p className="text-white">
                         We understand how to effectively guide you through
                         <br />
-                        the home loan or refinance process and avoid potential
-                        problems along the way
+                        the home loan or refinance process and avoid potential problems along the
+                        way
                       </p>
                       <div className="col-md-12">
                         <div className="row">
                           <div className="col-md-6 col-lg-4 pdt30">
                             <div className="">
                               <div className="sm-calc-flex">
-                                <img
-                                  className="sm-calc-img"
-                                  src="./images/smallcalc.png"
-                                />
+                                <img className="sm-calc-img" src="./images/smallcalc.png" />
                               </div>
                               <h3 className="text-white">Heading 1</h3>
                               <p className="text-white">
-                                The generated Lorem Ipsum is therefore always
-                                free from repetition, injected humour, or
-                                non-characteristic words etc{' '}
+                                The generated Lorem Ipsum is therefore always free from repetition,
+                                injected humour, or non-characteristic words etc{' '}
                               </p>
                             </div>
                           </div>
@@ -156,16 +140,12 @@ export class OneLifeOneTime extends Component {
                           <div className="col-md-6 col-lg-4 pdt30">
                             <div className="">
                               <div className="sm-calc-flex">
-                                <img
-                                  className="sm-calc-img"
-                                  src="./images/smallcalc.png"
-                                />
+                                <img className="sm-calc-img" src="./images/smallcalc.png" />
                               </div>
                               <h3 className="text-white">Heading 2</h3>
                               <p className="text-white">
-                                The generated Lorem Ipsum is therefore always
-                                free from repetition, injected humour, or
-                                non-characteristic words etc{' '}
+                                The generated Lorem Ipsum is therefore always free from repetition,
+                                injected humour, or non-characteristic words etc{' '}
                               </p>
                             </div>
                           </div>
@@ -173,16 +153,12 @@ export class OneLifeOneTime extends Component {
                           <div className="col-md-6 col-lg-4 pdt30">
                             <div className="">
                               <div className="sm-calc-flex">
-                                <img
-                                  className="sm-calc-img"
-                                  src="./images/smallcalc.png"
-                                />
+                                <img className="sm-calc-img" src="./images/smallcalc.png" />
                               </div>
                               <h3 className="text-white">Heading 3</h3>
                               <p className="text-white">
-                                The generated Lorem Ipsum is therefore always
-                                free from repetition, injected humour, or
-                                non-characteristic words etc{' '}
+                                The generated Lorem Ipsum is therefore always free from repetition,
+                                injected humour, or non-characteristic words etc{' '}
                               </p>
                             </div>
                           </div>
@@ -208,9 +184,7 @@ export class OneLifeOneTime extends Component {
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     {/* hero-caption */}
                     <div className="card-hero-block text-center">
-                      <h1 className="text-white">
-                        Some of Our awesome testimonials
-                      </h1>
+                      <h1 className="text-white">Some of Our awesome testimonials</h1>
                       <p className="text-white">lorem ipsum dummy text</p>
                       <br></br>
                       <div className="row">
@@ -218,10 +192,9 @@ export class OneLifeOneTime extends Component {
                           <div className="business-loan-products bg-boxshadow">
                             <div className="loan-products-content">
                               <p className="read-more-wrap">
-                                I loved the customer service you guys provided
-                                me. That was very nice and patient with
-                                questions I had. I would really like definitely
-                                come back here{' '}
+                                I loved the customer service you guys provided me. That was very
+                                nice and patient with questions I had. I would really like
+                                definitely come back here{' '}
                               </p>
                               <p className="testimonial-txt">-Manoj Kumar</p>
                             </div>
@@ -232,9 +205,8 @@ export class OneLifeOneTime extends Component {
                           <div className="business-loan-products bg-boxshadow">
                             <div className="loan-products-content">
                               <p className="read-more-wrap">
-                                I had good experience with insight loans
-                                Services. I m thankful to insight for the help
-                                you guys gave me,My loan was fast and easy
+                                I had good experience with insight loans Services. I m thankful to
+                                insight for the help you guys gave me,My loan was fast and easy
                                 thanks .{' '}
                               </p>
                               <p className="testimonial-txt">-Shyam Pandey</p>
@@ -246,9 +218,8 @@ export class OneLifeOneTime extends Component {
                           <div className="business-loan-products bg-boxshadow">
                             <div className="loan-products-content">
                               <p className="read-more-wrap">
-                                We come out of their office very happy with
-                                their services.They treat us very
-                                kind,Definitely will come back, Waiting time is
+                                We come out of their office very happy with their services.They
+                                treat us very kind,Definitely will come back, Waiting time is
                                 appropriate.{' '}
                               </p>
                               <p className="testimonial-txt">-Rajkumar Dubey</p>
@@ -270,13 +241,8 @@ export class OneLifeOneTime extends Component {
                 <div className="offset-xl-2 col-xl-8 offset-md-2 col-md-8 offset-md-2 col-md-8 col-sm-12 col-12">
                   <div className="text-center section-title">
                     {/* section title start*/}
-                    <h1 className="black-head-txt">
-                      Frequently Asked Question
-                    </h1>
-                    <p>
-                      Our Mission is to deliver reliable , latest news and
-                      opinions
-                    </p>
+                    <h1 className="black-head-txt">Frequently Asked Question</h1>
+                    <p>Our Mission is to deliver reliable , latest news and opinions</p>
                     <hr></hr>
                   </div>
                   {/* /.section title start*/}
@@ -285,10 +251,7 @@ export class OneLifeOneTime extends Component {
               <div className="row">
                 <div className="col-lg-12">
                   <div className="bg-white">
-                    <Accordion
-                      defaultActiveKey="0"
-                      style={{ textAlign: 'left' }}
-                    >
+                    <Accordion defaultActiveKey="0" style={{ textAlign: 'left' }}>
                       <Card
                         style={{
                           color: '#3c4d6b',
@@ -311,11 +274,10 @@ export class OneLifeOneTime extends Component {
                               fontWeight: 300,
                             }}
                           >
-                            Era Swap Token or ES is a decentralized utility
-                            token currently based on Ethereum blockchain (ERC20)
-                            which will be used on multiple platforms for
-                            exchange of services(P2P), avail discounts, get
-                            rewards and many more utility.
+                            Era Swap Token or ES is a decentralized utility token currently based on
+                            Ethereum blockchain (ERC20) which will be used on multiple platforms for
+                            exchange of services(P2P), avail discounts, get rewards and many more
+                            utility.
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -341,11 +303,10 @@ export class OneLifeOneTime extends Component {
                               fontWeight: 300,
                             }}
                           >
-                            TimeAlly is a Decentralized App (DApp) which is
-                            based on pre-defined set of rules through Smart
-                            Contracts to offers multiple benefits to users,
-                            govern the generation & distribution of ES Newly
-                            released Token. <br></br>
+                            TimeAlly is a Decentralized App (DApp) which is based on pre-defined set
+                            of rules through Smart Contracts to offers multiple benefits to users,
+                            govern the generation & distribution of ES Newly released Token.{' '}
+                            <br></br>
                             <br></br>
                             <h4 style={{ textAlign: 'center' }}>
                               Please watch this videos to understand .
@@ -359,8 +320,7 @@ export class OneLifeOneTime extends Component {
                                 href="https://www.youtube-nocookie.com/embed/Xqx8wEGQNXE?rel=0&amp"
                                 target="_blank"
                               >
-                                Click to open the <u>TimeAlly Tour</u> Video in
-                                a new tab
+                                Click to open the <u>TimeAlly Tour</u> Video in a new tab
                               </a>
                             </p>
                             <div className="row">
@@ -379,9 +339,8 @@ export class OneLifeOneTime extends Component {
                                 href="https://www.youtube-nocookie.com/embed/vfgf2pvYSoc?rel=0&amp"
                                 target="_blank"
                               >
-                                Click to open the{' '}
-                                <u>TimeAlly Quick Walk Through</u> Video in a
-                                new tab
+                                Click to open the <u>TimeAlly Quick Walk Through</u> Video in a new
+                                tab
                               </a>
                             </p>
                             <div className="row">
@@ -400,8 +359,7 @@ export class OneLifeOneTime extends Component {
                                 href="https://www.youtube-nocookie.com/embed/DM6hvVaCu_g?rel=0&amp"
                                 target="_blank"
                               >
-                                Click to open the <u>TimeAlly Teaser</u> Video
-                                in a new tab
+                                Click to open the <u>TimeAlly Teaser</u> Video in a new tab
                               </a>
                             </p>
                             <div className="row">
@@ -455,8 +413,8 @@ export class OneLifeOneTime extends Component {
                               fontWeight: 300,
                             }}
                           >
-                            Please watch this video on how to claim your staking
-                            in TimeAlly DApp.<br></br>
+                            Please watch this video on how to claim your staking in TimeAlly DApp.
+                            <br></br>
                             <br></br>
                             <p style={{ textAlign: 'center' }}>
                               <a
@@ -521,14 +479,12 @@ export class OneLifeOneTime extends Component {
                               fontWeight: 300,
                             }}
                           >
-                            One can vest in TimeAlly just by locking up ES in
-                            TimeAlly smart contract for a vesting period of 1
-                            year or 2 years.<br></br>
+                            One can vest in TimeAlly just by locking up ES in TimeAlly smart
+                            contract for a vesting period of 1 year or 2 years.<br></br>
                             <br></br>
                             <div className="col-md-4 offset-md-4">
                               <strong style={{ textAlign: 'center' }}>
-                                Please watch this video on how to stake in
-                                TimeAlly.
+                                Please watch this video on how to stake in TimeAlly.
                               </strong>
                               <p style={{ textAlign: 'center' }}>
                                 <a

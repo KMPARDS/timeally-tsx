@@ -22,16 +22,11 @@ const wallet = new CustomWallet(
   '0xC8C32AE192AB75269C4F1BC030C2E97CC32E63B80B0A3CA008752145CF7ACEEA'
 );
 
-window.provider = new ethers.providers.JsonRpcProvider(
-  'https://node0.testnet.eraswap.network'
-);
+window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
 
 window.wallet = new CustomWallet(wallet.privateKey, window.provider);
 
-window.nrtManagerInstance = NrtManagerFactory.connect(
-  config.ESN.nrtManager,
-  window.provider
-);
+window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
 
 window.timeallyManager = TimeAllyManagerFactory.connect(
   config.ESN.timeallyManager,

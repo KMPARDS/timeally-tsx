@@ -60,22 +60,14 @@ export class Dashboard extends Component {
                                 <span className="title">Current NRT Month</span>
                                 <br></br>
                                 <br></br>
-                                <span
-                                  className="number"
-                                  style={{ fontSize: '12px' }}
-                                >
+                                <span className="number" style={{ fontSize: '12px' }}>
                                   Loading...
                                 </span>
                                 <hr />
-                                <span className="title">
-                                  NRT Release this month
-                                </span>
+                                <span className="title">NRT Release this month</span>
                                 <br></br>
                                 <br></br>
-                                <span
-                                  className="number"
-                                  style={{ fontSize: '12px' }}
-                                >
+                                <span className="number" style={{ fontSize: '12px' }}>
                                   Loading...
                                 </span>
                               </div>
@@ -89,22 +81,14 @@ export class Dashboard extends Component {
                                 </span>
                                 <br></br>
                                 <br></br>
-                                <span
-                                  className="number"
-                                  style={{ fontSize: '12px' }}
-                                >
+                                <span className="number" style={{ fontSize: '12px' }}>
                                   Loading...
                                 </span>
                                 <hr />
-                                <span className="title">
-                                  My Active Stakings
-                                </span>
+                                <span className="title">My Active Stakings</span>
                                 <br></br>
                                 <br></br>
-                                <span
-                                  className="number"
-                                  style={{ fontSize: '12px' }}
-                                >
+                                <span className="number" style={{ fontSize: '12px' }}>
                                   Loading...
                                 </span>
                               </div>
@@ -117,10 +101,7 @@ export class Dashboard extends Component {
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                               <div className="bg-light">
                                 <hr />
-                                <span
-                                  className="title"
-                                  style={{ textAlign: 'center' }}
-                                >
+                                <span className="title" style={{ textAlign: 'center' }}>
                                   TOTAL STAKED IN 24 HOURS
                                 </span>
                                 {/* <h2 id="emi" className="pull-right">Graph</h2> */}

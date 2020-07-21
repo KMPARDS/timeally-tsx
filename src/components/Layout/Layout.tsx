@@ -25,13 +25,7 @@ export class Layout extends Component<LayoutProps> {
               <div className="page-breadcrumb">
                 <ol className="breadcrumb">
                   {this.props.breadcrumb.map((name, index) => (
-                    <li
-                      className={
-                        this.props.breadcrumb.length - 1 === index
-                          ? 'active'
-                          : ''
-                      }
-                    >
+                    <li className={this.props.breadcrumb.length - 1 === index ? 'active' : ''}>
                       {name}
                     </li>
                   ))}
