@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 export class NavbarMain extends Component {
   render() {
@@ -56,13 +57,21 @@ export class NavbarMain extends Component {
                   <Navbar expand="lg">
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                      <Link to="/">Home</Link>
+                      <Link to="/">
+                        <div className="navbar-item">Home</div>
+                      </Link>
 
-                      <Link to="/1life1time">1Life1Time</Link>
+                      <Link to="/1life1time">
+                        <div className="navbar-item">1Life1Time</div>
+                      </Link>
 
-                      <Link to="/dashboard">Dashboard</Link>
+                      <Link to="/dashboard">
+                        <div className="navbar-item">Dashboars</div>
+                      </Link>
 
-                      <Link to="/stakings">Stakings</Link>
+                      <Link to="/stakings">
+                        <div className="navbar-item">Stakings</div>
+                      </Link>
                     </Navbar.Collapse>
                   </Navbar>
                 </div>
