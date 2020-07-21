@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { TimeAllyStaking } from '../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { ethers } from 'ethers';
 
-type StakingElementProps = {
+type StakingListElementProps = {
   instance: TimeAllyStaking;
   linkPrepend: string;
 };
 
-type StakingElementState = {
+type StakingListElementState = {
   principal: string | null;
   startMonth: number | null;
   endMonth: number | null;
   timestamp: number | null;
 };
 
-export class StakingElement extends Component<StakingElementProps, StakingElementState> {
-  state: StakingElementState = {
+export class StakingListElement extends Component<
+  StakingListElementProps,
+  StakingListElementState
+> {
+  state: StakingListElementState = {
     principal: null,
     startMonth: null,
     endMonth: null,

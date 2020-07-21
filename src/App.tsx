@@ -16,7 +16,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/1life1time" exact component={OneLifeOneTime} />
           <Route path="/dashboard" exact component={Dashboard} />
-          <Route path="/stakings" exact component={Stakings} />
+          <Route path="/stakings" component={Stakings} />
         </Switch>
       </BrowserRouter>
     </div>
