@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import { Layout } from '../Layout';
 import { StakingElement } from './StakingElement';
@@ -11,7 +12,7 @@ type StakingsState = {
   displayMessage: string;
 };
 
-export class Stakings extends Component<{}, StakingsState> {
+export class Stakings extends Component<RouteComponentProps, StakingsState> {
   state: StakingsState = {
     stakings: null,
     displayMessage: '',
@@ -71,7 +72,7 @@ export class Stakings extends Component<{}, StakingsState> {
               </thead>
               <tbody>
                 {this.state.stakings.map((instance, i) => (
-                  <StakingElement key={i} instance={instance} />
+                  <StakingElement key={i} instance={instance} linkPrepend={this.props.match.url} />
                 ))}
               </tbody>
             </table>

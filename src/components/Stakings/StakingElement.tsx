@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 
 type StakingElementProps = {
   instance: TimeAllyStaking;
+  linkPrepend: string;
 };
 
 type StakingElementState = {
@@ -52,8 +53,11 @@ export class StakingElement extends Component<StakingElementProps, StakingElemen
           {timestamp === null ? <>Loading...</> : <>{new Date(timestamp).toLocaleString()}</>}
         </td>
         <td>
-          <Link to={'/'} className="btn btn-default main-btn-blue view">
-            VIEW
+          <Link
+            to={`${this.props.linkPrepend}/${this.props.instance.address}`}
+            className="btn btn-default main-btn-blue view"
+          >
+            View Staking
           </Link>
         </td>
       </tr>
