@@ -4,6 +4,7 @@ import { CustomWallet } from './custom-wallet';
 import { NrtManagerFactory } from './typechain/NrtManagerFactory';
 import { TimeAllyManagerFactory } from './typechain/TimeAllyManagerFactory';
 import { ValidatorManagerFactory } from './typechain/ValidatorManagerFactory';
+import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
 
 const config = {
   ESN: {
@@ -37,3 +38,5 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
   config.ESN.validatorManager,
   window.provider
 );
+
+window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
