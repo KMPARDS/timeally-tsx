@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-bootstrap';
 import { Layout } from '../Layout';
+import { StakingElement } from './StakingElement';
 import { TimeAllyStaking } from '../../ethereum/typechain/TimeAllyStaking';
 import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStakingFactory';
 import './Stakings.css';
 
 type StakingsState = {
-  stakings: TimeAllyStaking[];
+  stakings: TimeAllyStaking[] | null;
   displayMessage: string;
 };
 
 export class Stakings extends Component<{}, StakingsState> {
   state: StakingsState = {
-    stakings: [],
+    stakings: null,
     displayMessage: '',
   };
 
@@ -23,18 +25,13 @@ export class Stakings extends Component<{}, StakingsState> {
     if (!window.wallet) {
       // throw error in UI that wallet is not loaded
       return this.setState({
-        displayMessage:
-          'Wallet not found. Please load your wallet to view your stakings.',
+        displayMessage: 'Wallet not found. Please load your wallet to view your stakings.',
       });
     }
 
     const stakings = (
       await window.timeallyManager.queryFilter(
-        window.timeallyManager.filters.StakingTransfer(
-          null,
-          window.wallet.address,
-          null
-        )
+        window.timeallyManager.filters.StakingTransfer(null, window.wallet.address, null)
       )
     )
       .map((event) => window.timeallyManager.interface.parseLog(event))
@@ -57,103 +54,29 @@ export class Stakings extends Component<{}, StakingsState> {
           className: 'pink-btn',
         }}
       >
-        <div className="row table-padding">
-          <table>
-            <tr>
-              <th>Staking ID</th>
-              <th>Staking Amount</th>
-              <th>Plan</th>
-              <th>Time</th>
-              <th>Estimated next benefit time</th>
-              <th>Country</th>
-              <th>Country</th>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>7804.976628809254477568 ES</td>
-              <td>1 Year</td>
-              <td>6/16/2020 4:59:13 PM</td>
-              <td>29 days, 18 hours,43 minutes 24 seconds</td>
-              <td>67.89 ES Go to view staking to withdraw this benefit</td>
-              <td>
-                <a
-                  href="/stacking-id"
-                  className="btn btn-default main-btn-blue view"
-                >
-                  VIEW
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>5</td>
-              <td>7804.976628809254477568 ES</td>
-              <td>1 Year</td>
-              <td>6/16/2020 4:59:13 PM</td>
-              <td>29 days, 18 hours,43 minutes 24 seconds</td>
-              <td>67.89 ES Go to view staking to withdraw this benefit</td>
-              <td>
-                <a
-                  href="/stacking-id"
-                  className="btn btn-default main-btn-blue view"
-                >
-                  VIEW
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>5</td>
-              <td>7804.976628809254477568 ES</td>
-              <td>1 Year</td>
-              <td>6/16/2020 4:59:13 PM</td>
-              <td>29 days, 18 hours,43 minutes 24 seconds</td>
-              <td>67.89 ES Go to view staking to withdraw this benefit</td>
-              <td>
-                <a
-                  href="/stacking-id"
-                  className="btn btn-default main-btn-blue view"
-                >
-                  VIEW
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>5</td>
-              <td>7804.976628809254477568 ES</td>
-              <td>1 Year</td>
-              <td>6/16/2020 4:59:13 PM</td>
-              <td>29 days, 18 hours,43 minutes 24 seconds</td>
-              <td>67.89 ES Go to view staking to withdraw this benefit</td>
-              <td>
-                <a
-                  href="/stacking-id"
-                  className="btn btn-default main-btn-blue view"
-                >
-                  VIEW
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>5</td>
-              <td>7804.976628809254477568 ES</td>
-              <td>1 Year</td>
-              <td>6/16/2020 4:59:13 PM</td>
-              <td>29 days, 18 hours,43 minutes 24 seconds</td>
-              <td>67.89 ES Go to view staking to withdraw this benefit</td>
-              <td>
-                <a
-                  href="/stacking-id"
-                  className="btn btn-default main-btn-blue view"
-                >
-                  VIEW
-                </a>
-              </td>
-            </tr>
-          </table>
-        </div>
+        {this.state.stakings === null ? (
+          <Alert variant="info">Loading your stakings...</Alert>
+        ) : (
+          <div className="row table-padding">
+            <table>
+              <thead>
+                <tr>
+                  <th>Staking Contract</th>
+                  <th>Staking Amount</th>
+                  <th>Start Month</th>
+                  <th>End Month</th>
+                  <th>Timestamp</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.stakings.map((instance, i) => (
+                  <StakingElement key={i} instance={instance} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Layout>
     );
   }
