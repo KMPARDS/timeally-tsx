@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { Layout } from '../../Layout';
 
 type State = {
   amount: string;
@@ -78,7 +79,7 @@ export class NewStaking extends Component<{}, State> {
     const { spinnerLiquid, spinnerPrepaid } = this.state;
 
     return (
-      <>
+      <Layout title="New Staking" breadcrumb={['Home', 'Stakings', 'New']}>
         <Card>
           <Form
             className="mnemonics custom-width"
@@ -160,7 +161,7 @@ export class NewStaking extends Component<{}, State> {
             </Button>
           </Form>
         </Card>
-      </>
+      </Layout>
     );
   }
 }
