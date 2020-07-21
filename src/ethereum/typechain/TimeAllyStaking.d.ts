@@ -23,6 +23,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
     'startMonth()': FunctionFragment;
     'timeAllyManager()': FunctionFragment;
     'timestamp()': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
     'unboundedBasicAmount()': FunctionFragment;
     'validatorManager()': FunctionFragment;
     'withdrawMonthlyNRT(uint256[])': FunctionFragment;
@@ -48,6 +49,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'startMonth', values?: undefined): string;
   encodeFunctionData(functionFragment: 'timeAllyManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'timestamp', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'transferOwnership', values: [string]): string;
   encodeFunctionData(functionFragment: 'unboundedBasicAmount', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'withdrawMonthlyNRT', values: [BigNumberish[]]): string;
@@ -66,6 +68,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'startMonth', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'timeAllyManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'timestamp', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unboundedBasicAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'withdrawMonthlyNRT', data: BytesLike): Result;
@@ -193,6 +196,8 @@ export class TimeAllyStaking extends Contract {
       0: BigNumber;
     }>;
 
+    transferOwnership(_newOwner: string, overrides?: Overrides): Promise<ContractTransaction>;
+
     unboundedBasicAmount(
       overrides?: CallOverrides
     ): Promise<{
@@ -272,6 +277,8 @@ export class TimeAllyStaking extends Contract {
 
   timestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+  transferOwnership(_newOwner: string, overrides?: Overrides): Promise<ContractTransaction>;
+
   unboundedBasicAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   validatorManager(overrides?: CallOverrides): Promise<string>;
@@ -340,6 +347,8 @@ export class TimeAllyStaking extends Contract {
 
     timestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+    transferOwnership(_newOwner: string, overrides?: CallOverrides): Promise<void>;
+
     unboundedBasicAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     validatorManager(overrides?: CallOverrides): Promise<string>;
@@ -369,6 +378,7 @@ export class TimeAllyStaking extends Contract {
     startMonth(): Promise<BigNumber>;
     timeAllyManager(): Promise<BigNumber>;
     timestamp(): Promise<BigNumber>;
+    transferOwnership(_newOwner: string): Promise<BigNumber>;
     unboundedBasicAmount(): Promise<BigNumber>;
     validatorManager(): Promise<BigNumber>;
     withdrawMonthlyNRT(_months: BigNumberish[]): Promise<BigNumber>;
@@ -397,6 +407,7 @@ export class TimeAllyStaking extends Contract {
     startMonth(): Promise<PopulatedTransaction>;
     timeAllyManager(): Promise<PopulatedTransaction>;
     timestamp(): Promise<PopulatedTransaction>;
+    transferOwnership(_newOwner: string): Promise<PopulatedTransaction>;
     unboundedBasicAmount(): Promise<PopulatedTransaction>;
     validatorManager(): Promise<PopulatedTransaction>;
     withdrawMonthlyNRT(_months: BigNumberish[]): Promise<PopulatedTransaction>;

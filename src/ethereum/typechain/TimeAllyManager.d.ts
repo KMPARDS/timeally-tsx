@@ -17,6 +17,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   functions: {
     'defaultMonths()': FunctionFragment;
     'deployer()': FunctionFragment;
+    'emitStakingTransfer(address,address)': FunctionFragment;
     'getTimeAllyMonthlyNRT(uint256)': FunctionFragment;
     'getTotalActiveStaking(uint256)': FunctionFragment;
     'increaseActiveStaking(uint256,uint256)': FunctionFragment;
@@ -32,6 +33,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
 
   encodeFunctionData(functionFragment: 'defaultMonths', values?: undefined): string;
   encodeFunctionData(functionFragment: 'deployer', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'emitStakingTransfer', values: [string, string]): string;
   encodeFunctionData(functionFragment: 'getTimeAllyMonthlyNRT', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalActiveStaking', values: [BigNumberish]): string;
   encodeFunctionData(
@@ -52,6 +54,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(functionFragment: 'defaultMonths', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deployer', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'emitStakingTransfer', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTimeAllyMonthlyNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalActiveStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'increaseActiveStaking', data: BytesLike): Result;
@@ -65,10 +68,10 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
 
   events: {
-    'NewStaking(address,address)': EventFragment;
+    'StakingTransfer(address,address,address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'NewStaking'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'StakingTransfer'): EventFragment;
 }
 
 export class TimeAllyManager extends Contract {
@@ -96,6 +99,12 @@ export class TimeAllyManager extends Contract {
     ): Promise<{
       0: string;
     }>;
+
+    emitStakingTransfer(
+      _oldOwner: string,
+      _newOwner: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
 
     getTimeAllyMonthlyNRT(
       _month: BigNumberish,
@@ -164,6 +173,12 @@ export class TimeAllyManager extends Contract {
 
   deployer(overrides?: CallOverrides): Promise<string>;
 
+  emitStakingTransfer(
+    _oldOwner: string,
+    _newOwner: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   getTotalActiveStaking(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -204,6 +219,12 @@ export class TimeAllyManager extends Contract {
 
     deployer(overrides?: CallOverrides): Promise<string>;
 
+    emitStakingTransfer(
+      _oldOwner: string,
+      _newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     getTotalActiveStaking(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -241,12 +262,13 @@ export class TimeAllyManager extends Contract {
   };
 
   filters: {
-    NewStaking(staker: string | null, staking: string | null): EventFilter;
+    StakingTransfer(from: string | null, to: string | null, staking: string | null): EventFilter;
   };
 
   estimateGas: {
     defaultMonths(): Promise<BigNumber>;
     deployer(): Promise<BigNumber>;
+    emitStakingTransfer(_oldOwner: string, _newOwner: string): Promise<BigNumber>;
     getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<BigNumber>;
     getTotalActiveStaking(_month: BigNumberish): Promise<BigNumber>;
     increaseActiveStaking(_amount: BigNumberish, _uptoMonth: BigNumberish): Promise<BigNumber>;
@@ -267,6 +289,7 @@ export class TimeAllyManager extends Contract {
   populateTransaction: {
     defaultMonths(): Promise<PopulatedTransaction>;
     deployer(): Promise<PopulatedTransaction>;
+    emitStakingTransfer(_oldOwner: string, _newOwner: string): Promise<PopulatedTransaction>;
     getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<PopulatedTransaction>;
     getTotalActiveStaking(_month: BigNumberish): Promise<PopulatedTransaction>;
     increaseActiveStaking(
