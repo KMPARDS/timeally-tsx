@@ -1,6 +1,12 @@
 ## Contributing Instructions
 
-You need `yarn` installed. If you don't have it installed already, install it from [here](https://classic.yarnpkg.com/en/docs/install/).
+1. You need `yarn` installed. If you don't have it installed already, install it from [here](https://classic.yarnpkg.com/en/docs/install/).
+2. Fork this repo and then clone it.
+3. `yarn install --frozen-lockfile` to install depencendies.
+4. `yarn start` to start the development server.
+5. Make more commits with small changes with relevant commit messages to make review easy.
+6. Create a PR ([docs](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)). Please add relevant details to your PR (e.g. what feature is added or which bug is fixed) to make it easy to review and get merged faster.
+7. If you are simultaneously working on multiple features / bug fixes, please submit them in different PRs. You can do this by creating a new branch in your fork.
 
 In the project directory, you can run:
 
