@@ -52,8 +52,10 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
         title="My Stakings"
         breadcrumb={['My Stakings']}
         button={{
-          name: 'ISSTIME LIMIT CALCULATOR',
-          className: 'pink-btn',
+          // name: 'ISSTIME LIMIT CALCULATOR',
+          // className: 'pink-btn',
+          name: 'New Staking',
+          link: '/stakings/new',
         }}
       >
         {this.state.stakings === null ? (

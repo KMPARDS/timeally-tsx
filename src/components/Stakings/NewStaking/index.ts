@@ -1,0 +1,1 @@
+export { NewStaking } from './NewStaking';
