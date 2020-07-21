@@ -1,8 +1,52 @@
 import React, { Component } from 'react';
 import { Layout } from '../Layout';
+import { TimeAllyStaking } from '../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStakingFactory';
 import './MyStakings.css';
 
-export class MyStakings extends Component {
+type MyStakingState = {
+  stakings: TimeAllyStaking[];
+  displayMessage: string;
+};
+
+export class MyStakings extends Component<{}, MyStakingState> {
+  state: MyStakingState = {
+    stakings: [],
+    displayMessage: '',
+  };
+
+  componentDidMount = async () => {
+    this.loadStakings();
+  };
+
+  loadStakings = async () => {
+    if (!window.wallet) {
+      // throw error in UI that wallet is not loaded
+      return this.setState({
+        displayMessage:
+          'Wallet not found. Please load your wallet to view your stakings.',
+      });
+    }
+
+    const stakings = (
+      await window.timeallyManager.queryFilter(
+        window.timeallyManager.filters.StakingTransfer(
+          null,
+          window.wallet.address,
+          null
+        )
+      )
+    )
+      .map((event) => window.timeallyManager.interface.parseLog(event))
+      .map((parsedLog) => {
+        const stakingAddress: string = parsedLog.args[2];
+        return TimeAllyStakingFactory.connect(stakingAddress, window.wallet);
+      });
+    console.log(stakings);
+
+    this.setState({ stakings });
+  };
+
   render() {
     return (
       <Layout
