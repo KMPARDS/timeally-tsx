@@ -9,7 +9,7 @@ export class Stakings extends Component<RouteComponentProps> {
       <>
         <Switch>
           <Route path="/stakings" exact component={StakingList} />
-          <Route path="/stakings/:address" exact component={StakingContract} />
+          <Route path="/stakings/:address" component={StakingContract} />
         </Switch>
       </>
     );
