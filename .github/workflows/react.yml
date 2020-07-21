@@ -23,6 +23,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
       - run: yarn build
+      env:
+        # TODO: Make this true someday, treats react warnings as errors
+        CI: false
+
   style:
     name: code style check
     runs-on: ubuntu-latest
