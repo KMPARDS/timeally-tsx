@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, DropdownButton, Dropdown, Card } from 'react-bootstrap';
+import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import '../Stakings.css';
@@ -8,6 +8,7 @@ type Props = {
   instance: TimeAllyStaking;
   startMonth: number;
   endMonth: number;
+  refreshDetailsHook(): void;
 };
 
 type State = {
@@ -15,6 +16,8 @@ type State = {
   benefits: { amount: ethers.BigNumber | null; claimed: boolean }[] | null;
   selectedMonths: number[];
   rewardType: 0 | 1 | 2 | null;
+  spinner: boolean;
+  displayMessage: string;
 };
 
 export class Withdraw extends Component<Props, State> {
@@ -23,6 +26,8 @@ export class Withdraw extends Component<Props, State> {
     benefits: null,
     selectedMonths: [],
     rewardType: null,
+    spinner: false,
+    displayMessage: '',
   };
 
   instance = this.props.instance;
@@ -48,14 +53,10 @@ export class Withdraw extends Component<Props, State> {
           return { amount: null, claimed: false };
         }
 
-        // try {
         return {
           amount: await this.instance.getMonthlyReward(month),
           claimed: await this.instance.isMonthClaimed(month),
         };
-        // } catch {
-        //   return null;
-        // }
       })
     );
 
@@ -83,6 +84,46 @@ export class Withdraw extends Component<Props, State> {
     this.setState({ selectedMonths });
   };
 
+  withdrawReward = async () => {
+    this.setState({ spinner: true });
+
+    const endState = {
+      spinner: false,
+      selectedMonths: this.state.selectedMonths,
+      displayMessage: 'Successfully withdrawn!',
+    };
+
+    try {
+      if (
+        this.state.rewardType !== 0 &&
+        this.state.rewardType !== 1 &&
+        this.state.rewardType !== 2
+      ) {
+        throw new Error('Reward type is incorrect');
+      }
+
+      console.log(this.state.selectedMonths);
+      // @ts-ignore
+      window.sInstance = this.instance;
+      const tx = await this.instance.withdrawMonthlyNRT(
+        this.state.selectedMonths,
+        this.state.rewardType
+      );
+
+      await tx.wait();
+
+      // deselect months
+      endState.selectedMonths = [];
+    } catch (error) {
+      endState.displayMessage = `There was an error: ${error.message}`;
+    }
+
+    this.setState(endState);
+
+    this.updateBenefits();
+    this.props.refreshDetailsHook();
+  };
+
   render() {
     const rewardTexts = [
       'Liquid+ReStake (0% IssTime)',
@@ -95,6 +136,11 @@ export class Withdraw extends Component<Props, State> {
         {this.state.selectedMonths.length > 0 || this.state.rewardType !== null ? (
           <>
             <p>Selected Months: [{this.state.selectedMonths.join(', ')}]</p>
+
+            {this.state.displayMessage ? (
+              <Alert variant="info">{this.state.displayMessage}</Alert>
+            ) : null}
+
             <DropdownButton
               id="dropdown-basic-button"
               variant="secondary"
@@ -115,8 +161,29 @@ export class Withdraw extends Component<Props, State> {
                 return null;
               })}
             </DropdownButton>
+
             {this.state.rewardType !== null ? (
-              <Button style={{ display: 'block', width: '200px', margin: 'auto' }}>Withdraw</Button>
+              <Button
+                style={{ display: 'block', width: '200px', margin: 'auto' }}
+                onClick={this.withdrawReward}
+                disabled={this.state.spinner}
+              >
+                {this.state.spinner ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{ marginRight: '2px' }}
+                    />
+                    Withdrawing
+                  </>
+                ) : (
+                  <>Withdraw</>
+                )}
+              </Button>
             ) : null}
           </>
         ) : (

@@ -120,6 +120,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                 instance={this.instance}
                 startMonth={this.state.startMonth}
                 endMonth={this.state.endMonth}
+                refreshDetailsHook={this.updateDetails}
               />
             ) : (
               <>Loading...</>
