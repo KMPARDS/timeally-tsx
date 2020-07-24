@@ -16,6 +16,7 @@ interface State {
   owner: string | null;
   startMonth: number | null;
   endMonth: number | null;
+  principal: ethers.BigNumber | null;
   issTime: ethers.BigNumber | null;
 }
 
@@ -24,6 +25,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     owner: null,
     startMonth: null,
     endMonth: null,
+    principal: null,
     issTime: null,
   };
 
@@ -40,12 +42,14 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     const owner = await this.instance.owner();
     const startMonth = await this.instance.startMonth();
     const endMonth = await this.instance.endMonth();
+    const principal = await this.instance.nextMonthPrincipalAmount();
     const issTime = await this.instance.issTime();
 
     this.setState({
       owner,
       startMonth: startMonth.toNumber(),
       endMonth: endMonth.toNumber(),
+      principal,
       issTime,
     });
   };
@@ -76,6 +80,14 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
               <tr>
                 <td>End Month</td>
                 <td>{this.state.endMonth !== null ? this.state.endMonth : 'Loading...'}</td>
+              </tr>
+              <tr>
+                <td>Principal</td>
+                <td>
+                  {this.state.principal !== null
+                    ? `${ethers.utils.formatEther(this.state.principal)} ES`
+                    : 'Loading...'}
+                </td>
               </tr>
               <tr>
                 <td>IssTime</td>
