@@ -40,7 +40,12 @@ export class NavbarMain extends Component {
                 <div className="col-sm-10">
                   <div className="quick-info">
                     <span>
-                      <a className="btn main-btn btn-default btn-sm margin-custom">
+                      <a
+                        className="btn main-btn btn-default btn-sm margin-custom"
+                        onClick={() =>
+                          window.open('https://eraswap.life/', '', 'width=1001,height=650')
+                        }
+                      >
                         Connect to a Wallet
                       </a>
                     </span>
