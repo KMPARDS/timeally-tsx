@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Home } from './components/Home';
 import { NavbarMain } from './components/Navbar';
+import { Footer } from './components/Footer';
 import { OneLifeOneTime } from './components/OneLifeOneTime';
 import { Dashboard } from './components/Dashboard';
 import { Stakings } from './components/Stakings';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/stakings" component={Stakings} />
           <Route path="/support" component={Support} />
         </Switch>
+        <Footer />
       </BrowserRouter>
     </div>
   );
