@@ -21,7 +21,7 @@ export class Support extends Component {
         </p>
 
         <p>
-          If you found any bug, please{' '}
+          If you found any bug or want to request for a feature, please{' '}
           <a href="https://github.com/KMPARDS/timeally-tsx/issues/new" target="_blank">
             create new issue
           </a>{' '}
