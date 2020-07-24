@@ -5,6 +5,7 @@ import { NavbarMain } from './components/Navbar';
 import { OneLifeOneTime } from './components/OneLifeOneTime';
 import { Dashboard } from './components/Dashboard';
 import { Stakings } from './components/Stakings';
+import { Support } from './components/Support';
 import './style.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/1life1time" exact component={OneLifeOneTime} />
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/stakings" component={Stakings} />
+          <Route path="/support" component={Support} />
         </Switch>
       </BrowserRouter>
     </div>
