@@ -8,7 +8,7 @@ import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
 
 const config = {
   ESN: {
-    nrtManager: '0x1F44A1002404933d5Cb450b214fD7e412b166614',
+    nrtManager: '0xeDFE8546EF64e5237D41b4A34436781Bb62C963b',
     timeallyManager: '0x016fa071711e32222B3bEf51E24af64DcE7973D7',
     validatorSet: '0xF3b22b71F534F6aa6EEfae0dBB7b53e693b8BC07',
     validatorManager: '0x41D1d129b1A0F78c90CBAd10FbF531965Aa44a7f',
