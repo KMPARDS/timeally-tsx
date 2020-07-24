@@ -14,8 +14,8 @@ interface MatchParams {
 
 interface State {
   owner: string | null;
-  startMonth: ethers.BigNumber | null;
-  endMonth: ethers.BigNumber | null;
+  startMonth: number | null;
+  endMonth: number | null;
   issTime: ethers.BigNumber | null;
 }
 
@@ -42,7 +42,12 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     const endMonth = await this.instance.endMonth();
     const issTime = await this.instance.issTime();
 
-    this.setState({ owner, startMonth, endMonth, issTime });
+    this.setState({
+      owner,
+      startMonth: startMonth.toNumber(),
+      endMonth: endMonth.toNumber(),
+      issTime,
+    });
   };
 
   render() {
@@ -66,15 +71,11 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
               </tr>
               <tr>
                 <td>Start Month</td>
-                <td>
-                  {this.state.startMonth !== null ? this.state.startMonth.toNumber() : 'Loading...'}
-                </td>
+                <td>{this.state.startMonth !== null ? this.state.startMonth : 'Loading...'}</td>
               </tr>
               <tr>
                 <td>End Month</td>
-                <td>
-                  {this.state.endMonth !== null ? this.state.endMonth.toNumber() : 'Loading...'}
-                </td>
+                <td>{this.state.endMonth !== null ? this.state.endMonth : 'Loading...'}</td>
               </tr>
               <tr>
                 <td>IssTime</td>
