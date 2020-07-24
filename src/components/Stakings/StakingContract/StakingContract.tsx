@@ -114,7 +114,13 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
         </div>
 
         <Switch>
-          <Route path={`${url}/withdraw`} exact component={Withdraw} />
+          <Route path={`${url}/withdraw`} exact>
+            <Withdraw
+              instance={this.instance}
+              startMonth={this.state.startMonth}
+              endMonth={this.state.endMonth}
+            />
+          </Route>
           <Route path={`${url}/topup`} exact>
             <Topup instance={this.instance} />
           </Route>
