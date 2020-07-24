@@ -8,10 +8,10 @@ import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
 
 const config = {
   ESN: {
-    nrtManager: '0x94FE8BAC9C897D5c51D189796A0D7cEA749Aa209',
-    timeallyManager: '0xcECa8ebe0C574ab34CBC3228E9a89C8214CCe211',
+    nrtManager: '0x1F44A1002404933d5Cb450b214fD7e412b166614',
+    timeallyManager: '0x016fa071711e32222B3bEf51E24af64DcE7973D7',
     validatorSet: '0xF3b22b71F534F6aa6EEfae0dBB7b53e693b8BC07',
-    validatorManager: '0x6fb6BA974e630E577cEFffEca6058c2C399940AE',
+    validatorManager: '0x41D1d129b1A0F78c90CBAd10FbF531965Aa44a7f',
     randomnessManager: '0xf620b0F20F90Ef5bF8C05aD65981F26775f8a32B',
     blockRewardManager: '0xe021bf70cE7C47d9744b2BdbFC7bdA1b4C7cAbD9',
     prepaidEs: '0x8Eb81e05dbeB960909eb2e672EAd940D3B1d2649',
