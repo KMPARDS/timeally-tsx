@@ -18,6 +18,7 @@ interface State {
   endMonth: number | null;
   principal: ethers.BigNumber | null;
   issTime: ethers.BigNumber | null;
+  balance: ethers.BigNumber | null;
 }
 
 export class StakingContract extends Component<RouteComponentProps<MatchParams>, State> {
@@ -27,6 +28,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     endMonth: null,
     principal: null,
     issTime: null,
+    balance: null,
   };
 
   instance = TimeAllyStakingFactory.connect(
@@ -44,6 +46,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     const endMonth = await this.instance.endMonth();
     const principal = await this.instance.nextMonthPrincipalAmount();
     const issTime = await this.instance.issTime();
+    const balance = await window.provider.getBalance(this.instance.address);
 
     this.setState({
       owner,
@@ -51,6 +54,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
       endMonth: endMonth.toNumber(),
       principal,
       issTime,
+      balance,
     });
   };
 
@@ -90,6 +94,18 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                 <td>
                   {this.state.issTime !== null
                     ? `${ethers.utils.formatEther(this.state.issTime)} ES`
+                    : 'Loading...'}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Balance (smart contract balance, should be same as principal amount. This value
+                  will be removed in future. If this value and principal is different, it is a
+                  signal that there is a bug in smart contract)
+                </td>
+                <td>
+                  {this.state.balance !== null
+                    ? `${ethers.utils.formatEther(this.state.balance)} ES`
                     : 'Loading...'}
                 </td>
               </tr>
