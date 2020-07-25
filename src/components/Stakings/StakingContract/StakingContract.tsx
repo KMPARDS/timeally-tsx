@@ -151,7 +151,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             )}
           </Route>
           <Route path={`${url}/topup`} exact>
-            <Topup instance={this.instance} />
+            <Topup instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
         </Switch>
       </Layout>

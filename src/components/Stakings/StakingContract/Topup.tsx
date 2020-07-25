@@ -5,6 +5,7 @@ import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 
 type Props = {
   instance: TimeAllyStaking;
+  refreshDetailsHook(): Promise<void>;
 };
 
 type State = {
@@ -82,6 +83,7 @@ export class Topup extends Component<Props, State> {
     });
     await tx.wait();
     this.setState({ spinnerLiquid: false });
+    this.props.refreshDetailsHook();
   };
 
   topupPrepaid = async () => {
@@ -91,6 +93,7 @@ export class Topup extends Component<Props, State> {
       .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
     await tx.wait();
     this.setState({ spinnerPrepaid: false });
+    this.props.refreshDetailsHook();
   };
 
   render() {
