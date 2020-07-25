@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
 
 import './OneLifeTime.css';
@@ -19,10 +20,12 @@ export class OneLifeTime extends Component {
                       who wants to support ESN & Accumulate Era Swap in Long-term.
                     </p>
                     <div className="mt30">
-                      <a className="btn btn-default main-btn-blue">GET STARTED</a>
-                      <a href="/isstime-stack" className="btn  bg-txt-white">
-                        VIEW MY ISSTIME
-                      </a>
+                      <Link to="stakings/new" className="btn btn-default main-btn-blue">
+                        GET STARTED
+                      </Link>
+                      <Link to="/stakings" className="btn  bg-txt-white">
+                        VIEW MY STAKINGS
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -88,9 +91,7 @@ export class OneLifeTime extends Component {
                 <div className="business-loan-sample bg-boxshadow">
                   <img className="loan-hnd-img" src="./images/loan.jpg" />
                   <div className="loan-products-content">
-                    <a href="/isstime-calculator">
-                      <h3 className="mt10">TimeAlly Loan</h3>
-                    </a>
+                    <h3 className="mt10">TimeAlly Loan</h3>
                   </div>
                 </div>
               </div>
