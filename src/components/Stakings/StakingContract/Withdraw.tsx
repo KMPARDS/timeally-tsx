@@ -8,7 +8,7 @@ type Props = {
   instance: TimeAllyStaking;
   startMonth: number;
   endMonth: number;
-  refreshDetailsHook(): void;
+  refreshDetailsHook(): Promise<void>;
 };
 
 type State = {
