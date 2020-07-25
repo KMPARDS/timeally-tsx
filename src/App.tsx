@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Home } from './components/Home';
 import { NavbarMain } from './components/Navbar';
 import { Footer } from './components/Footer';
-import { OneLifeOneTime } from './components/OneLifeOneTime';
+import { OneLifeTime } from './components/OneLifeTime';
 import { Dashboard } from './components/Dashboard';
 import { Stakings } from './components/Stakings';
 import { Support } from './components/Support';
@@ -17,7 +17,7 @@ function App() {
         <NavbarMain />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/1life1time" exact component={OneLifeOneTime} />
+          <Route path="/1lifetime" exact component={OneLifeTime} />
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/stakings" component={Stakings} />
           <Route path="/support" component={Support} />

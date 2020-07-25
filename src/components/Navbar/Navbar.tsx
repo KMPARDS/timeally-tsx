@@ -5,7 +5,6 @@ import './Navbar.css';
 
 export class NavbarMain extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="NavbarComponent">
         <div className="top-bar">
@@ -66,8 +65,8 @@ export class NavbarMain extends Component {
                         <div className="navbar-item">Home</div>
                       </Link>
 
-                      <Link to="/1life1time">
-                        <div className="navbar-item">1Life1Time</div>
+                      <Link to="/1lifetime">
+                        <div className="navbar-item">1LifeTime</div>
                       </Link>
 
                       <Link to="/dashboard">
