@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { Card, Form, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 
@@ -13,6 +13,13 @@ type State = {
   prepaidBalance: ethers.BigNumber | null;
   spinnerLiquid: boolean;
   spinnerPrepaid: boolean;
+  topups:
+    | {
+        amount: ethers.BigNumber;
+        benefactor: string;
+        timestamp: number;
+      }[]
+    | null;
 };
 
 export class Topup extends Component<Props, State> {
@@ -22,12 +29,14 @@ export class Topup extends Component<Props, State> {
     prepaidBalance: null,
     spinnerLiquid: false,
     spinnerPrepaid: false,
+    topups: null,
   };
 
   instance = this.props.instance;
 
   componentDidMount = async () => {
     this.updateBalances();
+    this.loadTopups();
   };
 
   updateBalances = async () => {
@@ -41,6 +50,28 @@ export class Topup extends Component<Props, State> {
       liquidBalance: await liquidBalancePromise,
       prepaidBalance: await prepaidBalancePromise,
     });
+  };
+
+  loadTopups = async () => {
+    const filter = this.instance.filters.Topup(null, null);
+    const logs = await this.instance.queryFilter(filter);
+    const timestamps = await Promise.all(
+      logs.map(async (log) => {
+        const block = await window.provider.getBlock(log.blockNumber);
+        return block.timestamp;
+      })
+    );
+    let topups = logs
+      .map((log) => this.instance.interface.parseLog(log))
+      .map((parsedLog, i) => {
+        return {
+          amount: parsedLog.args[0],
+          benefactor: parsedLog.args[1],
+          timestamp: timestamps[i],
+        };
+      });
+
+    this.setState({ topups });
   };
 
   topupLiquid = async () => {
@@ -87,6 +118,33 @@ export class Topup extends Component<Props, State> {
 
     return (
       <>
+        <>
+          {this.state.topups === null ? (
+            'Loading topups..'
+          ) : this.state.topups.length === 0 ? (
+            'No previous topups'
+          ) : (
+            <>
+              Previous Topups:
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Topup Amount</th>
+                    <th>Benefactor</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                {this.state.topups.map((topup, index) => (
+                  <tr>
+                    <td>{ethers.utils.formatEther(topup.amount)} ES</td>
+                    <td>{topup.benefactor}</td>
+                    <td>{new Date(topup.timestamp * 1000).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </Table>
+            </>
+          )}
+        </>
         <Card>
           <Form
             className="mnemonics custom-width"
