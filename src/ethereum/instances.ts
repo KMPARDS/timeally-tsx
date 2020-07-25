@@ -29,7 +29,7 @@ window.wallet = new CustomWallet(wallet.privateKey, window.provider);
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
 
-window.timeallyManager = TimeAllyManagerFactory.connect(
+window.timeallyManagerInstance = TimeAllyManagerFactory.connect(
   config.ESN.timeallyManager,
   window.provider
 );

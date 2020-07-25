@@ -39,7 +39,7 @@ export class NewStaking extends Component<{}, State> {
 
   stakeLiquid = async () => {
     this.setState({ spinnerLiquid: true });
-    const tx = await window.timeallyManager.connect(window.wallet).stake({
+    const tx = await window.timeallyManagerInstance.connect(window.wallet).stake({
       value: ethers.utils.parseEther(this.state.amount),
     });
     await tx.wait();
@@ -50,7 +50,7 @@ export class NewStaking extends Component<{}, State> {
     this.setState({ spinnerPrepaid: true });
     const tx = await window.prepaidEsInstance
       .connect(window.wallet)
-      .transfer(window.timeallyManager.address, ethers.utils.parseEther(this.state.amount));
+      .transfer(window.timeallyManagerInstance.address, ethers.utils.parseEther(this.state.amount));
     await tx.wait();
     this.setState({ spinnerPrepaid: false });
   };

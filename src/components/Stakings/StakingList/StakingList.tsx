@@ -31,11 +31,11 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
     }
 
     const stakings = (
-      await window.timeallyManager.queryFilter(
-        window.timeallyManager.filters.StakingTransfer(null, window.wallet.address, null)
+      await window.timeallyManagerInstance.queryFilter(
+        window.timeallyManagerInstance.filters.StakingTransfer(null, window.wallet.address, null)
       )
     )
-      .map((event) => window.timeallyManager.interface.parseLog(event))
+      .map((event) => window.timeallyManagerInstance.interface.parseLog(event))
       .map((parsedLog) => {
         const stakingAddress: string = parsedLog.args[2];
         return TimeAllyStakingFactory.connect(stakingAddress, window.wallet);

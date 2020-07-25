@@ -10,7 +10,7 @@ declare global {
     provider: ethers.providers.JsonRpcProvider;
     wallet: CustomWallet;
     nrtManagerInstance: NrtManager;
-    timeallyManager: TimeAllyManager;
+    timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
   }
