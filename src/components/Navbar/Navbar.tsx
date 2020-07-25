@@ -81,6 +81,10 @@ export class NavbarMain extends Component {
                       <Link to="/support">
                         <div className="navbar-item">Support</div>
                       </Link>
+
+                      <Link to="/terms">
+                        <div className="navbar-item">Terms</div>
+                      </Link>
                     </Navbar.Collapse>
                   </Navbar>
                 </div>
