@@ -1,41 +1,30 @@
 import React, { Component } from 'react';
 import { Layout } from '../Layout';
+import ReactMarkdown from 'react-markdown/with-html';
 
-export class Support extends Component {
+type State = {
+  content: string | null;
+};
+
+export class Support extends Component<{}, State> {
+  state: State = {
+    content: null,
+  };
+
+  componentDidMount = async () => {
+    const result = await fetch('/markdowns/Support.md');
+    const content = await result.text();
+    this.setState({ content });
+  };
+
   render() {
     return (
       <Layout title="Support" breadcrumb={['Home', 'Support']}>
-        <p>
-          TimeAlly DApp is a open-source smart contract user interface for TimeAlly Smart Contracts
-          on Era Swap Network. Please note that support requests for recovery of any lost funds is
-          not entertained (because it cannot be entertained due to the immutable nature of
-          blockchain). The development is overseen by open-source contributors on GitHub
-          incentivized by Era Swap Community. GitHub is the world's leading software development
-          platform which is popular for hosting open-source projects and hence it's used for
-          managing Era Swap's open-source projects. You can view the source code written in
-          Typescript-React on{' '}
-          <a href="https://github.com/KMPARDS/timeally-tsx" target="_blank">
-            KMPARDS/timeally-tsx
-          </a>
-          .
-        </p>
-
-        <p>
-          If you found any bug or want to request for a feature, please{' '}
-          <a href="https://github.com/KMPARDS/timeally-tsx/issues/new" target="_blank">
-            create new issue
-          </a>{' '}
-          on GitHub (if you don't have a GitHub account you'd need to create one).
-        </p>
-
-        <p>
-          If you want to become an open-source contributor and contribute code and earn bounties
-          (not applicable to Era Swap employees), you can check out some of the{' '}
-          <a href="https://github.com/KMPARDS/timeally-tsx/issues" target="_blank">
-            known issues
-          </a>{' '}
-          to fix on GitHub.
-        </p>
+        {this.state.content === null ? (
+          'Loading...'
+        ) : (
+          <ReactMarkdown source={this.state.content} escapeHtml={false} />
+        )}
       </Layout>
     );
   }
