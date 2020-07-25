@@ -61,11 +61,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     } = this.props.match;
 
     return (
-      <Layout
-        title="Staking Contract"
-        subtitle={address}
-        breadcrumb={['Home', 'Stakings', address]}
-      >
+      <Layout title="Staking Contract" subtitle={address}>
         <Card>
           <Table>
             <tbody>

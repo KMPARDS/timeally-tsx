@@ -1,14 +1,14 @@
 ## Using Layout Component
 
 ```tsx
-<Layout title="New Page Title" breadcrumb={['Home', 'Stakings', 'Your New Page']}>
+<Layout title="New Page Title">
   <p>Child elements</p>
 </Layout>
 ```
 
 #### Note
 
-The `title` and `breadcrumb` props are required.
+The `title` prop is required to be passed.
 
 #### More optional props
 
@@ -21,7 +21,6 @@ type LayoutProps = {
   title: string;
   subtitle?: string;
   transparent?: boolean;
-  breadcrumb: string[];
   button?: {
     name: string;
     link?: string;

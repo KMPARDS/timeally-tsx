@@ -50,7 +50,6 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
     return (
       <Layout
         title="My Stakings"
-        breadcrumb={['My Stakings']}
         button={{
           // name: 'ISSTIME LIMIT CALCULATOR',
           // className: 'pink-btn',

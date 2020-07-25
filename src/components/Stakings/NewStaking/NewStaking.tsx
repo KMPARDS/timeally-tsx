@@ -79,7 +79,7 @@ export class NewStaking extends Component<{}, State> {
     const { spinnerLiquid, spinnerPrepaid } = this.state;
 
     return (
-      <Layout title="New Staking" breadcrumb={['Home', 'Stakings', 'New']}>
+      <Layout title="New Staking">
         <Card>
           <Form
             className="mnemonics custom-width"

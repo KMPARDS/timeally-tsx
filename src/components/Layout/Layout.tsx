@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { ReactNode } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -6,7 +6,6 @@ type LayoutProps = {
   title: string;
   subtitle?: string;
   transparent?: boolean;
-  breadcrumb: string[];
   button?: {
     name: string;
     link?: string;
@@ -14,10 +13,16 @@ type LayoutProps = {
     // @TODO: Get rid of any
     onClick?: (event: any) => void;
   };
+  children?: ReactNode;
 };
 
-export class Layout extends Component<LayoutProps> {
-  render = () => (
+export function Layout(props: LayoutProps) {
+  const { pathname } = window.location;
+  const breadcrumb = pathname.split('/');
+  if (breadcrumb[breadcrumb.length - 1] === '') {
+    breadcrumb.pop();
+  }
+  return (
     <div>
       <div className="page-header">
         <div className="container">
@@ -25,9 +30,14 @@ export class Layout extends Component<LayoutProps> {
             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="page-breadcrumb">
                 <ol className="breadcrumb">
-                  {this.props.breadcrumb.map((name, index) => (
-                    <li className={this.props.breadcrumb.length - 1 === index ? 'active' : ''}>
-                      {name}
+                  {breadcrumb.map((name, index) => (
+                    <li>
+                      <Link
+                        to={breadcrumb.slice(0, index + 1).join('/')}
+                        className={breadcrumb.length - 1 === index ? 'active' : ''}
+                      >
+                        {name || 'Home'}
+                      </Link>
                     </li>
                   ))}
                 </ol>
@@ -37,24 +47,24 @@ export class Layout extends Component<LayoutProps> {
               <div className="bg-white pinside30">
                 <div className="row">
                   <div className="col-xl-8 col-lg-8 col-md-3 col-sm-12 col-12">
-                    <h1 className="page-title">{this.props.title}</h1>
-                    {this.props.subtitle ? <p>{this.props.subtitle}</p> : null}
+                    <h1 className="page-title">{props.title}</h1>
+                    {props.subtitle ? <p>{props.subtitle}</p> : null}
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                    {this.props.button ? (
+                    {props.button ? (
                       <>
                         {(() => {
                           const button = (
                             <Button
-                              onClick={this.props.button.onClick}
-                              className={this.props.button.className}
+                              onClick={props.button.onClick}
+                              className={props.button.className}
                             >
-                              {this.props.button.name}
+                              {props.button.name}
                             </Button>
                           );
 
-                          if (this.props.button.link) {
-                            return <Link to={this.props.button.link}>{button}</Link>;
+                          if (props.button.link) {
+                            return <Link to={props.button.link}>{button}</Link>;
                           } else {
                             return button;
                           }
@@ -70,15 +80,15 @@ export class Layout extends Component<LayoutProps> {
       </div>
       <div>
         <div className="container">
-          {this.props.transparent ? (
-            <>{this.props.children}</>
+          {props.transparent ? (
+            <>{props.children}</>
           ) : (
             <div className="row">
               <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div className="wrapper-content bg-white pinside10">
                   <div className="row">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                      {this.props.children}
+                      {props.children}
                     </div>
                   </div>
                 </div>

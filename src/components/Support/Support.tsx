@@ -5,7 +5,7 @@ import { Renderer } from '../Markdown';
 export class Support extends Component {
   render() {
     return (
-      <Layout title="Support" breadcrumb={['Home', 'Support']}>
+      <Layout title="Support">
         <Renderer file="Support.md" />
       </Layout>
     );
