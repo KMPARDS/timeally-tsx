@@ -19,11 +19,12 @@ const config = {
   },
 };
 
+window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
+
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
   window.wallet = new CustomWallet(process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY, window.provider);
 }
-window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
 
