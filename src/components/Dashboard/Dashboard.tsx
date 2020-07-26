@@ -2,10 +2,44 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Layout } from '../Layout';
+import { ethers } from 'ethers';
+import { routine } from '../../utils';
 
-// import StakingEntry from './StakingEntry';
+type State = {
+  currentNrtMonth: number | null;
+  nrtRelease: ethers.BigNumber | null;
+  nextMonthActiveStakes: ethers.BigNumber | null;
+  myActiveStakings: ethers.BigNumber | null;
+};
 
-export class Dashboard extends Component {
+export class Dashboard extends Component<{}, State> {
+  state: State = {
+    currentNrtMonth: null,
+    nrtRelease: null,
+    nextMonthActiveStakes: null,
+    myActiveStakings: null,
+  };
+
+  intervalIds: NodeJS.Timeout[] = [];
+
+  componentDidMount = () => {
+    this.intervalIds.push(routine(this.updateDetails, 8000));
+  };
+
+  componentWillUnmount = () => {
+    this.intervalIds.forEach(clearInterval);
+  };
+
+  updateDetails = async () => {
+    const currentNrtMonth = await window.nrtManagerInstance.currentNrtMonth();
+    // const nrtReleasePromise
+    const nextMonthActiveStakes = await window.timeallyManagerInstance.getTotalActiveStaking(
+      currentNrtMonth
+    );
+
+    this.setState({ currentNrtMonth: currentNrtMonth.toNumber(), nextMonthActiveStakes });
+  };
+
   render() {
     return (
       <Layout transparent title="Dashboard" button={{ name: 'New Staking', link: '/stakings/new' }}>
@@ -28,14 +62,14 @@ export class Dashboard extends Component {
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Loading...
+                                  {this.state.currentNrtMonth ?? <>Loading...</>}
                                 </span>
                                 <hr />
                                 <span className="title">NRT Release this month</span>
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Loading...
+                                  Comming soon...
                                 </span>
                               </div>
                               <div className="vl" />
@@ -49,14 +83,18 @@ export class Dashboard extends Component {
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Loading...
+                                  {this.state.nextMonthActiveStakes === null
+                                    ? 'Loading...'
+                                    : `${ethers.utils.formatEther(
+                                        this.state.nextMonthActiveStakes
+                                      )} ES`}
                                 </span>
                                 <hr />
                                 <span className="title">My Active Stakings</span>
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Loading...
+                                  Comming soon...
                                 </span>
                               </div>
                             </div>
@@ -74,7 +112,7 @@ export class Dashboard extends Component {
                                 {/* <h2 id="emi" className="pull-right">Graph</h2> */}
                                 <br></br>
                                 <br></br>
-                                <h2 className="number">Loading...</h2>
+                                <h2 className="number">Comming soon...</h2>
                               </div>
                             </div>
                           </div>
