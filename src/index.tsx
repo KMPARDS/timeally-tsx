@@ -31,7 +31,7 @@ window.addEventListener(
       const message = e.data;
       if (message.substring) {
         if (message.substring(0, 2) == '0x') {
-          window.wallet = new CustomWallet(message);
+          window.wallet = new CustomWallet(message).connect(window.provider);
         }
       }
     }, 0);
