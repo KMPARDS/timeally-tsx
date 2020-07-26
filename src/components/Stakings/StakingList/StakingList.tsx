@@ -47,13 +47,12 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
         const stakingAddress: string = parsedLog.args[2];
         return TimeAllyStakingFactory.connect(stakingAddress, window.wallet);
       });
-    console.log(stakings);
+    // console.log(stakings);
 
     this.setState({ stakings });
   };
 
   render() {
-    console.log(this.props);
     return (
       <Layout
         title="My Stakings"
