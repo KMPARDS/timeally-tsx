@@ -5,6 +5,7 @@ import { Layout } from '../../Layout';
 import { StakingListElement } from './StakingListElement';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { routine } from '../../../utils';
 import '../Stakings.css';
 
 type StakingListState = {
@@ -18,8 +19,14 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
     displayMessage: '',
   };
 
+  intervalIds: NodeJS.Timeout[] = [];
+
   componentDidMount = async () => {
-    this.loadStakings();
+    this.intervalIds.push(routine(this.loadStakings, 8000));
+  };
+
+  componentWillUnmount = async () => {
+    this.intervalIds.forEach(clearInterval);
   };
 
   loadStakings = async () => {
