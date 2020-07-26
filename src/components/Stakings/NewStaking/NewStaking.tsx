@@ -113,7 +113,7 @@ export class NewStaking extends Component<{}, State> {
                       {this.state.liquidBalance
                         ? ethers.utils.formatEther(this.state.liquidBalance) + ' ES'
                         : 'Loading...'}
-                      . Your liquid balance is{' '}
+                      . Your prepaid balance is{' '}
                       {this.state.prepaidBalance
                         ? ethers.utils.formatEther(this.state.prepaidBalance) + ' ES'
                         : 'Loading...'}
