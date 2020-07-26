@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { Layout } from '../../Layout';
 import { Withdraw } from './Withdraw';
 import { Topup } from './Topup';
+import { IssTime } from './IssTime';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import '../Stakings.css';
 
@@ -152,6 +153,9 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
           </Route>
           <Route path={`${url}/topup`} exact>
             <Topup instance={this.instance} refreshDetailsHook={this.updateDetails} />
+          </Route>
+          <Route path={`${url}/isstime`} exact>
+            <IssTime instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
         </Switch>
       </Layout>
