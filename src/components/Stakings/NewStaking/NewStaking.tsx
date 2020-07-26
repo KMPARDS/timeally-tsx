@@ -145,7 +145,7 @@ export class NewStaking extends Component<{}, State> {
               variant="warning"
               onClick={this.stakePrepaid}
               id="firstSubmit"
-              disabled={true || !sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
+              disabled={!sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
             >
               {this.state.spinnerPrepaid ? (
                 <Spinner
