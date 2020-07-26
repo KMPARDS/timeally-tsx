@@ -232,34 +232,84 @@ export class PrepaidEs extends Contract {
   };
 
   estimateGas: {
-    allowance(_owner: string, _delegate: string): Promise<BigNumber>;
-    approve(_delegatee: string, _numTokens: BigNumberish): Promise<BigNumber>;
-    balanceOf(_tokenOwner: string): Promise<BigNumber>;
-    convertToESP(_receiver: string): Promise<BigNumber>;
-    decimals(): Promise<BigNumber>;
-    name(): Promise<BigNumber>;
-    symbol(): Promise<BigNumber>;
-    totalSupply(): Promise<BigNumber>;
-    transfer(_destination: string, _value: BigNumberish): Promise<BigNumber>;
-    transferFrom(_owner: string, _receiver: string, _numTokens: BigNumberish): Promise<BigNumber>;
-    transferLiquid(_receiver: string, _numTokens: BigNumberish): Promise<BigNumber>;
-  };
+    allowance(_owner: string, _delegate: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  populateTransaction: {
-    allowance(_owner: string, _delegate: string): Promise<PopulatedTransaction>;
-    approve(_delegatee: string, _numTokens: BigNumberish): Promise<PopulatedTransaction>;
-    balanceOf(_tokenOwner: string): Promise<PopulatedTransaction>;
-    convertToESP(_receiver: string): Promise<PopulatedTransaction>;
-    decimals(): Promise<PopulatedTransaction>;
-    name(): Promise<PopulatedTransaction>;
-    symbol(): Promise<PopulatedTransaction>;
-    totalSupply(): Promise<PopulatedTransaction>;
-    transfer(_destination: string, _value: BigNumberish): Promise<PopulatedTransaction>;
+    approve(
+      _delegatee: string,
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    balanceOf(_tokenOwner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    convertToESP(_receiver: string, overrides?: PayableOverrides): Promise<BigNumber>;
+
+    decimals(overrides?: CallOverrides): Promise<BigNumber>;
+
+    name(overrides?: CallOverrides): Promise<BigNumber>;
+
+    symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transfer(_destination: string, _value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+
     transferFrom(
       _owner: string,
       _receiver: string,
-      _numTokens: BigNumberish
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    transferLiquid(
+      _receiver: string,
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+  };
+
+  populateTransaction: {
+    allowance(
+      _owner: string,
+      _delegate: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-    transferLiquid(_receiver: string, _numTokens: BigNumberish): Promise<PopulatedTransaction>;
+
+    approve(
+      _delegatee: string,
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    balanceOf(_tokenOwner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    convertToESP(_receiver: string, overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    transfer(
+      _destination: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    transferFrom(
+      _owner: string,
+      _receiver: string,
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    transferLiquid(
+      _receiver: string,
+      _numTokens: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
   };
 }

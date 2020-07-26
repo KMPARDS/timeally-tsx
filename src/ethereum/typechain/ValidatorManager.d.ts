@@ -721,118 +721,211 @@ export class ValidatorManager extends Contract {
     addDelegation(
       _month: BigNumberish,
       _stakerDelegationIndex: BigNumberish,
-      _amount: BigNumberish
+      _amount: BigNumberish,
+      overrides?: Overrides
     ): Promise<BigNumber>;
-    blockRewardContract(): Promise<BigNumber>;
-    deployer(): Promise<BigNumber>;
+
+    blockRewardContract(overrides?: CallOverrides): Promise<BigNumber>;
+
+    deployer(overrides?: CallOverrides): Promise<BigNumber>;
+
     getAdjustedAmount(
       _amount: BigNumberish,
       _base: BigNumberish,
-      _premiumFactor: BigNumberish
+      _premiumFactor: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
-    getBlockRewardsMonthlyNRT(_month: BigNumberish): Promise<BigNumber>;
-    getLuckyValidatorAddress(): Promise<BigNumber>;
-    getTotalAdjustedStakings(_month: BigNumberish): Promise<BigNumber>;
-    getTotalBlockReward(_month: BigNumberish): Promise<BigNumber>;
-    getValidatorEarning(_month: BigNumberish, _validatorIndex: BigNumberish): Promise<BigNumber>;
-    getValidatorStaking(_month: BigNumberish, _validatorIndex: BigNumberish): Promise<BigNumber>;
+
+    getBlockRewardsMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getLuckyValidatorAddress(overrides?: Overrides): Promise<BigNumber>;
+
+    getTotalAdjustedStakings(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTotalBlockReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getValidatorEarning(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getValidatorStaking(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getValidatorStakingDelegator(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
-      _delegatorIndex: BigNumberish
+      _delegatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
+
     getValidatorStakingDelegators(
       _month: BigNumberish,
-      _validatorIndex: BigNumberish
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
-    getValidatorStakings(_month: BigNumberish): Promise<BigNumber>;
-    nrtManager(): Promise<BigNumber>;
-    pickValidator(_month: BigNumberish, _seed: BigNumberish): Promise<BigNumber>;
-    randomnessManager(): Promise<BigNumber>;
-    registerBlock(_miner: string): Promise<BigNumber>;
+
+    getValidatorStakings(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pickValidator(
+      _month: BigNumberish,
+      _seed: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    randomnessManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    registerBlock(_miner: string, overrides?: Overrides): Promise<BigNumber>;
+
     setCommission(
       _validatorIndex: BigNumberish,
       _month: BigNumberish,
-      _perThousandCommission: BigNumberish
+      _perThousandCommission: BigNumberish,
+      overrides?: Overrides
     ): Promise<BigNumber>;
+
     setInitialValues(
       _validatorSet: string,
       _nrtManager: string,
       _timeally: string,
       _randomnessManager: string,
-      _blockRewardContract: string
+      _blockRewardContract: string,
+      overrides?: Overrides
     ): Promise<BigNumber>;
-    timeally(): Promise<BigNumber>;
-    validatorSet(): Promise<BigNumber>;
+
+    timeally(overrides?: CallOverrides): Promise<BigNumber>;
+
+    validatorSet(overrides?: CallOverrides): Promise<BigNumber>;
+
     withdrawBlockReward(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
-      _delegatorIndex: BigNumberish
+      _delegatorIndex: BigNumberish,
+      overrides?: Overrides
     ): Promise<BigNumber>;
-    withdrawCommission(_validatorIndex: BigNumberish, _month: BigNumberish): Promise<BigNumber>;
+
+    withdrawCommission(
+      _validatorIndex: BigNumberish,
+      _month: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     addDelegation(
       _month: BigNumberish,
       _stakerDelegationIndex: BigNumberish,
-      _amount: BigNumberish
+      _amount: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
-    blockRewardContract(): Promise<PopulatedTransaction>;
-    deployer(): Promise<PopulatedTransaction>;
+
+    blockRewardContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getAdjustedAmount(
       _amount: BigNumberish,
       _base: BigNumberish,
-      _premiumFactor: BigNumberish
+      _premiumFactor: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-    getBlockRewardsMonthlyNRT(_month: BigNumberish): Promise<PopulatedTransaction>;
-    getLuckyValidatorAddress(): Promise<PopulatedTransaction>;
-    getTotalAdjustedStakings(_month: BigNumberish): Promise<PopulatedTransaction>;
-    getTotalBlockReward(_month: BigNumberish): Promise<PopulatedTransaction>;
+
+    getBlockRewardsMonthlyNRT(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getLuckyValidatorAddress(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    getTotalAdjustedStakings(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTotalBlockReward(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getValidatorEarning(
       _month: BigNumberish,
-      _validatorIndex: BigNumberish
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
     getValidatorStaking(
       _month: BigNumberish,
-      _validatorIndex: BigNumberish
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
     getValidatorStakingDelegator(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
-      _delegatorIndex: BigNumberish
+      _delegatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
     getValidatorStakingDelegators(
       _month: BigNumberish,
-      _validatorIndex: BigNumberish
+      _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-    getValidatorStakings(_month: BigNumberish): Promise<PopulatedTransaction>;
-    nrtManager(): Promise<PopulatedTransaction>;
-    pickValidator(_month: BigNumberish, _seed: BigNumberish): Promise<PopulatedTransaction>;
-    randomnessManager(): Promise<PopulatedTransaction>;
-    registerBlock(_miner: string): Promise<PopulatedTransaction>;
+
+    getValidatorStakings(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pickValidator(
+      _month: BigNumberish,
+      _seed: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    randomnessManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    registerBlock(_miner: string, overrides?: Overrides): Promise<PopulatedTransaction>;
+
     setCommission(
       _validatorIndex: BigNumberish,
       _month: BigNumberish,
-      _perThousandCommission: BigNumberish
+      _perThousandCommission: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
+
     setInitialValues(
       _validatorSet: string,
       _nrtManager: string,
       _timeally: string,
       _randomnessManager: string,
-      _blockRewardContract: string
+      _blockRewardContract: string,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
-    timeally(): Promise<PopulatedTransaction>;
-    validatorSet(): Promise<PopulatedTransaction>;
+
+    timeally(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    validatorSet(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     withdrawBlockReward(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
-      _delegatorIndex: BigNumberish
+      _delegatorIndex: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
+
     withdrawCommission(
       _validatorIndex: BigNumberish,
-      _month: BigNumberish
+      _month: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
   };
 }

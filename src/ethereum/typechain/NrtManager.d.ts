@@ -2,7 +2,13 @@
 /* tslint:disable */
 
 import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
-import { Contract, ContractTransaction, Overrides, CallOverrides } from '@ethersproject/contracts';
+import {
+  Contract,
+  ContractTransaction,
+  Overrides,
+  PayableOverrides,
+  CallOverrides,
+} from '@ethersproject/contracts';
 import { BytesLike } from '@ethersproject/bytes';
 import { Listener, Provider } from '@ethersproject/providers';
 import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
@@ -11,6 +17,8 @@ interface NrtManagerInterface extends ethers.utils.Interface {
   functions: {
     'BURN_ADDR()': FunctionFragment;
     'SECONDS_IN_MONTH()': FunctionFragment;
+    'addToBurnPool()': FunctionFragment;
+    'addToLuckPool()': FunctionFragment;
     'annualNRT()': FunctionFragment;
     'burnPoolBalance()': FunctionFragment;
     'currentNrtMonth()': FunctionFragment;
@@ -28,6 +36,8 @@ interface NrtManagerInterface extends ethers.utils.Interface {
 
   encodeFunctionData(functionFragment: 'BURN_ADDR', values?: undefined): string;
   encodeFunctionData(functionFragment: 'SECONDS_IN_MONTH', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'addToBurnPool', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'addToLuckPool', values?: undefined): string;
   encodeFunctionData(functionFragment: 'annualNRT', values?: undefined): string;
   encodeFunctionData(functionFragment: 'burnPoolBalance', values?: undefined): string;
   encodeFunctionData(functionFragment: 'currentNrtMonth', values?: undefined): string;
@@ -47,6 +57,8 @@ interface NrtManagerInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(functionFragment: 'BURN_ADDR', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'SECONDS_IN_MONTH', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'addToBurnPool', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'addToLuckPool', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'annualNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'burnPoolBalance', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'currentNrtMonth', data: BytesLike): Result;
@@ -61,7 +73,13 @@ interface NrtManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'releaseMonthlyNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
 
-  events: {};
+  events: {
+    'BurnPoolAccrue(uint256)': EventFragment;
+    'LuckPoolAccrue(uint256)': EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: 'BurnPoolAccrue'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'LuckPoolAccrue'): EventFragment;
 }
 
 export class NrtManager extends Contract {
@@ -89,6 +107,10 @@ export class NrtManager extends Contract {
     ): Promise<{
       0: BigNumber;
     }>;
+
+    addToBurnPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    addToLuckPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
     annualNRT(
       overrides?: CallOverrides
@@ -172,6 +194,10 @@ export class NrtManager extends Contract {
 
   SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
 
+  addToBurnPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  addToLuckPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
   annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
 
   burnPoolBalance(overrides?: CallOverrides): Promise<BigNumber>;
@@ -212,6 +238,10 @@ export class NrtManager extends Contract {
 
     SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
 
+    addToBurnPool(overrides?: CallOverrides): Promise<void>;
+
+    addToLuckPool(overrides?: CallOverrides): Promise<void>;
+
     annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
 
     burnPoolBalance(overrides?: CallOverrides): Promise<BigNumber>;
@@ -248,44 +278,95 @@ export class NrtManager extends Contract {
     ): Promise<void>;
   };
 
-  filters: {};
+  filters: {
+    BurnPoolAccrue(_value: null): EventFilter;
+
+    LuckPoolAccrue(_value: null): EventFilter;
+  };
 
   estimateGas: {
-    BURN_ADDR(): Promise<BigNumber>;
-    SECONDS_IN_MONTH(): Promise<BigNumber>;
-    annualNRT(): Promise<BigNumber>;
-    burnPoolBalance(): Promise<BigNumber>;
-    currentNrtMonth(): Promise<BigNumber>;
-    getBurnAmount(): Promise<BigNumber>;
-    getPerThousand(_perThousandIndex: BigNumberish): Promise<BigNumber>;
-    getPerThousands(): Promise<BigNumber>;
-    getPlatform(_platformIndex: BigNumberish): Promise<BigNumber>;
-    getPlatformDetails(): Promise<BigNumber>;
-    getPlatforms(): Promise<BigNumber>;
-    lastReleaseTimestamp(): Promise<BigNumber>;
-    luckPoolBalance(): Promise<BigNumber>;
-    releaseMonthlyNRT(): Promise<BigNumber>;
-    setInitialValues(_platforms: string[], _perThousands: BigNumberish[]): Promise<BigNumber>;
+    BURN_ADDR(overrides?: CallOverrides): Promise<BigNumber>;
+
+    SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addToBurnPool(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    addToLuckPool(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
+
+    burnPoolBalance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentNrtMonth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getBurnAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPerThousand(_perThousandIndex: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPerThousands(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPlatform(_platformIndex: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPlatformDetails(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPlatforms(overrides?: CallOverrides): Promise<BigNumber>;
+
+    lastReleaseTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    luckPoolBalance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    releaseMonthlyNRT(overrides?: Overrides): Promise<BigNumber>;
+
+    setInitialValues(
+      _platforms: string[],
+      _perThousands: BigNumberish[],
+      overrides?: Overrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    BURN_ADDR(): Promise<PopulatedTransaction>;
-    SECONDS_IN_MONTH(): Promise<PopulatedTransaction>;
-    annualNRT(): Promise<PopulatedTransaction>;
-    burnPoolBalance(): Promise<PopulatedTransaction>;
-    currentNrtMonth(): Promise<PopulatedTransaction>;
-    getBurnAmount(): Promise<PopulatedTransaction>;
-    getPerThousand(_perThousandIndex: BigNumberish): Promise<PopulatedTransaction>;
-    getPerThousands(): Promise<PopulatedTransaction>;
-    getPlatform(_platformIndex: BigNumberish): Promise<PopulatedTransaction>;
-    getPlatformDetails(): Promise<PopulatedTransaction>;
-    getPlatforms(): Promise<PopulatedTransaction>;
-    lastReleaseTimestamp(): Promise<PopulatedTransaction>;
-    luckPoolBalance(): Promise<PopulatedTransaction>;
-    releaseMonthlyNRT(): Promise<PopulatedTransaction>;
+    BURN_ADDR(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    addToBurnPool(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    addToLuckPool(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    annualNRT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    burnPoolBalance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    currentNrtMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getBurnAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getPerThousand(
+      _perThousandIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPerThousands(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getPlatform(
+      _platformIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPlatformDetails(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getPlatforms(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    lastReleaseTimestamp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    luckPoolBalance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    releaseMonthlyNRT(overrides?: Overrides): Promise<PopulatedTransaction>;
+
     setInitialValues(
       _platforms: string[],
-      _perThousands: BigNumberish[]
+      _perThousands: BigNumberish[],
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
   };
 }

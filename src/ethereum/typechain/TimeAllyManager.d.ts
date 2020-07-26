@@ -19,6 +19,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     'deactivateAdminMode()': FunctionFragment;
     'defaultMonths()': FunctionFragment;
     'deployer()': FunctionFragment;
+    'destroyStaking(uint256,uint256,address)': FunctionFragment;
     'emitStakingTransfer(address,address)': FunctionFragment;
     'getTimeAllyMonthlyNRT(uint256)': FunctionFragment;
     'getTotalActiveStaking(uint256)': FunctionFragment;
@@ -29,8 +30,9 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     'prepaidFallback(address,uint256)': FunctionFragment;
     'processNrtReward(uint256,uint8)': FunctionFragment;
     'sendStake(address,bool[])': FunctionFragment;
-    'setInitialValues(address,address,address)': FunctionFragment;
+    'setInitialValues(address,address,address,address)': FunctionFragment;
     'stake()': FunctionFragment;
+    'stakingTarget()': FunctionFragment;
     'validatorManager()': FunctionFragment;
     'withdrawClaimedNrt(uint256)': FunctionFragment;
   };
@@ -39,6 +41,10 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'deactivateAdminMode', values?: undefined): string;
   encodeFunctionData(functionFragment: 'defaultMonths', values?: undefined): string;
   encodeFunctionData(functionFragment: 'deployer', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'destroyStaking',
+    values: [BigNumberish, BigNumberish, string]
+  ): string;
   encodeFunctionData(functionFragment: 'emitStakingTransfer', values: [string, string]): string;
   encodeFunctionData(functionFragment: 'getTimeAllyMonthlyNRT', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalActiveStaking', values: [BigNumberish]): string;
@@ -57,9 +63,10 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'sendStake', values: [string, boolean[]]): string;
   encodeFunctionData(
     functionFragment: 'setInitialValues',
-    values: [string, string, string]
+    values: [string, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: 'stake', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'stakingTarget', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'withdrawClaimedNrt', values: [BigNumberish]): string;
 
@@ -67,6 +74,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'deactivateAdminMode', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'defaultMonths', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deployer', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'destroyStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'emitStakingTransfer', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTimeAllyMonthlyNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalActiveStaking', data: BytesLike): Result;
@@ -79,6 +87,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'sendStake', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'stake', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'stakingTarget', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'withdrawClaimedNrt', data: BytesLike): Result;
 
@@ -123,6 +132,13 @@ export class TimeAllyManager extends Contract {
       0: string;
     }>;
 
+    destroyStaking(
+      _amount: BigNumberish,
+      _endMonth: BigNumberish,
+      _owner: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
     emitStakingTransfer(
       _oldOwner: string,
       _newOwner: string,
@@ -145,7 +161,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
-      _uptoMonth: BigNumberish,
+      _endMonth: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
@@ -190,10 +206,17 @@ export class TimeAllyManager extends Contract {
       _nrtAddress: string,
       _validatorManager: string,
       _prepaidEs: string,
+      _stakingTarget: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
     stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    stakingTarget(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
 
     validatorManager(
       overrides?: CallOverrides
@@ -215,6 +238,13 @@ export class TimeAllyManager extends Contract {
 
   deployer(overrides?: CallOverrides): Promise<string>;
 
+  destroyStaking(
+    _amount: BigNumberish,
+    _endMonth: BigNumberish,
+    _owner: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   emitStakingTransfer(
     _oldOwner: string,
     _newOwner: string,
@@ -227,7 +257,7 @@ export class TimeAllyManager extends Contract {
 
   increaseActiveStaking(
     _amount: BigNumberish,
-    _uptoMonth: BigNumberish,
+    _endMonth: BigNumberish,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
@@ -259,10 +289,13 @@ export class TimeAllyManager extends Contract {
     _nrtAddress: string,
     _validatorManager: string,
     _prepaidEs: string,
+    _stakingTarget: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
   stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  stakingTarget(overrides?: CallOverrides): Promise<string>;
 
   validatorManager(overrides?: CallOverrides): Promise<string>;
 
@@ -280,6 +313,13 @@ export class TimeAllyManager extends Contract {
 
     deployer(overrides?: CallOverrides): Promise<string>;
 
+    destroyStaking(
+      _amount: BigNumberish,
+      _endMonth: BigNumberish,
+      _owner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     emitStakingTransfer(
       _oldOwner: string,
       _newOwner: string,
@@ -292,7 +332,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
-      _uptoMonth: BigNumberish,
+      _endMonth: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -324,10 +364,13 @@ export class TimeAllyManager extends Contract {
       _nrtAddress: string,
       _validatorManager: string,
       _prepaidEs: string,
+      _stakingTarget: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     stake(overrides?: CallOverrides): Promise<void>;
+
+    stakingTarget(overrides?: CallOverrides): Promise<string>;
 
     validatorManager(overrides?: CallOverrides): Promise<string>;
 
@@ -339,58 +382,160 @@ export class TimeAllyManager extends Contract {
   };
 
   estimateGas: {
-    adminMode(): Promise<BigNumber>;
-    deactivateAdminMode(): Promise<BigNumber>;
-    defaultMonths(): Promise<BigNumber>;
-    deployer(): Promise<BigNumber>;
-    emitStakingTransfer(_oldOwner: string, _newOwner: string): Promise<BigNumber>;
-    getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<BigNumber>;
-    getTotalActiveStaking(_month: BigNumberish): Promise<BigNumber>;
-    increaseActiveStaking(_amount: BigNumberish, _uptoMonth: BigNumberish): Promise<BigNumber>;
-    isStakingContractValid(_stakingContract: string): Promise<BigNumber>;
-    nrtManager(): Promise<BigNumber>;
-    prepaidEs(): Promise<BigNumber>;
-    prepaidFallback(_sender: string, _value: BigNumberish): Promise<BigNumber>;
-    processNrtReward(_reward: BigNumberish, _rewardType: BigNumberish): Promise<BigNumber>;
-    sendStake(_receiver: string, _claimedMonths: boolean[]): Promise<BigNumber>;
+    adminMode(overrides?: CallOverrides): Promise<BigNumber>;
+
+    deactivateAdminMode(overrides?: Overrides): Promise<BigNumber>;
+
+    defaultMonths(overrides?: CallOverrides): Promise<BigNumber>;
+
+    deployer(overrides?: CallOverrides): Promise<BigNumber>;
+
+    destroyStaking(
+      _amount: BigNumberish,
+      _endMonth: BigNumberish,
+      _owner: string,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    emitStakingTransfer(
+      _oldOwner: string,
+      _newOwner: string,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    getTimeAllyMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTotalActiveStaking(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    increaseActiveStaking(
+      _amount: BigNumberish,
+      _endMonth: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    isStakingContractValid(_stakingContract: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    prepaidEs(overrides?: CallOverrides): Promise<BigNumber>;
+
+    prepaidFallback(
+      _sender: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    processNrtReward(
+      _reward: BigNumberish,
+      _rewardType: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    sendStake(
+      _receiver: string,
+      _claimedMonths: boolean[],
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
     setInitialValues(
       _nrtAddress: string,
       _validatorManager: string,
-      _prepaidEs: string
+      _prepaidEs: string,
+      _stakingTarget: string,
+      overrides?: Overrides
     ): Promise<BigNumber>;
-    stake(): Promise<BigNumber>;
-    validatorManager(): Promise<BigNumber>;
-    withdrawClaimedNrt(_amount: BigNumberish): Promise<BigNumber>;
+
+    stake(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    stakingTarget(overrides?: CallOverrides): Promise<BigNumber>;
+
+    validatorManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    withdrawClaimedNrt(_amount: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    adminMode(): Promise<PopulatedTransaction>;
-    deactivateAdminMode(): Promise<PopulatedTransaction>;
-    defaultMonths(): Promise<PopulatedTransaction>;
-    deployer(): Promise<PopulatedTransaction>;
-    emitStakingTransfer(_oldOwner: string, _newOwner: string): Promise<PopulatedTransaction>;
-    getTimeAllyMonthlyNRT(_month: BigNumberish): Promise<PopulatedTransaction>;
-    getTotalActiveStaking(_month: BigNumberish): Promise<PopulatedTransaction>;
+    adminMode(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    deactivateAdminMode(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    defaultMonths(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    destroyStaking(
+      _amount: BigNumberish,
+      _endMonth: BigNumberish,
+      _owner: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    emitStakingTransfer(
+      _oldOwner: string,
+      _newOwner: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    getTimeAllyMonthlyNRT(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTotalActiveStaking(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     increaseActiveStaking(
       _amount: BigNumberish,
-      _uptoMonth: BigNumberish
+      _endMonth: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
-    isStakingContractValid(_stakingContract: string): Promise<PopulatedTransaction>;
-    nrtManager(): Promise<PopulatedTransaction>;
-    prepaidEs(): Promise<PopulatedTransaction>;
-    prepaidFallback(_sender: string, _value: BigNumberish): Promise<PopulatedTransaction>;
+
+    isStakingContractValid(
+      _stakingContract: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    prepaidEs(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    prepaidFallback(
+      _sender: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
     processNrtReward(
       _reward: BigNumberish,
-      _rewardType: BigNumberish
+      _rewardType: BigNumberish,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
-    sendStake(_receiver: string, _claimedMonths: boolean[]): Promise<PopulatedTransaction>;
+
+    sendStake(
+      _receiver: string,
+      _claimedMonths: boolean[],
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
     setInitialValues(
       _nrtAddress: string,
       _validatorManager: string,
-      _prepaidEs: string
+      _prepaidEs: string,
+      _stakingTarget: string,
+      overrides?: Overrides
     ): Promise<PopulatedTransaction>;
-    stake(): Promise<PopulatedTransaction>;
-    validatorManager(): Promise<PopulatedTransaction>;
-    withdrawClaimedNrt(_amount: BigNumberish): Promise<PopulatedTransaction>;
+
+    stake(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    stakingTarget(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    validatorManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    withdrawClaimedNrt(
+      _amount: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }
