@@ -78,11 +78,11 @@ export function Layout(props: LayoutProps) {
           </div>
         </div>
       </div>
-      <div>
-        <div className="container">
-          {props.transparent ? (
-            <>{props.children}</>
-          ) : (
+      {props.transparent ? (
+        <>{props.children}</>
+      ) : (
+        <div>
+          <div className="container">
             <div className="row">
               <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div className="wrapper-content bg-white pinside10">
@@ -94,9 +94,9 @@ export function Layout(props: LayoutProps) {
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
