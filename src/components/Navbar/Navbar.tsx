@@ -134,7 +134,7 @@ export class NavbarMain extends Component<{}, State> {
                       </Link>
 
                       <Link to="/dashboard">
-                        <div className="navbar-item">Dashboars</div>
+                        <div className="navbar-item">Dashboard</div>
                       </Link>
 
                       <Link to="/stakings">
