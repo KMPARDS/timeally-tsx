@@ -2,8 +2,35 @@ import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import { routine } from '../../utils';
 
-export class NavbarMain extends Component {
+type State = {
+  isWalletLoaded: boolean;
+};
+
+export class NavbarMain extends Component<{}, State> {
+  state: State = {
+    isWalletLoaded: false,
+  };
+
+  intervalIds: NodeJS.Timeout[] = [];
+
+  componentDidMount = async () => {
+    this.intervalIds.push(routine(this.updateWalletLoadedStatus, 500));
+  };
+
+  componentWillUnmount = () => {
+    this.intervalIds.forEach(clearInterval);
+  };
+
+  updateWalletLoadedStatus = () => {
+    const isWalletLoaded = !!window.wallet;
+
+    if (isWalletLoaded !== this.state.isWalletLoaded) {
+      this.setState({ isWalletLoaded });
+    }
+  };
+
   render() {
     return (
       <div className="NavbarComponent">
@@ -39,14 +66,34 @@ export class NavbarMain extends Component {
                 <div className="col-sm-10">
                   <div className="quick-info">
                     <span>
-                      <a
-                        className="btn main-btn btn-default btn-sm margin-custom"
-                        onClick={() =>
-                          window.open('https://eraswap.life/', '', 'width=1001,height=650')
-                        }
-                      >
-                        Connect to a Wallet
-                      </a>
+                      {this.state.isWalletLoaded ? (
+                        <>
+                          <Link
+                            to="/dashboard"
+                            className="btn main-btn btn-default btn-sm margin-custom"
+                          >
+                            {window.wallet.address.slice(0, 6)}...{window.wallet.address.slice(38)}
+                          </Link>
+                          <Link
+                            className="btn main-btn btn-default btn-sm margin-custom"
+                            to="/1lifetime"
+                            onClick={() => {
+                              delete window.wallet;
+                            }}
+                          >
+                            Logout
+                          </Link>
+                        </>
+                      ) : (
+                        <a
+                          className="btn main-btn btn-default btn-sm margin-custom"
+                          onClick={() =>
+                            window.open('https://eraswap.life/', '', 'width=1001,height=650')
+                          }
+                        >
+                          Connect to a Wallet
+                        </a>
+                      )}
                     </span>
                   </div>
                 </div>
