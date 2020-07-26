@@ -1,47 +1,14 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Layout } from '../Layout';
 
 // import StakingEntry from './StakingEntry';
 
 export class Dashboard extends Component {
   render() {
     return (
-      <div>
-        <div className="page-header">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li>
-                      <a>Home</a>
-                    </li>
-                    <li className="active">Dashboard</li>
-                  </ol>
-                </div>
-              </div>
-              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div className="bg-white pinside30">
-                  <div className="row">
-                    <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                      <h1 className="page-title">Dashboard</h1>
-                    </div>
-                    <div className="col-xl-8 col-lg-8 col-md-3 col-sm-12 col-12">
-                      <div className="row">
-                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                          <div className="btn-action">
-                            {/* <Button className="btn btn-default btn-sm" onClick={() => this.props.history.push('/stakings/new')}>Apply for Loan</Button> */}
-                            <Button>New Staking</Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Layout transparent title="Dashboard" button={{ name: 'New Staking', link: '/stakings/new' }}>
         <div>
           <div className="container dashboard-bg">
             <div className="row">
@@ -166,7 +133,7 @@ export class Dashboard extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }
