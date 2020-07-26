@@ -45,7 +45,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     const startMonth = await this.instance.startMonth();
     const endMonth = await this.instance.endMonth();
     const principal = await this.instance.nextMonthPrincipalAmount();
-    const issTime = await this.instance.issTime();
+    const issTime = await this.instance.issTimeLimit();
     const balance = await window.provider.getBalance(this.instance.address);
 
     this.setState({
