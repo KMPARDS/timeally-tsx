@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import copy from 'copy-to-clipboard';
 import { routine } from '../../utils';
+import './Navbar.css';
 
 type State = {
   isWalletLoaded: boolean;
+  addressCopied: boolean;
 };
 
 export class NavbarMain extends Component<{}, State> {
   state: State = {
     isWalletLoaded: false,
+    addressCopied: false,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -28,6 +31,13 @@ export class NavbarMain extends Component<{}, State> {
 
     if (isWalletLoaded !== this.state.isWalletLoaded) {
       this.setState({ isWalletLoaded });
+    }
+  };
+
+  copyAddress = () => {
+    if (copy(window.wallet.address)) {
+      this.setState({ addressCopied: true });
+      setTimeout(() => this.setState({ addressCopied: false }), 2000);
     }
   };
 
@@ -68,12 +78,19 @@ export class NavbarMain extends Component<{}, State> {
                     <span>
                       {this.state.isWalletLoaded ? (
                         <>
-                          <Link
-                            to="/dashboard"
+                          <span
                             className="btn main-btn btn-default btn-sm margin-custom"
+                            onClick={this.copyAddress}
                           >
-                            {window.wallet.address.slice(0, 6)}...{window.wallet.address.slice(38)}
-                          </Link>
+                            {this.state.addressCopied ? (
+                              <>address copied</>
+                            ) : (
+                              <>
+                                {window.wallet.address.slice(0, 6)}...
+                                {window.wallet.address.slice(38)}
+                              </>
+                            )}
+                          </span>
                           <Link
                             className="btn main-btn btn-default btn-sm margin-custom"
                             to="/1lifetime"
