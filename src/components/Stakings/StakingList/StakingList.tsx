@@ -59,6 +59,12 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       >
         {this.state.stakings === null ? (
           <Alert variant="info">Loading your stakings...</Alert>
+        ) : this.state.stakings.length === 0 ? (
+          <Alert variant="info">
+            You do not own any TimeAlly Staking ERC1167 Smart Contracts. You can buy staking from
+            someone who already has a staking or you can use your Era Swap Tokens to deploy a new
+            staking ERC1167 smart contract.
+          </Alert>
         ) : (
           <div className="row table-padding">
             <table>
