@@ -173,22 +173,22 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             <Topup instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/extend`} exact>
-            <Extend />
+            <Extend instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/isstime`} exact>
             <IssTime instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/split`} exact>
-            <Split />
+            <Split instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/transfer`} exact>
-            <Transfer />
+            <Transfer instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/merge`} exact>
-            <Merge />
+            <Merge instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
           <Route path={`${url}/delegate`} exact>
-            <Delegate />
+            <Delegate instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
         </Switch>
       </Layout>
