@@ -23,14 +23,16 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     'emitStakingTransfer(address,address)': FunctionFragment;
     'getTimeAllyMonthlyNRT(uint256)': FunctionFragment;
     'getTotalActiveStaking(uint256)': FunctionFragment;
-    'increaseActiveStaking(uint256,uint256)': FunctionFragment;
+    'increaseActiveStaking(uint256,uint256,uint256)': FunctionFragment;
     'isStakingContractValid(address)': FunctionFragment;
     'nrtManager()': FunctionFragment;
     'prepaidEs()': FunctionFragment;
     'prepaidFallback(address,uint256)': FunctionFragment;
     'processNrtReward(uint256,uint8)': FunctionFragment;
-    'sendStake(address,bool[])': FunctionFragment;
+    'receiveNrt()': FunctionFragment;
+    'sendStake(address,uint256,bool[])': FunctionFragment;
     'setInitialValues(address,address,address,address)': FunctionFragment;
+    'splitStaking(address,uint256)': FunctionFragment;
     'stake()': FunctionFragment;
     'stakingTarget()': FunctionFragment;
     'validatorManager()': FunctionFragment;
@@ -50,7 +52,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'getTotalActiveStaking', values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: 'increaseActiveStaking',
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: 'isStakingContractValid', values: [string]): string;
   encodeFunctionData(functionFragment: 'nrtManager', values?: undefined): string;
@@ -60,11 +62,16 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     functionFragment: 'processNrtReward',
     values: [BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'sendStake', values: [string, boolean[]]): string;
+  encodeFunctionData(functionFragment: 'receiveNrt', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'sendStake',
+    values: [string, BigNumberish, boolean[]]
+  ): string;
   encodeFunctionData(
     functionFragment: 'setInitialValues',
     values: [string, string, string, string]
   ): string;
+  encodeFunctionData(functionFragment: 'splitStaking', values: [string, BigNumberish]): string;
   encodeFunctionData(functionFragment: 'stake', values?: undefined): string;
   encodeFunctionData(functionFragment: 'stakingTarget', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
@@ -84,8 +91,10 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'prepaidEs', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'prepaidFallback', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'processNrtReward', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'receiveNrt', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'sendStake', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'splitStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'stake', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'stakingTarget', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
@@ -161,6 +170,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
+      _startMonth: BigNumberish,
       _endMonth: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
@@ -196,8 +206,11 @@ export class TimeAllyManager extends Contract {
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
+    receiveNrt(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
     sendStake(
       _receiver: string,
+      _initialIssTime: BigNumberish,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
@@ -208,6 +221,12 @@ export class TimeAllyManager extends Contract {
       _prepaidEs: string,
       _stakingTarget: string,
       overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    splitStaking(
+      _owner: string,
+      _initialIssTime: BigNumberish,
+      overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
 
     stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
@@ -257,6 +276,7 @@ export class TimeAllyManager extends Contract {
 
   increaseActiveStaking(
     _amount: BigNumberish,
+    _startMonth: BigNumberish,
     _endMonth: BigNumberish,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
@@ -279,8 +299,11 @@ export class TimeAllyManager extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
+  receiveNrt(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
   sendStake(
     _receiver: string,
+    _initialIssTime: BigNumberish,
     _claimedMonths: boolean[],
     overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
@@ -291,6 +314,12 @@ export class TimeAllyManager extends Contract {
     _prepaidEs: string,
     _stakingTarget: string,
     overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  splitStaking(
+    _owner: string,
+    _initialIssTime: BigNumberish,
+    overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
 
   stake(overrides?: PayableOverrides): Promise<ContractTransaction>;
@@ -332,6 +361,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
+      _startMonth: BigNumberish,
       _endMonth: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -354,8 +384,11 @@ export class TimeAllyManager extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    receiveNrt(overrides?: CallOverrides): Promise<void>;
+
     sendStake(
       _receiver: string,
+      _initialIssTime: BigNumberish,
       _claimedMonths: boolean[],
       overrides?: CallOverrides
     ): Promise<void>;
@@ -365,6 +398,12 @@ export class TimeAllyManager extends Contract {
       _validatorManager: string,
       _prepaidEs: string,
       _stakingTarget: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    splitStaking(
+      _owner: string,
+      _initialIssTime: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -409,6 +448,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
+      _startMonth: BigNumberish,
       _endMonth: BigNumberish,
       overrides?: Overrides
     ): Promise<BigNumber>;
@@ -431,8 +471,11 @@ export class TimeAllyManager extends Contract {
       overrides?: Overrides
     ): Promise<BigNumber>;
 
+    receiveNrt(overrides?: PayableOverrides): Promise<BigNumber>;
+
     sendStake(
       _receiver: string,
+      _initialIssTime: BigNumberish,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<BigNumber>;
@@ -443,6 +486,12 @@ export class TimeAllyManager extends Contract {
       _prepaidEs: string,
       _stakingTarget: string,
       overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    splitStaking(
+      _owner: string,
+      _initialIssTime: BigNumberish,
+      overrides?: PayableOverrides
     ): Promise<BigNumber>;
 
     stake(overrides?: PayableOverrides): Promise<BigNumber>;
@@ -488,6 +537,7 @@ export class TimeAllyManager extends Contract {
 
     increaseActiveStaking(
       _amount: BigNumberish,
+      _startMonth: BigNumberish,
       _endMonth: BigNumberish,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
@@ -513,8 +563,11 @@ export class TimeAllyManager extends Contract {
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
+    receiveNrt(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
     sendStake(
       _receiver: string,
+      _initialIssTime: BigNumberish,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
@@ -525,6 +578,12 @@ export class TimeAllyManager extends Contract {
       _prepaidEs: string,
       _stakingTarget: string,
       overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    splitStaking(
+      _owner: string,
+      _initialIssTime: BigNumberish,
+      overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
 
     stake(overrides?: PayableOverrides): Promise<PopulatedTransaction>;

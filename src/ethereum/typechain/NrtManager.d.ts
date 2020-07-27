@@ -19,6 +19,7 @@ interface NrtManagerInterface extends ethers.utils.Interface {
     'SECONDS_IN_MONTH()': FunctionFragment;
     'addToBurnPool()': FunctionFragment;
     'addToLuckPool()': FunctionFragment;
+    'adminMode()': FunctionFragment;
     'annualNRT()': FunctionFragment;
     'burnPoolBalance()': FunctionFragment;
     'currentNrtMonth()': FunctionFragment;
@@ -31,13 +32,14 @@ interface NrtManagerInterface extends ethers.utils.Interface {
     'lastReleaseTimestamp()': FunctionFragment;
     'luckPoolBalance()': FunctionFragment;
     'releaseMonthlyNRT()': FunctionFragment;
-    'setInitialValues(address[],uint256[])': FunctionFragment;
+    'setInitialValues(bool,address[],uint256[])': FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: 'BURN_ADDR', values?: undefined): string;
   encodeFunctionData(functionFragment: 'SECONDS_IN_MONTH', values?: undefined): string;
   encodeFunctionData(functionFragment: 'addToBurnPool', values?: undefined): string;
   encodeFunctionData(functionFragment: 'addToLuckPool', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'adminMode', values?: undefined): string;
   encodeFunctionData(functionFragment: 'annualNRT', values?: undefined): string;
   encodeFunctionData(functionFragment: 'burnPoolBalance', values?: undefined): string;
   encodeFunctionData(functionFragment: 'currentNrtMonth', values?: undefined): string;
@@ -52,13 +54,14 @@ interface NrtManagerInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'releaseMonthlyNRT', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'setInitialValues',
-    values: [string[], BigNumberish[]]
+    values: [boolean, string[], BigNumberish[]]
   ): string;
 
   decodeFunctionResult(functionFragment: 'BURN_ADDR', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'SECONDS_IN_MONTH', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'addToBurnPool', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'addToLuckPool', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'adminMode', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'annualNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'burnPoolBalance', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'currentNrtMonth', data: BytesLike): Result;
@@ -74,12 +77,16 @@ interface NrtManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
 
   events: {
+    'Burn(uint256)': EventFragment;
     'BurnPoolAccrue(uint256)': EventFragment;
     'LuckPoolAccrue(uint256)': EventFragment;
+    'NRT(uint256)': EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: 'Burn'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'BurnPoolAccrue'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'LuckPoolAccrue'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'NRT'): EventFragment;
 }
 
 export class NrtManager extends Contract {
@@ -111,6 +118,12 @@ export class NrtManager extends Contract {
     addToBurnPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
     addToLuckPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    adminMode(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
 
     annualNRT(
       overrides?: CallOverrides
@@ -184,9 +197,10 @@ export class NrtManager extends Contract {
     releaseMonthlyNRT(overrides?: Overrides): Promise<ContractTransaction>;
 
     setInitialValues(
+      _adminMode: boolean,
       _platforms: string[],
       _perThousands: BigNumberish[],
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
   };
 
@@ -197,6 +211,8 @@ export class NrtManager extends Contract {
   addToBurnPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   addToLuckPool(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  adminMode(overrides?: CallOverrides): Promise<boolean>;
 
   annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -228,9 +244,10 @@ export class NrtManager extends Contract {
   releaseMonthlyNRT(overrides?: Overrides): Promise<ContractTransaction>;
 
   setInitialValues(
+    _adminMode: boolean,
     _platforms: string[],
     _perThousands: BigNumberish[],
-    overrides?: Overrides
+    overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -241,6 +258,8 @@ export class NrtManager extends Contract {
     addToBurnPool(overrides?: CallOverrides): Promise<void>;
 
     addToLuckPool(overrides?: CallOverrides): Promise<void>;
+
+    adminMode(overrides?: CallOverrides): Promise<boolean>;
 
     annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -272,6 +291,7 @@ export class NrtManager extends Contract {
     releaseMonthlyNRT(overrides?: CallOverrides): Promise<void>;
 
     setInitialValues(
+      _adminMode: boolean,
       _platforms: string[],
       _perThousands: BigNumberish[],
       overrides?: CallOverrides
@@ -279,9 +299,13 @@ export class NrtManager extends Contract {
   };
 
   filters: {
-    BurnPoolAccrue(_value: null): EventFilter;
+    Burn(value: null): EventFilter;
 
-    LuckPoolAccrue(_value: null): EventFilter;
+    BurnPoolAccrue(value: null): EventFilter;
+
+    LuckPoolAccrue(value: null): EventFilter;
+
+    NRT(value: null): EventFilter;
   };
 
   estimateGas: {
@@ -292,6 +316,8 @@ export class NrtManager extends Contract {
     addToBurnPool(overrides?: PayableOverrides): Promise<BigNumber>;
 
     addToLuckPool(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    adminMode(overrides?: CallOverrides): Promise<BigNumber>;
 
     annualNRT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -318,9 +344,10 @@ export class NrtManager extends Contract {
     releaseMonthlyNRT(overrides?: Overrides): Promise<BigNumber>;
 
     setInitialValues(
+      _adminMode: boolean,
       _platforms: string[],
       _perThousands: BigNumberish[],
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<BigNumber>;
   };
 
@@ -332,6 +359,8 @@ export class NrtManager extends Contract {
     addToBurnPool(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
 
     addToLuckPool(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    adminMode(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     annualNRT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -364,9 +393,10 @@ export class NrtManager extends Contract {
     releaseMonthlyNRT(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     setInitialValues(
+      _adminMode: boolean,
       _platforms: string[],
       _perThousands: BigNumberish[],
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

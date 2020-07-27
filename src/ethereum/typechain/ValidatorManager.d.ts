@@ -2,7 +2,13 @@
 /* tslint:disable */
 
 import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
-import { Contract, ContractTransaction, Overrides, CallOverrides } from '@ethersproject/contracts';
+import {
+  Contract,
+  ContractTransaction,
+  Overrides,
+  PayableOverrides,
+  CallOverrides,
+} from '@ethersproject/contracts';
 import { BytesLike } from '@ethersproject/bytes';
 import { Listener, Provider } from '@ethersproject/providers';
 import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
@@ -25,6 +31,7 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
     'nrtManager()': FunctionFragment;
     'pickValidator(uint256,uint256)': FunctionFragment;
     'randomnessManager()': FunctionFragment;
+    'receiveNrt()': FunctionFragment;
     'registerBlock(address)': FunctionFragment;
     'setCommission(uint256,uint256,uint256)': FunctionFragment;
     'setInitialValues(address,address,address,address,address)': FunctionFragment;
@@ -71,6 +78,7 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: 'randomnessManager', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'receiveNrt', values?: undefined): string;
   encodeFunctionData(functionFragment: 'registerBlock', values: [string]): string;
   encodeFunctionData(
     functionFragment: 'setCommission',
@@ -107,6 +115,7 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'nrtManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'pickValidator', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'randomnessManager', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'receiveNrt', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'registerBlock', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setCommission', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
@@ -315,6 +324,8 @@ export class ValidatorManager extends Contract {
       0: string;
     }>;
 
+    receiveNrt(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
     registerBlock(_miner: string, overrides?: Overrides): Promise<ContractTransaction>;
 
     setCommission(
@@ -501,6 +512,8 @@ export class ValidatorManager extends Contract {
 
   randomnessManager(overrides?: CallOverrides): Promise<string>;
 
+  receiveNrt(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
   registerBlock(_miner: string, overrides?: Overrides): Promise<ContractTransaction>;
 
   setCommission(
@@ -679,6 +692,8 @@ export class ValidatorManager extends Contract {
 
     randomnessManager(overrides?: CallOverrides): Promise<string>;
 
+    receiveNrt(overrides?: CallOverrides): Promise<void>;
+
     registerBlock(_miner: string, overrides?: CallOverrides): Promise<void>;
 
     setCommission(
@@ -780,6 +795,8 @@ export class ValidatorManager extends Contract {
     ): Promise<BigNumber>;
 
     randomnessManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    receiveNrt(overrides?: PayableOverrides): Promise<BigNumber>;
 
     registerBlock(_miner: string, overrides?: Overrides): Promise<BigNumber>;
 
@@ -892,6 +909,8 @@ export class ValidatorManager extends Contract {
     ): Promise<PopulatedTransaction>;
 
     randomnessManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    receiveNrt(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
 
     registerBlock(_miner: string, overrides?: Overrides): Promise<PopulatedTransaction>;
 
