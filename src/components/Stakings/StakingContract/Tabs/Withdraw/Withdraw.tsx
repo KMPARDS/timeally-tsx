@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
-import '../Stakings.css';
+import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import '../../../Stakings.css';
 
 type Props = {
   instance: TimeAllyStaking;

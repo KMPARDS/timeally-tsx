@@ -3,9 +3,15 @@ import { Switch, Route, Link, RouteComponentProps } from 'react-router-dom';
 import { Card, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { Layout } from '../../Layout';
-import { Withdraw } from './Withdraw';
-import { Topup } from './Topup';
-import { IssTime } from './IssTime';
+import { Withdraw } from './Tabs/Withdraw';
+import { Topup } from './Tabs/Topup';
+import { Extend } from './Tabs/Extend';
+import { IssTime } from './Tabs/IssTime';
+import { Split } from './Tabs/Split';
+import { Transfer } from './Tabs/Transfer';
+import { Merge } from './Tabs/Merge';
+import { Delegate } from './Tabs/Delegate';
+
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import '../Stakings.css';
 
@@ -124,12 +130,24 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
               TOP UP
             </Link>
 
+            <Link to={`${url}/extend`} className="stack-link">
+              EXTEND
+            </Link>
+
             <Link to={`${url}/isstime`} className="stack-link">
               ISSTIME
             </Link>
 
             <Link to={`${url}/split`} className="stack-link">
-              SPILT TRANSFER MERGE
+              SPILT
+            </Link>
+
+            <Link to={`${url}/transfer`} className="stack-link">
+              TRANSFER
+            </Link>
+
+            <Link to={`${url}/merge`} className="stack-link">
+              MERGE
             </Link>
 
             <Link to={`${url}/delegate`} className="stack-link">
@@ -154,8 +172,23 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
           <Route path={`${url}/topup`} exact>
             <Topup instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
+          <Route path={`${url}/extend`} exact>
+            <Extend />
+          </Route>
           <Route path={`${url}/isstime`} exact>
             <IssTime instance={this.instance} refreshDetailsHook={this.updateDetails} />
+          </Route>
+          <Route path={`${url}/split`} exact>
+            <Split />
+          </Route>
+          <Route path={`${url}/transfer`} exact>
+            <Transfer />
+          </Route>
+          <Route path={`${url}/merge`} exact>
+            <Merge />
+          </Route>
+          <Route path={`${url}/delegate`} exact>
+            <Delegate />
           </Route>
         </Switch>
       </Layout>

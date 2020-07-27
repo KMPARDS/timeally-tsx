@@ -10,9 +10,9 @@ import {
   Form,
 } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
-import '../Stakings.css';
-import { routine } from '../../../utils';
+import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import '../../../Stakings.css';
+import { routine } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
