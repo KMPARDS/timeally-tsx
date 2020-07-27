@@ -155,7 +155,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             </Link>
           </div>
         </div>
-
+        <br />
         <Switch>
           <Route path={`${url}/withdraw`} exact>
             {this.state.startMonth !== null && this.state.endMonth !== null ? (

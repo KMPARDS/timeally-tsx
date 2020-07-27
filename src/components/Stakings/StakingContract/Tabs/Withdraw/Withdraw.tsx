@@ -132,7 +132,7 @@ export class Withdraw extends Component<Props, State> {
     ];
 
     const selectComponent = (
-      <Card className="my-4 p-4 text-center">
+      <Card className="p-4 text-center">
         {this.state.selectedMonths.length > 0 || this.state.rewardType !== null ? (
           <>
             <p>Selected Months: [{this.state.selectedMonths.join(', ')}]</p>
