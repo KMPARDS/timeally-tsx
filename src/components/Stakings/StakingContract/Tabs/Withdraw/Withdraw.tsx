@@ -194,6 +194,7 @@ export class Withdraw extends Component<Props, State> {
 
     return (
       <div className="container dashboard-bg">
+        <h3>Withdraw NRT</h3>
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             {selectComponent}

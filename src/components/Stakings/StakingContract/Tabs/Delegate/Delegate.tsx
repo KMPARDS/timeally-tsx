@@ -8,6 +8,10 @@ type Props = {
 
 export class Delegate extends Component<Props> {
   render() {
-    return <>Delegate Todo</>;
+    return (
+      <>
+        <h3>Delegate</h3>
+      </>
+    );
   }
 }

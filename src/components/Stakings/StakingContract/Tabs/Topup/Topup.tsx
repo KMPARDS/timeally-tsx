@@ -121,6 +121,7 @@ export class Topup extends Component<Props, State> {
 
     return (
       <>
+        <h3>Topup</h3>
         <>
           {this.state.topups === null ? (
             'Loading topups..'

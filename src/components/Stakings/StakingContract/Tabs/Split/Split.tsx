@@ -36,6 +36,7 @@ export class Split extends Component<Props, State> {
   render() {
     return (
       <>
+        <h3>Split</h3>
         <p>
           You can split the your staking in to two stakings. When splitting, there are two kinds on
           contracts, master and child. The contract which is used to create a split is master

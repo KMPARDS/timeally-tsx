@@ -35,6 +35,7 @@ export class Transfer extends Component<Props, State> {
   render() {
     return (
       <>
+        <h3>Transfer</h3>
         <p>
           Your staking contract is ERC-173 compliant, which means that you can transfer the
           ownership of this smart contract to any other person or a multi-sig wallet. On

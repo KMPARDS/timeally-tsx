@@ -8,6 +8,10 @@ type Props = {
 
 export class Merge extends Component<Props> {
   render() {
-    return <>Merge todo</>;
+    return (
+      <>
+        <h3>Merge</h3>
+      </>
+    );
   }
 }
