@@ -94,11 +94,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                 </thead>
                 <tbody>
                   {this.state.stakings.map((instance, i) => (
-                    <StakingListElement
-                      key={i}
-                      instance={instance}
-                      linkPrepend={this.props.match.url}
-                    />
+                    <StakingListElement key={i} instance={instance} />
                   ))}
                 </tbody>
               </table>

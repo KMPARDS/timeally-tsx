@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 
 type StakingListElementProps = {
   instance: TimeAllyStaking;
-  linkPrepend: string;
 };
 
 type StakingListElementState = {
@@ -45,6 +44,10 @@ export class StakingListElement extends Component<
 
   render() {
     const { principal, startMonth, endMonth, timestamp } = this.state;
+    let linkPrepend = window.location.pathname;
+    if (linkPrepend.charAt(linkPrepend.length - 1) === '/') {
+      linkPrepend = linkPrepend.substring(0, linkPrepend.length - 1);
+    }
 
     return (
       <tr>
@@ -57,7 +60,7 @@ export class StakingListElement extends Component<
         </td>
         <td>
           <Link
-            to={`${this.props.linkPrepend}/${this.props.instance.address}`}
+            to={`${linkPrepend}/${this.props.instance.address}`}
             className="btn btn-default main-btn-blue view"
           >
             View Staking
