@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import { Form, DropdownButton, Dropdown, Alert, Button, Spinner } from 'react-bootstrap';
+import { MyDelegations } from './MyDelegations';
 import { ethers } from 'ethers';
 import { isValidAmountInput } from '../../../../../utils';
 
@@ -54,6 +55,8 @@ export class Delegate extends Component<Props, State> {
 
     return (
       <>
+        <MyDelegations instance={this.props.instance} />
+
         <h3>Delegate</h3>
 
         <DropdownButton
