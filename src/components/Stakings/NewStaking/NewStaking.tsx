@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Form, Button, Spinner, Alert, DropdownButton, Dropdown } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { Layout } from '../../Layout';
@@ -46,11 +47,12 @@ export class NewStaking extends Component<{}, State> {
         throw new Error('Wallet is not loaded');
       }
 
+      let receipt: ethers.ContractReceipt;
       if (this.state.type === 'liquid') {
         const tx = await window.timeallyManagerInstance.connect(window.wallet).stake({
           value: ethers.utils.parseEther(this.state.amount),
         });
-        await tx.wait();
+        receipt = await tx.wait();
       } else if (this.state.type === 'prepaid') {
         const tx = await window.prepaidEsInstance
           .connect(window.wallet)
@@ -58,12 +60,25 @@ export class NewStaking extends Component<{}, State> {
             window.timeallyManagerInstance.address,
             ethers.utils.parseEther(this.state.amount)
           );
-        await tx.wait();
+        receipt = await tx.wait();
       } else {
         throw new Error('Please select type');
       }
 
-      this.setState({ spinner: false, displayMessage: 'Success' });
+      const filter = window.timeallyManagerInstance.filters.StakingTransfer(null, null, null);
+      let stakingAddress: string = '';
+      if (filter.topics) {
+        const log = receipt.logs.find((log) => {
+          // @ts-ignore
+          return log.topics[0] === filter.topics[0];
+        });
+
+        if (log) {
+          const parsedLog = window.timeallyManagerInstance.interface.parseLog(log);
+          stakingAddress = parsedLog.args[2];
+        }
+      }
+      this.setState({ spinner: false, displayMessage: stakingAddress || 'Success' });
     } catch (error) {
       this.setState({ spinner: false, displayMessage: error.message });
     }
@@ -105,68 +120,81 @@ export class NewStaking extends Component<{}, State> {
             }}
           >
             <h3 style={{ marginBottom: '15px' }}>New Staking</h3>
+            {!ethers.utils.isAddress(this.state.displayMessage) ? (
+              <>
+                <Form.Group controlId="stakingAmount">
+                  <Form.Control
+                    className="stakingInput"
+                    onChange={(event) => this.setState({ amount: event.target.value })}
+                    value={this.state.amount}
+                    type="text"
+                    placeholder="Enter amount to stake"
+                    style={{ width: '325px' }}
+                    autoComplete="off"
+                    isInvalid={showAmountError}
+                  />
+                  {showAmountError ? (
+                    <Alert variant="danger">
+                      {!isAmountValid ? (
+                        <>Please enter a valid amount</>
+                      ) : (
+                        <>
+                          Insufficient balance. Your liquid balance is{' '}
+                          {this.state.liquidBalance
+                            ? ethers.utils.formatEther(this.state.liquidBalance) + ' ES'
+                            : 'Loading...'}
+                          . Your prepaid balance is{' '}
+                          {this.state.prepaidBalance
+                            ? ethers.utils.formatEther(this.state.prepaidBalance) + ' ES'
+                            : 'Loading...'}
+                        </>
+                      )}
+                    </Alert>
+                  ) : null}
+                </Form.Group>
 
-            <Form.Group controlId="stakingAmount">
-              <Form.Control
-                className="stakingInput"
-                onChange={(event) => this.setState({ amount: event.target.value })}
-                value={this.state.amount}
-                type="text"
-                placeholder="Enter amount to stake"
-                style={{ width: '325px' }}
-                autoComplete="off"
-                isInvalid={showAmountError}
-              />
-              {showAmountError ? (
-                <Alert variant="danger">
-                  {!isAmountValid ? (
-                    <>Please enter a valid amount</>
-                  ) : (
-                    <>
-                      Insufficient balance. Your liquid balance is{' '}
-                      {this.state.liquidBalance
-                        ? ethers.utils.formatEther(this.state.liquidBalance) + ' ES'
-                        : 'Loading...'}
-                      . Your prepaid balance is{' '}
-                      {this.state.prepaidBalance
-                        ? ethers.utils.formatEther(this.state.prepaidBalance) + ' ES'
-                        : 'Loading...'}
-                    </>
-                  )}
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  variant="secondary"
+                  title={this.state.type === null ? 'Select type' : this.state.type}
+                >
+                  <Dropdown.Item onClick={() => this.setState({ type: 'liquid' })}>
+                    Liquid
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => this.setState({ type: 'prepaid' })}>
+                    Prepaid
+                  </Dropdown.Item>
+                </DropdownButton>
+
+                {this.state.displayMessage ? (
+                  <Alert variant="info">{this.state.displayMessage}</Alert>
+                ) : null}
+
+                <Button variant="primary" onClick={this.stake} id="firstSubmit" disabled={spinner}>
+                  {this.state.spinner ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{ marginRight: '2px' }}
+                    />
+                  ) : null}
+                  {this.state.spinner ? 'Staking..' : 'Stake'}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Alert variant="success">
+                  Your staking contract is deployed at{' '}
+                  <Link to={`/stakings/${this.state.displayMessage}`}>
+                    {this.state.displayMessage}
+                  </Link>
+                  !
                 </Alert>
-              ) : null}
-            </Form.Group>
-
-            <DropdownButton
-              id="dropdown-basic-button"
-              variant="secondary"
-              title={this.state.type === null ? 'Select type' : this.state.type}
-            >
-              <Dropdown.Item onClick={() => this.setState({ type: 'liquid' })}>
-                Liquid
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => this.setState({ type: 'prepaid' })}>
-                Prepaid
-              </Dropdown.Item>
-            </DropdownButton>
-
-            {this.state.displayMessage ? (
-              <Alert variant="info">{this.state.displayMessage}</Alert>
-            ) : null}
-
-            <Button variant="primary" onClick={this.stake} id="firstSubmit" disabled={spinner}>
-              {this.state.spinner ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  style={{ marginRight: '2px' }}
-                />
-              ) : null}
-              {this.state.spinner ? 'Staking..' : 'Stake'}
-            </Button>
+              </>
+            )}
           </Form>
         </Card>
       </Layout>
