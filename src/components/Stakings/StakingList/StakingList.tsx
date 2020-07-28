@@ -16,7 +16,7 @@ type StakingListState = {
 export class StakingList extends Component<RouteComponentProps, StakingListState> {
   state: StakingListState = {
     stakings: null,
-    displayMessage: '',
+    displayMessage: 'Loading your stakings...',
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -54,7 +54,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       });
     // console.log(stakings);
 
-    this.setState({ stakings });
+    this.setState({ stakings, displayMessage: '' });
   };
 
   render() {
@@ -68,39 +68,43 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
           link: '/stakings/new',
         }}
       >
-        {this.state.stakings === null ? (
-          <Alert variant="info">Loading your stakings...</Alert>
-        ) : this.state.stakings.length === 0 ? (
-          <Alert variant="info">
-            You do not own any TimeAlly Staking ERC1167 Smart Contracts. You can buy staking from
-            someone who already has a staking or you can use your Era Swap Tokens to deploy a new
-            staking ERC1167 smart contract.
-          </Alert>
-        ) : (
-          <div className="row table-padding">
-            <table>
-              <thead>
-                <tr>
-                  <th>Staking Contract</th>
-                  <th>Staking Amount</th>
-                  <th>Start Month</th>
-                  <th>End Month</th>
-                  <th>Timestamp</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.stakings.map((instance, i) => (
-                  <StakingListElement
-                    key={i}
-                    instance={instance}
-                    linkPrepend={this.props.match.url}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {this.state.displayMessage ? (
+          <Alert variant="info">{this.state.displayMessage}</Alert>
+        ) : null}
+
+        {this.state.stakings !== null ? (
+          this.state.stakings.length === 0 ? (
+            <Alert variant="info">
+              You do not own any TimeAlly Staking ERC1167 Smart Contracts. You can buy staking from
+              someone who already has a staking or you can use your Era Swap Tokens to deploy a new
+              staking ERC1167 smart contract.
+            </Alert>
+          ) : (
+            <div className="row table-padding">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Staking Contract</th>
+                    <th>Staking Amount</th>
+                    <th>Start Month</th>
+                    <th>End Month</th>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.stakings.map((instance, i) => (
+                    <StakingListElement
+                      key={i}
+                      instance={instance}
+                      linkPrepend={this.props.match.url}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        ) : null}
       </Layout>
     );
   }
