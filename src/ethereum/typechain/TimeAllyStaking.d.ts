@@ -33,10 +33,12 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
     'issTimeTakenValue()': FunctionFragment;
     'issTimeTimestamp()': FunctionFragment;
     'lastIssTimeMonth()': FunctionFragment;
+    'mergeIn(address)': FunctionFragment;
     'nextMonthPrincipalAmount()': FunctionFragment;
     'nrtManager()': FunctionFragment;
     'owner()': FunctionFragment;
     'prepaidFallback(address,uint256)': FunctionFragment;
+    'receiveMerge(address,uint256)': FunctionFragment;
     'reportIssTime()': FunctionFragment;
     'split(uint256)': FunctionFragment;
     'startIssTime(uint256,bool)': FunctionFragment;
@@ -76,10 +78,12 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'issTimeTakenValue', values?: undefined): string;
   encodeFunctionData(functionFragment: 'issTimeTimestamp', values?: undefined): string;
   encodeFunctionData(functionFragment: 'lastIssTimeMonth', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'mergeIn', values: [string]): string;
   encodeFunctionData(functionFragment: 'nextMonthPrincipalAmount', values?: undefined): string;
   encodeFunctionData(functionFragment: 'nrtManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(functionFragment: 'prepaidFallback', values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'receiveMerge', values: [string, BigNumberish]): string;
   encodeFunctionData(functionFragment: 'reportIssTime', values?: undefined): string;
   encodeFunctionData(functionFragment: 'split', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'startIssTime', values: [BigNumberish, boolean]): string;
@@ -112,10 +116,12 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'issTimeTakenValue', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'issTimeTimestamp', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'lastIssTimeMonth', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'mergeIn', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nextMonthPrincipalAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nrtManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'prepaidFallback', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'receiveMerge', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'reportIssTime', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'split', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'startIssTime', data: BytesLike): Result;
@@ -129,10 +135,12 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
 
   events: {
     'Claim(uint256,uint256,uint8)': EventFragment;
+    'Delegate(uint256,address,address,uint256)': EventFragment;
     'Topup(uint256,address)': EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: 'Claim'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Delegate'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Topup'): EventFragment;
 }
 
@@ -281,6 +289,8 @@ export class TimeAllyStaking extends Contract {
       0: BigNumber;
     }>;
 
+    mergeIn(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
+
     nextMonthPrincipalAmount(
       overrides?: CallOverrides
     ): Promise<{
@@ -303,6 +313,12 @@ export class TimeAllyStaking extends Contract {
       arg0: string,
       _value: BigNumberish,
       overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    receiveMerge(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
 
     reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
@@ -426,6 +442,8 @@ export class TimeAllyStaking extends Contract {
 
   lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
+  mergeIn(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
+
   nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   nrtManager(overrides?: CallOverrides): Promise<string>;
@@ -436,6 +454,12 @@ export class TimeAllyStaking extends Contract {
     arg0: string,
     _value: BigNumberish,
     overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  receiveMerge(
+    _childOwner: string,
+    _childIssTimeLimit: BigNumberish,
+    overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
 
   reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
@@ -540,6 +564,8 @@ export class TimeAllyStaking extends Contract {
 
     lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
+    mergeIn(_masterStaking: string, overrides?: CallOverrides): Promise<void>;
+
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     nrtManager(overrides?: CallOverrides): Promise<string>;
@@ -549,6 +575,12 @@ export class TimeAllyStaking extends Contract {
     prepaidFallback(
       arg0: string,
       _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    receiveMerge(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -579,6 +611,13 @@ export class TimeAllyStaking extends Contract {
 
   filters: {
     Claim(month: null, amount: null, rewardType: null): EventFilter;
+
+    Delegate(
+      month: BigNumberish | null,
+      platform: string | null,
+      delegatee: string | null,
+      amount: null
+    ): EventFilter;
 
     Topup(amount: null, benefactor: null): EventFilter;
   };
@@ -638,6 +677,8 @@ export class TimeAllyStaking extends Contract {
 
     lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
 
+    mergeIn(_masterStaking: string, overrides?: Overrides): Promise<BigNumber>;
+
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
@@ -645,6 +686,12 @@ export class TimeAllyStaking extends Contract {
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     prepaidFallback(arg0: string, _value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+
+    receiveMerge(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
 
     reportIssTime(overrides?: Overrides): Promise<BigNumber>;
 
@@ -742,6 +789,8 @@ export class TimeAllyStaking extends Contract {
 
     lastIssTimeMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    mergeIn(_masterStaking: string, overrides?: Overrides): Promise<PopulatedTransaction>;
+
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -752,6 +801,12 @@ export class TimeAllyStaking extends Contract {
       arg0: string,
       _value: BigNumberish,
       overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    receiveMerge(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
 
     reportIssTime(overrides?: Overrides): Promise<PopulatedTransaction>;

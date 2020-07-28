@@ -20,6 +20,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     'defaultMonths()': FunctionFragment;
     'deployer()': FunctionFragment;
     'destroyStaking(uint256,uint256,address)': FunctionFragment;
+    'emitStakingMerge(address)': FunctionFragment;
     'emitStakingTransfer(address,address)': FunctionFragment;
     'getTimeAllyMonthlyNRT(uint256)': FunctionFragment;
     'getTotalActiveStaking(uint256)': FunctionFragment;
@@ -32,7 +33,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     'receiveNrt()': FunctionFragment;
     'sendStake(address,uint256,bool[])': FunctionFragment;
     'setInitialValues(address,address,address,address)': FunctionFragment;
-    'splitStaking(address,uint256)': FunctionFragment;
+    'splitStaking(address,uint256,uint256)': FunctionFragment;
     'stake()': FunctionFragment;
     'stakingTarget()': FunctionFragment;
     'validatorManager()': FunctionFragment;
@@ -47,6 +48,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     functionFragment: 'destroyStaking',
     values: [BigNumberish, BigNumberish, string]
   ): string;
+  encodeFunctionData(functionFragment: 'emitStakingMerge', values: [string]): string;
   encodeFunctionData(functionFragment: 'emitStakingTransfer', values: [string, string]): string;
   encodeFunctionData(functionFragment: 'getTimeAllyMonthlyNRT', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalActiveStaking', values: [BigNumberish]): string;
@@ -71,7 +73,10 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
     functionFragment: 'setInitialValues',
     values: [string, string, string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'splitStaking', values: [string, BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: 'splitStaking',
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: 'stake', values?: undefined): string;
   encodeFunctionData(functionFragment: 'stakingTarget', values?: undefined): string;
   encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
@@ -82,6 +87,7 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'defaultMonths', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deployer', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'destroyStaking', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'emitStakingMerge', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'emitStakingTransfer', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTimeAllyMonthlyNRT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalActiveStaking', data: BytesLike): Result;
@@ -101,9 +107,13 @@ interface TimeAllyManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'withdrawClaimedNrt', data: BytesLike): Result;
 
   events: {
+    'StakingMerge(address,address)': EventFragment;
+    'StakingSplit(address,address)': EventFragment;
     'StakingTransfer(address,address,address)': EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: 'StakingMerge'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'StakingSplit'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'StakingTransfer'): EventFragment;
 }
 
@@ -147,6 +157,8 @@ export class TimeAllyManager extends Contract {
       _owner: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
+
+    emitStakingMerge(_childStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
 
     emitStakingTransfer(
       _oldOwner: string,
@@ -226,6 +238,7 @@ export class TimeAllyManager extends Contract {
     splitStaking(
       _owner: string,
       _initialIssTime: BigNumberish,
+      _masterEndMonth: BigNumberish,
       overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
 
@@ -263,6 +276,8 @@ export class TimeAllyManager extends Contract {
     _owner: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
+
+  emitStakingMerge(_childStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
 
   emitStakingTransfer(
     _oldOwner: string,
@@ -319,6 +334,7 @@ export class TimeAllyManager extends Contract {
   splitStaking(
     _owner: string,
     _initialIssTime: BigNumberish,
+    _masterEndMonth: BigNumberish,
     overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
 
@@ -348,6 +364,8 @@ export class TimeAllyManager extends Contract {
       _owner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    emitStakingMerge(_childStaking: string, overrides?: CallOverrides): Promise<void>;
 
     emitStakingTransfer(
       _oldOwner: string,
@@ -404,6 +422,7 @@ export class TimeAllyManager extends Contract {
     splitStaking(
       _owner: string,
       _initialIssTime: BigNumberish,
+      _masterEndMonth: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -417,6 +436,10 @@ export class TimeAllyManager extends Contract {
   };
 
   filters: {
+    StakingMerge(master: string | null, child: string | null): EventFilter;
+
+    StakingSplit(master: string | null, child: string | null): EventFilter;
+
     StakingTransfer(from: string | null, to: string | null, staking: string | null): EventFilter;
   };
 
@@ -435,6 +458,8 @@ export class TimeAllyManager extends Contract {
       _owner: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
+
+    emitStakingMerge(_childStaking: string, overrides?: Overrides): Promise<BigNumber>;
 
     emitStakingTransfer(
       _oldOwner: string,
@@ -491,6 +516,7 @@ export class TimeAllyManager extends Contract {
     splitStaking(
       _owner: string,
       _initialIssTime: BigNumberish,
+      _masterEndMonth: BigNumberish,
       overrides?: PayableOverrides
     ): Promise<BigNumber>;
 
@@ -518,6 +544,8 @@ export class TimeAllyManager extends Contract {
       _owner: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
+
+    emitStakingMerge(_childStaking: string, overrides?: Overrides): Promise<PopulatedTransaction>;
 
     emitStakingTransfer(
       _oldOwner: string,
@@ -583,6 +611,7 @@ export class TimeAllyManager extends Contract {
     splitStaking(
       _owner: string,
       _initialIssTime: BigNumberish,
+      _masterEndMonth: BigNumberish,
       overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
 
