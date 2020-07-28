@@ -68,7 +68,11 @@ export class StakingListElement extends Component<
             <td>{startMonth ?? <>Loading...</>}</td>
             <td>{endMonth ?? <>Loading...</>}</td>
             <td>
-              {timestamp === null ? <>Loading...</> : <>{new Date(timestamp).toLocaleString()}</>}
+              {timestamp === null ? (
+                <>Loading...</>
+              ) : (
+                <>{new Date(timestamp * 1000).toLocaleString()}</>
+              )}
             </td>
           </>
         ) : (
