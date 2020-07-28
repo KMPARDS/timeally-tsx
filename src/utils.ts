@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+
 export function routine(fn: Function, msec: number): NodeJS.Timeout {
   let working = true;
   const result = fn();
@@ -16,4 +18,13 @@ export function routine(fn: Function, msec: number): NodeJS.Timeout {
   }, msec);
 
   return intervalId;
+}
+
+export function isValidAmountInput(input: string): boolean {
+  try {
+    ethers.utils.parseEther(input);
+    return true;
+  } catch {
+    return false;
+  }
 }
