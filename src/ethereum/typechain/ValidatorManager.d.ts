@@ -20,10 +20,12 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
     'deployer()': FunctionFragment;
     'getAdjustedAmount(uint256,uint256,uint256)': FunctionFragment;
     'getBlockRewardsMonthlyNRT(uint256)': FunctionFragment;
+    'getDelegatorIndex(uint256,uint256,address)': FunctionFragment;
     'getLuckyValidatorAddress()': FunctionFragment;
     'getTotalAdjustedStakings(uint256)': FunctionFragment;
     'getTotalBlockReward(uint256)': FunctionFragment;
     'getValidatorEarning(uint256,uint256)': FunctionFragment;
+    'getValidatorIndex(uint256,address)': FunctionFragment;
     'getValidatorStaking(uint256,uint256)': FunctionFragment;
     'getValidatorStakingDelegator(uint256,uint256,uint256)': FunctionFragment;
     'getValidatorStakingDelegators(uint256,uint256)': FunctionFragment;
@@ -52,6 +54,10 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: 'getBlockRewardsMonthlyNRT', values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: 'getDelegatorIndex',
+    values: [BigNumberish, BigNumberish, string]
+  ): string;
   encodeFunctionData(functionFragment: 'getLuckyValidatorAddress', values?: undefined): string;
   encodeFunctionData(functionFragment: 'getTotalAdjustedStakings', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalBlockReward', values: [BigNumberish]): string;
@@ -59,6 +65,7 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
     functionFragment: 'getValidatorEarning',
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: 'getValidatorIndex', values: [BigNumberish, string]): string;
   encodeFunctionData(
     functionFragment: 'getValidatorStaking',
     values: [BigNumberish, BigNumberish]
@@ -104,10 +111,12 @@ interface ValidatorManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'deployer', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getAdjustedAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getBlockRewardsMonthlyNRT', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getDelegatorIndex', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getLuckyValidatorAddress', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalAdjustedStakings', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalBlockReward', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getValidatorEarning', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getValidatorIndex', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getValidatorStaking', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getValidatorStakingDelegator', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getValidatorStakingDelegators', data: BytesLike): Result;
@@ -176,6 +185,15 @@ export class ValidatorManager extends Contract {
       0: BigNumber;
     }>;
 
+    getDelegatorIndex(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      _stakingContract: string,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     getLuckyValidatorAddress(overrides?: Overrides): Promise<ContractTransaction>;
 
     getTotalAdjustedStakings(
@@ -195,6 +213,14 @@ export class ValidatorManager extends Contract {
     getValidatorEarning(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    getValidatorIndex(
+      _month: BigNumberish,
+      _validator: string,
       overrides?: CallOverrides
     ): Promise<{
       0: BigNumber;
@@ -390,6 +416,13 @@ export class ValidatorManager extends Contract {
 
   getBlockRewardsMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+  getDelegatorIndex(
+    _month: BigNumberish,
+    _validatorIndex: BigNumberish,
+    _stakingContract: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getLuckyValidatorAddress(overrides?: Overrides): Promise<ContractTransaction>;
 
   getTotalAdjustedStakings(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -399,6 +432,12 @@ export class ValidatorManager extends Contract {
   getValidatorEarning(
     _month: BigNumberish,
     _validatorIndex: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getValidatorIndex(
+    _month: BigNumberish,
+    _validator: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -570,6 +609,13 @@ export class ValidatorManager extends Contract {
 
     getBlockRewardsMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+    getDelegatorIndex(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      _stakingContract: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getLuckyValidatorAddress(overrides?: CallOverrides): Promise<string>;
 
     getTotalAdjustedStakings(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -579,6 +625,12 @@ export class ValidatorManager extends Contract {
     getValidatorEarning(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getValidatorIndex(
+      _month: BigNumberish,
+      _validator: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -753,6 +805,13 @@ export class ValidatorManager extends Contract {
 
     getBlockRewardsMonthlyNRT(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+    getDelegatorIndex(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      _stakingContract: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getLuckyValidatorAddress(overrides?: Overrides): Promise<BigNumber>;
 
     getTotalAdjustedStakings(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -762,6 +821,12 @@ export class ValidatorManager extends Contract {
     getValidatorEarning(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getValidatorIndex(
+      _month: BigNumberish,
+      _validator: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -858,6 +923,13 @@ export class ValidatorManager extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getDelegatorIndex(
+      _month: BigNumberish,
+      _validatorIndex: BigNumberish,
+      _stakingContract: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getLuckyValidatorAddress(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     getTotalAdjustedStakings(
@@ -873,6 +945,12 @@ export class ValidatorManager extends Contract {
     getValidatorEarning(
       _month: BigNumberish,
       _validatorIndex: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getValidatorIndex(
+      _month: BigNumberish,
+      _validator: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -7,15 +7,28 @@ import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import { routine } from '../../../utils';
 import '../Stakings.css';
+import { ethers } from 'ethers';
 
 type StakingListState = {
-  stakings: TimeAllyStaking[] | null;
+  // stakingInstances: TimeAllyStaking[] | null;
+  myStakings: MyStaking[] | null;
   displayMessage: string;
 };
 
+interface StakingTransferEvent {
+  from: string;
+  to: string;
+  stakingContract: string;
+}
+
+interface MyStaking {
+  address: string;
+  status: 'hold' | 'transferred' | 'burned';
+}
+
 export class StakingList extends Component<RouteComponentProps, StakingListState> {
   state: StakingListState = {
-    stakings: null,
+    myStakings: null,
     displayMessage: 'Loading your stakings...',
   };
 
@@ -37,24 +50,65 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       });
     }
 
-    const stakings = (
-      await window.timeallyManagerInstance.queryFilter(
+    const stakingTransfers = [
+      ...(await window.timeallyManagerInstance.queryFilter(
         window.timeallyManagerInstance.filters.StakingTransfer(null, window.wallet.address, null)
-      )
-    )
+      )),
+      ...(await window.timeallyManagerInstance.queryFilter(
+        window.timeallyManagerInstance.filters.StakingTransfer(window.wallet.address, null, null)
+      )),
+    ]
+      .sort((event1, event2) => {
+        return event1.blockNumber > event2.blockNumber ? 1 : -1;
+      })
       .map((event) => window.timeallyManagerInstance.interface.parseLog(event))
       .map((parsedLog) => {
-        const stakingAddress: string = parsedLog.args[2];
-
-        return TimeAllyStakingFactory.connect(
-          stakingAddress,
-          // @ts-ignore this is a bug in typescript
-          window.wallet /* for prettier to get this on new line */
-        );
+        const stakingTransfer: StakingTransferEvent = {
+          from: parsedLog.args[0],
+          to: parsedLog.args[1],
+          stakingContract: parsedLog.args[2],
+        };
+        return stakingTransfer;
       });
-    // console.log(stakings);
 
-    this.setState({ stakings, displayMessage: '' });
+    const myStakings: MyStaking[] = [];
+
+    for (const [key, stakingTransfer] of Object.entries(stakingTransfers)) {
+      const finded = myStakings.find((myStaking) => {
+        return myStaking.address === stakingTransfer.stakingContract;
+      });
+      if (finded) continue;
+
+      const filterred = stakingTransfers.filter((staking) => {
+        return staking.stakingContract === stakingTransfer.stakingContract;
+      });
+      console.log(stakingTransfer.stakingContract, filterred);
+
+      let acquiredIndex: number = -1;
+      for (const [i, filterredStakingTransfer] of Object.entries(filterred)) {
+        if (filterredStakingTransfer.to === window.wallet.address) {
+          acquiredIndex = +i;
+        }
+      }
+      if (acquiredIndex === filterred.length - 1) {
+        myStakings.push({
+          address: stakingTransfer.stakingContract,
+          status: 'hold',
+        });
+      } else if (filterred[filterred.length - 1].to === ethers.constants.AddressZero) {
+        myStakings.push({
+          address: stakingTransfer.stakingContract,
+          status: 'burned',
+        });
+      } else {
+        myStakings.push({
+          address: stakingTransfer.stakingContract,
+          status: 'transferred',
+        });
+      }
+    }
+
+    this.setState({ myStakings, displayMessage: '' });
   };
 
   render() {
@@ -72,8 +126,8 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
           <Alert variant="info">{this.state.displayMessage}</Alert>
         ) : null}
 
-        {this.state.stakings !== null ? (
-          this.state.stakings.length === 0 ? (
+        {this.state.myStakings !== null ? (
+          this.state.myStakings.length === 0 ? (
             <Alert variant="info">
               You do not own any TimeAlly Staking ERC1167 Smart Contracts. You can buy staking from
               someone who already has a staking or you can use your Era Swap Tokens to deploy a new
@@ -93,8 +147,12 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.stakings.map((instance, i) => (
-                    <StakingListElement key={i} instance={instance} />
+                  {this.state.myStakings.map((myStaking, i) => (
+                    <StakingListElement
+                      key={i}
+                      stakingContract={myStaking.address}
+                      status={myStaking.status}
+                    />
                   ))}
                 </tbody>
               </table>
