@@ -9,6 +9,7 @@ type State = {
   prepaidBalance: ethers.BigNumber | null;
   spinnerLiquid: boolean;
   spinnerPrepaid: boolean;
+  displayMessage: string;
 };
 
 export class NewStaking extends Component<{}, State> {
@@ -18,6 +19,7 @@ export class NewStaking extends Component<{}, State> {
     prepaidBalance: null,
     spinnerLiquid: false,
     spinnerPrepaid: false,
+    displayMessage: '',
   };
 
   componentDidMount = async () => {
@@ -38,21 +40,38 @@ export class NewStaking extends Component<{}, State> {
   };
 
   stakeLiquid = async () => {
-    this.setState({ spinnerLiquid: true });
-    const tx = await window.timeallyManagerInstance.connect(window.wallet).stake({
-      value: ethers.utils.parseEther(this.state.amount),
-    });
-    await tx.wait();
-    this.setState({ spinnerLiquid: false });
+    this.setState({ spinnerLiquid: true, displayMessage: '' });
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet is not loaded');
+      }
+      const tx = await window.timeallyManagerInstance.connect(window.wallet).stake({
+        value: ethers.utils.parseEther(this.state.amount),
+      });
+      await tx.wait();
+      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+    } catch (error) {
+      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+    }
   };
 
   stakePrepaid = async () => {
-    this.setState({ spinnerPrepaid: true });
-    const tx = await window.prepaidEsInstance
-      .connect(window.wallet)
-      .transfer(window.timeallyManagerInstance.address, ethers.utils.parseEther(this.state.amount));
-    await tx.wait();
-    this.setState({ spinnerPrepaid: false });
+    this.setState({ spinnerPrepaid: true, displayMessage: '' });
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet is not loaded');
+      }
+      const tx = await window.prepaidEsInstance
+        .connect(window.wallet)
+        .transfer(
+          window.timeallyManagerInstance.address,
+          ethers.utils.parseEther(this.state.amount)
+        );
+      await tx.wait();
+      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+    } catch (error) {
+      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+    }
   };
 
   render() {
@@ -122,6 +141,10 @@ export class NewStaking extends Component<{}, State> {
                 </Alert>
               ) : null}
             </Form.Group>
+
+            {this.state.displayMessage ? (
+              <Alert variant="info">{this.state.displayMessage}</Alert>
+            ) : null}
 
             <Button
               variant="primary"

@@ -14,6 +14,7 @@ type State = {
   prepaidBalance: ethers.BigNumber | null;
   spinnerLiquid: boolean;
   spinnerPrepaid: boolean;
+  displayMessage: string;
   topups:
     | {
         amount: ethers.BigNumber;
@@ -30,6 +31,7 @@ export class Topup extends Component<Props, State> {
     prepaidBalance: null,
     spinnerLiquid: false,
     spinnerPrepaid: false,
+    displayMessage: '',
     topups: null,
   };
 
@@ -76,23 +78,37 @@ export class Topup extends Component<Props, State> {
   };
 
   topupLiquid = async () => {
-    this.setState({ spinnerLiquid: true });
-    const tx = await window.wallet.sendTransaction({
-      to: this.instance.address,
-      value: ethers.utils.parseEther(this.state.amount),
-    });
-    await tx.wait();
-    this.setState({ spinnerLiquid: false });
+    this.setState({ spinnerLiquid: true, displayMessage: '' });
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet is not loaded');
+      }
+      const tx = await window.wallet.sendTransaction({
+        to: this.instance.address,
+        value: ethers.utils.parseEther(this.state.amount),
+      });
+      await tx.wait();
+      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+    } catch (error) {
+      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+    }
     this.props.refreshDetailsHook();
   };
 
   topupPrepaid = async () => {
-    this.setState({ spinnerPrepaid: true });
-    const tx = await window.prepaidEsInstance
-      .connect(window.wallet)
-      .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
-    await tx.wait();
-    this.setState({ spinnerPrepaid: false });
+    this.setState({ spinnerPrepaid: true, displayMessage: '' });
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet is not loaded');
+      }
+      const tx = await window.prepaidEsInstance
+        .connect(window.wallet)
+        .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
+      await tx.wait();
+      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+    } catch (error) {
+      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+    }
     this.props.refreshDetailsHook();
   };
 

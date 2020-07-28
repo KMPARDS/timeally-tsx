@@ -35,7 +35,7 @@ export class NavbarMain extends Component<{}, State> {
   };
 
   copyAddress = () => {
-    if (copy(window.wallet.address)) {
+    if (window.wallet && copy(window.wallet.address)) {
       this.setState({ addressCopied: true });
       setTimeout(() => this.setState({ addressCopied: false }), 2000);
     }
@@ -76,7 +76,7 @@ export class NavbarMain extends Component<{}, State> {
                 <div className="col-sm-10">
                   <div className="quick-info">
                     <span>
-                      {this.state.isWalletLoaded ? (
+                      {this.state.isWalletLoaded && window.wallet ? (
                         <>
                           <span
                             className="btn main-btn btn-default btn-sm margin-custom"

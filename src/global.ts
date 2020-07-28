@@ -8,7 +8,7 @@ import { CustomWallet } from './ethereum/custom-wallet';
 declare global {
   interface Window {
     provider: ethers.providers.JsonRpcProvider;
-    wallet: CustomWallet;
+    wallet: CustomWallet | undefined;
     nrtManagerInstance: NrtManager;
     timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;

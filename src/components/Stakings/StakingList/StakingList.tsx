@@ -45,7 +45,12 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       .map((event) => window.timeallyManagerInstance.interface.parseLog(event))
       .map((parsedLog) => {
         const stakingAddress: string = parsedLog.args[2];
-        return TimeAllyStakingFactory.connect(stakingAddress, window.wallet);
+
+        return TimeAllyStakingFactory.connect(
+          stakingAddress,
+          // @ts-ignore this is a bug in typescript
+          window.wallet /* for prettier to get this on new line */
+        );
       });
     // console.log(stakings);
 
