@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { ethers } from 'ethers';
+import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 
 type StakingListElementProps = {
-  instance: TimeAllyStaking;
+  stakingContract: string;
+  status: string;
 };
 
 type StakingListElementState = {
@@ -25,21 +27,29 @@ export class StakingListElement extends Component<
     timestamp: null,
   };
 
+  instance = TimeAllyStakingFactory.connect(
+    this.props.stakingContract,
+    // @ts-ignore this is a bug in typescript
+    window.wallet /* for prettier to get this on new line */
+  );
+
   // @TODO: handel errors
   componentDidMount = async () => {
     // fetchs data parallelly
-    const principalPromise = this.props.instance.nextMonthPrincipalAmount();
-    const startMonthPromise = this.props.instance.startMonth();
-    const endMonthPromise = this.props.instance.endMonth();
-    const timestampPromise = this.props.instance.timestamp();
+    if (this.props.status === 'hold') {
+      const principalPromise = this.instance.nextMonthPrincipalAmount();
+      const startMonthPromise = this.instance.startMonth();
+      const endMonthPromise = this.instance.endMonth();
+      const timestampPromise = this.instance.timestamp();
 
-    // sets the state when all the promises are resolved
-    this.setState({
-      principal: ethers.utils.formatEther(await principalPromise),
-      startMonth: (await startMonthPromise).toNumber(),
-      endMonth: (await endMonthPromise).toNumber(),
-      timestamp: (await timestampPromise).toNumber(),
-    });
+      // sets the state when all the promises are resolved
+      this.setState({
+        principal: ethers.utils.formatEther(await principalPromise),
+        startMonth: (await startMonthPromise).toNumber(),
+        endMonth: (await endMonthPromise).toNumber(),
+        timestamp: (await timestampPromise).toNumber(),
+      });
+    }
   };
 
   render() {
@@ -51,16 +61,25 @@ export class StakingListElement extends Component<
 
     return (
       <tr>
-        <td>{this.props.instance.address}</td>
-        <td>{principal === null ? <>Loading...</> : <>{principal} ES</>}</td>
-        <td>{startMonth ?? <>Loading...</>}</td>
-        <td>{endMonth ?? <>Loading...</>}</td>
-        <td>
-          {timestamp === null ? <>Loading...</> : <>{new Date(timestamp).toLocaleString()}</>}
-        </td>
+        <td>{this.instance.address}</td>
+        {this.props.status === 'hold' ? (
+          <>
+            <td>{principal === null ? <>Loading...</> : <>{principal} ES</>}</td>
+            <td>{startMonth ?? <>Loading...</>}</td>
+            <td>{endMonth ?? <>Loading...</>}</td>
+            <td>
+              {timestamp === null ? <>Loading...</> : <>{new Date(timestamp).toLocaleString()}</>}
+            </td>
+          </>
+        ) : (
+          <>
+            <td colSpan={4}>{this.props.status}</td>
+          </>
+        )}
+
         <td>
           <Link
-            to={`${linkPrepend}/${this.props.instance.address}`}
+            to={`${linkPrepend}/${this.instance.address}`}
             className="btn btn-default main-btn-blue view"
           >
             View Staking
