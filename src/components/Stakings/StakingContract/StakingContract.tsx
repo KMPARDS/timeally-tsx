@@ -23,6 +23,7 @@ interface State {
   owner: string | null;
   startMonth: number | null;
   endMonth: number | null;
+  currentMonth: number | null;
   principal: ethers.BigNumber | null;
   issTime: ethers.BigNumber | null;
   balance: ethers.BigNumber | null;
@@ -33,6 +34,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     owner: null,
     startMonth: null,
     endMonth: null,
+    currentMonth: null,
     principal: null,
     issTime: null,
     balance: null,
@@ -51,6 +53,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
     const owner = await this.instance.owner();
     const startMonth = await this.instance.startMonth();
     const endMonth = await this.instance.endMonth();
+    const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
     const principal = await this.instance.nextMonthPrincipalAmount();
     const issTime = await this.instance.issTimeLimit();
     const balance = await window.provider.getBalance(this.instance.address);
@@ -59,6 +62,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
       owner,
       startMonth: startMonth.toNumber(),
       endMonth: endMonth.toNumber(),
+      currentMonth: currentMonth.toNumber(),
       principal,
       issTime,
       balance,
@@ -81,12 +85,20 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                 <td>{this.state.owner !== null ? this.state.owner : 'Loading...'}</td>
               </tr>
               <tr>
-                <td>Start Month</td>
+                <td>Start NRT Month</td>
                 <td>{this.state.startMonth !== null ? this.state.startMonth : 'Loading...'}</td>
               </tr>
               <tr>
-                <td>End Month</td>
+                <td>End NRT Month</td>
                 <td>{this.state.endMonth !== null ? this.state.endMonth : 'Loading...'}</td>
+              </tr>
+              <tr>
+                <td>Age of contract</td>
+                <td>
+                  {this.state.startMonth !== null && this.state.currentMonth !== null
+                    ? `${this.state.currentMonth - this.state.startMonth + 1} NRTs`
+                    : 'Loading...'}
+                </td>
               </tr>
               <tr>
                 <td>Principal</td>
