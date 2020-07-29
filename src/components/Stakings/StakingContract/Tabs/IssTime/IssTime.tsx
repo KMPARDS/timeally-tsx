@@ -129,6 +129,12 @@ export class IssTime extends Component<Props, State> {
                       <p>Lever B: Comming soon...</p>
                       <p>Lever C: Comming soon...</p>
                       <p>Lever D: Comming soon...</p>
+                      <p>
+                        Total:{' '}
+                        {this.state.issTimeTotalLimit === null
+                          ? 'Loading...'
+                          : `${ethers.utils.formatEther(this.state.issTimeTotalLimit)} ES`}
+                      </p>
                       {/* <div className="btn-action">
                         <Button className="pink-btn">CHECK ELIGIBILITY</Button>
                       </div> */}
