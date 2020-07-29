@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import { Form, Alert, Button, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { runInThisContext } from 'vm';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -21,10 +22,33 @@ export class Split extends Component<Props, State> {
     displayMessage: '',
   };
 
+  updateFees = async () => {
+    this.setState({ displayMessage: 'Querying split fees...' });
+    try {
+      const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
+      const fee = await this.props.instance.getSplitFee(
+        ethers.utils.parseEther(this.state.valueInput),
+        currentMonth
+      );
+      this.setState({
+        displayMessage: `Note: This split will cost you ${ethers.utils.formatEther(fee)} ES.`,
+      });
+    } catch {
+      this.setState({ displayMessage: 'Please check amount, couldnt estimate fees.' });
+    }
+  };
+
   split = async () => {
     this.setState({ spinner: true, displayMessage: '' });
     try {
-      const tx = await this.props.instance.split(ethers.utils.parseEther(this.state.valueInput));
+      const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
+      const fee = await this.props.instance.getSplitFee(
+        ethers.utils.parseEther(this.state.valueInput),
+        currentMonth
+      );
+      const tx = await this.props.instance.split(ethers.utils.parseEther(this.state.valueInput), {
+        value: fee,
+      });
       await tx.wait();
       this.setState({ spinner: false, displayMessage: 'Success!' });
       this.props.refreshDetailsHook();
@@ -47,7 +71,10 @@ export class Split extends Component<Props, State> {
           rewards from next month.
         </p>
         <Form.Control
-          onChange={(event) => this.setState({ valueInput: event.target.value })}
+          onChange={(event) => {
+            this.setState({ valueInput: event.target.value });
+            this.updateFees();
+          }}
           value={this.state.valueInput}
           type="text"
           placeholder="Enter value of child split"
