@@ -77,7 +77,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
           <Table>
             <tbody>
               <tr>
-                <td>Owner</td>
+                <td>Current Owner</td>
                 <td>{this.state.owner !== null ? this.state.owner : 'Loading...'}</td>
               </tr>
               <tr>
