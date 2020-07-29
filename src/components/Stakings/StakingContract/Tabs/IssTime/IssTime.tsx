@@ -220,6 +220,12 @@ export class IssTime extends Component<Props, State> {
                               'Loading...'
                             )}
 
+                            <Alert variant="info">
+                              Since the ticker fluctuates every moment, to make repayment convenient
+                              you can repay a larger amount and the smart contract returns the
+                              change back to you.
+                            </Alert>
+
                             <Form.Control
                               className="stakingInput"
                               onChange={(event) =>
@@ -227,7 +233,7 @@ export class IssTime extends Component<Props, State> {
                               }
                               value={this.state.valueInput}
                               type="text"
-                              placeholder="Enter IssTime value"
+                              placeholder="Enter IssTime repay amount"
                               style={{ width: '325px' }}
                               autoComplete="off"
                               isInvalid={this.state.valueInput === '' ? false : !isAmountValid}
