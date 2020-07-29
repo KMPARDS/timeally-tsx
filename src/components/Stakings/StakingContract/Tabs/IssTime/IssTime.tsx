@@ -176,6 +176,13 @@ export class IssTime extends Component<Props, State> {
                               isInvalid={this.state.valueInput === '' ? false : !isAmountValid}
                             />
 
+                            {isAmountValid && this.state.issTimeDestroy === false ? (
+                              <Alert variant="info">
+                                You will be charged {+this.state.valueInput * 0.001} ES per day as
+                                interest.
+                              </Alert>
+                            ) : null}
+
                             {this.state.errorMessage ? (
                               <Alert variant="danger">{this.state.errorMessage}</Alert>
                             ) : null}
