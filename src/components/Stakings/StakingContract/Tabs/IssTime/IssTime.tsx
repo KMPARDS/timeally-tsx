@@ -210,8 +210,8 @@ export class IssTime extends Component<Props, State> {
                             {this.state.issTimeTakenValue && this.state.issTimeInterest ? (
                               <p>
                                 Your IssTime taken value is{' '}
-                                {ethers.utils.formatEther(this.state.issTimeTakenValue)} ES. You
-                                need to pay{' '}
+                                {ethers.utils.formatEther(this.state.issTimeTakenValue)} ES. <br />
+                                Live ticker for the repayment amount:{' '}
                                 {ethers.utils.formatEther(
                                   this.state.issTimeTakenValue.add(this.state.issTimeInterest)
                                 )}
