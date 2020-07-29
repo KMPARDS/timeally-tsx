@@ -31,7 +31,9 @@ export class Split extends Component<Props, State> {
         currentMonth
       );
       this.setState({
-        displayMessage: `Note: This split will cost you ${ethers.utils.formatEther(fee)} ES.`,
+        displayMessage: `Note: This split will cost you ${ethers.utils.formatEther(
+          fee
+        )} ES. This fee will be sent to the Burn Pool in NRT Manager Smart Contract`,
       });
     } catch {
       this.setState({ displayMessage: 'Please check amount, couldnt estimate fees.' });
