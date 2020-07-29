@@ -11,6 +11,7 @@ import { Split } from './Tabs/Split';
 import { Transfer } from './Tabs/Transfer';
 import { Merge } from './Tabs/Merge';
 import { Delegate } from './Tabs/Delegate';
+import { Nominee } from './Tabs/Nominee';
 
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import '../Stakings.css';
@@ -165,6 +166,10 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             <Link to={`${url}/delegate`} className="stack-link">
               DELEGATE
             </Link>
+
+            <Link to={`${url}/nominee`} className="stack-link">
+              NOMINEE
+            </Link>
           </div>
         </div>
         <br />
@@ -202,6 +207,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
           <Route path={`${url}/delegate`} exact>
             <Delegate instance={this.instance} refreshDetailsHook={this.updateDetails} />
           </Route>
+          <Route path={`${url}/nominee`} exact component={Nominee} />
         </Switch>
       </Layout>
     );
