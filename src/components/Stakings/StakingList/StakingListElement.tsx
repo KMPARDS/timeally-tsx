@@ -11,6 +11,7 @@ type StakingListElementProps = {
 
 type StakingListElementState = {
   principal: string | null;
+  issTimeLimit: string | null;
   startMonth: number | null;
   endMonth: number | null;
   timestamp: number | null;
@@ -22,6 +23,7 @@ export class StakingListElement extends Component<
 > {
   state: StakingListElementState = {
     principal: null,
+    issTimeLimit: null,
     startMonth: null,
     endMonth: null,
     timestamp: null,
@@ -38,6 +40,7 @@ export class StakingListElement extends Component<
     // fetchs data parallelly
     if (this.props.status === 'hold') {
       const principalPromise = this.instance.nextMonthPrincipalAmount();
+      const issTimeLimitPromise = this.instance.issTimeLimit();
       const startMonthPromise = this.instance.startMonth();
       const endMonthPromise = this.instance.endMonth();
       const timestampPromise = this.instance.timestamp();
@@ -45,6 +48,7 @@ export class StakingListElement extends Component<
       // sets the state when all the promises are resolved
       this.setState({
         principal: ethers.utils.formatEther(await principalPromise),
+        issTimeLimit: ethers.utils.formatEther(await issTimeLimitPromise),
         startMonth: (await startMonthPromise).toNumber(),
         endMonth: (await endMonthPromise).toNumber(),
         timestamp: (await timestampPromise).toNumber(),
@@ -53,7 +57,7 @@ export class StakingListElement extends Component<
   };
 
   render() {
-    const { principal, startMonth, endMonth, timestamp } = this.state;
+    const { principal, issTimeLimit, startMonth, endMonth, timestamp } = this.state;
     let linkPrepend = window.location.pathname;
     if (linkPrepend.charAt(linkPrepend.length - 1) === '/') {
       linkPrepend = linkPrepend.substring(0, linkPrepend.length - 1);
@@ -65,6 +69,7 @@ export class StakingListElement extends Component<
         {this.props.status === 'hold' ? (
           <>
             <td>{principal === null ? <>Loading...</> : <>{principal} ES</>}</td>
+            <td>{issTimeLimit === null ? <>Loading...</> : <>{issTimeLimit} ES</>}</td>
             <td>{startMonth ?? <>Loading...</>}</td>
             <td>{endMonth ?? <>Loading...</>}</td>
             <td>
@@ -77,7 +82,7 @@ export class StakingListElement extends Component<
           </>
         ) : (
           <>
-            <td colSpan={4}>{this.props.status}</td>
+            <td colSpan={5}>{this.props.status}</td>
           </>
         )}
 

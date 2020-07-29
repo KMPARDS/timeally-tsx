@@ -140,6 +140,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                   <tr>
                     <th>Staking Contract</th>
                     <th>Staking Amount</th>
+                    <th>IssTime Limit</th>
                     <th>Start Month</th>
                     <th>End Month</th>
                     <th>Timestamp</th>

@@ -97,7 +97,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                 </td>
               </tr>
               <tr>
-                <td>IssTime Credit</td>
+                <td>IssTime Limit</td>
                 <td>
                   {this.state.issTime !== null
                     ? `${ethers.utils.formatEther(this.state.issTime)} ES`
