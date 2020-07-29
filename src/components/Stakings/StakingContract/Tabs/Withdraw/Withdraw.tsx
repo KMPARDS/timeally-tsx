@@ -166,7 +166,9 @@ export class Withdraw extends Component<Props, State> {
                         </>
                       );
                   }
-                })()}
+                })()}{' '}
+                Also please note that after withdrawing current month's NRT rewards, you will not be
+                eligible to start your IssTime for the month.
               </Alert>
             ) : null}
 
