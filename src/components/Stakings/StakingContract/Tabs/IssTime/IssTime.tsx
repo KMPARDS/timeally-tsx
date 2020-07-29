@@ -179,7 +179,8 @@ export class IssTime extends Component<Props, State> {
                             {isAmountValid && this.state.issTimeDestroy === false ? (
                               <Alert variant="info">
                                 You will be charged {+this.state.valueInput * 0.001} ES per day as
-                                interest.
+                                interest. Also, please not that there is a cool-off period of one
+                                month for starting next IssTime.
                               </Alert>
                             ) : null}
 
