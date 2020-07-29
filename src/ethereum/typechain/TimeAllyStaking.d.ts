@@ -23,6 +23,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
     'getIssTimeInterest()': FunctionFragment;
     'getMonthlyReward(uint256)': FunctionFragment;
     'getPrincipalAmount(uint256)': FunctionFragment;
+    'getSplitFee(uint256,uint256)': FunctionFragment;
     'getTotalIssTime(bool)': FunctionFragment;
     'hasDelegations()': FunctionFragment;
     'increaseIssTime(uint256)': FunctionFragment;
@@ -65,6 +66,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'getIssTimeInterest', values?: undefined): string;
   encodeFunctionData(functionFragment: 'getMonthlyReward', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getPrincipalAmount', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'getSplitFee', values: [BigNumberish, BigNumberish]): string;
   encodeFunctionData(functionFragment: 'getTotalIssTime', values: [boolean]): string;
   encodeFunctionData(functionFragment: 'hasDelegations', values?: undefined): string;
   encodeFunctionData(functionFragment: 'increaseIssTime', values: [BigNumberish]): string;
@@ -106,6 +108,7 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'getIssTimeInterest', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getMonthlyReward', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getPrincipalAmount', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getSplitFee', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'getTotalIssTime', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'hasDelegations', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'increaseIssTime', data: BytesLike): Result;
@@ -223,6 +226,14 @@ export class TimeAllyStaking extends Contract {
       0: BigNumber;
     }>;
 
+    getSplitFee(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     getTotalIssTime(
       _destroy: boolean,
       overrides?: CallOverrides
@@ -323,7 +334,7 @@ export class TimeAllyStaking extends Contract {
 
     reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
 
-    split(_value: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+    split(_value: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
 
     startIssTime(
       _value: BigNumberish,
@@ -411,6 +422,12 @@ export class TimeAllyStaking extends Contract {
 
   getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+  getSplitFee(
+    _value: BigNumberish,
+    _month: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
   hasDelegations(overrides?: CallOverrides): Promise<boolean>;
@@ -464,7 +481,7 @@ export class TimeAllyStaking extends Contract {
 
   reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
 
-  split(_value: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+  split(_value: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   startIssTime(
     _value: BigNumberish,
@@ -535,6 +552,12 @@ export class TimeAllyStaking extends Contract {
     getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getSplitFee(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -649,6 +672,12 @@ export class TimeAllyStaking extends Contract {
 
     getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+    getSplitFee(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
     hasDelegations(overrides?: CallOverrides): Promise<BigNumber>;
@@ -695,7 +724,7 @@ export class TimeAllyStaking extends Contract {
 
     reportIssTime(overrides?: Overrides): Promise<BigNumber>;
 
-    split(_value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+    split(_value: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
 
     startIssTime(
       _value: BigNumberish,
@@ -751,6 +780,12 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     getPrincipalAmount(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getSplitFee(
+      _value: BigNumberish,
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -811,7 +846,7 @@ export class TimeAllyStaking extends Contract {
 
     reportIssTime(overrides?: Overrides): Promise<PopulatedTransaction>;
 
-    split(_value: BigNumberish, overrides?: Overrides): Promise<PopulatedTransaction>;
+    split(_value: BigNumberish, overrides?: PayableOverrides): Promise<PopulatedTransaction>;
 
     startIssTime(
       _value: BigNumberish,
