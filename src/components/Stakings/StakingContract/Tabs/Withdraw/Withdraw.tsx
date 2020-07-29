@@ -137,8 +137,37 @@ export class Withdraw extends Component<Props, State> {
           <>
             <p>Selected Months: [{this.state.selectedMonths.join(', ')}]</p>
 
-            {this.state.displayMessage ? (
-              <Alert variant="info">{this.state.displayMessage}</Alert>
+            {this.state.rewardType !== null ? (
+              <Alert variant="info">
+                {(() => {
+                  switch (this.state.rewardType) {
+                    case 0:
+                      return (
+                        <>
+                          You will get 50% of the amount in Liquid on your wallet, while 50% of the
+                          amount will be rewarded as a topup on this staking. With this option you
+                          do not get any IssTime Credit.
+                        </>
+                      );
+                    case 1:
+                      return (
+                        <>
+                          You will get 50% of the amount as Wrapped ES tokens (PrepaidES) on your
+                          wallet, while 50% of the amount will be rewarded as a topup on this
+                          staking. With this option you get 100% of the 50% reward as IssTime
+                          Credit.
+                        </>
+                      );
+                    case 2:
+                      return (
+                        <>
+                          You will get this entire reward as a topup on this staking. With this
+                          option you get 225% of the 50% reward as IssTime Credit.
+                        </>
+                      );
+                  }
+                })()}
+              </Alert>
             ) : null}
 
             <DropdownButton
@@ -161,6 +190,10 @@ export class Withdraw extends Component<Props, State> {
                 return null;
               })}
             </DropdownButton>
+
+            {this.state.displayMessage ? (
+              <Alert variant="info">{this.state.displayMessage}</Alert>
+            ) : null}
 
             {this.state.rewardType !== null ? (
               <Button
