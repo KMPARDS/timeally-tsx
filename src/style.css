@@ -2931,7 +2931,7 @@ Page header
   font-weight: 700;
 }
 .page-breadcrumb .breadcrumb > li a {
-  color: #263f8b;
+  color: #fff;
   font-weight: 700;
 }
 .page-breadcrumb .breadcrumb > li a:hover {
@@ -2939,7 +2939,7 @@ Page header
 }
 .page-breadcrumb .breadcrumb > li + li:before {
   padding: 0 5px;
-  color: #263f8b;
+  color: #fff;
   content: '/\00a0';
 }
 
@@ -4323,6 +4323,7 @@ PET
     padding-bottom: 5px;
   }
   .logo {
+    text-align: center;
   }
 
   /* .pinside40{padding: 0px !important; } */
@@ -5114,7 +5115,8 @@ video {
   }
   .quick-info {
     float: none;
-    margin-left: 32px;
+    margin-left: 82px;
+    float: right !important;
   }
   .top-bar {
     display: none;
@@ -5248,4 +5250,7 @@ video {
 }
 .dashboard-bg .number {
   color: #000;
+}
+.lifetime .banner-in-bg .btn {
+  margin-top: 10px;
 }
