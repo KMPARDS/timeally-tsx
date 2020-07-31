@@ -20,10 +20,10 @@ export class OneLifeTime extends Component {
                       who wants to support ESN & Accumulate Era Swap in Long-term.
                     </p>
                     <div className="mt30">
-                      <Link to="stakings/new" className="btn btn-default main-btn-blue">
+                      <Link to="stakings/new" className="btn btn-default main-btn-blue mt10">
                         GET STARTED
                       </Link>
-                      <Link to="/stakings" className="btn  bg-txt-white">
+                      <Link to="/stakings" className="btn  bg-txt-white mt10">
                         VIEW MY STAKINGS
                       </Link>
                     </div>
