@@ -108,7 +108,11 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       }
     }
 
-    this.setState({ myStakings, displayMessage: '' });
+    this.setState({
+      myStakings,
+      displayMessage:
+        'If you do not see your staking here, you may not have done your KYC. Visit https://kycdapp.com/ to do your KYC.',
+    });
   };
 
   render() {
