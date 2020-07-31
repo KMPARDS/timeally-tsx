@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
-import { Form, DropdownButton, Dropdown, Alert, Button, Spinner } from 'react-bootstrap';
-import { MyDelegations } from './MyDelegations';
 import { ethers } from 'ethers';
-import { isValidAmountInput } from '../../../../../utils';
+import { Table, Button } from 'react-bootstrap';
+import { DelegationElement, Delegation } from './DelegationElement';
+import { NewDelegation } from './NewDelegation';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -11,118 +11,88 @@ type Props = {
 };
 
 type State = {
-  platform: string;
-  delegateeInput: string;
-  amountInput: string;
-  monthsInput: string;
-  displayMesssage: string;
-  spinner: boolean;
+  currentMonth: number | null;
+  delegations: Delegation[] | null;
+  displayMessage: string;
 };
 
 export class Delegate extends Component<Props, State> {
   state: State = {
-    platform: '',
-    delegateeInput: '',
-    amountInput: '',
-    monthsInput: '',
-    displayMesssage: '',
-    spinner: false,
+    currentMonth: null,
+    delegations: null,
+    displayMessage: '',
   };
 
-  delegate = async () => {
-    this.setState({ spinner: true });
-    try {
-      await this.props.instance.delegate(
-        this.state.platform,
-        this.state.delegateeInput,
-        ethers.utils.parseEther(this.state.amountInput),
-        this.state.monthsInput.split(' ').join('').split(',')
-      );
-      this.setState({ spinner: false, displayMesssage: 'Success' });
-    } catch (error) {
-      this.setState({
-        displayMesssage: `Error from smart contract: ${error.message}`,
-        spinner: false,
+  componentDidMount = async () => {
+    this.loadDelegations();
+  };
+
+  loadDelegations = async () => {
+    const currentMonth = (await window.nrtManagerInstance.currentNrtMonth()).toNumber();
+    const startMonth = (await this.props.instance.startMonth()).toNumber();
+    const endMonth = (await this.props.instance.endMonth()).toNumber();
+    // const monthlyDelegations = await Promise.all(
+    //   Object.keys([...Array(endMonth - startMonth + 1)]).map(async (i) => {
+    //     const delegations = await this.props.instance.getDelegations(startMonth + +i);
+    //     return delegations;
+    //   })
+    // );
+
+    const delegations = (
+      await this.props.instance.queryFilter(
+        this.props.instance.filters.Delegate(null, null, null, null)
+      )
+    )
+      .map((logs) => this.props.instance.interface.parseLog(logs))
+      .map((parsedLogs) => {
+        const delegation: Delegation = {
+          month: parsedLogs.args[0].toNumber(),
+          platform: parsedLogs.args[1],
+          delegatee: parsedLogs.args[2],
+          amount: parsedLogs.args[3],
+        };
+        return delegation;
       });
-    }
+
+    this.setState({ delegations, currentMonth });
   };
 
   render() {
-    const isValidMonths = (input: string) => {
-      const results = input.split(' ').join('').split(',').map(isValidAmountInput);
-      return !results.filter((result) => !result).length;
-    };
-
     return (
       <>
-        <MyDelegations instance={this.props.instance} />
+        {this.state.delegations === null || this.state.currentMonth === null ? (
+          'Loading delegations...'
+        ) : this.state.delegations.length === 0 ? (
+          'No Delegations done yet'
+        ) : (
+          <>
+            <Table>
+              <thead>
+                <tr>
+                  <th>NRT Month</th>
+                  <th>Platform</th>
+                  <th>Delegatee</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.delegations.map((delegation, i) => (
+                  <DelegationElement
+                    delegation={delegation}
+                    instance={this.props.instance}
+                    refreshDetailsHook={this.loadDelegations}
+                  />
+                ))}
+              </tbody>
+            </Table>
 
-        <h3>Delegate</h3>
-
-        <DropdownButton
-          id="dropdown-basic-button"
-          variant="secondary"
-          title={this.state.platform || 'Select platform'}
-        >
-          <Dropdown.Item
-            onClick={() => this.setState({ platform: window.validatorManagerInstance.address })}
-          >
-            Validator Manager {window.validatorManagerInstance.address}
-          </Dropdown.Item>
-        </DropdownButton>
-
-        <Form.Control
-          onChange={(event) => this.setState({ delegateeInput: event.target.value })}
-          value={this.state.delegateeInput}
-          type="text"
-          placeholder="Enter Delegatee Address"
-          style={{ width: '325px' }}
-          autoComplete="off"
-          isValid={!!this.state.delegateeInput && ethers.utils.isAddress(this.state.delegateeInput)}
-          isInvalid={
-            !!this.state.delegateeInput && !ethers.utils.isAddress(this.state.delegateeInput)
-          }
-        />
-
-        <Form.Control
-          onChange={(event) => this.setState({ amountInput: event.target.value })}
-          value={this.state.amountInput}
-          type="text"
-          placeholder="Enter Amount to delegate"
-          style={{ width: '325px' }}
-          autoComplete="off"
-          isValid={!!this.state.amountInput && isValidAmountInput(this.state.amountInput)}
-          isInvalid={!!this.state.amountInput && !isValidAmountInput(this.state.amountInput)}
-        />
-
-        <Form.Control
-          onChange={(event) => this.setState({ monthsInput: event.target.value })}
-          value={this.state.monthsInput}
-          type="text"
-          placeholder="Enter Months e.g. 4,5,6"
-          style={{ width: '325px' }}
-          autoComplete="off"
-          isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
-          isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
-        />
-
-        {this.state.displayMesssage ? (
-          <Alert variant="info">{this.state.displayMesssage}</Alert>
-        ) : null}
-
-        <Button onClick={this.delegate} disabled={this.state.spinner}>
-          {this.state.spinner ? (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              style={{ marginRight: '2px' }}
+            <NewDelegation
+              instance={this.props.instance}
+              refreshDetailsHook={this.loadDelegations}
             />
-          ) : null}
-          {this.state.spinner ? 'Delegating...' : 'Delegate'}
-        </Button>
+          </>
+        )}
       </>
     );
   }
