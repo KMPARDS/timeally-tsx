@@ -129,6 +129,12 @@ export class IssTime extends Component<Props, State> {
                       <p>Lever B: Comming soon...</p>
                       <p>Lever C: Comming soon...</p>
                       <p>Lever D: Comming soon...</p>
+                      <p>
+                        Total:{' '}
+                        {this.state.issTimeTotalLimit === null
+                          ? 'Loading...'
+                          : `${ethers.utils.formatEther(this.state.issTimeTotalLimit)} ES`}
+                      </p>
                       {/* <div className="btn-action">
                         <Button className="pink-btn">CHECK ELIGIBILITY</Button>
                       </div> */}
@@ -170,6 +176,14 @@ export class IssTime extends Component<Props, State> {
                               isInvalid={this.state.valueInput === '' ? false : !isAmountValid}
                             />
 
+                            {isAmountValid && this.state.issTimeDestroy === false ? (
+                              <Alert variant="info">
+                                You will be charged {+this.state.valueInput * 0.001} ES per day as
+                                interest. Also, please not that there is a cool-off period of one
+                                month for starting next IssTime.
+                              </Alert>
+                            ) : null}
+
                             {this.state.errorMessage ? (
                               <Alert variant="danger">{this.state.errorMessage}</Alert>
                             ) : null}
@@ -197,8 +211,8 @@ export class IssTime extends Component<Props, State> {
                             {this.state.issTimeTakenValue && this.state.issTimeInterest ? (
                               <p>
                                 Your IssTime taken value is{' '}
-                                {ethers.utils.formatEther(this.state.issTimeTakenValue)} ES. You
-                                need to pay{' '}
+                                {ethers.utils.formatEther(this.state.issTimeTakenValue)} ES. <br />
+                                Live ticker for the repayment amount:{' '}
                                 {ethers.utils.formatEther(
                                   this.state.issTimeTakenValue.add(this.state.issTimeInterest)
                                 )}
@@ -207,6 +221,12 @@ export class IssTime extends Component<Props, State> {
                               'Loading...'
                             )}
 
+                            <Alert variant="info">
+                              Since the ticker fluctuates every moment, to make repayment convenient
+                              you can repay a larger amount and the smart contract returns the
+                              change back to you.
+                            </Alert>
+
                             <Form.Control
                               className="stakingInput"
                               onChange={(event) =>
@@ -214,7 +234,7 @@ export class IssTime extends Component<Props, State> {
                               }
                               value={this.state.valueInput}
                               type="text"
-                              placeholder="Enter IssTime value"
+                              placeholder="Enter IssTime repay amount"
                               style={{ width: '325px' }}
                               autoComplete="off"
                               isInvalid={this.state.valueInput === '' ? false : !isAmountValid}

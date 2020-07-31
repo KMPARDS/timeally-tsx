@@ -108,7 +108,11 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       }
     }
 
-    this.setState({ myStakings, displayMessage: '' });
+    this.setState({
+      myStakings,
+      displayMessage:
+        'If you do not see your staking here, please visit support tab. Stakings with wallets having no KYC DApp registration are not migrated, so if you have not completed your staking please do that.',
+    });
   };
 
   render() {
@@ -140,6 +144,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                   <tr>
                     <th>Staking Contract</th>
                     <th>Staking Amount</th>
+                    <th>IssTime Limit</th>
                     <th>Start Month</th>
                     <th>End Month</th>
                     <th>Timestamp</th>
