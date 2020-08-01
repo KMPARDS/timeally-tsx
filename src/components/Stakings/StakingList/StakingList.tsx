@@ -111,11 +111,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
     this.setState({
       myStakings,
       displayMessage:
-<<<<<<< HEAD
         'If you do not see your staking here, you may not have done your KYC. Visit https://kycdapp.com/ to do your KYC.',
-=======
-        'If you do not see your staking here, please visit support tab. Stakings with wallets having no KYC DApp registration are not migrated, so if you have not completed your staking please do that.',
->>>>>>> a82a8c87b45f4ff31a47ebb3ef15cef7bdaca2de
     });
   };
 
