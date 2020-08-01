@@ -8,6 +8,7 @@ import { Dashboard } from './components/Dashboard';
 import { Stakings } from './components/Stakings';
 import { Support } from './components/Support';
 import { TermsAndConditions } from './components/TermsAndConditions';
+import { LoadWallet } from './components/LoadWallet';
 import './style.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/stakings" component={Stakings} />
           <Route path="/support" component={Support} />
           <Route path="/terms" component={TermsAndConditions} />
+          <Route path="/load-wallet" component={LoadWallet} />
         </Switch>
         <Footer />
       </BrowserRouter>
