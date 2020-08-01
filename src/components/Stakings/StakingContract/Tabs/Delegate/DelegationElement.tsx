@@ -7,7 +7,6 @@ export interface Delegation {
   month: number;
   platform: string;
   delegatee: string;
-  amount: ethers.BigNumber;
 }
 
 type Props = {
@@ -33,34 +32,13 @@ export class DelegationElement extends Component<Props, State> {
       displayMessage: '',
     });
     try {
-      let validatorIndex: number;
-      try {
-        validatorIndex = (
-          await window.validatorManagerInstance.getValidatorIndex(
-            this.props.delegation.month,
-            this.props.delegation.delegatee
-          )
-        ).toNumber();
-      } catch {
-        throw new Error('Validator not present');
-      }
-
-      let delegatorIndex: number;
-      try {
-        delegatorIndex = (
-          await window.validatorManagerInstance.getDelegatorIndex(
-            this.props.delegation.month,
-            validatorIndex,
-            this.props.instance.address
-          )
-        ).toNumber();
-      } catch {
-        throw new Error('Delegation not present');
-      }
-
       const tx = await window.validatorManagerInstance
         .connect(window.wallet?.connect(window.provider) ?? window.provider)
-        .withdrawBlockReward(this.props.delegation.month, validatorIndex, delegatorIndex);
+        .withdrawDelegationShare(
+          this.props.delegation.month,
+          this.props.delegation.delegatee,
+          this.props.instance.address
+        );
       await tx.wait();
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
@@ -78,7 +56,6 @@ export class DelegationElement extends Component<Props, State> {
           <td>{this.props.delegation.month}</td>
           <td>{this.props.delegation.platform}</td>
           <td>{this.props.delegation.delegatee}</td>
-          <td>{ethers.utils.formatEther(this.props.delegation.amount)} ES</td>
           <td>
             {this.state.displayMessage ? (
               <Alert variant="info">{this.state.displayMessage}</Alert>
