@@ -12,7 +12,6 @@ type Props = {
 type State = {
   platform: string;
   delegateeInput: string;
-  amountInput: string;
   monthsInput: string;
   displayMesssage: string;
   spinner: boolean;
@@ -22,7 +21,6 @@ export class NewDelegation extends Component<Props, State> {
   state: State = {
     platform: '',
     delegateeInput: '',
-    amountInput: '',
     monthsInput: '',
     displayMesssage: '',
     spinner: false,
@@ -34,7 +32,6 @@ export class NewDelegation extends Component<Props, State> {
       await this.props.instance.delegate(
         this.state.platform,
         this.state.delegateeInput,
-        ethers.utils.parseEther(this.state.amountInput),
         this.state.monthsInput.split(' ').join('').split(',')
       );
       this.setState({ spinner: false, displayMesssage: 'Success' });
@@ -80,17 +77,6 @@ export class NewDelegation extends Component<Props, State> {
           isInvalid={
             !!this.state.delegateeInput && !ethers.utils.isAddress(this.state.delegateeInput)
           }
-        />
-
-        <Form.Control
-          onChange={(event) => this.setState({ amountInput: event.target.value })}
-          value={this.state.amountInput}
-          type="text"
-          placeholder="Enter Amount to delegate"
-          style={{ width: '325px' }}
-          autoComplete="off"
-          isValid={!!this.state.amountInput && isValidAmountInput(this.state.amountInput)}
-          isInvalid={!!this.state.amountInput && !isValidAmountInput(this.state.amountInput)}
         />
 
         <Form.Control

@@ -102,14 +102,12 @@ export class NavbarMain extends Component<{}, State> {
                           </Link>
                         </>
                       ) : (
-                        <a
+                        <Link
+                          to="/load-wallet"
                           className="btn main-btn btn-default btn-sm margin-custom"
-                          onClick={() =>
-                            window.open('https://eraswap.life/', '', 'width=1001,height=650')
-                          }
                         >
                           Connect to a Wallet
-                        </a>
+                        </Link>
                       )}
                     </span>
                   </div>

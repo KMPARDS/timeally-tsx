@@ -39,9 +39,7 @@ export class Delegate extends Component<Props, State> {
     // );
 
     const delegations = (
-      await this.props.instance.queryFilter(
-        this.props.instance.filters.Delegate(null, null, null, null)
-      )
+      await this.props.instance.queryFilter(this.props.instance.filters.Delegate(null, null, null))
     )
       .map((logs) => this.props.instance.interface.parseLog(logs))
       .map((parsedLogs) => {
@@ -49,7 +47,6 @@ export class Delegate extends Component<Props, State> {
           month: parsedLogs.args[0].toNumber(),
           platform: parsedLogs.args[1],
           delegatee: parsedLogs.args[2],
-          amount: parsedLogs.args[3],
         };
         return delegation;
       });
@@ -89,7 +86,10 @@ export class Delegate extends Component<Props, State> {
 
             <NewDelegation
               instance={this.props.instance}
-              refreshDetailsHook={this.loadDelegations}
+              refreshDetailsHook={async () => {
+                await this.props.refreshDetailsHook();
+                await this.loadDelegations();
+              }}
             />
           </>
         )}
