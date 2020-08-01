@@ -29,8 +29,8 @@ const config = {
   },
 };
 
-// window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
-window.provider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
+window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
+// window.provider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
 
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
