@@ -8,14 +8,14 @@ import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
 
 const config = {
   ESN: {
-    nrtManager: '0x9B9f2E24BB59372d6dd2D05813234D9a67Be85E2',
-    timeallyManager: '0x1F3fE67eb6C2bE76DED8A054e0E29D89F18E405F',
-    timeallyStakingTarget: '0x6D9a0D9FB39C7C47D6BAea3269D1Ee3aE8fE1474',
-    validatorSet: '0xF3b22b71F534F6aa6EEfae0dBB7b53e693b8BC07',
-    validatorManager: '0xF5D629AAb8d5417285d549dD879Cf9AeE0eC2337',
-    randomnessManager: '0xf620b0F20F90Ef5bF8C05aD65981F26775f8a32B',
-    blockRewardManager: '0xe021bf70cE7C47d9744b2BdbFC7bdA1b4C7cAbD9',
-    prepaidEs: '0x3b2a928bd4Ab36Dd46C4C44C4d3C2dbD60B6c092',
+    nrtManager: '0x8418249278d74D46014683A8029Fd6fbC88482a1',
+    timeallyManager: '0xE14D14bd8D0E2c36f5E4D00106417d8cf1000e22',
+    timeallyStakingTarget: '0x44F70d80642998F6ABc424ceAf1E706a479De8Ce',
+    validatorSet: '0x2AA786Cd8544c50136e5097D5E19F6AE10E02543',
+    validatorManager: '0x22E0940C1AE5D31B9efBaf7D674F7D62895FBde8',
+    randomnessManager: '0xF9FCb8678dB15A5507A5f5414D68aBB2f4568E27',
+    blockRewardManager: '0xC4336494606203e3907539d5b462A5cb7853B3C6',
+    prepaidEs: '0x6D57FaDF31e62E28Ab059f3dCd565df055428c57',
 
     // local:
     // nrtManager: '0xAE519FC2Ba8e6fFE6473195c092bF1BAe986ff90',
