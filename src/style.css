@@ -5254,3 +5254,8 @@ video {
 .lifetime .banner-in-bg .btn {
   margin-top: 10px;
 }
+
+.hex-string {
+  font-size: 100;
+  font-family: monospace;
+}

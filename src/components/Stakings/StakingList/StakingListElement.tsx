@@ -65,7 +65,7 @@ export class StakingListElement extends Component<
 
     return (
       <tr>
-        <td>{this.instance.address}</td>
+        <td className="hex-string">{this.instance.address}</td>
         {this.props.status === 'hold' ? (
           <>
             <td>{principal === null ? <>Loading...</> : <>{principal} ES</>}</td>

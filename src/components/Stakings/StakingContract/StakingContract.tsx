@@ -83,7 +83,13 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             <tbody>
               <tr>
                 <td>Current Owner</td>
-                <td>{this.state.owner !== null ? this.state.owner : 'Loading...'}</td>
+                <td>
+                  {this.state.owner !== null ? (
+                    <span className="hex-string">{this.state.owner}</span>
+                  ) : (
+                    'Loading...'
+                  )}
+                </td>
               </tr>
               <tr>
                 <td>Start NRT Month</td>
