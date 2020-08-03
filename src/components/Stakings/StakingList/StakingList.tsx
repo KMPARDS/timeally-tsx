@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Alert } from 'react-bootstrap';
+import { RouteComponentProps, Link } from 'react-router-dom';
+import { Alert, Card } from 'react-bootstrap';
 import { Layout } from '../../Layout';
 import { StakingListElement } from './StakingListElement';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
@@ -129,7 +129,6 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
         {this.state.displayMessage ? (
           <Alert variant="info">{this.state.displayMessage}</Alert>
         ) : null}
-
         {this.state.myStakings !== null ? (
           this.state.myStakings.length === 0 ? (
             <Alert variant="info">
@@ -164,6 +163,10 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
             </div>
           )
         ) : null}
+        <p>
+          View world stakings by going to{' '}
+          <Link to="/stakings/explorer">TimeAlly Stakings Explorer</Link>.
+        </p>
       </Layout>
     );
   }
