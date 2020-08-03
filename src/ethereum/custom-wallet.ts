@@ -71,3 +71,6 @@ export class CustomWallet extends ethers.Wallet {
     return await super.populateTransaction(tx);
   }
 }
+
+// @ts-ignore
+window._CustomWallet = CustomWallet;
