@@ -48,6 +48,17 @@ export class Split extends Component<Props, State> {
         ethers.utils.parseEther(this.state.valueInput),
         currentMonth
       );
+      if (!window.wallet) {
+        throw new Error('Wallet not loaded');
+      }
+      const userLiquidBalance = await window.wallet.getBalance();
+      if (userLiquidBalance.lt(fee)) {
+        throw new Error(
+          `Insufficient liquid balance: ${ethers.utils.formatEther(
+            userLiquidBalance
+          )} ES available but your split fee is ${ethers.utils.formatEther(fee)} ES`
+        );
+      }
       const tx = await this.props.instance.split(ethers.utils.parseEther(this.state.valueInput), {
         value: fee,
       });
