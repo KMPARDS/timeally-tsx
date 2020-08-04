@@ -113,7 +113,7 @@ export class Home extends Component {
                     <a
                       rel="noopener noreferrer"
                       className="btn btn-default"
-                      href="https://etherscan.io/address/0x5630ee5f247bd6b61991fbb2f117bbeb45990876#code"
+                      href="https://github.com/KMPARDS/esn-contracts/blob/master/contracts/ESN/TimeAllyStaking.sol"
                       target="_blank"
                     >
                       <p style={{ color: '#fff' }}>View TA Smart Contract</p>
