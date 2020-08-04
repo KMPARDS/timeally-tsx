@@ -8,18 +8,21 @@ import './Navbar.css';
 type State = {
   isWalletLoaded: boolean;
   addressCopied: boolean;
+  currentTime: number;
 };
 
 export class NavbarMain extends Component<{}, State> {
   state: State = {
     isWalletLoaded: false,
     addressCopied: false,
+    currentTime: Date.now(),
   };
 
   intervalIds: NodeJS.Timeout[] = [];
 
   componentDidMount = async () => {
     this.intervalIds.push(routine(this.updateWalletLoadedStatus, 500));
+    this.intervalIds.push(routine(this.updateTime, 500));
   };
 
   componentWillUnmount = () => {
@@ -32,6 +35,10 @@ export class NavbarMain extends Component<{}, State> {
     if (isWalletLoaded !== this.state.isWalletLoaded) {
       this.setState({ isWalletLoaded });
     }
+  };
+
+  updateTime = () => {
+    this.setState({ currentTime: Date.now() });
   };
 
   copyAddress = () => {
@@ -49,7 +56,9 @@ export class NavbarMain extends Component<{}, State> {
           <div className="container">
             <div className="row">
               <div className="col-xl-4 col-lg-5 col-md-4 col-sm-6 d-none d-xl-block d-lg-block">
-                <p className="mail-text">Current Time: </p>
+                <p className="mail-text">
+                  Current Time: {new Date(this.state.currentTime).toLocaleString()}
+                </p>
               </div>
               <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3  d-none d-xl-block d-lg-block">
                 <p className="mail-text text-center">ES Price: </p>
