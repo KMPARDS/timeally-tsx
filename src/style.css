@@ -115,7 +115,7 @@ ol li {
   line-height: 1.8;
 }
 a {
-  color: #fff;
+  /* color: #fff; */
   text-decoration: none;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
