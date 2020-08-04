@@ -126,6 +126,11 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
           link: '/stakings/new',
         }}
       >
+        {this.state.myStakings !== null &&
+        this.state.myStakings.length > 0 &&
+        process.env.NODE_ENV === 'development' ? (
+          <p style={{ color: 'red' }}>[These are Testnet stakings]</p>
+        ) : null}
         {this.state.displayMessage ? (
           <Alert variant="info">{this.state.displayMessage}</Alert>
         ) : null}
