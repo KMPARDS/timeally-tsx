@@ -80,6 +80,9 @@ export class NavbarMain extends Component<{}, State> {
                   {/* logo */}
                   <div className="logo">
                     <img src="/images/logo.png" alt="TimeAlly" />
+                    {process.env.NODE_ENV === 'development' ? (
+                      <span style={{ color: 'red' }}>[Testnet]</span>
+                    ) : null}
                   </div>
                 </div>
                 <div className="col-sm-10">
