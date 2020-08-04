@@ -92,6 +92,7 @@ export class Topup extends Component<Props, State> {
     } catch (error) {
       this.setState({ spinnerLiquid: false, displayMessage: error.message });
     }
+    this.loadTopups();
     this.props.refreshDetailsHook();
   };
 
@@ -109,6 +110,7 @@ export class Topup extends Component<Props, State> {
     } catch (error) {
       this.setState({ spinnerLiquid: false, displayMessage: error.message });
     }
+    this.loadTopups();
     this.props.refreshDetailsHook();
   };
 
@@ -198,7 +200,7 @@ export class Topup extends Component<Props, State> {
                       {this.state.liquidBalance
                         ? ethers.utils.formatEther(this.state.liquidBalance) + ' ES'
                         : 'Loading...'}
-                      . Your liquid balance is{' '}
+                      . Your Prepaid balance is{' '}
                       {this.state.prepaidBalance
                         ? ethers.utils.formatEther(this.state.prepaidBalance) + ' ES'
                         : 'Loading...'}
@@ -242,7 +244,7 @@ export class Topup extends Component<Props, State> {
                   style={{ marginRight: '2px' }}
                 />
               ) : null}
-              {this.state.spinnerLiquid ? 'Please wait..' : 'Prepaid'}
+              {this.state.spinnerPrepaid ? 'Please wait..' : 'Prepaid'}
             </Button>
           </Form>
         </Card>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
 
 export class Home extends Component {
@@ -14,7 +15,9 @@ export class Home extends Component {
                     <div className="banner-in-bg pinside40">
                       <h1 className="text-white">Accumulate wealth in the future economy</h1>
                       <div className="mt30">
-                        <a className="btn btn-default main-btn-blue">Vest Now</a>
+                        <Link to="/stakings/new" className="btn btn-default main-btn-blue">
+                          Vest Now
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -110,7 +113,7 @@ export class Home extends Component {
                     <a
                       rel="noopener noreferrer"
                       className="btn btn-default"
-                      href="https://etherscan.io/address/0x5630ee5f247bd6b61991fbb2f117bbeb45990876#code"
+                      href="https://github.com/KMPARDS/esn-contracts/blob/master/contracts/ESN/TimeAllyStaking.sol"
                       target="_blank"
                     >
                       <p style={{ color: '#fff' }}>View TA Smart Contract</p>

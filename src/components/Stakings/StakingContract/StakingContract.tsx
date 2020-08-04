@@ -78,6 +78,9 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
 
     return (
       <Layout title="Staking Contract" subtitle={address}>
+        {process.env.NODE_ENV === 'development' ? (
+          <p style={{ color: 'red' }}>[This is a Testnet staking]</p>
+        ) : null}
         <Card>
           <Table>
             <tbody>
