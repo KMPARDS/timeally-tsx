@@ -89,7 +89,7 @@ export class Explorer extends Component<{}, State> {
 
         <Card className="p-4">
           <p>Recent staking transfers</p>
-          <Table>
+          <Table responsive>
             <thead>
               <tr>
                 <th>Staking Contract</th>

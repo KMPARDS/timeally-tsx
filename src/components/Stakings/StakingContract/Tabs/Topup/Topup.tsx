@@ -148,7 +148,7 @@ export class Topup extends Component<Props, State> {
           ) : (
             <>
               Previous Topups:
-              <Table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>Topup Amount</th>

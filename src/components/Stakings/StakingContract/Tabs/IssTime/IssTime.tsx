@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Table,
-  Button,
-  DropdownButton,
-  Dropdown,
-  Card,
-  Alert,
-  Spinner,
-  Form,
-} from 'react-bootstrap';
+import { Button, DropdownButton, Dropdown, Card, Alert, Spinner, Form } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import '../../../Stakings.css';

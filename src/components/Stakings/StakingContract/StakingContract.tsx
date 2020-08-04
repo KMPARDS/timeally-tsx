@@ -82,7 +82,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
           <p style={{ color: 'red' }}>[This is a Testnet staking]</p>
         ) : null}
         <Card>
-          <Table>
+          <Table responsive>
             <tbody>
               <tr>
                 <td>Current Owner</td>

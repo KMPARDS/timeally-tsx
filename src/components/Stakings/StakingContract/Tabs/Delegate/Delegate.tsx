@@ -63,7 +63,7 @@ export class Delegate extends Component<Props, State> {
           'No Delegations done yet'
         ) : (
           <>
-            <Table>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>NRT Month</th>
