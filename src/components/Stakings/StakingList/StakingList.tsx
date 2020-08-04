@@ -110,8 +110,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
 
     this.setState({
       myStakings,
-      displayMessage:
-        'If you do not see your staking here, you may not have done your KYC. Visit https://kycdapp.com/ to do your KYC.',
+      displayMessage: '',
     });
   };
 
@@ -139,7 +138,10 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
             <Alert variant="info">
               You do not own any TimeAlly Staking ERC1167 Smart Contracts. You can buy staking from
               someone who already has a staking or you can use your Era Swap Tokens to deploy a new
-              staking ERC1167 smart contract.
+              staking ERC1167 smart contract. <br />
+              <br />
+              If you do not see your staking here, you may not have done your KYC. Visit
+              https://kycdapp.com/ to do your KYC.
             </Alert>
           ) : (
             <div className="row table-padding">
