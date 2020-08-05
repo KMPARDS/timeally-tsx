@@ -13,5 +13,6 @@ declare global {
     timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
+    ethereum: ethers.providers.ExternalProvider;
   }
 }
