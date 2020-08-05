@@ -37,7 +37,21 @@ export class Dashboard extends Component<{}, State> {
       currentNrtMonth
     );
 
-    this.setState({ currentNrtMonth: currentNrtMonth.toNumber(), nextMonthActiveStakes });
+    const logs = await window.nrtManagerInstance.queryFilter(
+      window.nrtManagerInstance.filters.NRT(null)
+    );
+    const nrtReleases = logs
+      .map((log) => window.nrtManagerInstance.interface.parseLog(log))
+      .map((parsedLog) => {
+        const nrtRelease: ethers.BigNumber = parsedLog.args[0];
+        return nrtRelease;
+      });
+
+    this.setState({
+      currentNrtMonth: currentNrtMonth.toNumber(),
+      nrtRelease: nrtReleases.slice(-1)[0],
+      nextMonthActiveStakes,
+    });
   };
 
   render() {
@@ -69,7 +83,9 @@ export class Dashboard extends Component<{}, State> {
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Comming soon...
+                                  {this.state.nrtRelease === null
+                                    ? 'Loading...'
+                                    : `${ethers.utils.formatEther(this.state.nrtRelease)} ES`}
                                 </span>
                               </div>
                               <div className="vl" />
