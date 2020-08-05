@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { ethers } from 'ethers';
 import { routine } from '../../utils';
+import { TimeCounter } from '../TimeCounter';
 
 type State = {
   currentNrtMonth: number | null;
   nrtRelease: ethers.BigNumber | null;
   nextMonthActiveStakes: ethers.BigNumber | null;
-  myActiveStakings: ethers.BigNumber | null;
+  lastNrtReleaseTimestamp: number | null;
 };
 
 export class Dashboard extends Component<{}, State> {
@@ -17,7 +18,7 @@ export class Dashboard extends Component<{}, State> {
     currentNrtMonth: null,
     nrtRelease: null,
     nextMonthActiveStakes: null,
-    myActiveStakings: null,
+    lastNrtReleaseTimestamp: null,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -47,10 +48,15 @@ export class Dashboard extends Component<{}, State> {
         return nrtRelease;
       });
 
+    const lastNrtReleaseTimestamp = (
+      await window.nrtManagerInstance.lastReleaseTimestamp()
+    ).toNumber();
+
     this.setState({
       currentNrtMonth: currentNrtMonth.toNumber(),
       nrtRelease: nrtReleases.slice(-1)[0],
       nextMonthActiveStakes,
+      lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,
     });
   };
 
@@ -106,11 +112,18 @@ export class Dashboard extends Component<{}, State> {
                                       )} ES`}
                                 </span>
                                 <hr />
-                                <span className="title">My Active Stakings</span>
+                                <span className="title">Next NRT Countdown</span>
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Comming soon...
+                                  {this.state.lastNrtReleaseTimestamp === null ? (
+                                    'Loading...'
+                                  ) : (
+                                    <TimeCounter
+                                      timestamp={this.state.lastNrtReleaseTimestamp + 2629744}
+                                      remaining
+                                    />
+                                  )}
                                 </span>
                               </div>
                             </div>
