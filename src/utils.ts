@@ -28,3 +28,13 @@ export function isValidAmountInput(input: string): boolean {
     return false;
   }
 }
+
+export const EraswapInfo = {
+  baseUrl: 'https://eraswap.info',
+  getAddressHref: function (address: string) {
+    return `${this.baseUrl}/address/${address}`;
+  },
+  getTxHref: function (txHash: string) {
+    return `${this.baseUrl}/txn/${txHash}`;
+  },
+};
