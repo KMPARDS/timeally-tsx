@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
+import { EraswapInfo } from '../../../utils';
 
 export interface StakingTransferEvent {
   from: string;
@@ -54,10 +55,24 @@ export class StakingTransferRow extends Component<Props, State> {
           </Link>
         </td>
         <td>
-          <span className="hex-string">{this.props.stakingTransferEvent.from.slice(0, 20)}...</span>
+          <span className="hex-string">
+            <a
+              target="_blank"
+              href={EraswapInfo.getAddressHref(this.props.stakingTransferEvent.from)}
+            >
+              {this.props.stakingTransferEvent.from.slice(0, 20)}...
+            </a>
+          </span>
         </td>
         <td>
-          <span className="hex-string">{this.props.stakingTransferEvent.to.slice(0, 20)}...</span>
+          <span className="hex-string">
+            <a
+              target="_blank"
+              href={EraswapInfo.getAddressHref(this.props.stakingTransferEvent.to)}
+            >
+              {this.props.stakingTransferEvent.to.slice(0, 20)}...
+            </a>
+          </span>
         </td>
 
         <td>
@@ -70,6 +85,11 @@ export class StakingTransferRow extends Component<Props, State> {
           {this.state.timestamp !== null
             ? new Date(this.state.timestamp * 1000).toLocaleString()
             : 'Loading...'}
+        </td>
+        <td>
+          <a target="_blank" href={EraswapInfo.getTxHref(this.props.stakingTransferEvent.txHash)}>
+            View tx on Eraswap.Info
+          </a>
         </td>
       </tr>
     );

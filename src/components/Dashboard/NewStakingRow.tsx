@@ -45,7 +45,11 @@ export class NewStakingRow extends Component<Props, State> {
           </Link>
         </td>
         <td>
-          <span className="hex-string">{this.props.newStaking.owner.slice(0, 20)}...</span>
+          <span className="hex-string">
+            <a target="_blank" href={EraswapInfo.getAddressHref(this.props.newStaking.owner)}>
+              {this.props.newStaking.owner.slice(0, 20)}...
+            </a>
+          </span>
         </td>
         <td>
           {this.state.principal !== null
