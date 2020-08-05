@@ -151,6 +151,10 @@ export class NavbarMain extends Component<{}, State> {
                         <div className="navbar-item">Dashboard</div>
                       </Link>
 
+                      <Link to="/wallet">
+                        <div className="navbar-item">Wallet</div>
+                      </Link>
+
                       <Link to="/stakings">
                         <div className="navbar-item">Stakings</div>
                       </Link>
