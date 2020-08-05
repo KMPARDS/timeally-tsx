@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { ethers } from 'ethers';
 import { routine } from '../../utils';
 import { TimeCounter } from '../TimeCounter';
+import { NewStaking, NewStakingRow } from './NewStakingRow';
 
 type State = {
   currentNrtMonth: number | null;
@@ -12,6 +13,7 @@ type State = {
   nextMonthActiveStakes: ethers.BigNumber | null;
   lastNrtReleaseTimestamp: number | null;
   numberOfTransfersIn24Hours: number | null;
+  recentNewStakings: NewStaking[] | null;
 };
 
 export class Dashboard extends Component<{}, State> {
@@ -21,12 +23,14 @@ export class Dashboard extends Component<{}, State> {
     nextMonthActiveStakes: null,
     lastNrtReleaseTimestamp: null,
     numberOfTransfersIn24Hours: null,
+    recentNewStakings: null,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
 
   componentDidMount = () => {
     this.intervalIds.push(routine(this.updateDetails, 8000));
+    this.intervalIds.push(routine(this.loadNewStakings, 8000));
   };
 
   componentWillUnmount = () => {
@@ -73,6 +77,45 @@ export class Dashboard extends Component<{}, State> {
       lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,
       numberOfTransfersIn24Hours,
     });
+  };
+
+  loadNewStakings = async () => {
+    // load upto last 10 staking transfers
+    let logs: ethers.Event[] = [];
+    const currentBlockNumber = await window.provider.getBlockNumber();
+    let diff = 1000;
+
+    while (logs.length < 5) {
+      logs = await window.timeallyManagerInstance.queryFilter(
+        window.timeallyManagerInstance.filters.StakingTransfer(
+          ethers.constants.AddressZero,
+          null,
+          null
+        ),
+        currentBlockNumber - diff,
+        'latest'
+      );
+      diff *= 2;
+    }
+
+    const recentNewStakings = logs
+      .reverse()
+      .map((event) => ({
+        event,
+        parsedLog: window.timeallyManagerInstance.interface.parseLog(event),
+      }))
+      .map((_) => {
+        const { event, parsedLog } = _;
+        const newStaking: NewStaking = {
+          owner: parsedLog.args[1],
+          stakingContract: parsedLog.args[2],
+          blockNumber: event.blockNumber,
+          txHash: event.transactionHash,
+        };
+        return newStaking;
+      });
+
+    this.setState({ recentNewStakings });
   };
 
   render() {
@@ -176,45 +219,34 @@ export class Dashboard extends Component<{}, State> {
             <h2 className="mb20">View Recent Stakings in the World</h2>
             <div className="row pinside40 maintable">
               <div className="tablebg">
-                {/* <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                  {this.state.stakings.length ? (
-                    <table className="table" border={1}>
-                      <thead style={{ textAlign: 'center' }}>
-                        <tr>
-                          <th>Address</th>
-                          <th>Plan</th>
-                          <th>Amount</th>
-                          <th>Staking Type</th>
-                          <th>Timestamp</th>
-                        </tr>
-                      </thead>
-                      <tbody style={{ textAlign: 'center' }}>
-                        {this.state.stakings.map((staking, index) => (
-                          <>
-                            <StakingEntry
-                              address={staking.address}
-                              stakingId={staking.stakingId}
-                              planId={staking.planId}
-                              amount={staking.amount}
-                              transactionHash={staking.transactionHash}
-                            />
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                  {this.state.recentNewStakings !== null ? (
+                    this.state.recentNewStakings.length ? (
+                      <Table responsive>
+                        <thead style={{ textAlign: 'center' }}>
+                          <tr>
+                            <th>Staking Contract</th>
+                            <th>Owner</th>
+                            <th>Amount</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ textAlign: 'center' }}>
+                          {this.state.recentNewStakings.map((newStaking, index) => (
+                            <>
+                              <NewStakingRow newStaking={newStaking} />
+                            </>
+                          ))}
+                        </tbody>
+                      </Table>
+                    ) : (
+                      'No recent stakings...'
+                    )
                   ) : (
-                    'Please wait loading recent stakings...'
+                    'Please wait loading new stakings...'
                   )}
-                  <br />
-                  <Button
-                    className="mt-2"
-                    onClick={() =>
-                      this.props.history.push('/view-all-world-staking')
-                    }
-                  >
-                    View all stakings in the world
-                  </Button>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
