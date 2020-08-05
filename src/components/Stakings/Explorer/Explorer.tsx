@@ -4,28 +4,25 @@ import { Form, Card, Button, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { routine } from '../../../utils';
-
-interface StakingTransferEvent {
-  from: string;
-  to: string;
-  stakingContract: string;
-}
+import { StakingTransferRow, StakingTransferEvent } from './StakingTransferRow';
 
 type State = {
   stakingAddressInput: string;
   recentStakingTransfers: StakingTransferEvent[];
+  numberOfTransfers: number;
 };
 
 export class Explorer extends Component<{}, State> {
   state: State = {
     stakingAddressInput: '',
     recentStakingTransfers: [],
+    numberOfTransfers: 10,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
 
   componentDidMount = async () => {
-    this.intervalIds.push(routine(this.loadStakingTransfers, 8000));
+    this.intervalIds.push(routine(this.loadStakingTransfers, 16000));
   };
 
   componentWillUnmount = async () => {
@@ -49,12 +46,18 @@ export class Explorer extends Component<{}, State> {
 
     const recentStakingTransfers = logs
       .reverse()
-      .map((event) => window.timeallyManagerInstance.interface.parseLog(event))
-      .map((parsedLog) => {
+      .map((event) => ({
+        event,
+        parsedLog: window.timeallyManagerInstance.interface.parseLog(event),
+      }))
+      .map((_) => {
+        const { event, parsedLog } = _;
         const stakingTransfer: StakingTransferEvent = {
           from: parsedLog.args[0],
           to: parsedLog.args[1],
           stakingContract: parsedLog.args[2],
+          blockNumber: event.blockNumber,
+          txHash: event.transactionHash,
         };
         return stakingTransfer;
       });
@@ -86,27 +89,33 @@ export class Explorer extends Component<{}, State> {
 
         <Card className="p-4">
           <p>Recent staking transfers</p>
-          <Table>
+          <Table responsive>
             <thead>
               <tr>
+                <th>Staking Contract</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Contract</th>
+                <th>Principal Amount</th>
+                <th>End Month</th>
+                <th>Timestamp</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.recentStakingTransfers.map((transfer, i) => (
-                <tr key={i}>
-                  <td className="hex-string">{transfer.from}</td>
-                  <td className="hex-string">{transfer.to}</td>
-                  <td className="hex-string">
-                    <Link to={`/stakings/${transfer.stakingContract}`}>
-                      {transfer.stakingContract}
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+              {this.state.recentStakingTransfers
+                .slice(0, this.state.numberOfTransfers)
+                .map((transfer, i) => (
+                  <StakingTransferRow key={i} stakingTransferEvent={transfer} />
+                ))}
             </tbody>
+            {this.state.recentStakingTransfers.length ? (
+              <Button
+                onClick={() =>
+                  this.setState({ numberOfTransfers: this.state.numberOfTransfers + 10 })
+                }
+              >
+                Show more transfers
+              </Button>
+            ) : null}
           </Table>
         </Card>
       </Layout>

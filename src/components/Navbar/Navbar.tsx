@@ -152,7 +152,7 @@ export class NavbarMain extends Component<{}, State> {
                       </Link>
 
                       <Link to="/support">
-                        <div className="navbar-item">Support</div>
+                        <div className="navbar-item">Report a bug</div>
                       </Link>
 
                       <Link to="/terms">
