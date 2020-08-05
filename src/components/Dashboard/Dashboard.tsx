@@ -11,6 +11,7 @@ type State = {
   nrtRelease: ethers.BigNumber | null;
   nextMonthActiveStakes: ethers.BigNumber | null;
   lastNrtReleaseTimestamp: number | null;
+  numberOfTransfersIn24Hours: number | null;
 };
 
 export class Dashboard extends Component<{}, State> {
@@ -19,6 +20,7 @@ export class Dashboard extends Component<{}, State> {
     nrtRelease: null,
     nextMonthActiveStakes: null,
     lastNrtReleaseTimestamp: null,
+    numberOfTransfersIn24Hours: null,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -52,11 +54,24 @@ export class Dashboard extends Component<{}, State> {
       await window.nrtManagerInstance.lastReleaseTimestamp()
     ).toNumber();
 
+    let fromBlockNumber = await window.provider.getBlockNumber();
+    fromBlockNumber -= (24 * 60 * 60) / 5;
+    if (fromBlockNumber < 0) fromBlockNumber = 0;
+
+    const numberOfTransfersIn24Hours = (
+      await window.timeallyManagerInstance.queryFilter(
+        window.timeallyManagerInstance.filters.StakingTransfer(null, null, null),
+        fromBlockNumber,
+        'latest'
+      )
+    ).length;
+
     this.setState({
       currentNrtMonth: currentNrtMonth.toNumber(),
       nrtRelease: nrtReleases.slice(-1)[0],
       nextMonthActiveStakes,
       lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,
+      numberOfTransfersIn24Hours,
     });
   };
 
@@ -136,12 +151,16 @@ export class Dashboard extends Component<{}, State> {
                               <div className="bg-light">
                                 <hr />
                                 <span className="title" style={{ textAlign: 'center' }}>
-                                  TOTAL STAKED IN 24 HOURS
+                                  Number of staking contract transfers in last 24 hours
                                 </span>
                                 {/* <h2 id="emi" className="pull-right">Graph</h2> */}
                                 <br></br>
                                 <br></br>
-                                <h2 className="number">Comming soon...</h2>
+                                <h2 className="number">
+                                  {this.state.numberOfTransfersIn24Hours === null
+                                    ? 'Loading...'
+                                    : `${this.state.numberOfTransfersIn24Hours} transfers`}
+                                </h2>
                               </div>
                             </div>
                           </div>
