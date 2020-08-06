@@ -46,6 +46,12 @@ export class Merge extends Component<Props, State> {
           contract gets destroyed.
         </p>
 
+        <Alert variant="warning">
+          Please withdraw all your monthly NRT rewards on this staking since monthly NRT rewards are
+          not included during a staking merge. If you do not withdraw them before merging, those
+          rewards will be lost forever.
+        </Alert>
+
         <Form.Control
           onChange={(event) => this.setState({ masterStakingInput: event.target.value })}
           value={this.state.masterStakingInput}

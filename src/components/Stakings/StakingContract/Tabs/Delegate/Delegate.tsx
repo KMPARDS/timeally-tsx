@@ -83,16 +83,16 @@ export class Delegate extends Component<Props, State> {
                 ))}
               </tbody>
             </Table>
-
-            <NewDelegation
-              instance={this.props.instance}
-              refreshDetailsHook={async () => {
-                await this.props.refreshDetailsHook();
-                await this.loadDelegations();
-              }}
-            />
           </>
         )}
+
+        <NewDelegation
+          instance={this.props.instance}
+          refreshDetailsHook={async () => {
+            await this.props.refreshDetailsHook();
+            await this.loadDelegations();
+          }}
+        />
       </>
     );
   }

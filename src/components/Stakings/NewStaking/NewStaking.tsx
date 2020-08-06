@@ -47,6 +47,10 @@ export class NewStaking extends Component<{}, State> {
         throw new Error('Wallet is not loaded');
       }
 
+      if (this.state.amount === '') {
+        throw new Error('Please enter amount to stake');
+      }
+
       let receipt: ethers.ContractReceipt;
       if (this.state.type === 'liquid') {
         const tx = await window.timeallyManagerInstance.connect(window.wallet).stake({

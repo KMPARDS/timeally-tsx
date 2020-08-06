@@ -98,6 +98,7 @@ export class Explorer extends Component<{}, State> {
                 <th>Principal Amount</th>
                 <th>End Month</th>
                 <th>Timestamp</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>

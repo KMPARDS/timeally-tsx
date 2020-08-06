@@ -195,10 +195,11 @@ export class IssTime extends Component<Props, State> {
                           </>
                         ) : (
                           <>
-                            <p>
+                            <Alert variant="info">
                               Your IssTime is started on{' '}
-                              {new Date(this.state.issTimeTimestamp * 1000).toLocaleString()}.
-                            </p>
+                              {new Date(this.state.issTimeTimestamp * 1000).toLocaleString()}. You
+                              have 30 days to repay else your staking will be burned.
+                            </Alert>
                             {this.state.issTimeTakenValue && this.state.issTimeInterest ? (
                               <p>
                                 Your IssTime taken value is{' '}
