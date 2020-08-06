@@ -69,7 +69,7 @@ export class Dashboard extends Component<{}, State> {
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Comming soon...
+                                  Coming Soon...
                                 </span>
                               </div>
                               <div className="vl" />
@@ -94,7 +94,7 @@ export class Dashboard extends Component<{}, State> {
                                 <br></br>
                                 <br></br>
                                 <span className="number" style={{ fontSize: '12px' }}>
-                                  Comming soon...
+                                  Coming Soon...
                                 </span>
                               </div>
                             </div>
@@ -112,7 +112,7 @@ export class Dashboard extends Component<{}, State> {
                                 {/* <h2 id="emi" className="pull-right">Graph</h2> */}
                                 <br></br>
                                 <br></br>
-                                <h2 className="number">Comming soon...</h2>
+                                <h2 className="number">Coming Soon...</h2>
                               </div>
                             </div>
                           </div>

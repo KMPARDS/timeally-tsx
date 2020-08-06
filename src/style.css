@@ -3,62 +3,7 @@
 @import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CMerriweather:300,300i,400,400i,700,700i';
 /* CSS Document */
 
-/*
 
- Template Name : Borrow - A Loan Company Website Template
- Author : Jitu Chauhan;
- Version: 1.0.5;
-
-+ General css
-+ Space css
-+ Background & Block color
-+ Buttons
-+ Input Form
-+ Bullet
-+ Icon
-+ Navigation CSS
-
-+ HOME
-  - Home
-  - Home-1
-  - Home-2
-+ LOAN PRODUCT
-  - Loan Image Listing
-  - Loan Icon Listing
-  - Car Loan Single
-  - Personal Loan Single
-  - Home Loan Single
-  - Education Loan Single
-+ ABOUT US
-  - About us
-  - Team
-+ BLOG
-  - Blog Listing
-  - Blog Single
-  - Two Column Masonry
-  - Three Column Masonry
-+ FEATURES
-  - Compare Loan
-  - Faq page
-  - Testimonial
-  - 404 Error
-    - Gallery
-      - Filterable Gallery 2 column
-      - Filterable Gallery 3 column
-      - Masonry Gallery
-      - Zoom Gallery
-    - Shortcodes
-      - Tab
-      - Accordion
-      - Alert
-
-- CONTACT US
-
-*/
-
-/*-----------------------------------
-General css class
------------------------------------*/
 
 body {
   font-size: 15px;
@@ -115,11 +60,14 @@ ol li {
   line-height: 1.8;
 }
 a {
-  /* color: #fff; */
+  /* color: #fff;  */
   text-decoration: none;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+}
+.table a , table a{
+  color: #2573cb;
 }
 a:focus,
 a:hover {
@@ -5258,4 +5206,24 @@ video {
 .hex-string {
   font-size: 100;
   font-family: monospace;
+}
+.navbar-collapse a, .social2  li a, .tiny-footer a{
+  color:#fff;
+}
+.new-img{
+  height: 20px;
+  position: relative;
+  bottom: 10px;
+}
+table .btn.btn-default.main-btn-blue.view {
+  height: auto !important;
+  padding-top: 0!important;
+  color: #fff;
+  padding: 10px 30px;
+}
+.btn.btn-default.main-btn-blue.view {
+  height: auto !important;
+  padding-top: 0!important;
+  color: #fff;
+  padding: 10px 30px;
 }

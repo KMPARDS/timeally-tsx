@@ -190,7 +190,7 @@ export class IssTime extends Component<Props, State> {
                                   style={{ marginRight: '2px' }}
                                 />
                               ) : null}
-                              {this.state.spinner ? 'Starting...' : 'Start IssTime'}
+                              {this.state.spinner ? 'Starting...' : 'Take Loan'}
                             </Button>
                           </>
                         ) : (
