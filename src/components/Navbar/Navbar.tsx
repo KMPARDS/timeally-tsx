@@ -6,14 +6,14 @@ import { routine } from '../../utils';
 import './Navbar.css';
 
 type State = {
-  isWalletLoaded: boolean;
+  walletAddress: string | null;
   addressCopied: boolean;
   currentTime: number;
 };
 
 export class NavbarMain extends Component<{}, State> {
   state: State = {
-    isWalletLoaded: false,
+    walletAddress: null,
     addressCopied: false,
     currentTime: Date.now(),
   };
@@ -21,7 +21,7 @@ export class NavbarMain extends Component<{}, State> {
   intervalIds: NodeJS.Timeout[] = [];
 
   componentDidMount = async () => {
-    this.intervalIds.push(routine(this.updateWalletLoadedStatus, 500));
+    this.intervalIds.push(routine(this.updateWalletStatus, 500));
     this.intervalIds.push(routine(this.updateTime, 500));
   };
 
@@ -29,11 +29,15 @@ export class NavbarMain extends Component<{}, State> {
     this.intervalIds.forEach(clearInterval);
   };
 
-  updateWalletLoadedStatus = () => {
+  updateWalletStatus = async () => {
     const isWalletLoaded = !!window.wallet;
 
-    if (isWalletLoaded !== this.state.isWalletLoaded) {
-      this.setState({ isWalletLoaded });
+    const currentWalletAddress: string | null = window.wallet
+      ? (await window.wallet?.getAddress()) ?? window.wallet.address
+      : null;
+
+    if (currentWalletAddress !== this.state.walletAddress) {
+      this.setState({ walletAddress: currentWalletAddress });
     }
   };
 
@@ -88,7 +92,7 @@ export class NavbarMain extends Component<{}, State> {
                 <div className="col-sm-10">
                   <div className="quick-info">
                     <span>
-                      {this.state.isWalletLoaded && window.wallet ? (
+                      {this.state.walletAddress && window.wallet ? (
                         <>
                           <span
                             className="btn main-btn btn-default btn-sm margin-custom"
@@ -145,6 +149,10 @@ export class NavbarMain extends Component<{}, State> {
 
                       <Link to="/dashboard">
                         <div className="navbar-item">Dashboard</div>
+                      </Link>
+
+                      <Link to="/wallet">
+                        <div className="navbar-item">Wallet</div>
                       </Link>
 
                       <Link to="/stakings">

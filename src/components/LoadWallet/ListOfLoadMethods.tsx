@@ -14,12 +14,14 @@ export const ListOfLoadMethods = () => {
         </Card.Body>
       </Card>
 
-      <Card style={{ margin: '15px 0', cursor: 'pointer' }}>
-        <Card.Body>
-          Connect to <strong>Metamask</strong> (supports many hardware wallets like Trezor and
-          Ledger)
-        </Card.Body>
-      </Card>
+      <Link to="/load-wallet/using-metamask">
+        <Card style={{ margin: '15px 0', cursor: 'pointer' }}>
+          <Card.Body>
+            Connect to <strong>Metamask</strong> (supports many hardware wallets like Trezor and
+            Ledger)
+          </Card.Body>
+        </Card>
+      </Link>
 
       <Link to="/load-wallet/using-address">
         <Card style={{ margin: '15px 0', cursor: 'pointer' }}>
