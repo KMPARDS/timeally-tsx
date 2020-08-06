@@ -1,3 +1,5 @@
+![build](https://github.com/KMPARDS/timeally-tsx/workflows/build/badge.svg) [![typescript strict](https://badgen.net/badge/typescript/strict/blue?icon=typescript)](https://www.typescriptlang.org/) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 ## Contributing Instructions
 
 1. You need `yarn` installed. If you don't have it installed already, install it from [here](https://classic.yarnpkg.com/en/docs/install/).
