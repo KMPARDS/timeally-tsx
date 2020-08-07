@@ -96,7 +96,12 @@ export class Dashboard extends Component<{}, State> {
         'latest'
       );
       diff *= 2;
+      if (currentBlockNumber < diff) {
+        break;
+      }
     }
+
+    console.log(logs);
 
     const recentNewStakings = logs
       .reverse()
