@@ -3,8 +3,6 @@
 @import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CMerriweather:300,300i,400,400i,700,700i';
 /* CSS Document */
 
-
-
 body {
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
@@ -66,7 +64,8 @@ a {
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
-.table a , table a{
+.table a,
+table a {
   color: #2573cb;
 }
 a:focus,
@@ -5207,23 +5206,25 @@ video {
   font-size: 100;
   font-family: monospace;
 }
-.navbar-collapse a, .social2  li a, .tiny-footer a{
-  color:#fff;
+.navbar-collapse a,
+.social2 li a,
+.tiny-footer a {
+  color: #fff;
 }
-.new-img{
+.new-img {
   height: 20px;
   position: relative;
   bottom: 10px;
 }
 table .btn.btn-default.main-btn-blue.view {
   height: auto !important;
-  padding-top: 0!important;
+  padding-top: 0 !important;
   color: #fff;
   padding: 10px 30px;
 }
 .btn.btn-default.main-btn-blue.view {
   height: auto !important;
-  padding-top: 0!important;
+  padding-top: 0 !important;
   color: #fff;
   padding: 10px 30px;
 }

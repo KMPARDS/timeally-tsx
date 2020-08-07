@@ -84,7 +84,7 @@ export const Footer = () => {
                       <i className="fa fa-tumblr"></i>
                     </a>
                   </li>
-                  
+
                   <li className="list-inline-item">
                     <a href="https://coinmarketcap.com/currencies/era-swap/" target="_blank">
                       <img src="/images/cmc.png" style={{ height: '25px', marginBottom: '7px' }} />
@@ -142,7 +142,7 @@ export const Footer = () => {
                 <a href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">
                   Era Swap Terms & Conditions
                 </a>{' '}
-                 &nbsp; | &nbsp; 
+                &nbsp; | &nbsp;
                 <a href="/pdf/timeally-terms-condtions.pdf" target="_blank">
                   Terms of use
                 </a>{' '}

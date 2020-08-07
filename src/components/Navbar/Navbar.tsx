@@ -144,8 +144,9 @@ export class NavbarMain extends Component<{}, State> {
                       </Link>
 
                       <Link to="/1lifetime">
-                        <div className="navbar-item">1LifeTime
-                        <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+                        <div className="navbar-item">
+                          1LifeTime
+                          <img src="/images/new.png" className="new-img" alt="TimeAlly" />
                         </div>
                       </Link>
 
