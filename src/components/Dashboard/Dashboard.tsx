@@ -239,9 +239,7 @@ export class Dashboard extends Component<{}, State> {
                         </thead>
                         <tbody style={{ textAlign: 'center' }}>
                           {this.state.recentNewStakings.map((newStaking, index) => (
-                            <>
-                              <NewStakingRow newStaking={newStaking} />
-                            </>
+                            <NewStakingRow key={index} newStaking={newStaking} />
                           ))}
                         </tbody>
                       </Table>
