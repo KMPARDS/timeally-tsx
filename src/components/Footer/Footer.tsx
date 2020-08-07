@@ -84,29 +84,7 @@ export const Footer = () => {
                       <i className="fa fa-tumblr"></i>
                     </a>
                   </li>
-                  <li className="list-inline-item">
-                    <a href="https://mix.com/eraswap" target="_blank" rel="noopener noreferrer">
-                      <i className="fa fa-stumbleupon"></i>
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a
-                      href="https://www.pinterest.com/eraswapt"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fa fa-pinterest"></i>
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a
-                      href="https://bitcointalk.org/index.php?topic=5025979.msg45502457"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fa fa-btc"></i>
-                    </a>
-                  </li>
+
                   <li className="list-inline-item">
                     <a href="https://coinmarketcap.com/currencies/era-swap/" target="_blank">
                       <img src="/images/cmc.png" style={{ height: '25px', marginBottom: '7px' }} />
@@ -137,7 +115,7 @@ export const Footer = () => {
         <div className="container">
           <div className="row">
             <div
-              className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+              className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center"
               style={{ margin: '0 auto' }}
             >
               <p style={{ color: '#fff' }}>
@@ -153,30 +131,34 @@ export const Footer = () => {
                   Howey Test
                 </a>{' '}
                 &nbsp; | &nbsp;
+                <a
+                  href="http://eraswaptoken.io/pdf/es-statuary-warning.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Statuary Warning
+                </a>{' '}
+                &nbsp; | &nbsp;
                 <a href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">
                   Era Swap Terms & Conditions
                 </a>{' '}
-                | &nbsp; | &nbsp;{' '}
+                &nbsp; | &nbsp;
                 <a href="/pdf/timeally-terms-condtions.pdf" target="_blank">
                   Terms of use
                 </a>{' '}
-                &nbsp; | &nbsp;{' '}
+                &nbsp; | &nbsp;
                 <a href="/pdf/timeally-privacy-policy.pdf" target="_blank">
                   Privacy Policy
                 </a>{' '}
-                &nbsp; | &nbsp;{' '}
-                <a href="/pdf/TSGAP_without_DaySwappers_Incentive.pdf" target="_blank">
+                &nbsp; | &nbsp;
+                <a href="/excel/1L1T_Cal.xlsx" target="_blank">
                   TSGAP
                 </a>{' '}
-                &nbsp; | &nbsp;{' '}
-                <a href="/pdf/TimeAlly_PET_without_DaySwappers_Incentive.pdf" target="_blank">
+                &nbsp; | &nbsp;
+                <a href="/excel/1L1T_Cal.xlsx" target="_blank">
                   PET
                 </a>{' '}
-                &nbsp; | &nbsp;{' '}
-                <a href="/pdf/TimeAlly_without_DaySwappers_Incentive.pdf" target="_blank">
-                  TimeAlly
-                </a>
-                | &nbsp;{' '}
+                &nbsp; | &nbsp;
                 <a href="/excel/1L1T_Cal.xlsx" target="_blank">
                   1 Life Time
                 </a>
