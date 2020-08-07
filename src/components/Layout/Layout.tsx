@@ -31,7 +31,7 @@ export function Layout(props: LayoutProps) {
               <div className="page-breadcrumb">
                 <ol className="breadcrumb">
                   {breadcrumb.map((name, index) => (
-                    <li>
+                    <li key={index}>
                       <Link
                         to={breadcrumb.slice(0, index + 1).join('/')}
                         className={breadcrumb.length - 1 === index ? 'active' : ''}
