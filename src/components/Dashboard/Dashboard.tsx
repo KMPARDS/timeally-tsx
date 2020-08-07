@@ -45,12 +45,12 @@ export class Dashboard extends Component<{}, State> {
     );
 
     const logs = await window.nrtManagerInstance.queryFilter(
-      window.nrtManagerInstance.filters.NRT(null)
+      window.nrtManagerInstance.filters.NRT(null, null, null)
     );
     const nrtReleases = logs
       .map((log) => window.nrtManagerInstance.interface.parseLog(log))
       .map((parsedLog) => {
-        const nrtRelease: ethers.BigNumber = parsedLog.args[0];
+        const nrtRelease: ethers.BigNumber = parsedLog.args[1];
         return nrtRelease;
       });
 
@@ -72,7 +72,7 @@ export class Dashboard extends Component<{}, State> {
 
     this.setState({
       currentNrtMonth: currentNrtMonth.toNumber(),
-      nrtRelease: nrtReleases.slice(-1)[0],
+      nrtRelease: nrtReleases.slice(-1)[0] ?? ethers.constants.Zero,
       nextMonthActiveStakes,
       lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,
       numberOfTransfersIn24Hours,
