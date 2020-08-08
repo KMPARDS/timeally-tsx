@@ -1,5 +1,3 @@
-
-
 .App {
   text-align: center;
 }
@@ -35,12 +33,16 @@
 }
 
 .set-word-break-all {
-  word-break:break-all;
+  word-break: break-all;
 }
 .background-tsgap {
-    background: url(/images/bg-tsgap.jpg) !important;
+  background: url(/images/bg-tsgap.jpg) !important;
 }
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 800;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
 }
-
