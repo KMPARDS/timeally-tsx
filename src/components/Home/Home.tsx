@@ -81,7 +81,6 @@ export class Home extends Component<{}, State> {
                     </p>
                   </div>
                 </div>
-
                 <div className="col-md-6 pinside40">
                   <div className="what-timeally">
                     <h1>What is TimeAlly?</h1>
@@ -256,22 +255,9 @@ export class Home extends Component<{}, State> {
                       <h1 className="text-white">How TimeAlly works</h1>
                       <p className="text-white">
                         TimeAlly rewards TA holders for locking their tokens in TA smart contract
-                        (TA Time Vault) for the duration of one or two years as per their choice.
+                        (TA Time Vault) for a specified time period.
                       </p>
-                      <br></br>
-                      <ul style={{ textAlign: 'left', color: '#fff' }}>
-                        <li>
-                          Vesting for 1 Year: 13% (1.08% per month) of ES Tokens from NRT pool is
-                          allocated to be distributed among TA Vestors.{' '}
-                        </li>
-                        <li>
-                          Vesting for 2 Year: 15% (1.25% per month) of ES Tokens from NRT pool is
-                          allocated to be distributed among TA Vestors.
-                        </li>
-                        <li>
-                          All the Rewards will be distributed 50% in TimeAlly & 50 % in Liquid.
-                        </li>
-                      </ul>
+
                       <p style={{ color: '#fff' }}>
                         There is a fixed number of ES rewarded every month to users which is
                         governed by TA smart contract. Total number of ES tokens to be distributed
@@ -323,10 +309,10 @@ export class Home extends Component<{}, State> {
                     {/* section title start*/}
                     <h1>More TimeAlly Products</h1>
                     <p>
-                      There is an extended product line of TimeAlly Smart Contract for users. They
-                      are TimeAlly Loan, TimeAlly Club & TimeAlly Insurance for Era Swap Community
-                      which stakes ES in TimeAlly Contract. As a TimeAlly Smart Contract holder you
-                      can choose any of these add-on products.
+                      here is an extended product line of TimeAlly Smart Contract for users. They
+                      are TimeAlly 1LT, TSGAP, TimeAlly PET & TimeAlly Loan for Era Swap Community
+                      stakers who have staked ES in TimeAlly Contract. To become a TimeAlly Smart
+                      Contract holder you can choose any of these Smart Contracts.
                     </p>
                   </div>
                   {/* /.section title start*/}
@@ -344,15 +330,14 @@ export class Home extends Component<{}, State> {
                       <h3>TimeAlly Loan</h3>
                       <input type="checkbox" className="read-more-state" id="post-1" />
                       <p className="read-more-wrap">
-                        TimeAlly holders will get the opportunity to avail loan up to 50% for a
-                        duration of 2 months after consuming 75% of the{' '}
+                        TimeAlly 1 Life Time stakehoders can apply for TimeAlly Loan based on their
+                        individual IssTime Limit{' '}
                         <span className="read-more-target">
-                          {' '}
-                          contract period. The borrower has to pay 1% additional of the borrowed ES
-                          for 60 days; an additional 1% will be collected in luck pool and
-                          distributed back to the community. In case a borrower fails to pay back
-                          within 60 days and 12 hours, remaining staked tokens in TimeAlly contract
-                          will be burnt
+                          The stakers have to repay back the Loan Amount within 30 Day 10 Hours or
+                          before end of ES NRT Month (whichever is earlier). There will be an
+                          interest of 0.1% per day on the loan amount.If the staker fails to repay
+                          back the TimeAlly Loan Principle amount and interest, then the stakes of
+                          the staker will be burnt.
                         </span>
                       </p>
                       <label htmlFor="post-1" className="btn btn-default read-more-trigger"></label>
@@ -366,17 +351,14 @@ export class Home extends Component<{}, State> {
                     </div>
                     {/* <div className="loan-products-icon"><i className="flaticon-time-is-money icon-4x icon-primary" /></div> */}
                     <div className="loan-products-content">
-                      <h3>TimeAlly Club</h3>
+                      <h3>TimeAlly 1LT</h3>
                       <input type="checkbox" className="read-more-state" id="post-2" />
                       <p className="read-more-wrap">
-                        TimeAlly Club is a premium membership for Era Swap Community, to provide
-                        community additional benefits of rewards along{' '}
+                        TimeAlly 1 Life Time is the first generation TimeAlly Smart Contract, built
+                        especially for the staker, who wants to{' '}
                         <span className="read-more-target">
                           {' '}
-                          with exclusive membership add-ons such as; Utility Bill Payments, Travel &
-                          Holidays, Education, Health & Fitness, etc. TimeAlly Club membership is
-                          available in 5 categories that are; Silver, Gold, Diamond, Emerald and
-                          Ruby
+                          support ESN &amp; Accumulate Era Swap in Long-term.{' '}
                         </span>{' '}
                       </p>
                       <label htmlFor="post-2" className="btn btn-default read-more-trigger"></label>
@@ -394,15 +376,15 @@ export class Home extends Component<{}, State> {
                       <input type="checkbox" className="read-more-state" id="post-3" />
                       <p className="read-more-wrap">
                         TimeAlly Super Goal Achiever Plan (TSGAP) is a Decentralized Smart Contract
-                        powered Systematic Accumulation Plan designed{' '}
+                        powered Systematic{' '}
                         <span className="read-more-target">
                           {' '}
-                          to safeguard community`s interest, so they can have financial support to
-                          support their goals, its incentivize Stakers behavior for regularly in a
-                          disciplined way. The benefit of this SAP is that Stakers can choose
-                          minimal staking in Era Swap, Leverage Power of Compounding, Milestone
-                          based Goal Achievement, Booster Bonus, with complete transparency and
-                          ownership of your digital assets{' '}
+                          Accumulation Plan designed to safeguard community`s interest, so they can
+                          have financial support to support their goals, its incentivize Stakers
+                          behavior for regularly in a disciplined way. The benefit of this SAP is
+                          that Stakers can choose minimal staking in Era Swap, Leverage Power of
+                          Compounding, Milestone based Goal Achievement, Booster Bonus, with
+                          complete transparency and ownership of your digital assets{' '}
                         </span>
                       </p>
                       <label htmlFor="post-3" className="btn btn-default read-more-trigger"></label>
@@ -421,15 +403,15 @@ export class Home extends Component<{}, State> {
                       <input type="checkbox" className="read-more-state" id="post-4" />
                       <p className="read-more-wrap">
                         TimeAlly PET Stands for Personal Era Swap Teller, it is a 50-50 Plan
-                        designed to provide a helping hand to those who wish{' '}
+                        designed to provide a helping hand{' '}
                         <span className="read-more-target">
                           {' '}
-                          to stake but couldn’t. It is a Systematic Accumulation Plan powered on
-                          Smart Contracts, it is an extraordinary plan intend to help you with your
-                          stakings with PET`s Smart Contribution, hence you don’t have to stake the
-                          complete amount of your selected plan and PET will contribute another
-                          half. For.eg. Choose 100000 ES Plan. Stake 50000 ES & PET will stake
-                          another 50000 ES for you{' '}
+                          to those who wish to stake but couldn’t. It is a Systematic Accumulation
+                          Plan powered on Smart Contracts, it is an extraordinary plan intend to
+                          help you with your stakings with PET`s Smart Contribution, hence you don’t
+                          have to stake the complete amount of your selected plan and PET will
+                          contribute another half. For.eg. Choose 100000 ES Plan. Stake 50000 ES &
+                          PET will stake another 50000 ES for you{' '}
                         </span>
                       </p>
                       <label htmlFor="post-4" className="btn btn-default read-more-trigger"></label>
@@ -476,10 +458,7 @@ export class Home extends Component<{}, State> {
                       <br></br>
                       <p>
                         <a
-                          style={{
-                            color: 'white',
-                            textDecoration: 'underline',
-                          }}
+                          style={{ color: 'white', textDecoration: 'underline' }}
                           href="https://www.youtube-nocookie.com/embed/V3PtAX_GMjw?rel=0&amp"
                           target="_blank"
                         >
@@ -488,10 +467,7 @@ export class Home extends Component<{}, State> {
                       </p>
                       <p>
                         <a
-                          style={{
-                            color: 'white',
-                            textDecoration: 'underline',
-                          }}
+                          style={{ color: 'white', textDecoration: 'underline' }}
                           href="https://www.youtube-nocookie.com/embed/a89tFlAQ2vY?rel=0&amp"
                           target="_blank"
                         >
@@ -499,31 +475,31 @@ export class Home extends Component<{}, State> {
                         </a>
                       </p>
                       {/*<div className="row">
-                <div className="offset-md-2 col-md-4">
-                  <div style={{position: 'relative', height: 0, overflow: 'hidden', maxWidth: '100%', paddingBottom: '56.25%', marginBottom:'20px'}}>
-                      <iframe src="https://www.youtube-nocookie.com/embed/V3PtAX_GMjw?rel=0&amp;showinfo=0" style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} frameBorder={0} allowFullScreen />
+                    <div className="offset-md-2 col-md-4">
+                      <div style={{position: 'relative', height: 0, overflow: 'hidden', maxWidth: '100%', paddingBottom: '56.25%', marginBottom:'20px'}}>
+                          <iframe src="https://www.youtube-nocookie.com/embed/V3PtAX_GMjw?rel=0&amp;showinfo=0" style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} frameBorder={0} allowFullScreen />
+                        </div>
                     </div>
-                </div>
 
-                <div className="col-md-4">
-                  <div style={{position: 'relative', height: 0, overflow: 'hidden', maxWidth: '100%', paddingBottom: '56.25%'}}>
-                    <iframe style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} src="https://www.youtube-nocookie.com/embed/a89tFlAQ2vY?rel=0&amp;showinfo=0" frameBorder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                  </div>
-                </div>
-              </div>*/}
+                    <div className="col-md-4">
+                      <div style={{position: 'relative', height: 0, overflow: 'hidden', maxWidth: '100%', paddingBottom: '56.25%'}}>
+                        <iframe style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} src="https://www.youtube-nocookie.com/embed/a89tFlAQ2vY?rel=0&amp;showinfo=0" frameBorder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                      </div>
+                    </div>
+                  </div>*/}
                       <div className="row">
                         {/* <div className="col-md-4">
-                  <img src="./images/swp_bz-01.png"></img>
-                </div> */}
+                      <img src="./images/swp_bz-01.png"></img>
+                    </div> */}
 
                         {/* <div className="col-md-4">
-                <img src="./images/swp_bz-02.png"></img>
-                </div> */}
+                    <img src="./images/swp_bz-02.png"></img>
+                    </div> */}
                       </div>
                       {/* <a className="btn-link-white">Watch the video for TimeAlly activation</a> */}
                       {/* <div style={{position: 'relative', height: 0, overflow: 'hidden', maxWidth: '100%', paddingBottom: '56.25%'}}>
-                  <iframe width="560" height="315" style={{position: 'absolute', top: 0, left: 0,}} src="https://www.youtube-nocookie.com/embed/X0SV9pGQls4?rel=0&amp;showinfo=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                </div> */}
+                      <iframe width="560" height="315" style={{position: 'absolute', top: 0, left: 0,}} src="https://www.youtube-nocookie.com/embed/X0SV9pGQls4?rel=0&amp;showinfo=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    </div> */}
                     </div>
                     {/* /.hero-caption */}
                   </div>
@@ -536,7 +512,6 @@ export class Home extends Component<{}, State> {
               </div>
             </div>
           </div>
-
           <div className="section-space80 bg-white ">
             <div className="container pdb60">
               <div className="row">
@@ -781,50 +756,8 @@ export class Home extends Component<{}, State> {
                             }}
                           >
                             One can vest in TimeAlly just by locking up ES in TimeAlly smart
-                            contract for a vesting period of 1 year or 2 years.<br></br>
+                            contract for a specefied vesting period.<br></br>
                             <br></br>
-                            <div className="col-md-4 offset-md-4">
-                              <strong style={{ textAlign: 'center' }}>
-                                Please watch this video on how to stake in TimeAlly.
-                              </strong>
-                              <p style={{ textAlign: 'center' }}>
-                                <a
-                                  style={{
-                                    color: 'black',
-                                    textDecoration: 'underline',
-                                  }}
-                                  href="https://www.youtube-nocookie.com/embed/3msYFRo9d4E?rel=0&amp"
-                                  target="_blank"
-                                >
-                                  Click to open the Video in a new tab
-                                </a>
-                              </p>{' '}
-                              <br></br>
-                              <br></br>
-                              <div
-                                style={{
-                                  position: 'relative',
-                                  height: 0,
-                                  overflow: 'hidden',
-                                  maxWidth: '100%',
-                                  paddingBottom: '56.25%',
-                                }}
-                              >
-                                <iframe
-                                  style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                  }}
-                                  src="https://www.youtube-nocookie.com/embed/3msYFRo9d4E?rel=0&amp;showinfo=0"
-                                  frameBorder="0"
-                                  allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                ></iframe>
-                              </div>
-                            </div>
                             <br></br>
                           </Card.Body>
                         </Accordion.Collapse>
@@ -919,13 +852,12 @@ export class Home extends Component<{}, State> {
                             }}
                           >
                             <p>
-                              Vestors get the below mentioned benefits<br></br>
-                              Vesting for 1 Year: 13% newly release token from NRT will be allocated
-                              for TimeAlly vestors.
+                              Vestors in TimeAlly 1LT can claim the below mentioned benefits
                               <br></br>
+                              15% of newly release token as per NRT for staking.<br></br>
                               {/* Vesting for 1 Year: 13% (1.08% per month) of ES Tokens from NRT pool is allocated to be distributed among TA Vestors who vest tokens for 1 year.<br></br> */}
-                              Vesting for 2 Year: 15% (1.25% per month) of ES Tokens from NRT pool
-                              is allocated for TA Vestors.
+                              12% of newly release token as per NRT for ESN delegation.<br></br>
+                              10% of newly release token as per NRT for Swappers wall
                             </p>
                           </Card.Body>
                         </Accordion.Collapse>
@@ -952,8 +884,8 @@ export class Home extends Component<{}, State> {
                             }}
                           >
                             Era Swap ecosystem users receive rewards for the tasks they perform. The
-                            rewards are always distributed in 50% ES liquid and 50% ES TimeAlly
-                            locked to every user in Era Swap ecosystem.
+                            rewards are always distributed as per NRT distribution Chart to every
+                            Active user in Era Swap ecosystem
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -1183,15 +1115,13 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                            Ethereum is a decentralized and immutable platform. Tens of thousands of
-                            miners dedicate their computers to maintain the Ethereum network. For
-                            compensation, the concept of the gas fee is there. All transactions on
-                            Ethereum Network cost gas and this fee is transferred to miners in ETH.
-                            Users can choose to pay less or more gas to miners. A miner can choose
-                            which transactions to mine, and generally, they give priority to those
-                            transactions which give them more fees. You can customize your gas fees
-                            in the advanced settings while making staking, withdrawal or any
-                            transaction.
+                            Era Swap Network is a decentralized network. Generally, miners dedicate
+                            their computers to maintain the network. For compensation, the concept
+                            of the gas fee is there. All transactions on Era swap Network cost small
+                            gas and this fee is transferred to miners. Users can choose to pay gas
+                            to miners for the transaction to happen. A miner can choose which
+                            transactions to mine, and generally, they give priority to those
+                            transactions which give them more gas fees.
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -1282,7 +1212,7 @@ export class Home extends Component<{}, State> {
                             }}
                           >
                             <p>
-                              <a href="https://github.com/KMPARDS/timeally-react">
+                              <a href="https://github.com/KMPARDS/timeally-react" target="_blank">
                                 TimeAlly: https://github.com/KMPARDS/timeally-react
                               </a>
                             </p>
