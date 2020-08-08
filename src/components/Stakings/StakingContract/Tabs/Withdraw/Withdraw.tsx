@@ -127,7 +127,7 @@ export class Withdraw extends Component<Props, State> {
     const endState = {
       spinner: false,
       selectedMonths: this.state.selectedMonths,
-      displayMessage: 'Successfully withdrawn!',
+      displayMessage: `Successfully ${this.state.rewardType !== 2 ? 'withdrawn' : 'restaked'}!`,
     };
 
     try {
