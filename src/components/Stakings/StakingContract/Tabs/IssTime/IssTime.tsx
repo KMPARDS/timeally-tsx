@@ -63,10 +63,11 @@ export class IssTime extends Component<Props, State> {
   startIssTime = async () => {
     this.setState({ spinner: true });
     try {
-      await this.instance.startIssTime(
+      const tx = await this.instance.startIssTime(
         ethers.utils.parseEther(this.state.valueInput),
         this.state.issTimeDestroy
       );
+      await tx.wait();
       this.setState({ spinner: false });
       this.updateDetails();
     } catch (error) {
@@ -80,9 +81,10 @@ export class IssTime extends Component<Props, State> {
   submitIssTime = async () => {
     this.setState({ spinner: true });
     try {
-      await this.instance.submitIssTime({
+      const tx = await this.instance.submitIssTime({
         value: ethers.utils.parseEther(this.state.valueInput),
       });
+      await tx.wait();
       this.setState({ spinner: false });
       this.updateDetails();
     } catch (error) {

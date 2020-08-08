@@ -29,11 +29,12 @@ export class NewDelegation extends Component<Props, State> {
   delegate = async () => {
     this.setState({ spinner: true, displayMesssage: '' });
     try {
-      await this.props.instance.delegate(
+      const tx = await this.props.instance.delegate(
         this.state.platform,
         this.state.delegateeInput,
         this.state.monthsInput.split(' ').join('').split(',')
       );
+      await tx.wait();
       this.setState({ spinner: false, displayMesssage: 'Success' });
     } catch (error) {
       this.setState({
