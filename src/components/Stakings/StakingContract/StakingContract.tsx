@@ -283,37 +283,67 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
         <br />
         <Switch>
           <Route path={`${url}/withdraw`} exact>
-            {this.state.startMonth !== null && this.state.endMonth !== null ? (
+            {(this.state.startMonth !== null && this.state.endMonth !== null) ||
+            this.state.destroyStatus !== null ? (
               <Withdraw
                 instance={this.instance}
                 startMonth={this.state.startMonth}
                 endMonth={this.state.endMonth}
                 refreshDetailsHook={this.updateDetails}
+                destroyStatus={this.state.destroyStatus}
               />
             ) : (
               <>Loading...</>
             )}
           </Route>
           <Route path={`${url}/topup`} exact>
-            <Topup instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Topup
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/extend`} exact>
-            <Extend instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Extend
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/isstime`} exact>
-            <IssTime instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <IssTime
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/split`} exact>
-            <Split instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Split
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/transfer`} exact>
-            <Transfer instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Transfer
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/merge`} exact>
-            <Merge instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Merge
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/delegate`} exact>
-            <Delegate instance={this.instance} refreshDetailsHook={this.updateDetails} />
+            <Delegate
+              instance={this.instance}
+              refreshDetailsHook={this.updateDetails}
+              destroyStatus={this.state.destroyStatus}
+            />
           </Route>
           <Route path={`${url}/nominee`} exact component={Nominee} />
         </Switch>

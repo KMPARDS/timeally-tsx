@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { EraswapInfo } from '../../../../../utils';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import '../../../Stakings.css';
 
 type Props = {
   instance: TimeAllyStaking;
-  startMonth: number;
-  endMonth: number;
+  startMonth: number | null;
+  endMonth: number | null;
   refreshDetailsHook(): Promise<void>;
+  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -18,7 +20,15 @@ type State = {
   rewardType: 0 | 1 | 2 | null;
   spinner: boolean;
   displayMessage: string;
+  claims: BenefitClaim[] | null;
 };
+
+interface BenefitClaim {
+  nrtMonth: number;
+  amount: ethers.BigNumber;
+  rewardType: 0 | 1 | 2;
+  txHash: string;
+}
 
 export class Withdraw extends Component<Props, State> {
   state: State = {
@@ -28,16 +38,21 @@ export class Withdraw extends Component<Props, State> {
     rewardType: null,
     spinner: false,
     displayMessage: '',
+    claims: null,
   };
 
   instance = this.props.instance;
-  monthsArray = Object.keys([...Array(this.props.endMonth - this.props.startMonth + 1)]).map(
-    (n) => +n + this.props.startMonth
-  );
+  monthsArray =
+    this.props.startMonth !== null && this.props.endMonth !== null
+      ? Object.keys([...Array(this.props.endMonth - this.props.startMonth + 1)]).map(
+          (n) => +n + (this.props.startMonth ?? 0)
+        )
+      : null;
 
   componentDidMount = async () => {
-    await this.updateNrtMonth();
-    await this.updateBenefits();
+    this.updateNrtMonth();
+    this.loadClaims();
+    this.updateBenefits();
   };
 
   updateNrtMonth = async () => {
@@ -47,20 +62,42 @@ export class Withdraw extends Component<Props, State> {
   };
 
   updateBenefits = async () => {
-    const benefits = await Promise.all(
-      this.monthsArray.map(async (month) => {
-        if (this.state.currentMonth !== null && month > this.state.currentMonth) {
-          return { amount: null, claimed: false };
-        }
+    if (this.monthsArray !== null) {
+      const benefits = await Promise.all(
+        this.monthsArray.map(async (month) => {
+          if (this.state.currentMonth !== null && month > this.state.currentMonth) {
+            return { amount: null, claimed: false };
+          }
 
-        return {
-          amount: await this.instance.getMonthlyReward(month),
-          claimed: await this.instance.isMonthClaimed(month),
+          return {
+            amount: await this.instance.getMonthlyReward(month),
+            claimed: await this.instance.isMonthClaimed(month),
+          };
+        })
+      );
+
+      this.setState({ benefits });
+    }
+  };
+
+  loadClaims = async () => {
+    const claims = (await this.instance.queryFilter(this.instance.filters.Claim(null, null, null)))
+      .map((log): [ethers.Event, ethers.utils.LogDescription] => [
+        log,
+        this.instance.interface.parseLog(log),
+      ])
+      .map((_) => {
+        const [event, logDescription] = _;
+        const claim: BenefitClaim = {
+          nrtMonth: (logDescription.args[0] as ethers.BigNumber).toNumber(),
+          amount: logDescription.args[1] as ethers.BigNumber,
+          rewardType: logDescription.args[2] as 0 | 1 | 2,
+          txHash: event.transactionHash,
         };
-      })
-    );
+        return claim;
+      });
 
-    this.setState({ benefits });
+    this.setState({ claims });
   };
 
   isMonthSelected = (month: number) => {
@@ -121,6 +158,7 @@ export class Withdraw extends Component<Props, State> {
     this.setState(endState);
 
     this.updateBenefits();
+    this.loadClaims();
     this.props.refreshDetailsHook();
   };
 
@@ -229,69 +267,148 @@ export class Withdraw extends Component<Props, State> {
 
     return (
       <div className="container dashboard-bg">
-        <h3>Withdraw NRT</h3>
-        <div className="row">
-          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            {selectComponent}
-            <div className="wrapper-content-stack bg-white pinside10">
-              <div className="row">
-                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <div className="row table-padding">
-                    <Table responsive>
-                      <thead>
-                        <tr>
-                          <th>NRT Month</th>
-                          <th>Monthly Benefit</th>
-                          <th>Withdraw</th>
-                        </tr>
-                      </thead>
+        {this.state.claims === null ? (
+          <p>Loading withdraw claims history...</p>
+        ) : this.state.claims.length ? (
+          <>
+            <h3>Withdraw Claim History</h3>
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Claimed NRT month</th>
+                  <th>Reward type</th>
+                  <th>Amount</th>
+                  <th>Tx hash</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.claims.map((claim, index) => (
+                  <tr key={index}>
+                    <td>{claim.nrtMonth}</td>
+                    <td>{rewardTexts[claim.rewardType] ?? 'Unknown reward type'}</td>
+                    <td>
+                      {(() => {
+                        switch (claim.rewardType) {
+                          case 0:
+                            return (
+                              <>
+                                {ethers.utils.formatEther(claim.amount.div(2))} ES
+                                <br />
+                                {ethers.utils.formatEther(claim.amount.div(2))} TopupES
+                              </>
+                            );
+                          case 1:
+                            return (
+                              <>
+                                {ethers.utils.formatEther(claim.amount.div(2))} PrepaidES
+                                <br />
+                                {ethers.utils.formatEther(claim.amount.div(2))} TopupES
+                                <br />
+                                {ethers.utils.formatEther(claim.amount.div(2))} ES IssTime Limit
+                              </>
+                            );
+                          case 2:
+                            return (
+                              <>
+                                {ethers.utils.formatEther(claim.amount)} TopupES
+                                <br />
+                                {ethers.utils.formatEther(claim.amount.div(2).div(100).mul(225))} ES
+                                IssTime Limit
+                              </>
+                            );
+                          default:
+                            return <>Unknown reward type</>;
+                        }
+                      })()}
+                    </td>
+                    <td>
+                      <a target="_blank" href={EraswapInfo.getTxHref(claim.txHash)}>
+                        View tx on Eraswap.Info
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </>
+        ) : (
+          <p>No NRT claimed on this staking</p>
+        )}
 
-                      <tbody>
-                        {this.monthsArray.map((month, i) => (
-                          <tr key={i}>
-                            <td>{month}</td>
-                            <td>
-                              {this.state.benefits === null
-                                ? `Loading...`
-                                : this.state.benefits[i].amount
-                                ? `${ethers.utils.formatEther(
-                                    this.state.benefits[i].amount ?? ethers.constants.Zero // Typescript bug
-                                  )} ES${this.state.benefits[i].claimed ? ` (Claimed)` : ''}`
-                                : `NRT not released`}
-                            </td>
-                            <td>
-                              <div className="withdraw-data-flex">
-                                <Button
-                                  variant={
-                                    this.isMonthSelected(month) ? 'primary' : 'outline-primary'
-                                  }
-                                  disabled={
-                                    this.state.benefits
-                                      ? this.state.benefits[i].amount === null ||
-                                        this.state.benefits[i].claimed
-                                      : true
-                                  }
-                                  onClick={this.toggleSelectionOfMonth.bind(this, month)}
-                                >
-                                  {this.state.benefits && this.state.benefits[i].claimed
-                                    ? 'Already claimed'
-                                    : this.isMonthSelected(month)
-                                    ? 'Selected'
-                                    : 'Select'}
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+        {this.props.destroyStatus !== null ? (
+          <Alert variant="danger">
+            The staking contract is destroyed, so any pending NRT benefits withdraw cannot be
+            executed.
+          </Alert>
+        ) : null}
+
+        {this.monthsArray !== null ? (
+          <>
+            <h3>Withdraw NRT</h3>
+
+            <div className="row">
+              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                {selectComponent}
+                <div className="wrapper-content-stack bg-white pinside10">
+                  <div className="row">
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div className="row table-padding">
+                        <Table responsive>
+                          <thead>
+                            <tr>
+                              <th>NRT Month</th>
+                              <th>Monthly Benefit</th>
+                              <th>Withdraw</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {this.monthsArray.map((month, i) => (
+                              <tr key={i}>
+                                <td>{month}</td>
+                                <td>
+                                  {this.state.benefits === null
+                                    ? `Loading...`
+                                    : this.state.benefits[i].amount
+                                    ? `${ethers.utils.formatEther(
+                                        this.state.benefits[i].amount ?? ethers.constants.Zero // Typescript bug
+                                      )} ES${this.state.benefits[i].claimed ? ` (Claimed)` : ''}`
+                                    : `NRT not released`}
+                                </td>
+                                <td>
+                                  <div className="withdraw-data-flex">
+                                    <Button
+                                      variant={
+                                        this.isMonthSelected(month) ? 'primary' : 'outline-primary'
+                                      }
+                                      disabled={
+                                        this.state.benefits
+                                          ? this.state.benefits[i].amount === null ||
+                                            this.state.benefits[i].claimed
+                                          : true
+                                      }
+                                      onClick={this.toggleSelectionOfMonth.bind(this, month)}
+                                    >
+                                      {this.state.benefits && this.state.benefits[i].claimed
+                                        ? 'Already claimed'
+                                        : this.isMonthSelected(month)
+                                        ? 'Selected'
+                                        : 'Select'}
+                                    </Button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                {selectComponent}
               </div>
             </div>
-            {selectComponent}
-          </div>
-        </div>
+          </>
+        ) : null}
       </div>
     );
   }
