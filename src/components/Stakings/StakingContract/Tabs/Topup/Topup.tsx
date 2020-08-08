@@ -6,6 +6,7 @@ import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaki
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
+  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -140,33 +141,35 @@ export class Topup extends Component<Props, State> {
     return (
       <>
         <h3>Topup</h3>
-        <>
-          {this.state.topups === null ? (
-            'Loading topups..'
-          ) : this.state.topups.length === 0 ? (
-            'No previous topups'
-          ) : (
-            <>
-              Previous Topups:
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>Topup Amount</th>
-                    <th>Benefactor</th>
-                    <th>Timestamp</th>
-                  </tr>
-                </thead>
+
+        {this.state.topups === null ? (
+          'Loading topups..'
+        ) : this.state.topups.length === 0 ? (
+          'No previous topups'
+        ) : (
+          <>
+            Previous Topups:
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Topup Amount</th>
+                  <th>Benefactor</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
                 {this.state.topups.map((topup, index) => (
-                  <tr>
+                  <tr key={index}>
                     <td>{ethers.utils.formatEther(topup.amount)} ES</td>
                     <td>{topup.benefactor}</td>
                     <td>{new Date(topup.timestamp * 1000).toLocaleString()}</td>
                   </tr>
                 ))}
-              </Table>
-            </>
-          )}
-        </>
+              </tbody>
+            </Table>
+          </>
+        )}
+
         <Card>
           <Form
             className="mnemonics custom-width"
@@ -210,11 +213,23 @@ export class Topup extends Component<Props, State> {
               ) : null}
             </Form.Group>
 
+            {this.props.destroyStatus !== null ? (
+              <Alert variant="danger">
+                The staking contract is destroyed, so any topup done will be permanently locked at
+                the staking contract address.
+              </Alert>
+            ) : null}
+
             <Button
               variant="primary"
               onClick={this.topupLiquid}
               id="firstSubmit"
-              disabled={!sufficientLiquid || spinnerLiquid || spinnerPrepaid}
+              disabled={
+                !sufficientLiquid ||
+                spinnerLiquid ||
+                spinnerPrepaid ||
+                this.props.destroyStatus !== null
+              }
             >
               {this.state.spinnerLiquid ? (
                 <Spinner
@@ -232,7 +247,12 @@ export class Topup extends Component<Props, State> {
               variant="warning"
               onClick={this.topupPrepaid}
               id="firstSubmit"
-              disabled={!sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
+              disabled={
+                !sufficientPrepaid ||
+                spinnerLiquid ||
+                spinnerPrepaid ||
+                this.props.destroyStatus !== null
+              }
             >
               {this.state.spinnerPrepaid ? (
                 <Spinner

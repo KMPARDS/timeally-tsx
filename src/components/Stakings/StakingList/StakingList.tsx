@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import { Alert, Card } from 'react-bootstrap';
+import { Alert, Table } from 'react-bootstrap';
 import { Layout } from '../../Layout';
 import { StakingListElement } from './StakingListElement';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
@@ -19,11 +19,13 @@ interface StakingTransferEvent {
   from: string;
   to: string;
   stakingContract: string;
+  txHash: string;
 }
 
 interface MyStaking {
   address: string;
   status: 'hold' | 'transferred' | 'burned';
+  txHash: string;
 }
 
 export class StakingList extends Component<RouteComponentProps, StakingListState> {
@@ -61,12 +63,17 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       .sort((event1, event2) => {
         return event1.blockNumber > event2.blockNumber ? 1 : -1;
       })
-      .map((event) => window.timeallyManagerInstance.interface.parseLog(event))
-      .map((parsedLog) => {
+      .map((event): [ethers.Event, ethers.utils.LogDescription] => [
+        event,
+        window.timeallyManagerInstance.interface.parseLog(event),
+      ])
+      .map((_) => {
+        const [event, parsedLog] = _;
         const stakingTransfer: StakingTransferEvent = {
           from: parsedLog.args[0],
           to: parsedLog.args[1],
           stakingContract: parsedLog.args[2],
+          txHash: event.transactionHash,
         };
         return stakingTransfer;
       });
@@ -94,16 +101,19 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
         myStakings.push({
           address: stakingTransfer.stakingContract,
           status: 'hold',
+          txHash: stakingTransfer.txHash,
         });
       } else if (filterred[filterred.length - 1].to === ethers.constants.AddressZero) {
         myStakings.push({
           address: stakingTransfer.stakingContract,
           status: 'burned',
+          txHash: stakingTransfer.txHash,
         });
       } else {
         myStakings.push({
           address: stakingTransfer.stakingContract,
           status: 'transferred',
+          txHash: stakingTransfer.txHash,
         });
       }
     }
@@ -145,7 +155,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
             </Alert>
           ) : (
             <div className="row table-padding">
-              <table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>Staking Contract</th>
@@ -163,14 +173,15 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                       key={i}
                       stakingContract={myStaking.address}
                       status={myStaking.status}
+                      txHash={myStaking.txHash}
                     />
                   ))}
                 </tbody>
-              </table>
+              </Table>
             </div>
           )
         ) : null}
-        <p>
+        <p className="mt-4">
           View world stakings by going to{' '}
           <Link to="/stakings/explorer">TimeAlly Stakings Explorer</Link>.
         </p>

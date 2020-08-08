@@ -7,6 +7,7 @@ import { runInThisContext } from 'vm';
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
+  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -99,7 +100,18 @@ export class Split extends Component<Props, State> {
           <Alert variant="info">{this.state.displayMessage}</Alert>
         ) : null}
 
-        <Button onClick={this.split} disabled={this.state.spinner}>
+        {this.props.destroyStatus !== null ? (
+          <Alert variant="danger">
+            The staking contract is destroyed, so a split staking transaction cannot be executed and
+            a trial to do this would cause the split fee to be permanently locked at the staking
+            contract address.
+          </Alert>
+        ) : null}
+
+        <Button
+          onClick={this.split}
+          disabled={this.state.spinner || this.props.destroyStatus !== null}
+        >
           {this.state.spinner ? (
             <Spinner
               as="span"

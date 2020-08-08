@@ -136,11 +136,13 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   events: {
     'Claim(uint256,uint256,uint8)': EventFragment;
     'Delegate(uint256,address,bytes)': EventFragment;
-    'Topup(uint256,address)': EventFragment;
+    'Destroy(uint8)': EventFragment;
+    'Topup(int256,address)': EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: 'Claim'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Delegate'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Destroy'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Topup'): EventFragment;
 }
 
@@ -982,6 +984,8 @@ export class TimeAllyStaking extends Contract {
     Claim(month: BigNumberish | null, amount: null, rewardType: null): EventFilter;
 
     Delegate(month: BigNumberish | null, platform: string | null, extraData: null): EventFilter;
+
+    Destroy(destroyReason: null): EventFilter;
 
     Topup(amount: null, benefactor: null): EventFilter;
   };

@@ -45,12 +45,12 @@ export class Dashboard extends Component<{}, State> {
     );
 
     const logs = await window.nrtManagerInstance.queryFilter(
-      window.nrtManagerInstance.filters.NRT(null)
+      window.nrtManagerInstance.filters.NRT(null, null, null)
     );
     const nrtReleases = logs
       .map((log) => window.nrtManagerInstance.interface.parseLog(log))
       .map((parsedLog) => {
-        const nrtRelease: ethers.BigNumber = parsedLog.args[0];
+        const nrtRelease: ethers.BigNumber = parsedLog.args[1];
         return nrtRelease;
       });
 
@@ -72,7 +72,7 @@ export class Dashboard extends Component<{}, State> {
 
     this.setState({
       currentNrtMonth: currentNrtMonth.toNumber(),
-      nrtRelease: nrtReleases.slice(-1)[0],
+      nrtRelease: nrtReleases.slice(-1)[0] ?? ethers.constants.Zero,
       nextMonthActiveStakes,
       lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,
       numberOfTransfersIn24Hours,
@@ -96,7 +96,12 @@ export class Dashboard extends Component<{}, State> {
         'latest'
       );
       diff *= 2;
+      if (currentBlockNumber < diff) {
+        break;
+      }
     }
+
+    console.log(logs);
 
     const recentNewStakings = logs
       .reverse()
@@ -113,7 +118,8 @@ export class Dashboard extends Component<{}, State> {
           txHash: event.transactionHash,
         };
         return newStaking;
-      });
+      })
+      .slice(0, 5);
 
     this.setState({ recentNewStakings });
   };
@@ -234,9 +240,7 @@ export class Dashboard extends Component<{}, State> {
                         </thead>
                         <tbody style={{ textAlign: 'center' }}>
                           {this.state.recentNewStakings.map((newStaking, index) => (
-                            <>
-                              <NewStakingRow newStaking={newStaking} />
-                            </>
+                            <NewStakingRow key={index} newStaking={newStaking} />
                           ))}
                         </tbody>
                       </Table>

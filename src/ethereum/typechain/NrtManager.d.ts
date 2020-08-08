@@ -77,10 +77,10 @@ interface NrtManagerInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'setInitialValues', data: BytesLike): Result;
 
   events: {
-    'Burn(uint256)': EventFragment;
-    'BurnPoolAccrue(uint256)': EventFragment;
-    'LuckPoolAccrue(uint256)': EventFragment;
-    'NRT(uint256)': EventFragment;
+    'Burn(uint256,uint256)': EventFragment;
+    'BurnPoolAccrue(uint256,uint256,address)': EventFragment;
+    'LuckPoolAccrue(uint256,uint256,address)': EventFragment;
+    'NRT(uint256,uint256,address)': EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: 'Burn'): EventFragment;
@@ -467,13 +467,13 @@ export class NrtManager extends Contract {
   };
 
   filters: {
-    Burn(value: null): EventFilter;
+    Burn(nrtMonth: BigNumberish | null, value: null): EventFilter;
 
-    BurnPoolAccrue(value: null): EventFilter;
+    BurnPoolAccrue(nrtMonth: BigNumberish | null, value: null, sender: null): EventFilter;
 
-    LuckPoolAccrue(value: null): EventFilter;
+    LuckPoolAccrue(nrtMonth: BigNumberish | null, value: null, sender: null): EventFilter;
 
-    NRT(value: null): EventFilter;
+    NRT(nrtMonth: BigNumberish | null, value: null, releaser: null): EventFilter;
   };
 
   estimateGas: {
