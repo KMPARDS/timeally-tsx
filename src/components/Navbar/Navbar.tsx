@@ -107,6 +107,7 @@ export class NavbarMain extends Component<{}, State> {
                           <span
                             className="btn main-btn btn-default btn-sm margin-custom"
                             onClick={this.copyAddress}
+                            style={{ cursor: 'pointer' }}
                           >
                             {this.state.addressCopied ? (
                               <>address copied</>
