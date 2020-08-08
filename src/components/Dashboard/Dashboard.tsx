@@ -118,7 +118,8 @@ export class Dashboard extends Component<{}, State> {
           txHash: event.transactionHash,
         };
         return newStaking;
-      });
+      })
+      .slice(0, 5);
 
     this.setState({ recentNewStakings });
   };
