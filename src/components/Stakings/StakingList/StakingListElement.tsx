@@ -160,7 +160,9 @@ export class StakingListElement extends Component<
                     }
                   })()}
                 </>
-              ) : null}
+              ) : (
+                <> loading reason...</>
+              )}
             </td>
           </>
         )}
