@@ -150,7 +150,7 @@ export class Withdraw extends Component<Props, State> {
       await tx.wait();
 
       // deselect months
-      endState.selectedMonths = [];
+      // endState.selectedMonths = []; // commenting to not deselect months
     } catch (error) {
       endState.displayMessage = `There was an error: ${error.message}`;
     }
