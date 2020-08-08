@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import { Alert, Card } from 'react-bootstrap';
+import { Alert, Table } from 'react-bootstrap';
 import { Layout } from '../../Layout';
 import { StakingListElement } from './StakingListElement';
 import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
@@ -155,7 +155,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
             </Alert>
           ) : (
             <div className="row table-padding">
-              <table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>Staking Contract</th>
@@ -177,11 +177,11 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
                     />
                   ))}
                 </tbody>
-              </table>
+              </Table>
             </div>
           )
         ) : null}
-        <p>
+        <p className="mt-4">
           View world stakings by going to{' '}
           <Link to="/stakings/explorer">TimeAlly Stakings Explorer</Link>.
         </p>
