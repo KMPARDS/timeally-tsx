@@ -46,7 +46,7 @@ export class NavbarMain extends Component<{}, State> {
   };
 
   copyAddress = () => {
-    if (window.wallet && copy(window.wallet.address)) {
+    if (this.state.walletAddress && copy(this.state.walletAddress)) {
       this.setState({ addressCopied: true });
       setTimeout(() => this.setState({ addressCopied: false }), 2000);
     }
@@ -100,8 +100,8 @@ export class NavbarMain extends Component<{}, State> {
                               <>address copied</>
                             ) : (
                               <>
-                                {window.wallet.address.slice(0, 6)}...
-                                {window.wallet.address.slice(38)}
+                                {this.state.walletAddress.slice(0, 6)}...
+                                {this.state.walletAddress.slice(38)}
                               </>
                             )}
                           </span>

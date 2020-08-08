@@ -28,6 +28,8 @@ export class UsingMetamask extends Component<{}, State> {
     // this.setState({ displayScreen: 0 });
     try {
       if (window.ethereum) {
+        // @ts-ignore
+        window.ethereum.enable();
         const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
         const network = await metamaskProvider.getNetwork();
         // console.log(network);
@@ -39,7 +41,7 @@ export class UsingMetamask extends Component<{}, State> {
           network.name = 'Main Era Swap Network';
         }
 
-        console.log(network);
+        // console.log(network);
 
         const onCorrectNetwork = network.chainId === Number(process.env.REACT_APP_CHAIN_ID ?? 0);
 
@@ -82,7 +84,14 @@ export class UsingMetamask extends Component<{}, State> {
         {(() => {
           switch (this.state.displayScreen) {
             case 0:
-              return <p>Please wait connecting to metamask...</p>;
+              return (
+                <p>
+                  Please wait connecting to metamask... Now Metamask popup should open, click{' '}
+                  <b>Confirm</b> in Metamask to allow it to connect with TimeAlly. If popup did not
+                  open, please click on Metamask to open it (it sometimes ignores connection
+                  requests) or try refreshing this page.
+                </p>
+              );
             case 1:
               return (
                 <div>
@@ -106,7 +115,11 @@ export class UsingMetamask extends Component<{}, State> {
                     <li>
                       Symbol: <u>ES</u>
                     </li>
-                    <li>You can leave other fields blank. Click on Save button.</li>
+                    <li>
+                      You can leave other fields blank. Click on Save button. If you've followed the
+                      above instructions and still don't see your address on this page, please try
+                      refreshing this page.
+                    </li>
                   </ol>
                   For more help, visit this{' '}
                   <a
