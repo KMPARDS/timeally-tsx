@@ -251,10 +251,12 @@ export class Withdraw extends Component<Props, State> {
                       aria-hidden="true"
                       style={{ marginRight: '2px' }}
                     />
-                    Withdrawing
+                    Please wait...
                   </>
-                ) : (
+                ) : this.state.rewardType !== 2 ? (
                   <>Withdraw</>
+                ) : (
+                  <>Restake</>
                 )}
               </Button>
             ) : null}
