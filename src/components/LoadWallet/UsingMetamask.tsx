@@ -39,7 +39,7 @@ export class UsingMetamask extends Component<{}, State> {
           network.name = 'Main Era Swap Network';
         }
 
-        console.log(network);
+        // console.log(network);
 
         const onCorrectNetwork = network.chainId === Number(process.env.REACT_APP_CHAIN_ID ?? 0);
 
