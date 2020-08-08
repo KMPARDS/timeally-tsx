@@ -64,13 +64,11 @@ export class NavbarMain extends Component<{}, State> {
                   Current Time: {new Date(this.state.currentTime).toLocaleString()}
                 </p>
               </div>
-              <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3  d-none d-xl-block d-lg-block">
+              <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4  d-none d-xl-block d-lg-block">
                 <p className="mail-text text-center">ES Price: </p>
               </div>
-              <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 d-none d-xl-block d-lg-block">
-                <p className="mail-text text-center">Ether Price: </p>
-              </div>
-              <div className="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 d-none d-xl-block d-lg-block">
+              
+              <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-2 d-none d-xl-block d-lg-block">
                 <p className="mail-text text-center">Gas Price: </p>
               </div>
             </div>
@@ -149,7 +147,13 @@ export class NavbarMain extends Component<{}, State> {
                           <img src="/images/new.png" className="new-img" alt="TimeAlly" />
                         </div>
                       </Link>
-
+                      <Link to="/1lifetime" href="https://www.youtube.com/embed/LfRqq2EnQBQ" target="_blank" >
+                        <div className="navbar-item">
+                          1LifeTime Teaser
+                          <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+                        </div>
+                      </Link>
+                    
                       <Link to="/dashboard">
                         <div className="navbar-item">Dashboard</div>
                       </Link>
