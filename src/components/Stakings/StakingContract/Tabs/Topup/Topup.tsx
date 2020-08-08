@@ -156,13 +156,15 @@ export class Topup extends Component<Props, State> {
                     <th>Timestamp</th>
                   </tr>
                 </thead>
-                {this.state.topups.map((topup, index) => (
-                  <tr>
-                    <td>{ethers.utils.formatEther(topup.amount)} ES</td>
-                    <td>{topup.benefactor}</td>
-                    <td>{new Date(topup.timestamp * 1000).toLocaleString()}</td>
-                  </tr>
-                ))}
+                <tbody>
+                  {this.state.topups.map((topup, index) => (
+                    <tr key={index}>
+                      <td>{ethers.utils.formatEther(topup.amount)} ES</td>
+                      <td>{topup.benefactor}</td>
+                      <td>{new Date(topup.timestamp * 1000).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </Table>
             </>
           )}
