@@ -42,6 +42,9 @@ export class Explorer extends Component<{}, State> {
         'latest'
       );
       diff *= 2;
+      if (currentBlockNumber < diff) {
+        break;
+      }
     }
 
     const recentStakingTransfers = logs
