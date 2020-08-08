@@ -28,6 +28,8 @@ export class UsingMetamask extends Component<{}, State> {
     // this.setState({ displayScreen: 0 });
     try {
       if (window.ethereum) {
+        // @ts-ignore
+        window.ethereum.enable();
         const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
         const network = await metamaskProvider.getNetwork();
         // console.log(network);
