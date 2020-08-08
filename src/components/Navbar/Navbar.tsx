@@ -9,6 +9,7 @@ type State = {
   walletAddress: string | null;
   addressCopied: boolean;
   currentTime: number;
+  esPrice: string;
 };
 
 export class NavbarMain extends Component<{}, State> {
@@ -16,6 +17,7 @@ export class NavbarMain extends Component<{}, State> {
     walletAddress: null,
     addressCopied: false,
     currentTime: Date.now(),
+    esPrice: '',
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -23,6 +25,7 @@ export class NavbarMain extends Component<{}, State> {
   componentDidMount = async () => {
     this.intervalIds.push(routine(this.updateWalletStatus, 500));
     this.intervalIds.push(routine(this.updateTime, 500));
+    this.intervalIds.push(routine(this.fetchEsPrice, 10000));
   };
 
   componentWillUnmount = () => {
@@ -39,6 +42,15 @@ export class NavbarMain extends Component<{}, State> {
     if (currentWalletAddress !== this.state.walletAddress) {
       this.setState({ walletAddress: currentWalletAddress });
     }
+  };
+
+  fetchEsPrice = async () => {
+    const result = await fetch('https://eraswap.technology/probit/getESPrice');
+    const json = await result.json();
+    const prices = json.data.probitResponse.data as { last: string }[];
+    this.setState({
+      esPrice: prices[0].last + ' USDT / ' + prices[1].last + ' BTC',
+    });
   };
 
   updateTime = () => {
@@ -65,11 +77,11 @@ export class NavbarMain extends Component<{}, State> {
                 </p>
               </div>
               <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4  d-none d-xl-block d-lg-block">
-                <p className="mail-text text-center">ES Price: </p>
+                <p className="mail-text text-center">ES Price: {this.state.esPrice}</p>
               </div>
 
               <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-2 d-none d-xl-block d-lg-block">
-                <p className="mail-text text-center">Gas Price: </p>
+                <p className="mail-text text-center">Gas Price: 0 ESMETER</p>
               </div>
             </div>
           </div>
