@@ -1,8 +1,40 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
+import { ethers } from 'ethers';
+import { routine } from '../../utils';
 
-export class Home extends Component {
+type State = {
+  timeallyNrt: ethers.BigNumber | null;
+  totalActiveStakings: ethers.BigNumber | null;
+};
+
+export class Home extends Component<{}, State> {
+  state: State = {
+    timeallyNrt: null,
+    totalActiveStakings: null,
+  };
+
+  intervalIds: NodeJS.Timeout[] = [];
+
+  componentDidMount = () => {
+    this.intervalIds.push(routine(this.updateValues, 8000));
+  };
+
+  componentWillUnmount = () => {
+    this.intervalIds.forEach(clearInterval);
+  };
+
+  updateValues = async () => {
+    const currentNrtMonth = await window.nrtManagerInstance.currentNrtMonth();
+    const timeallyNrt = await window.timeallyManagerInstance.getTimeAllyMonthlyNRT(currentNrtMonth);
+    const totalActiveStakings = await window.timeallyManagerInstance.getTotalActiveStaking(
+      currentNrtMonth.add(1)
+    );
+
+    this.setState({ timeallyNrt, totalActiveStakings });
+  };
+
   render() {
     return (
       <>
@@ -79,7 +111,11 @@ export class Home extends Component {
                 <div className="col-md-6">
                   <div className="rate-counter-block">
                     <div className="rate-box">
-                      <h1 className="loan-rate">Loading...</h1>
+                      <h1 className="loan-rate">
+                        {this.state.timeallyNrt !== null
+                          ? `${ethers.utils.formatEther(this.state.timeallyNrt)} ES`
+                          : 'Loading...'}
+                      </h1>
                       <small className="rate-title">NRT Released in this month for TimeAlly</small>
                     </div>
                   </div>
@@ -87,7 +123,11 @@ export class Home extends Component {
                 <div className="col-md-6">
                   <div className="rate-counter-block-second">
                     <div className="rate-box">
-                      <h1 className="loan-rate">Loading...</h1>
+                      <h1 className="loan-rate">
+                        {this.state.totalActiveStakings !== null
+                          ? `${ethers.utils.formatEther(this.state.totalActiveStakings)} ES`
+                          : 'Loading...'}
+                      </h1>
                       <small className="rate-title">Total Active Stakes in next month</small>
                     </div>
                   </div>
