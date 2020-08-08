@@ -4,16 +4,19 @@ import { Table, Alert } from 'react-bootstrap';
 import { EraswapInfo, routine } from '../../utils';
 import { BigNumber } from 'ethers';
 import { formatEther } from 'ethers/lib/utils';
+import copy from 'copy-to-clipboard';
 
 type State = {
   liquid: BigNumber | null;
   prepaid: BigNumber | null;
+  addressCopied: boolean;
 };
 
 export class Wallet extends Component<{}, State> {
   state: State = {
     liquid: null,
     prepaid: null,
+    addressCopied: false,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
@@ -34,6 +37,13 @@ export class Wallet extends Component<{}, State> {
     }
   };
 
+  copyAddress = () => {
+    if (copy(window.wallet?.address ?? 'wallet.address is nullish')) {
+      this.setState({ addressCopied: true });
+      setTimeout(() => this.setState({ addressCopied: false }), 2000);
+    }
+  };
+
   render() {
     return (
       <Layout title="Wallet">
@@ -43,6 +53,15 @@ export class Wallet extends Component<{}, State> {
           <>
             <Table>
               <tbody>
+                <tr>
+                  <td>Wallet Address</td>
+                  <td onClick={this.copyAddress} style={{ cursor: 'pointer' }}>
+                    <span className="hex-string">
+                      {window.wallet?.address ?? 'wallet.address is nullish'}
+                    </span>{' '}
+                    {this.state.addressCopied ? <>[Copied]</> : <>[Copy]</>}
+                  </td>
+                </tr>
                 <tr>
                   <td>Liquid (Native ES)</td>
                   <td>
