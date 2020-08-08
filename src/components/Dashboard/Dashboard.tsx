@@ -95,9 +95,13 @@ export class Dashboard extends Component<{}, State> {
         currentBlockNumber - diff,
         'latest'
       );
+
+      if (diff === currentBlockNumber) break;
+
       diff *= 2;
+
       if (currentBlockNumber < diff) {
-        break;
+        diff = currentBlockNumber;
       }
     }
 
