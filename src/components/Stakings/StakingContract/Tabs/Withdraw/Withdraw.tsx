@@ -127,7 +127,7 @@ export class Withdraw extends Component<Props, State> {
     const endState = {
       spinner: false,
       selectedMonths: this.state.selectedMonths,
-      displayMessage: 'Successfully withdrawn!',
+      displayMessage: `Successfully ${this.state.rewardType !== 2 ? 'withdrawn' : 'restaked'}!`,
     };
 
     try {
@@ -150,7 +150,7 @@ export class Withdraw extends Component<Props, State> {
       await tx.wait();
 
       // deselect months
-      endState.selectedMonths = [];
+      // endState.selectedMonths = []; // commenting to not deselect months
     } catch (error) {
       endState.displayMessage = `There was an error: ${error.message}`;
     }
@@ -251,10 +251,12 @@ export class Withdraw extends Component<Props, State> {
                       aria-hidden="true"
                       style={{ marginRight: '2px' }}
                     />
-                    Withdrawing
+                    Please wait...
                   </>
-                ) : (
+                ) : this.state.rewardType !== 2 ? (
                   <>Withdraw</>
+                ) : (
+                  <>Restake</>
                 )}
               </Button>
             ) : null}

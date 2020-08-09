@@ -25,7 +25,8 @@ export class Merge extends Component<Props, State> {
   mergeIn = async () => {
     this.setState({ spinner: true, displayMessage: '' });
     try {
-      await this.props.instance.mergeIn(this.state.masterStakingInput);
+      const tx = await this.props.instance.mergeIn(this.state.masterStakingInput);
+      await tx.wait();
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
