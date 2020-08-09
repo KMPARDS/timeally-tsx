@@ -156,7 +156,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                   </td>
                 </tr>
                 <tr>
-                  <td>Principal</td>
+                  <td>ES Staked</td>
                   <td>
                     {this.state.principal !== null
                       ? `${ethers.utils.formatEther(this.state.principal)} ES`
