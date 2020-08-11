@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
-import { Alert, Form, Button, Spinner } from 'react-bootstrap';
+import { Alert, Form, Button, Spinner, Col, } from 'react-bootstrap';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -43,43 +43,86 @@ export class Transfer extends Component<Props, State> {
           transferring the staking, the staking is transferred in current state as is. Meaning, all
           the unclaimed benefits, topup, issTime, delegation is also included in the transfer.
         </p>
-
-        <Form.Control
-          onChange={(event) => this.setState({ addressInput: event.target.value })}
-          value={this.state.addressInput}
-          type="text"
-          placeholder="Enter new owner address"
-          style={{ width: '325px' }}
-          autoComplete="off"
-        />
-
-        {this.state.displayMessage ? (
-          <Alert variant="info">{this.state.displayMessage}</Alert>
-        ) : null}
-
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so a transfer ownership transaction cannot be
-            executed.
-          </Alert>
-        ) : null}
-
-        <Button
-          onClick={this.transferOwnership}
-          disabled={this.state.spinner || this.props.destroyStatus !== null}
-        >
-          {this.state.spinner ? (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              style={{ marginRight: '2px' }}
-            />
-          ) : null}
-          {this.state.spinner ? 'Transferring...' : 'Transfer staking'}
-        </Button>
+          <Form>
+              <Form.Row className="align-items-center">
+                <Col xs="auto" className="my-1">
+                <Form.Control className="align-items-center"
+                    onChange={(event) => this.setState({ addressInput: event.target.value })}
+                    value={this.state.addressInput}
+                    type="text"
+                    placeholder="Enter new owner address"
+                    autoComplete="off"
+                  />
+          
+                  {this.state.displayMessage ? (
+                    <Alert variant="info">{this.state.displayMessage}</Alert>
+                  ) : null}
+          
+                  {this.props.destroyStatus !== null ? (
+                    <Alert variant="danger">
+                      The staking contract is destroyed, so a transfer ownership transaction cannot be
+                      executed.
+                    </Alert>
+                  ) : null}
+                  
+                </Col>
+                
+                <Col xs="auto" className="my-1">
+                          <Button
+                              onClick={this.transferOwnership}
+                              disabled={this.state.spinner || this.props.destroyStatus !== null}
+                            >
+                              {this.state.spinner ? (
+                                <Spinner
+                                  as="span"
+                                  animation="border"
+                                  size="sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                  style={{ marginRight: '2px' }}
+                                />
+                              ) : null}
+                              {this.state.spinner ? 'Transferring...' : 'Transfer staking'}
+                            </Button>
+                  </Col>
+              </Form.Row>
+            </Form>
+            {/* <Form.Control className="align-items-center"
+                    onChange={(event) => this.setState({ addressInput: event.target.value })}
+                    value={this.state.addressInput}
+                    type="text"
+                    placeholder="Enter new owner address"
+                    style={{ width: '325px' }}
+                    autoComplete="off"
+                  />
+          
+                  {this.state.displayMessage ? (
+                    <Alert variant="info">{this.state.displayMessage}</Alert>
+                  ) : null}
+          
+                  {this.props.destroyStatus !== null ? (
+                    <Alert variant="danger">
+                      The staking contract is destroyed, so a transfer ownership transaction cannot be
+                      executed.
+                    </Alert>
+                  ) : null}
+                      <Button
+                              onClick={this.transferOwnership}
+                              disabled={this.state.spinner || this.props.destroyStatus !== null}
+                            >
+                              {this.state.spinner ? (
+                                <Spinner
+                                  as="span"
+                                  animation="border"
+                                  size="sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                  style={{ marginRight: '2px' }}
+                                />
+                              ) : null}
+                              {this.state.spinner ? 'Transferring...' : 'Transfer staking'}
+                            </Button> */}
+       
       </>
     );
   }

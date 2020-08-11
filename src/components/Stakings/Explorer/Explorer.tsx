@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout } from '../../Layout';
-import { Form, Card, Button, Table } from 'react-bootstrap';
+import { Form, Card, Button, Table, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { routine } from '../../../utils';
@@ -75,8 +75,34 @@ export class Explorer extends Component<{}, State> {
   render() {
     return (
       <Layout title="Explore Stakings">
-        <Card className="p-4">
-          <p>Enter any staking contract address to view it:</p>
+        <Card className="p-4 text-left">
+          <p className="text-bold">Enter any staking contract address to view it:</p>
+
+          <Form>
+            <Form.Row className="align-items-center">
+              <Col xs="auto" className="my-1">
+              <Form.Control className="align-items-center"
+                 onChange={(event) => this.setState({ stakingAddressInput: event.target.value })}
+                 value={this.state.stakingAddressInput}
+                 type="text"
+                 placeholder="Enter address of staking"
+                 autoComplete="off"
+                 isInvalid={
+                   !!this.state.stakingAddressInput &&
+                   !ethers.utils.isAddress(this.state.stakingAddressInput)
+                 }
+               />
+              </Col>
+              
+              <Col xs="auto" className="my-1">
+                 <Link to={`/stakings/${this.state.stakingAddressInput}`}>
+                  <Button>View staking</Button>
+                </Link>
+             </Col>
+            </Form.Row>
+          </Form>
+
+{/* 
           <Form.Control
             onChange={(event) => this.setState({ stakingAddressInput: event.target.value })}
             value={this.state.stakingAddressInput}
@@ -91,7 +117,7 @@ export class Explorer extends Component<{}, State> {
           />
           <Link to={`/stakings/${this.state.stakingAddressInput}`}>
             <Button>View staking</Button>
-          </Link>
+          </Link> */}
         </Card>
 
         <Card className="p-4">
@@ -116,12 +142,12 @@ export class Explorer extends Component<{}, State> {
                 ))}
             </tbody>
             {this.state.recentStakingTransfers.length ? (
-              <Button
+              <Button  className="btn btn-primary mt10 mb20 ml10"
                 onClick={() =>
                   this.setState({ numberOfTransfers: this.state.numberOfTransfers + 10 })
                 }
               >
-                Show more transfers
+                Show More Transfers
               </Button>
             ) : null}
           </Table>

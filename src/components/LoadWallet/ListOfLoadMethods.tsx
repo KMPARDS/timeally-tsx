@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const ListOfLoadMethods = () => {
   return (
-    <div className="container">
+    <div className="container bg-com">
       <Card
         style={{ margin: '15px 0', cursor: 'pointer' }}
         onClick={() => window.open('https://eraswap.life/', '', 'width=1001,height=650')}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Container } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { routine } from '../../utils';
 
@@ -78,9 +78,11 @@ export class UsingMetamask extends Component<{}, State> {
 
   render() {
     return (
-      <Card>
+      <Container className="text-center bg-com mb20">
+      <Card className="mt40">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt40 mb40">
         <h3>Using Metamask to login</h3>
-
+       
         {(() => {
           switch (this.state.displayScreen) {
             case 0:
@@ -149,7 +151,9 @@ export class UsingMetamask extends Component<{}, State> {
               );
           }
         })()}
+        </div>
       </Card>
+      </Container>
     );
   }
 }

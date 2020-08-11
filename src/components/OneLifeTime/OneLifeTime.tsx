@@ -20,10 +20,10 @@ export class OneLifeTime extends Component {
                       who wants to support ESN & Accumulate Era Swap in Long-term.
                     </p>
                     <div className="mt30">
-                      <Link to="stakings/new" className="btn btn-default main-btn-blue mt10">
+                      <Link to="stakings/new" className="btn btn-default main-btn-blue mt10 mr20">
                         GET STARTED
                       </Link>
-                      <Link to="/stakings" className="btn  bg-txt-white mt10">
+                      <Link to="/stakings" className="btn  bg-txt-white mt10 ">
                         VIEW MY STAKINGS
                       </Link>
                     </div>
@@ -37,20 +37,20 @@ export class OneLifeTime extends Component {
         <div className="bg-white what-bg">
           <div className="container pinside20 ">
             <div className="row">
-              <div className="col-xl-12 col-md-12 col-md-12 col-sm-12 col-12">
-                <div className="mb30 text-center section-title">
+              <div className="col-xl-12 col-md-12 col-md-12 col-sm-12 col-12 mt20 mb30">
+                <div className="mb30 text-center section-title ">
                   {/* section title start*/}
                   <h2>FEATURES OF TIMEALLY 1LT REWARDS FOR PARTICIPANTS IN ES</h2>
                 </div>
                 {/* /.section title start*/}
-                <div className="row">
-                  <div className="col-md-4 pinside40 bor-right">
+                <div className="row mt20">
+                  <div className="col-md-4 pinside40 bor-right text-center">
                     <div className="what-dapp ">
                       <h1>15% of NRT</h1>
                       <p>TimeAlly can be claimed 50% in TimeAlly stakes and 50% in ES</p>
                     </div>
                   </div>
-                  <div className="col-md-4 pinside40 bor-right">
+                  <div className="col-md-4 pinside40 bor-right text-center">
                     <div className="what-timeally">
                       <h1>10% of NRT</h1>
                       <p>
@@ -58,7 +58,7 @@ export class OneLifeTime extends Component {
                       </p>
                     </div>
                   </div>
-                  <div className="col-md-4 pinside40">
+                  <div className="col-md-4 pinside40 text-center">
                     <div className="what-timeally">
                       <h1>12% of NRT</h1>
                       <p>
@@ -79,7 +79,7 @@ export class OneLifeTime extends Component {
                 <div className="section-title mb60 text-center">
                   {/* section title start*/}
                   <p className="opp-txt-sz">
-                    Opportunity for Era Swap Stakers to avail TimeAlly Loan in Just a few clicks
+                    Opportunity for Era Swap Stakers to avail TimeAlly Loan based on there IssTime Limit in their stakings section
                   </p>
                 </div>
                 {/* /.section title start*/}
@@ -90,8 +90,10 @@ export class OneLifeTime extends Component {
               <div className="col-md-6 col-lg-6 pdb30">
                 <div className="business-loan-sample bg-boxshadow">
                   <img className="loan-hnd-img" src="./images/loan.jpg" />
-                  <div className="loan-products-content">
-                    <h3 className="mt10">TimeAlly Loan</h3>
+                  <div className="loan-products-content col-md-12">
+                    <h3 className="mt20">TimeAlly Loan</h3>
+                    <p>Time Ally 1 Life Time Stake holders will get opportunity to avail TimeAlly Loan based on theit IssTime Limit, which they have to repay back within 30 Day 10 Hours or before end of ES NRT Month (whichever is earlier). </p>
+                     <p>There will be an interest of 0.1% per day on the Loan amount.</p>
                   </div>
                 </div>
               </div>
@@ -99,8 +101,10 @@ export class OneLifeTime extends Component {
                 <div className="business-loan-sample bg-boxshadow">
                   <div className="loan-products-content">
                     <img className="loan-hnd-img" src="./images/calc.jpg" />
-                    <div className="loan-products-content">
-                      <h3 className="mt10">ISSTIME LIMIT</h3>
+                    <div className="loan-products-content col-md-12">
+                      <h3 className="mt20">ISSTIME LIMIT</h3>
+                      <p>IssTime Limit decides the individual TimeAlly Loan Limit of a staker in his / her TimeAlly 1 Life Time Smart Contracts. Based on his / her IssTime Limit a staker can claim TimeAlly Loan.</p>
+                       <p>IssTime Limit depends on Four levers, whose Sum collectively decides the IssTime Limit of a staker</p>
                     </div>
                   </div>
                 </div>
@@ -130,8 +134,8 @@ export class OneLifeTime extends Component {
                             <div className="sm-calc-flex">
                               <img className="sm-calc-img" src="./images/smallcalc.png" />
                             </div>
-                            <h3 className="text-white">Multiple Reward Options</h3>
-                            <p className="text-white">
+                            <h3 className="text-white mt20 ">Multiple Reward Options</h3>
+                            <p className="text-white ">
                               TimeAlly 1Life Time offers rewards to users from multiple options of
                               NRT Distribution Chart. i.e. 15% + 10% + 12% of NRT for staking once
                               in 1LT.
@@ -144,7 +148,7 @@ export class OneLifeTime extends Component {
                             <div className="sm-calc-flex">
                               <img className="sm-calc-img" src="./images/smallcalc.png" />
                             </div>
-                            <h3 className="text-white">Long Term</h3>
+                            <h3 className="text-white mt20">Long Term</h3>
                             <p className="text-white">
                               TimeAlly 1Life Time empowers community members to participate in ESN
                               via PoS CP to secure their stakes and withstand network inflation in
@@ -158,7 +162,7 @@ export class OneLifeTime extends Component {
                             <div className="sm-calc-flex">
                               <img className="sm-calc-img" src="./images/smallcalc.png" />
                             </div>
-                            <h3 className="text-white">Flexible</h3>
+                            <h3 className="text-white mt20">Flexible</h3>
                             <p className="text-white">
                               TimeAlly Staking (TA 1Life Time) offers TimeAlly Loan with flexible
                               IssTime Limit based on 4 Key Levers for an Individual's IssTime Limit.
@@ -187,7 +191,7 @@ export class OneLifeTime extends Component {
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   {/* hero-caption */}
                   <div className="card-hero-block text-center">
-                    <h1 className="text-white">TimeAlly Stakers Testimonials </h1>
+                    <h1 className="text-white mb40">TimeAlly Stakers Testimonials </h1>
                     <div className="row">
                       <div className="col-md-6 col-lg-4 pdb30">
                         <div className="business-loan-products bg-boxshadow">
@@ -244,12 +248,12 @@ export class OneLifeTime extends Component {
                   {/* section title start*/}
                   <h1 className="black-head-txt">Frequently Asked Question</h1>
                   <p>Our Mission is to deliver reliable , latest news and opinions</p>
-                  <hr></hr>
+                 
                 </div>
                 {/* /.section title start*/}
               </div>
             </div>
-            <div className="row">
+            <div className="row mt30">
               <div className="col-lg-12">
                 <div className="bg-white">
                   <Accordion defaultActiveKey="0" style={{ textAlign: 'left' }}>

@@ -61,7 +61,7 @@ export class Home extends Component<{}, State> {
           <div className="bg-white what-bg">
             <div className="container pinside20 ">
               <div className="row">
-                <div className="col-md-6 pinside40 bor-right">
+                <div className="col-md-6 pinside40 bor-right text-center">
                   <div className="what-dapp ">
                     <h1>What is DApp?</h1>
                     <p>
@@ -81,7 +81,7 @@ export class Home extends Component<{}, State> {
                     </p>
                   </div>
                 </div>
-                <div className="col-md-6 pinside40">
+                <div className="col-md-6 pinside40  text-center">
                   <div className="what-timeally">
                     <h1>What is TimeAlly?</h1>
                     <p>
@@ -254,16 +254,18 @@ export class Home extends Component<{}, State> {
                     <div className="card-hero-block text-center">
                       <h1 className="text-white">How TimeAlly works</h1>
                       <p className="text-white">
-                        TimeAlly rewards TA holders for locking their tokens in TA smart contract
-                        (TA Time Vault) for a specified time period.
+                      TimeAlly rewards TA holders for locking their tokens in TA smart contract (TA Time Vault) for the duration – based on their TimeAlly Staking Plan
                       </p>
-
+                      <ul className="text-white">
+                        <li>TimeAlly 1 Life Time (15% of NRT) can be claimed 50% in TimeAlly stakes and 50% in ES</li>
+                        <li>Power Tokens (10% of NRT) can be sent 50% in TimeAlly stakes and 50% in WES (Wrapped ES)
+</li>
+                        <li>ESN PoS CP (12% of NRT) can be claimed in WES (Wrapped ES) if POS deligated to ESN node
+</li>
+                      </ul>
                       <p style={{ color: '#fff' }}>
-                        There is a fixed number of ES rewarded every month to users which is
-                        governed by TA smart contract. Total number of ES tokens to be distributed
-                        among TA holders is pre-defined, but which user will get how many ES tokens
-                        is not defined. It depends on number of token staked in proportion to their
-                        vesting plans.
+                      There is a fixed number of ES rewarded every month to users which is governed by TA smart contract. Total number of ES tokens to be distributed among TA holders is pre-defined, but which user will get how many ES tokens is not defined. It depends on number of token staked in proportion to their vesting plans.
+
                       </p>
                       <div className="border"></div>
                       <div className="row">
@@ -330,14 +332,11 @@ export class Home extends Component<{}, State> {
                       <h3>TimeAlly Loan</h3>
                       <input type="checkbox" className="read-more-state" id="post-1" />
                       <p className="read-more-wrap">
-                        TimeAlly 1 Life Time stakehoders can apply for TimeAlly Loan based on their
-                        individual IssTime Limit{' '}
+                      TimeAlly stake holders can avail TimeAlly loan which they have to repay back 
+                      within 30   Day 10 Hours{' '}
                         <span className="read-more-target">
-                          The stakers have to repay back the Loan Amount within 30 Day 10 Hours or
-                          before end of ES NRT Month (whichever is earlier). There will be an
-                          interest of 0.1% per day on the loan amount.If the staker fails to repay
-                          back the TimeAlly Loan Principle amount and interest, then the stakes of
-                          the staker will be burnt.
+                        or before end of ES NRT Month. There will be an interest of 0.1% per day on the loan amount. The amount of loan for an individual staker depends on his IssTime Limit, however it cannot be more than 97% of his current staking.
+
                         </span>
                       </p>
                       <label htmlFor="post-1" className="btn btn-default read-more-trigger"></label>
@@ -550,10 +549,8 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                            Era Swap Token or ES is a decentralized utility token currently based on
-                            Ethereum blockchain (ERC20) which will be used on multiple platforms for
-                            exchange of services(P2P), avail discounts, get rewards and many more
-                            utility.
+                            Era Swap Token is a decentralized utility token, it is a native token of Era Swap Network blockchain proof-of-stake consensus protocol. It can be used on multiple platforms for exchange of services (P2P), avail discounts, get rewards and many more utility.
+
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -830,38 +827,7 @@ export class Home extends Component<{}, State> {
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                      <Card
-                        style={{
-                          color: '#3c4d6b',
-                          marginBottom: '0px',
-                          fontWeight: 500,
-                          borderRight: '0px',
-                          borderLeft: '0px',
-                          padding: '10px 0px 10px 30px',
-                        }}
-                      >
-                        <Accordion.Toggle as={Card.Header} eventKey="5">
-                          Q-6. &nbsp; What benefit user gets on locking up their ES in TimeAlly?
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="5">
-                          <Card.Body
-                            style={{
-                              color: '#333',
-                              fontSize: '14px',
-                              fontWeight: 300,
-                            }}
-                          >
-                            <p>
-                              Vestors in TimeAlly 1LT can claim the below mentioned benefits
-                              <br></br>
-                              15% of newly release token as per NRT for staking.<br></br>
-                              {/* Vesting for 1 Year: 13% (1.08% per month) of ES Tokens from NRT pool is allocated to be distributed among TA Vestors who vest tokens for 1 year.<br></br> */}
-                              12% of newly release token as per NRT for ESN delegation.<br></br>
-                              10% of newly release token as per NRT for Swappers wall
-                            </p>
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
+                     
                       <Card
                         style={{
                           color: '#3c4d6b',
@@ -873,7 +839,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="6">
-                          Q-7. &nbsp; How rewards are distributed through TimeAlly?
+                          Q-6. &nbsp; How rewards are distributed through TimeAlly?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="6">
                           <Card.Body
@@ -883,9 +849,8 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                            Era Swap ecosystem users receive rewards for the tasks they perform. The
-                            rewards are always distributed as per NRT distribution Chart to every
-                            Active user in Era Swap ecosystem
+                           TimeAlly incentivizes all the stakeholders to take part in making ESN & ESE truly distributed and transparent. The rewards are distributed in 50% ES Stakes and 50% ES.
+
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -900,7 +865,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="7">
-                          Q-8. &nbsp; How TimeAlly vestors get rewarded in TimeAlly?
+                          Q-7. &nbsp; How TimeAlly vestors get rewarded in TimeAlly?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="7">
                           <Card.Body
@@ -910,10 +875,8 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                            Era Swap (ES) has to be claimed by the users based on the work performed
-                            in the ecosystem or vesting done in TimeAlly. As per preset rules, if
-                            the user has performed tasks, then they are eligible for rewards. User
-                            can trigger and withdraw once they have received rewards.
+                           Era Swap (ES) has to be claimed by the users based on the work performed in the ecosystem or vesting done in TimeAlly. As per preset rules, TimeAlly incentivizes all the stakeholders to take part in making ESN & ESE truly distributed and transparent. 
+
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -934,7 +897,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="8">
-                          Q-9 &nbsp; Is TimeAlly a guaranteed return plan?
+                          Q-8 &nbsp; Is TimeAlly a guaranteed return plan?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="8">
                           <Card.Body
@@ -961,7 +924,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="9">
-                          Q-10. &nbsp; Does ES give guaranteed return?
+                          Q-9. &nbsp; Does ES give guaranteed return?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="9">
                           <Card.Body
@@ -989,7 +952,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="10">
-                          Q-11. &nbsp; How Time Vaults increases the ES count for TimeAlly vestor?
+                          Q-10. &nbsp; How Time Vaults increases the ES count for TimeAlly vestor?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="10">
                           <Card.Body
@@ -1019,7 +982,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="11">
-                          Q-12. &nbsp; Does Era Swap guarantee Fiat or other crypto?
+                          Q-11. &nbsp; Does Era Swap guarantee Fiat or other crypto?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="11">
                           <Card.Body
@@ -1045,7 +1008,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="12">
-                          Q-13. &nbsp; Can Era Swap token be used outside the system?
+                          Q-12. &nbsp; Can Era Swap token be used outside the system?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="12">
                           <Card.Body
@@ -1071,7 +1034,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="13">
-                          Q-14. &nbsp; Do you store my private keys, Keystore or mnemonic?
+                          Q-13. &nbsp; Do you store my private keys, Keystore or mnemonic?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="13">
                           <Card.Body
@@ -1094,38 +1057,7 @@ export class Home extends Component<{}, State> {
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                      <Card
-                        style={{
-                          color: '#3c4d6b',
-                          marginBottom: '0px',
-                          fontWeight: 500,
-                          borderRight: '0px',
-                          borderLeft: '0px',
-                          padding: '10px 0px 10px 30px',
-                        }}
-                      >
-                        <Accordion.Toggle as={Card.Header} eventKey="14">
-                          Q-15. &nbsp; What is Gas Fee / Network Fee?
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="14">
-                          <Card.Body
-                            style={{
-                              color: '#333',
-                              fontSize: '14px',
-                              fontWeight: 300,
-                            }}
-                          >
-                            Era Swap Network is a decentralized network. Generally, miners dedicate
-                            their computers to maintain the network. For compensation, the concept
-                            of the gas fee is there. All transactions on Era swap Network cost small
-                            gas and this fee is transferred to miners. Users can choose to pay gas
-                            to miners for the transaction to happen. A miner can choose which
-                            transactions to mine, and generally, they give priority to those
-                            transactions which give them more gas fees.
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
-
+                     
                       <Card
                         style={{
                           color: '#3c4d6b',
@@ -1137,7 +1069,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="18">
-                          Q-16. &nbsp; How To Stake Your Era Swap Tokens In TimeAlly Using Keystore/
+                          Q-14. &nbsp; How To Stake Your Era Swap Tokens In TimeAlly Using Keystore/
                           Mnemonics/Private Key?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="18">
@@ -1201,7 +1133,7 @@ export class Home extends Component<{}, State> {
                         }}
                       >
                         <Accordion.Toggle as={Card.Header} eventKey="15">
-                          Q-17. &nbsp; What is GitHub link of TimeAlly.io?
+                          Q-15. &nbsp; What is GitHub link of TimeAlly.io?
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="15">
                           <Card.Body

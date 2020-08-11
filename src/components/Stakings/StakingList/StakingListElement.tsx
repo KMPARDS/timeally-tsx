@@ -170,9 +170,10 @@ export class StakingListElement extends Component<
         <td>
           <Link
             to={`${linkPrepend}/${this.instance.address}`}
-            className="btn btn-default main-btn-blue view"
+            className="btn btn-primary view"
           >
-            View Staking
+           <i className="fa fa-eye" aria-hidden="true"></i>
+
           </Link>
         </td>
       </tr>

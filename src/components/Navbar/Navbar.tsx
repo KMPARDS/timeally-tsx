@@ -153,6 +153,9 @@ export class NavbarMain extends Component<{}, State> {
                       <Link to="/">
                         <div className="navbar-item">Home</div>
                       </Link>
+                      <Link to="/dashboard">
+                        <div className="navbar-item">Dashboard</div>
+                      </Link>
 
                       <Link to="/1lifetime">
                         <div className="navbar-item">
@@ -160,23 +163,11 @@ export class NavbarMain extends Component<{}, State> {
                           <img src="/images/new.png" className="new-img" alt="TimeAlly" />
                         </div>
                       </Link>
-                      <Link
-                        to="/1lifetime"
-                        href="https://www.youtube.com/embed/LfRqq2EnQBQ"
-                        target="_blank"
-                      >
-                        <div className="navbar-item">
-                          1LifeTime Teaser
-                          <img src="/images/new.png" className="new-img" alt="TimeAlly" />
-                        </div>
-                      </Link>
+                      <Nav.Link as="a" href="https://www.youtube.com/embed/LfRqq2EnQBQ" target="_blank" ><span style={{color:'#fff'}}>1LifeTime Teaser  <img src='/images/new.png' style={{height:'20px',position:'relative',bottom:'10px'}} /></span></Nav.Link>
 
-                      <Link to="/dashboard">
-                        <div className="navbar-item">Dashboard</div>
-                      </Link>
 
                       <Link to="/wallet">
-                        <div className="navbar-item">Wallet</div>
+                        <div className="navbar-item">My Wallet</div>
                       </Link>
 
                       <Link to="/stakings">

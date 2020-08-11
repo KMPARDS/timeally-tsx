@@ -46,7 +46,7 @@ export class Wallet extends Component<{}, State> {
 
   render() {
     return (
-      <Layout title="Wallet">
+      <Layout title="My Wallet">
         {!window.wallet ? (
           <Alert variant="danger">Wallet is not loaded. Please load your wallet</Alert>
         ) : (
@@ -80,7 +80,7 @@ export class Wallet extends Component<{}, State> {
             <p>
               View transaction history on{' '}
               <a target="_blank" href={EraswapInfo.getAddressHref(window.wallet.address)}>
-                Eraswap.Info
+                <strong><u>Eraswap.Info</u> </strong>
               </a>
             </p>
           </>
