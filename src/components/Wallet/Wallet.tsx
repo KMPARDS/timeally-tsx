@@ -80,7 +80,9 @@ export class Wallet extends Component<{}, State> {
             <p>
               View transaction history on{' '}
               <a target="_blank" href={EraswapInfo.getAddressHref(window.wallet.address)}>
-                <strong><u>Eraswap.Info</u> </strong>
+                <strong>
+                  <u>Eraswap.Info</u>{' '}
+                </strong>
               </a>
             </p>
           </>

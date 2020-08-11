@@ -92,21 +92,21 @@ th {
   display: flex;
   justify-content: end;
 }
-@media screen and (max-width:1200px) {
+@media screen and (max-width: 1200px) {
   .stack-link {
-    border-right:none;
-    width:25%;
+    border-right: none;
+    width: 25%;
     padding: 11px 15px;
     border-bottom: 1px solid #101f4f;
     border-left: 1px solid #101f4f;
   }
 }
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   .stack-link {
     width: 33%;
   }
 }
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
   .stack-link {
     width: 50%;
     font-size: 13px;

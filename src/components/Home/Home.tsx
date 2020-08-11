@@ -254,18 +254,29 @@ export class Home extends Component<{}, State> {
                     <div className="card-hero-block text-center">
                       <h1 className="text-white">How TimeAlly works</h1>
                       <p className="text-white">
-                      TimeAlly rewards TA holders for locking their tokens in TA smart contract (TA Time Vault) for the duration – based on their TimeAlly Staking Plan
+                        TimeAlly rewards TA holders for locking their tokens in TA smart contract
+                        (TA Time Vault) for the duration – based on their TimeAlly Staking Plan
                       </p>
                       <ul className="text-white">
-                        <li>TimeAlly 1 Life Time (15% of NRT) can be claimed 50% in TimeAlly stakes and 50% in ES</li>
-                        <li>Power Tokens (10% of NRT) can be sent 50% in TimeAlly stakes and 50% in WES (Wrapped ES)
-</li>
-                        <li>ESN PoS CP (12% of NRT) can be claimed in WES (Wrapped ES) if POS deligated to ESN node
-</li>
+                        <li>
+                          TimeAlly 1 Life Time (15% of NRT) can be claimed 50% in TimeAlly stakes
+                          and 50% in ES
+                        </li>
+                        <li>
+                          Power Tokens (10% of NRT) can be sent 50% in TimeAlly stakes and 50% in
+                          WES (Wrapped ES)
+                        </li>
+                        <li>
+                          ESN PoS CP (12% of NRT) can be claimed in WES (Wrapped ES) if POS
+                          deligated to ESN node
+                        </li>
                       </ul>
                       <p style={{ color: '#fff' }}>
-                      There is a fixed number of ES rewarded every month to users which is governed by TA smart contract. Total number of ES tokens to be distributed among TA holders is pre-defined, but which user will get how many ES tokens is not defined. It depends on number of token staked in proportion to their vesting plans.
-
+                        There is a fixed number of ES rewarded every month to users which is
+                        governed by TA smart contract. Total number of ES tokens to be distributed
+                        among TA holders is pre-defined, but which user will get how many ES tokens
+                        is not defined. It depends on number of token staked in proportion to their
+                        vesting plans.
                       </p>
                       <div className="border"></div>
                       <div className="row">
@@ -332,11 +343,13 @@ export class Home extends Component<{}, State> {
                       <h3>TimeAlly Loan</h3>
                       <input type="checkbox" className="read-more-state" id="post-1" />
                       <p className="read-more-wrap">
-                      TimeAlly stake holders can avail TimeAlly loan which they have to repay back 
-                      within 30   Day 10 Hours{' '}
+                        TimeAlly stake holders can avail TimeAlly loan which they have to repay back
+                        within 30 Day 10 Hours{' '}
                         <span className="read-more-target">
-                        or before end of ES NRT Month. There will be an interest of 0.1% per day on the loan amount. The amount of loan for an individual staker depends on his IssTime Limit, however it cannot be more than 97% of his current staking.
-
+                          or before end of ES NRT Month. There will be an interest of 0.1% per day
+                          on the loan amount. The amount of loan for an individual staker depends on
+                          his IssTime Limit, however it cannot be more than 97% of his current
+                          staking.
                         </span>
                       </p>
                       <label htmlFor="post-1" className="btn btn-default read-more-trigger"></label>
@@ -549,8 +562,10 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                            Era Swap Token is a decentralized utility token, it is a native token of Era Swap Network blockchain proof-of-stake consensus protocol. It can be used on multiple platforms for exchange of services (P2P), avail discounts, get rewards and many more utility.
-
+                            Era Swap Token is a decentralized utility token, it is a native token of
+                            Era Swap Network blockchain proof-of-stake consensus protocol. It can be
+                            used on multiple platforms for exchange of services (P2P), avail
+                            discounts, get rewards and many more utility.
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -827,7 +842,7 @@ export class Home extends Component<{}, State> {
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                     
+
                       <Card
                         style={{
                           color: '#3c4d6b',
@@ -849,8 +864,9 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                           TimeAlly incentivizes all the stakeholders to take part in making ESN & ESE truly distributed and transparent. The rewards are distributed in 50% ES Stakes and 50% ES.
-
+                            TimeAlly incentivizes all the stakeholders to take part in making ESN &
+                            ESE truly distributed and transparent. The rewards are distributed in
+                            50% ES Stakes and 50% ES.
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -875,8 +891,10 @@ export class Home extends Component<{}, State> {
                               fontWeight: 300,
                             }}
                           >
-                           Era Swap (ES) has to be claimed by the users based on the work performed in the ecosystem or vesting done in TimeAlly. As per preset rules, TimeAlly incentivizes all the stakeholders to take part in making ESN & ESE truly distributed and transparent. 
-
+                            Era Swap (ES) has to be claimed by the users based on the work performed
+                            in the ecosystem or vesting done in TimeAlly. As per preset rules,
+                            TimeAlly incentivizes all the stakeholders to take part in making ESN &
+                            ESE truly distributed and transparent.
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -1057,7 +1075,7 @@ export class Home extends Component<{}, State> {
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                     
+
                       <Card
                         style={{
                           color: '#3c4d6b',

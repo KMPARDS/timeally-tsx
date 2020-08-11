@@ -79,7 +79,8 @@ export class OneLifeTime extends Component {
                 <div className="section-title mb60 text-center">
                   {/* section title start*/}
                   <p className="opp-txt-sz">
-                    Opportunity for Era Swap Stakers to avail TimeAlly Loan based on there IssTime Limit in their stakings section
+                    Opportunity for Era Swap Stakers to avail TimeAlly Loan based on there IssTime
+                    Limit in their stakings section
                   </p>
                 </div>
                 {/* /.section title start*/}
@@ -92,8 +93,12 @@ export class OneLifeTime extends Component {
                   <img className="loan-hnd-img" src="./images/loan.jpg" />
                   <div className="loan-products-content col-md-12">
                     <h3 className="mt20">TimeAlly Loan</h3>
-                    <p>Time Ally 1 Life Time Stake holders will get opportunity to avail TimeAlly Loan based on theit IssTime Limit, which they have to repay back within 30 Day 10 Hours or before end of ES NRT Month (whichever is earlier). </p>
-                     <p>There will be an interest of 0.1% per day on the Loan amount.</p>
+                    <p>
+                      Time Ally 1 Life Time Stake holders will get opportunity to avail TimeAlly
+                      Loan based on theit IssTime Limit, which they have to repay back within 30 Day
+                      10 Hours or before end of ES NRT Month (whichever is earlier).{' '}
+                    </p>
+                    <p>There will be an interest of 0.1% per day on the Loan amount.</p>
                   </div>
                 </div>
               </div>
@@ -103,8 +108,15 @@ export class OneLifeTime extends Component {
                     <img className="loan-hnd-img" src="./images/calc.jpg" />
                     <div className="loan-products-content col-md-12">
                       <h3 className="mt20">ISSTIME LIMIT</h3>
-                      <p>IssTime Limit decides the individual TimeAlly Loan Limit of a staker in his / her TimeAlly 1 Life Time Smart Contracts. Based on his / her IssTime Limit a staker can claim TimeAlly Loan.</p>
-                       <p>IssTime Limit depends on Four levers, whose Sum collectively decides the IssTime Limit of a staker</p>
+                      <p>
+                        IssTime Limit decides the individual TimeAlly Loan Limit of a staker in his
+                        / her TimeAlly 1 Life Time Smart Contracts. Based on his / her IssTime Limit
+                        a staker can claim TimeAlly Loan.
+                      </p>
+                      <p>
+                        IssTime Limit depends on Four levers, whose Sum collectively decides the
+                        IssTime Limit of a staker
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -248,7 +260,6 @@ export class OneLifeTime extends Component {
                   {/* section title start*/}
                   <h1 className="black-head-txt">Frequently Asked Question</h1>
                   <p>Our Mission is to deliver reliable , latest news and opinions</p>
-                 
                 </div>
                 {/* /.section title start*/}
               </div>

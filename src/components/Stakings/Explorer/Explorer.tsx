@@ -81,28 +81,29 @@ export class Explorer extends Component<{}, State> {
           <Form>
             <Form.Row className="align-items-center">
               <Col xs="auto" className="my-1">
-              <Form.Control className="align-items-center"
-                 onChange={(event) => this.setState({ stakingAddressInput: event.target.value })}
-                 value={this.state.stakingAddressInput}
-                 type="text"
-                 placeholder="Enter address of staking"
-                 autoComplete="off"
-                 isInvalid={
-                   !!this.state.stakingAddressInput &&
-                   !ethers.utils.isAddress(this.state.stakingAddressInput)
-                 }
-               />
+                <Form.Control
+                  className="align-items-center"
+                  onChange={(event) => this.setState({ stakingAddressInput: event.target.value })}
+                  value={this.state.stakingAddressInput}
+                  type="text"
+                  placeholder="Enter address of staking"
+                  autoComplete="off"
+                  isInvalid={
+                    !!this.state.stakingAddressInput &&
+                    !ethers.utils.isAddress(this.state.stakingAddressInput)
+                  }
+                />
               </Col>
-              
+
               <Col xs="auto" className="my-1">
-                 <Link to={`/stakings/${this.state.stakingAddressInput}`}>
+                <Link to={`/stakings/${this.state.stakingAddressInput}`}>
                   <Button>View staking</Button>
                 </Link>
-             </Col>
+              </Col>
             </Form.Row>
           </Form>
 
-{/* 
+          {/* 
           <Form.Control
             onChange={(event) => this.setState({ stakingAddressInput: event.target.value })}
             value={this.state.stakingAddressInput}
@@ -142,7 +143,8 @@ export class Explorer extends Component<{}, State> {
                 ))}
             </tbody>
             {this.state.recentStakingTransfers.length ? (
-              <Button  className="btn btn-primary mt10 mb20 ml10"
+              <Button
+                className="btn btn-primary mt10 mb20 ml10"
                 onClick={() =>
                   this.setState({ numberOfTransfers: this.state.numberOfTransfers + 10 })
                 }

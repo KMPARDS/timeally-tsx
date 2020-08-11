@@ -168,12 +168,8 @@ export class StakingListElement extends Component<
         )}
 
         <td>
-          <Link
-            to={`${linkPrepend}/${this.instance.address}`}
-            className="btn btn-primary view"
-          >
-           <i className="fa fa-eye" aria-hidden="true"></i>
-
+          <Link to={`${linkPrepend}/${this.instance.address}`} className="btn btn-primary view">
+            <i className="fa fa-eye" aria-hidden="true"></i>
           </Link>
         </td>
       </tr>

@@ -56,67 +56,65 @@ export class NewDelegation extends Component<Props, State> {
         <h3>New Delegation</h3>
 
         <DropdownButton
-         
           id="dropdown-basic-button"
           variant="secondary"
           title={this.state.platform || 'Select platform'}
         >
-          <Dropdown.Item className="break"
+          <Dropdown.Item
+            className="break"
             onClick={() => this.setState({ platform: window.validatorManagerInstance.address })}
           >
             Validator Manager {window.validatorManagerInstance.address}
           </Dropdown.Item>
         </DropdownButton>
 
-
         <Form>
-              <Form.Row className="align-items-center">
-                <Col xs="auto" className="my-1">
-                <Form.Control className="align-items-center"
-                    onChange={(event) => this.setState({ monthsInput: event.target.value })}
-                    value={this.state.monthsInput}
-                    type="text"
-                    placeholder="Enter Months e.g. 4,5,6"
-                    autoComplete="off"
-                    isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
-                    isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
-                  />
-                  
-                </Col>
-                <Col xs="auto" className="my-1">
-                <Form.Control className="align-items-center"
-                     onChange={(event) => this.setState({ monthsInput: event.target.value })}
-                     value={this.state.monthsInput}
-                     type="text"
-                     placeholder="Enter Months e.g. 4,5,6"
-                     autoComplete="off"
-                     isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
-                     isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
-                   />
-           
-                   {this.state.displayMesssage ? (
-                     <Alert variant="info">{this.state.displayMesssage}</Alert>
-                   ) : null}
-           
+          <Form.Row className="align-items-center">
+            <Col xs="auto" className="my-1">
+              <Form.Control
+                className="align-items-center"
+                onChange={(event) => this.setState({ monthsInput: event.target.value })}
+                value={this.state.monthsInput}
+                type="text"
+                placeholder="Enter Months e.g. 4,5,6"
+                autoComplete="off"
+                isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
+                isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
+              />
+            </Col>
+            <Col xs="auto" className="my-1">
+              <Form.Control
+                className="align-items-center"
+                onChange={(event) => this.setState({ monthsInput: event.target.value })}
+                value={this.state.monthsInput}
+                type="text"
+                placeholder="Enter Months e.g. 4,5,6"
+                autoComplete="off"
+                isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
+                isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
+              />
 
-                </Col>
-                <Col xs="auto" className="my-1">
-                            <Button onClick={this.delegate} disabled={this.state.spinner}>
-                              {this.state.spinner ? (
-                                <Spinner
-                                  as="span"
-                                  animation="border"
-                                  size="sm"
-                                  role="status"
-                                  aria-hidden="true"
-                                  style={{ marginRight: '2px' }}
-                                />
-                              ) : null}
-                              {this.state.spinner ? 'Delegating...' : 'Delegate'}
-                            </Button>
-                  </Col>
-              </Form.Row>
-            </Form>
+              {this.state.displayMesssage ? (
+                <Alert variant="info">{this.state.displayMesssage}</Alert>
+              ) : null}
+            </Col>
+            <Col xs="auto" className="my-1">
+              <Button onClick={this.delegate} disabled={this.state.spinner}>
+                {this.state.spinner ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    style={{ marginRight: '2px' }}
+                  />
+                ) : null}
+                {this.state.spinner ? 'Delegating...' : 'Delegate'}
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
 
         {/* <Form.Control
           onChange={(event) => this.setState({ delegateeInput: event.target.value })}

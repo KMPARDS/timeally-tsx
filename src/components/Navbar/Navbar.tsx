@@ -163,8 +163,19 @@ export class NavbarMain extends Component<{}, State> {
                           <img src="/images/new.png" className="new-img" alt="TimeAlly" />
                         </div>
                       </Link>
-                      <Nav.Link as="a" href="https://www.youtube.com/embed/LfRqq2EnQBQ" target="_blank" ><span style={{color:'#fff'}}>1LifeTime Teaser  <img src='/images/new.png' style={{height:'20px',position:'relative',bottom:'10px'}} /></span></Nav.Link>
-
+                      <Nav.Link
+                        as="a"
+                        href="https://www.youtube.com/embed/LfRqq2EnQBQ"
+                        target="_blank"
+                      >
+                        <span style={{ color: '#fff' }}>
+                          1LifeTime Teaser{' '}
+                          <img
+                            src="/images/new.png"
+                            style={{ height: '20px', position: 'relative', bottom: '10px' }}
+                          />
+                        </span>
+                      </Nav.Link>
 
                       <Link to="/wallet">
                         <div className="navbar-item">My Wallet</div>

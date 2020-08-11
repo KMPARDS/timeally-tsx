@@ -256,23 +256,23 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             </Link>
 
             <Link to={`${url}/isstime`} className="stack-link">
-              ISSTIME  <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              ISSTIME <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/split`} className="stack-link">
-              SPILT  <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              SPILT <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/transfer`} className="stack-link">
-              TRANSFER  <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              TRANSFER <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/merge`} className="stack-link">
-              MERGE  <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              MERGE <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/delegate`} className="stack-link">
-              DELEGATE  <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              DELEGATE <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/nominee`} className="stack-link">
