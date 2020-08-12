@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
-import { Form, Alert, Button, Spinner } from 'react-bootstrap';
+import { Form, Alert, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { runInThisContext } from 'vm';
 
@@ -84,46 +84,93 @@ export class Split extends Component<Props, State> {
           splitting. Child is a new staking contract that is deployed which starts to get NRT
           rewards from next month.
         </p>
-        <Form.Control
-          onChange={(event) => {
-            this.setState({ valueInput: event.target.value });
-            this.updateFees();
-          }}
-          value={this.state.valueInput}
-          type="text"
-          placeholder="Enter value of child split"
-          style={{ width: '325px' }}
-          autoComplete="off"
-        />
+        <Form>
+          <Form.Row className="align-items-center">
+            <Col xs="auto" className="my-1">
+              <Form.Control
+                className="align-items-center"
+                onChange={(event) => {
+                  this.setState({ valueInput: event.target.value });
+                  this.updateFees();
+                }}
+                value={this.state.valueInput}
+                type="text"
+                placeholder="Enter value of child split"
+                autoComplete="off"
+              />
 
-        {this.state.displayMessage ? (
-          <Alert variant="info">{this.state.displayMessage}</Alert>
-        ) : null}
+              {this.state.displayMessage ? (
+                <Alert variant="info">{this.state.displayMessage}</Alert>
+              ) : null}
 
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so a split staking transaction cannot be executed and
-            a trial to do this would cause the split fee to be permanently locked at the staking
-            contract address.
-          </Alert>
-        ) : null}
+              {this.props.destroyStatus !== null ? (
+                <Alert variant="danger">
+                  The staking contract is destroyed, so a split staking transaction cannot be
+                  executed and a trial to do this would cause the split fee to be permanently locked
+                  at the staking contract address.
+                </Alert>
+              ) : null}
+            </Col>
 
-        <Button
-          onClick={this.split}
-          disabled={this.state.spinner || this.props.destroyStatus !== null}
-        >
-          {this.state.spinner ? (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              style={{ marginRight: '2px' }}
-            />
-          ) : null}
-          {this.state.spinner ? 'Splitting...' : 'Split staking'}
-        </Button>
+            <Col xs="auto" className="my-1">
+              <Button
+                onClick={this.split}
+                disabled={this.state.spinner || this.props.destroyStatus !== null}
+              >
+                {this.state.spinner ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    style={{ marginRight: '2px' }}
+                  />
+                ) : null}
+                {this.state.spinner ? 'Splitting...' : 'Split staking'}
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
+        {/* <Form.Control className="align-items-center"
+                  onChange={(event) => {
+                    this.setState({ valueInput: event.target.value });
+                    this.updateFees();
+                  }}
+                  value={this.state.valueInput}
+                  type="text"
+                  placeholder="Enter value of child split"
+                  style={{ width: '325px' }}
+                  autoComplete="off"
+                />
+
+                {this.state.displayMessage ? (
+                  <Alert variant="info">{this.state.displayMessage}</Alert>
+                ) : null}
+
+                {this.props.destroyStatus !== null ? (
+                  <Alert variant="danger">
+                    The staking contract is destroyed, so a split staking transaction cannot be executed and
+                    a trial to do this would cause the split fee to be permanently locked at the staking
+                    contract address.
+                  </Alert>
+                ) : null}
+                <Button
+                  onClick={this.split}
+                  disabled={this.state.spinner || this.props.destroyStatus !== null}
+                >
+                  {this.state.spinner ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{ marginRight: '2px' }}
+                    />
+                  ) : null}
+                  {this.state.spinner ? 'Splitting...' : 'Split staking'}
+                </Button> */}
       </>
     );
   }

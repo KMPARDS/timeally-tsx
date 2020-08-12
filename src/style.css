@@ -1,7 +1,6 @@
 @charset "utf-8";
 
 @import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CMerriweather:300,300i,400,400i,700,700i';
-/* CSS Document */
 
 body {
   font-size: 15px;
@@ -58,15 +57,11 @@ ol li {
   line-height: 1.8;
 }
 a {
-  /* color: #fff;  */
+  color: #fff;
   text-decoration: none;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-}
-.table a,
-table a {
-  color: #2573cb;
 }
 a:focus,
 a:hover {
@@ -529,13 +524,12 @@ Buttons
 ------------------------------------------*/
 
 .btn {
-  margin: 0px 10px;
   font-size: 14px;
   border-radius: 2px;
-  line-height: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 20px 30px;
+  line-height: normal;
+  letter-spacing: 0;
+  text-transform: capitalize;
+  padding: 11px 14px;
   border: none;
   font-weight: 600;
 }
@@ -1382,13 +1376,14 @@ index-1
 }
 .rate-box {
   line-height: 45px;
+  text-align: center;
 }
 .rate-table {
   background-color: #fff;
   margin-top: -21px;
 }
 .loan-rate {
-  font-size: 43px;
+  font-size: 23px;
   color: #fff;
   margin-bottom: 0px;
   font-weight: 800;
@@ -2874,7 +2869,7 @@ Page header
 .page-breadcrumb .breadcrumb > li {
 }
 .page-breadcrumb .breadcrumb > .active {
-  color: #fff;
+  color: #ffb60a;
   font-weight: 700;
 }
 .page-breadcrumb .breadcrumb > li a {
@@ -2886,7 +2881,7 @@ Page header
 }
 .page-breadcrumb .breadcrumb > li + li:before {
   padding: 0 5px;
-  color: #fff;
+  color: #263f8b;
   content: '/\00a0';
 }
 
@@ -3739,7 +3734,8 @@ EMI Calculator
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 0px solid #ddd;
-  text-align: center;
+  background: #263f8b;
+  color: #fff;
 }
 
 /*--------------------------------
@@ -4270,7 +4266,6 @@ PET
     padding-bottom: 5px;
   }
   .logo {
-    text-align: center;
   }
 
   /* .pinside40{padding: 0px !important; } */
@@ -4597,7 +4592,14 @@ PET
     text-align: center;
   }
   .loan-rate {
+    font-size: 20px;
     font-size: 24px;
+    display: flow-root;
+    word-break: break-word;
+    width: 100;
+    hyphens: auto;
+    white-space: initial;
+    overflow-wrap: break-word;
   }
   .widget-share {
     background-color: #fff;
@@ -4763,7 +4765,7 @@ PET
     text-align: center;
   }
   .loan-rate {
-    font-size: 24px;
+    font-size: 20px;
   }
   .widget-share {
     background-color: #fff;
@@ -4946,10 +4948,7 @@ video {
   border: none;
   font-weight: 600;
 }
-.banner-in-bg {
-  color: #fff;
-  width: 70%;
-}
+
 .banner-in-bg h1 {
   font-size: 59px;
   line-height: 58px;
@@ -4959,7 +4958,7 @@ video {
   padding: 0;
   text-align: left;
 }
-.banner-con: {
+.banner-con {
   width: 50%;
   margin: 0;
   padding: 0;
@@ -4971,6 +4970,7 @@ video {
 }
 .main-btn-blue {
   background-color: #263f8b !important;
+  color: #ffffff !important;
 }
 .hero-section::before {
   content: '';
@@ -5061,9 +5061,11 @@ video {
     top: -40px;
   }
   .quick-info {
-    float: none;
-    margin-left: 82px;
-    float: right !important;
+    float: right;
+    margin-left: 32px;
+  }
+  .logo {
+    text-align: center;
   }
   .top-bar {
     display: none;
@@ -5198,6 +5200,22 @@ video {
 .dashboard-bg .number {
   color: #000;
 }
+
+.set-word-break-all {
+  word-break: break-all;
+}
+.background-tsgap {
+  background: url(/images/bg-tsgap.jpg) !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800 !important;
+}
+
 .lifetime .banner-in-bg .btn {
   margin-top: 10px;
 }
@@ -5227,4 +5245,71 @@ table .btn.btn-default.main-btn-blue.view {
   padding-top: 0 !important;
   color: #fff;
   padding: 10px 30px;
+}
+
+.App {
+  /* text-align: center; */
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.social2 li a,
+.tiny-footer a .fa {
+  font-size: 18px;
+  padding: 5px 9px;
+  border: 1px solid #eeeeee4d;
+}
+.table a,
+table a,
+div a,
+card a {
+  color: #333;
+}
+.table a:hover,
+table a,
+div a,
+card a {
+  color: #333;
+}
+.bg-com {
+  min-height: 450px;
+}
+.btn-primary {
+  color: #fff !important;
+}
+.delegate-page .dropdown-toggle,
+.break {
+  display: flow-root;
+  word-break: break-word;
+  width: 100;
+  hyphens: auto;
+  white-space: initial;
+  overflow-wrap: break-word;
 }

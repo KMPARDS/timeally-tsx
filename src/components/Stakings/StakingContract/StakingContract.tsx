@@ -242,7 +242,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
         </Card>
 
         <div className="stack-bgd-color">
-          <div className="row stack-box-flex">
+          <div className="stack-box-flex">
             <Link to={`${url}/withdraw`} className="stack-link">
               WITHDRAW
             </Link>
@@ -256,23 +256,23 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             </Link>
 
             <Link to={`${url}/isstime`} className="stack-link">
-              ISSTIME
+              ISSTIME <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/split`} className="stack-link">
-              SPILT
+              SPILT <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/transfer`} className="stack-link">
-              TRANSFER
+              TRANSFER <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/merge`} className="stack-link">
-              MERGE
+              MERGE <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/delegate`} className="stack-link">
-              DELEGATE
+              DELEGATE <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/nominee`} className="stack-link">

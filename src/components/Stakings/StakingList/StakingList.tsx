@@ -127,7 +127,7 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
   render() {
     return (
       <Layout
-        title="My Stakings"
+        title="Stakings"
         button={{
           // name: 'ISSTIME LIMIT CALCULATOR',
           // className: 'pink-btn',

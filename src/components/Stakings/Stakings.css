@@ -37,8 +37,16 @@ th {
 
 .stack-link {
   color: #ffffff !important;
-  font-size: 20px;
-  padding: 15px;
+  font-size: 16px;
+  padding: 22px 15px;
+  border-right: 1px solid #101f4f;
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+  display: inline-block;
+}
+.stack-box-flex a:hover {
+  color: #f51f8a !important;
 }
 
 .row.stack-box-flex {
@@ -83,4 +91,28 @@ th {
 .del-flex-right {
   display: flex;
   justify-content: end;
+}
+@media screen and (max-width: 1200px) {
+  .stack-link {
+    border-right: none;
+    width: 25%;
+    padding: 11px 15px;
+    border-bottom: 1px solid #101f4f;
+    border-left: 1px solid #101f4f;
+  }
+}
+@media screen and (max-width: 768px) {
+  .stack-link {
+    width: 33%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .stack-link {
+    width: 50%;
+    font-size: 13px;
+  }
+}
+
+.btn {
+  margin-bottom: 10px;
 }

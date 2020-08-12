@@ -50,7 +50,7 @@ export function Layout(props: LayoutProps) {
                     <h1 className="page-title">{props.title}</h1>
                     {props.subtitle ? <p>{props.subtitle}</p> : null}
                   </div>
-                  <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
+                  <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12 text-right">
                     {props.button ? (
                       <>
                         {(() => {

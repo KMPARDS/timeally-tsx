@@ -118,6 +118,14 @@ export const Footer = () => {
               className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center"
               style={{ margin: '0 auto' }}
             >
+              <a
+                rel="noopener noreferrer mb10"
+                href="https://etherscan.io/address/0x5630ee5f247bd6b61991fbb2f117bbeb45990876#code"
+                target="_blank"
+              >
+                TA Smart Contract Address: 0x5630ee5f247Bd6B61991FBB2f117bBEb45990876
+              </a>
+
               <p style={{ color: '#fff' }}>
                 <a href="http://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" target="_blank">
                   Era Swap White Paper
@@ -151,15 +159,7 @@ export const Footer = () => {
                   Privacy Policy
                 </a>{' '}
                 &nbsp; | &nbsp;
-                <a href="/excel/1L1T_Cal.xlsx" target="_blank">
-                  TSGAP
-                </a>{' '}
-                &nbsp; | &nbsp;
-                <a href="/excel/1L1T_Cal.xlsx" target="_blank">
-                  PET
-                </a>{' '}
-                &nbsp; | &nbsp;
-                <a href="/excel/1L1T_Cal.xlsx" target="_blank">
+                <a href="/excel/TA_1LT_Cal.xlsx" target="_blank">
                   1 Life Time
                 </a>
               </p>

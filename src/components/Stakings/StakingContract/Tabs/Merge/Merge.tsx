@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
-import { Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { Alert, Form, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
 
 type Props = {
@@ -53,7 +53,60 @@ export class Merge extends Component<Props, State> {
           not included during a staking merge. If you do not withdraw them before merging, those
           rewards will be lost forever.
         </Alert>
+        <Form>
+          <Form.Row className="align-items-center">
+            <Col xs="auto" className="my-1">
+              <Form.Control
+                className="align-items-center"
+                onChange={(event) => this.setState({ masterStakingInput: event.target.value })}
+                value={this.state.masterStakingInput}
+                type="text"
+                placeholder="Enter Master Staking Contract Address"
+                autoComplete="off"
+                isValid={
+                  !!this.state.masterStakingInput &&
+                  ethers.utils.isAddress(this.state.masterStakingInput)
+                }
+                isInvalid={
+                  !!this.state.masterStakingInput &&
+                  !ethers.utils.isAddress(this.state.masterStakingInput)
+                }
+              />
 
+              {this.state.displayMessage ? (
+                <Alert variant="info">{this.state.displayMessage}</Alert>
+              ) : null}
+
+              {this.props.destroyStatus !== null ? (
+                <Alert variant="danger">
+                  The staking contract is destroyed, so you cannot execute a merge transaction.
+                </Alert>
+              ) : null}
+            </Col>
+
+            <Col xs="auto" className="my-1">
+              <Button
+                onClick={this.mergeIn}
+                disabled={this.state.spinner || this.props.destroyStatus !== null}
+              >
+                {this.state.spinner ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    style={{ marginRight: '2px' }}
+                  />
+                ) : null}
+                {this.state.spinner ? 'Merging in...' : 'Merge in'}
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
+
+        {/* 
+            
         <Form.Control
           onChange={(event) => this.setState({ masterStakingInput: event.target.value })}
           value={this.state.masterStakingInput}
@@ -95,7 +148,7 @@ export class Merge extends Component<Props, State> {
             />
           ) : null}
           {this.state.spinner ? 'Merging in...' : 'Merge in'}
-        </Button>
+        </Button> */}
       </>
     );
   }
