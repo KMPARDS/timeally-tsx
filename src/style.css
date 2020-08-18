@@ -5317,16 +5317,15 @@ card a {
 
 /* nominee tab css start here*/
 
-.nominee-home{
-
+.nominee-home {
 }
 .nominee-home .tabs .nav-link.active {
   border-bottom: 2px solid #263f8b;
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   .nominee-home .nav-tabs .nav-link {
-    width:100% !important;
+    width: 100% !important;
   }
 }
 .homeinput {
