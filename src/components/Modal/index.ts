@@ -1,1 +1,1 @@
-export { CustomModal } from './Modal'
+export { CustomModal } from './Modal';

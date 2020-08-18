@@ -147,11 +147,7 @@ export const Footer = () => {
                   Statuary Warning
                 </a>{' '}
                 &nbsp; | &nbsp;
-                <a
-                  href="/pdf/TimeAlly_UserManual.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="/pdf/TimeAlly_UserManual.pdf" target="_blank" rel="noopener noreferrer">
                   User Manual
                 </a>{' '}
                 &nbsp; | &nbsp;

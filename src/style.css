@@ -5318,14 +5318,14 @@ card a {
 .tabs .nav-link.active {
   border-bottom: 2px solid #263f8b;
 }
- .homeinput{
+.homeinput {
   display: inline;
   width: 150px;
   margin: 0 10px;
   margin-bottom: 0px;
   height: 36px;
 }
-.filterinput .input-group-text{
+.filterinput .input-group-text {
   display: inline;
   padding: 0 10px 0 0 !important;
   border: none !important;
@@ -5356,7 +5356,7 @@ card a {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  content: "🙁";
+  content: '🙁';
   position: absolute;
   height: 40px;
   width: 40px;
@@ -5373,13 +5373,13 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  content: "🙂";
+  content: '🙂';
   transform: translateX(50px) rotate(360deg);
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
   background: white;
 }
 
-.hometable .hometableinput{
+.hometable .hometableinput {
   display: inline;
   padding: 0 10px 0 0 !important;
   width: auto;
@@ -5388,7 +5388,7 @@ input:checked + .slider:before {
   border: 1px solid #acacac91;
   text-align: center;
 }
- .btnsm{
+.btnsm {
   padding: 0 10px;
   font-size: 12px;
 }
@@ -5398,7 +5398,7 @@ input:checked + .slider:before {
 
   /*Background color when it's turned on*/
   --vc-on-color: #38cf5b;
-  
+
   /*Animation speed and type*/
   --vc-animation-speed: 0.15s ease-out;
 
@@ -5410,7 +5410,7 @@ input:checked + .slider:before {
 
   /*The font weight*/
   --vc-font-weight: 300;
-  
+
   /*Font color when the switch is on*/
   --vc-on-font-color: white;
 
@@ -5437,7 +5437,7 @@ input:checked + .slider:before {
 
   /*Shadow for the handle*/
   --vc-handle-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  
+
   /*Handle color*/
   --vc-handle-color: white;
 
@@ -5512,11 +5512,11 @@ input:checked + .slider:before {
 }
 
 .vc-switch-label:before {
-  right: var(--vc-label-position-off);;
+  right: var(--vc-label-position-off);
 }
 
 .vc-switch-label:after {
-  left: var(--vc-label-position-on);;
+  left: var(--vc-label-position-on);
 }
 
 .vc-switch-input:checked ~ .vc-switch-label {
@@ -5546,7 +5546,7 @@ input:checked + .slider:before {
 }
 
 .vc-handle:before {
-  content: "";
+  content: '';
   top: 50%;
   left: 50%;
   position: absolute !important;
@@ -5556,7 +5556,8 @@ input:checked + .slider:before {
   border-radius: 6px;
 }
 
-.vc-switch-label:active ~ .vc-handle, .vc-handle:active {
+.vc-switch-label:active ~ .vc-handle,
+.vc-handle:active {
   width: var(--vc-onclick-width);
 }
 
