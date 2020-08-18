@@ -147,6 +147,14 @@ export const Footer = () => {
                   Statuary Warning
                 </a>{' '}
                 &nbsp; | &nbsp;
+                <a
+                  href="/pdf/TimeAlly_UserManual.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  User Manual
+                </a>{' '}
+                &nbsp; | &nbsp;
                 <a href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">
                   Era Swap Terms & Conditions
                 </a>{' '}

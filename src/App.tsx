@@ -10,6 +10,7 @@ import { Stakings } from './components/Stakings';
 import { Support } from './components/Support';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { LoadWallet } from './components/LoadWallet';
+import { Nominee } from './components/Nominee';
 import './style.css';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/support" component={Support} />
           <Route path="/terms" component={TermsAndConditions} />
           <Route path="/load-wallet" component={LoadWallet} />
+          <Route path="/nominee" component={Nominee} />
         </Switch>
         <Footer />
       </BrowserRouter>
