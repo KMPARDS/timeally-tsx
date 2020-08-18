@@ -3698,6 +3698,7 @@ Product Single Sidebar
   z-index: 8;
   margin-left: -1px;
   margin-top: -1px;
+  word-wrap: break-word;
 }
 .fee-table {
 }
@@ -5315,8 +5316,18 @@ card a {
 }
 
 /* nominee tab css start here*/
-.tabs .nav-link.active {
+
+.nominee-home{
+
+}
+.nominee-home .tabs .nav-link.active {
   border-bottom: 2px solid #263f8b;
+}
+
+@media screen and (max-width:768px) {
+  .nominee-home .nav-tabs .nav-link {
+    width:100% !important;
+  }
 }
 .homeinput {
   display: inline;
@@ -5564,4 +5575,7 @@ input:checked + .slider:before {
 .vc-switch-input:checked ~ .vc-handle {
   left: unset;
   right: 5px;
+}
+.nav-tabs .nav-link.active {
+  border-bottom: 3px solid #263f8b;
 }
