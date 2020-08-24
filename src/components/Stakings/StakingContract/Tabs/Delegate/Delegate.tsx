@@ -70,7 +70,6 @@ export class Delegate extends Component<Props, State> {
                   <th>NRT Month</th>
                   <th>Platform</th>
                   <th>Delegatee</th>
-                  <th>Amount</th>
                   <th>Action</th>
                 </tr>
               </thead>
