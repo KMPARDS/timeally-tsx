@@ -73,13 +73,17 @@ export class NewDelegation extends Component<Props, State> {
             <Col xs="auto" className="my-1">
               <Form.Control
                 className="align-items-center"
-                onChange={(event) => this.setState({ monthsInput: event.target.value })}
-                value={this.state.monthsInput}
+                onChange={(event) => this.setState({ delegateeInput: event.target.value })}
+                value={this.state.delegateeInput}
                 type="text"
-                placeholder="Enter Months e.g. 4,5,6"
+                placeholder="Enter Delegatee Address"
                 autoComplete="off"
-                isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
-                isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
+                isValid={
+                  !!this.state.delegateeInput && ethers.utils.isAddress(this.state.delegateeInput)
+                }
+                isInvalid={
+                  !!this.state.delegateeInput && !ethers.utils.isAddress(this.state.delegateeInput)
+                }
               />
             </Col>
             <Col xs="auto" className="my-1">
