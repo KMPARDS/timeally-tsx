@@ -46,7 +46,7 @@ TimeAlly 1LT is a DApp that refers to a suite of protocols using decentralized a
 - Stakers will be eligible to participate in Era Swap mining by delegating their PoS to a validator node.
 - There is a special dynamic IssTime limit awarded to every TimeAlly stake Holders as per their behavior and action.
 - Stakers can split & transfer their pre-activated TimeAlly smart contract to other users from Day 1.
-- Stakers can split and transfer their TimeAlly Stakes to other users directly from day 1 of TimeAlly 1 Life Time Smart Contract.
+- Stakers can split and transfer their TimeAlly Stakes to other users directly from day 1 of TimeAlly 1 Life Times Smart Contract.
 - For every transfer, there will be a charge depending on the anniversary of the stake. 3% for <= 1 year, 2% for <= 2 years, 1% for <= 3 years, while > 3 years there will not be any transfer charge, these charges collected will be burned.
 - In case of transfer, all unclaimed rewards are also transferred to the recipient
 - Every split will create a new contract on the current timestamp, unclaimed rewards shall remain in the initial contract. Hence it is not necessary to claim rewards before splitting.

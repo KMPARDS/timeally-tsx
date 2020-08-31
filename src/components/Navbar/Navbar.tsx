@@ -159,7 +159,7 @@ export class NavbarMain extends Component<{}, State> {
 
                       <Link to="/1lifetime">
                         <div className="navbar-item">
-                          1LifeTime
+                          1LifeTimes
                           <img src="/images/new.png" className="new-img" alt="TimeAlly" />
                         </div>
                       </Link>
@@ -169,7 +169,7 @@ export class NavbarMain extends Component<{}, State> {
                         target="_blank"
                       >
                         <span style={{ color: '#fff' }}>
-                          1LifeTime Teaser{' '}
+                          1LifeTimes Teaser{' '}
                           <img
                             src="/images/new.png"
                             style={{ height: '20px', position: 'relative', bottom: '10px' }}
