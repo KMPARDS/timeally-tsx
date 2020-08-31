@@ -259,7 +259,7 @@ export class Home extends Component<{}, State> {
                       </p>
                       <ul className="text-white">
                         <li>
-                          TimeAlly 1 Life Time (15% of NRT) can be claimed 50% in TimeAlly stakes
+                          TimeAlly 1 Life Times (15% of NRT) can be claimed 50% in TimeAlly stakes
                           and 50% in ES
                         </li>
                         <li>
@@ -366,7 +366,7 @@ export class Home extends Component<{}, State> {
                       <h3>TimeAlly 1LT</h3>
                       <input type="checkbox" className="read-more-state" id="post-2" />
                       <p className="read-more-wrap">
-                        TimeAlly 1 Life Time is the first generation TimeAlly Smart Contract, built
+                        TimeAlly 1 Life Times is the first generation TimeAlly Smart Contract, built
                         especially for the staker, who wants to{' '}
                         <span className="read-more-target">
                           {' '}

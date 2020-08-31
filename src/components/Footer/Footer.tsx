@@ -164,7 +164,7 @@ export const Footer = () => {
                 </a>{' '}
                 &nbsp; | &nbsp;
                 <a href="/excel/TA_1LT_Cal.xlsx" target="_blank">
-                  1 Life Time
+                  1 Life Times
                 </a>
               </p>
             </div>

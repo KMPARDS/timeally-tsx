@@ -14,7 +14,7 @@ export class OneLifeTime extends Component {
               <div className="banner-con ">
                 <div className="hero-tab-block">
                   <div className="banner-in-bg pinside40">
-                    <h1 className="text-white">TimeAlly 1 Life Time Smart Contract</h1>
+                    <h1 className="text-white">TimeAlly 1 Life Times Smart Contract</h1>
                     <p className="text-white">
                       First Generation TimeAlly Smart Contract is built especially for the staker,
                       who wants to support ESN & Accumulate Era Swap in Long-term.
@@ -94,7 +94,7 @@ export class OneLifeTime extends Component {
                   <div className="loan-products-content col-md-12">
                     <h3 className="mt20">TimeAlly Loan</h3>
                     <p>
-                      Time Ally 1 Life Time Stake holders will get opportunity to avail TimeAlly
+                      Time Ally 1 Life Times Stake holders will get opportunity to avail TimeAlly
                       Loan based on theit IssTime Limit, which they have to repay back within 30 Day
                       10 Hours or before end of ES NRT Month (whichever is earlier).{' '}
                     </p>
@@ -110,7 +110,7 @@ export class OneLifeTime extends Component {
                       <h3 className="mt20">ISSTIME LIMIT</h3>
                       <p>
                         IssTime Limit decides the individual TimeAlly Loan Limit of a staker in his
-                        / her TimeAlly 1 Life Time Smart Contracts. Based on his / her IssTime Limit
+                        / her TimeAlly 1 Life Times Smart Contracts. Based on his / her IssTime Limit
                         a staker can claim TimeAlly Loan.
                       </p>
                       <p>
@@ -148,7 +148,7 @@ export class OneLifeTime extends Component {
                             </div>
                             <h3 className="text-white mt20 ">Multiple Reward Options</h3>
                             <p className="text-white ">
-                              TimeAlly 1Life Time offers rewards to users from multiple options of
+                              TimeAlly 1Life Times offers rewards to users from multiple options of
                               NRT Distribution Chart. i.e. 15% + 10% + 12% of NRT for staking once
                               in 1LT.
                             </p>
@@ -162,7 +162,7 @@ export class OneLifeTime extends Component {
                             </div>
                             <h3 className="text-white mt20">Long Term</h3>
                             <p className="text-white">
-                              TimeAlly 1Life Time empowers community members to participate in ESN
+                              TimeAlly 1Life Times empowers community members to participate in ESN
                               via PoS CP to secure their stakes and withstand network inflation in
                               Long Term leveraging Decentralized Structure of Era Swap DAO.
                             </p>
@@ -176,7 +176,7 @@ export class OneLifeTime extends Component {
                             </div>
                             <h3 className="text-white mt20">Flexible</h3>
                             <p className="text-white">
-                              TimeAlly Staking (TA 1Life Time) offers TimeAlly Loan with flexible
+                              TimeAlly Staking (TA 1Life Times) offers TimeAlly Loan with flexible
                               IssTime Limit based on 4 Key Levers for an Individual's IssTime Limit.
                             </p>
                           </div>
@@ -222,7 +222,7 @@ export class OneLifeTime extends Component {
                         <div className="business-loan-products bg-boxshadow">
                           <div className="loan-products-content">
                             <p className="read-more-wrap">
-                              TimeAlly 1 Life Time Smart Contract is the foundation to participate
+                              TimeAlly 1 Life Times Smart Contract is the foundation to participate
                               in Era Swap Network, which will be the game-changer for the future
                               economy. I have staked in Era Swap and look forward to it.
                             </p>
