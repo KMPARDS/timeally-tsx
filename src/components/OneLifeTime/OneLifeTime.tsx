@@ -110,8 +110,8 @@ export class OneLifeTime extends Component {
                       <h3 className="mt20">ISSTIME LIMIT</h3>
                       <p>
                         IssTime Limit decides the individual TimeAlly Loan Limit of a staker in his
-                        / her TimeAlly 1 Life Times Smart Contracts. Based on his / her IssTime Limit
-                        a staker can claim TimeAlly Loan.
+                        / her TimeAlly 1 Life Times Smart Contracts. Based on his / her IssTime
+                        Limit a staker can claim TimeAlly Loan.
                       </p>
                       <p>
                         IssTime Limit depends on Four levers, whose Sum collectively decides the
