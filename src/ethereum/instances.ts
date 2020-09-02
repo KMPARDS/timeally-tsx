@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { CustomWallet } from './custom-wallet';
-
+import { MultiSigWalletFactory } from './typechain/MultiSigWalletFactory';
 import { NrtManagerFactory } from './typechain/NrtManagerFactory';
 import { TimeAllyManagerFactory } from './typechain/TimeAllyManagerFactory';
 import { ValidatorManagerFactory } from './typechain/ValidatorManagerFactory';
@@ -59,3 +59,6 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
 );
 
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
+
+const MultiSigContractAddress = '0x3C1e16bD80F50c844935E417fA9Ff144dC8964c9';
+window.multiSigWalletInstance = MultiSigWalletFactory.connect(MultiSigContractAddress, window.provider);
