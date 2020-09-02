@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { CustomWallet } from './custom-wallet';
-
 import { NrtManagerFactory } from './typechain/NrtManagerFactory';
 import { TimeAllyManagerFactory } from './typechain/TimeAllyManagerFactory';
 import { ValidatorManagerFactory } from './typechain/ValidatorManagerFactory';
@@ -59,3 +58,4 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
 );
 
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
+
