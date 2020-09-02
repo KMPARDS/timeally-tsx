@@ -18,12 +18,20 @@ import {
 } from 'react-bootstrap';
 import { Renderer } from '../Markdown';
 import { CustomModal } from '../Modal';
+import { MultiSigWalletFactory } from '../../ethereum/typechain/MultiSigWalletFactory';
 
-// const myBtn  = ()=> <button type="button" className="btn btn-danger">Danger</button>;
+const MultiSigContractAddress = '0x3C1e16bD80F50c844935E417fA9Ff144dC8964c9';
 
 type State = {};
 
 export class Nominee extends Component {
+
+  multiSigWalletInstance = MultiSigWalletFactory.connect(
+    MultiSigContractAddress,
+    window.wallet ?? window.provider
+  );
+    
+
   render() {
     return (
       <Layout title="Nominee">
