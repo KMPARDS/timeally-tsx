@@ -21,9 +21,7 @@ import { CustomModal } from '../Modal';
 
 // const myBtn  = ()=> <button type="button" className="btn btn-danger">Danger</button>;
 
-type State = {
-  
-} 
+type State = {};
 
 export class Nominee extends Component {
   render() {
