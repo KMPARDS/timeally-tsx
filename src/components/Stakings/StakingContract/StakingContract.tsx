@@ -260,7 +260,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             </Link>
 
             <Link to={`${url}/split`} className="stack-link">
-              SPILT <img src="/images/new.png" className="new-img" alt="TimeAlly" />
+              SPLIT   <img src="/images/new.png" className="new-img" alt="TimeAlly" />
             </Link>
 
             <Link to={`${url}/transfer`} className="stack-link">
