@@ -39,7 +39,7 @@ export class StakingTransferRow extends Component<Props, State> {
   componentDidMount = async () => {
     try {
       const principal = await this.instance.nextMonthPrincipalAmount();
-      const endMonth = (await this.instance.endMonth()).toNumber();
+      const endMonth = await this.instance.endMonth();
       const block = await window.provider.getBlock(this.props.stakingTransferEvent.blockNumber);
       const timestamp = block.timestamp;
 

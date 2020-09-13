@@ -65,9 +65,9 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
 
       this.setState({
         owner,
-        startMonth: startMonth.toNumber(),
-        endMonth: endMonth.toNumber(),
-        currentMonth: currentMonth.toNumber(),
+        startMonth,
+        endMonth,
+        currentMonth,
         principal,
         issTime,
         balance,

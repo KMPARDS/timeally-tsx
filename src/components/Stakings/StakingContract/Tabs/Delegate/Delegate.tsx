@@ -29,7 +29,7 @@ export class Delegate extends Component<Props, State> {
   };
 
   loadDelegations = async () => {
-    const currentMonth = (await window.nrtManagerInstance.currentNrtMonth()).toNumber();
+    const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
     // const startMonth = (await this.props.instance.startMonth()).toNumber();
     // const endMonth = (await this.props.instance.endMonth()).toNumber();
     // const monthlyDelegations = await Promise.all(
