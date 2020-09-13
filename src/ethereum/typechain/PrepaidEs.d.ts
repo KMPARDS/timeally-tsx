@@ -92,11 +92,35 @@ export class PrepaidEs extends Contract {
     }>;
 
     /**
+     * Function to check the amount of tokens that an owner allowed to a spender.
+     * @param _delegate : address The address which will spend the funds.
+     * @param _owner : address The address which owns the funds.
+     */
+    'allowance(address,address)'(
+      _owner: string,
+      _delegate: string,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
      * @param _delegate : The address which will spend the funds.
      * @param _value : The amount of tokens to be spent.
      */
     approve(
+      _delegate: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
+     * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+     * @param _delegate : The address which will spend the funds.
+     * @param _value : The amount of tokens to be spent.
+     */
+    'approve(address,uint256)'(
       _delegate: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -114,12 +138,38 @@ export class PrepaidEs extends Contract {
     }>;
 
     /**
+     * Gets the prepaid balance of a holder.
+     * @param _owner : Address of tokens owner.
+     */
+    'balanceOf(address)'(
+      _owner: string,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Converts native tokens to wrapped format.
      * @param _destination : Address on which prepaid to be credited.
      */
     convertToESP(_destination: string, overrides?: PayableOverrides): Promise<ContractTransaction>;
 
+    /**
+     * Converts native tokens to wrapped format.
+     * @param _destination : Address on which prepaid to be credited.
+     */
+    'convertToESP(address)'(
+      _destination: string,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
     decimals(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
+    }>;
+
+    'decimals()'(
       overrides?: CallOverrides
     ): Promise<{
       0: number;
@@ -131,7 +181,19 @@ export class PrepaidEs extends Contract {
       0: string;
     }>;
 
+    'name()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
     symbol(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    'symbol()'(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -143,12 +205,29 @@ export class PrepaidEs extends Contract {
       0: BigNumber;
     }>;
 
+    'totalSupply()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     /**
      * Private method that transfers tokens to receiver.
      * @param _receiver : Address of receiver.
      * @param _value : Number of tokens to transfer.
      */
     transfer(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
+     * Private method that transfers tokens to receiver.
+     * @param _receiver : Address of receiver.
+     * @param _value : Number of tokens to transfer.
+     */
+    'transfer(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -168,12 +247,37 @@ export class PrepaidEs extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
+     * Transfer tokens from one address to another.
+     * @param _owner : address The address which you want to send tokens from.
+     * @param _receiver : address The address which you want to transfer to.
+     * @param _value : uint256 the amount of tokens to be transferred.
+     */
+    'transferFrom(address,address,uint256)'(
+      _owner: string,
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
      * Only callable by authorised platforms.
      * Converts prepaid tokens back to native tokens.
      * @param _receiver : Address of native tokens receiver.
      * @param _value : Amount of prepaid es tokens to convert.
      */
     transferLiquid(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
+     * Only callable by authorised platforms.
+     * Converts prepaid tokens back to native tokens.
+     * @param _receiver : Address of native tokens receiver.
+     * @param _value : Amount of prepaid es tokens to convert.
+     */
+    'transferLiquid(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -188,11 +292,33 @@ export class PrepaidEs extends Contract {
   allowance(_owner: string, _delegate: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Function to check the amount of tokens that an owner allowed to a spender.
+   * @param _delegate : address The address which will spend the funds.
+   * @param _owner : address The address which owns the funds.
+   */
+  'allowance(address,address)'(
+    _owner: string,
+    _delegate: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  /**
    * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
    * @param _delegate : The address which will spend the funds.
    * @param _value : The amount of tokens to be spent.
    */
   approve(
+    _delegate: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
+   * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+   * @param _delegate : The address which will spend the funds.
+   * @param _value : The amount of tokens to be spent.
+   */
+  'approve(address,uint256)'(
     _delegate: string,
     _value: BigNumberish,
     overrides?: Overrides
@@ -205,18 +331,41 @@ export class PrepaidEs extends Contract {
   balanceOf(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Gets the prepaid balance of a holder.
+   * @param _owner : Address of tokens owner.
+   */
+  'balanceOf(address)'(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Converts native tokens to wrapped format.
    * @param _destination : Address on which prepaid to be credited.
    */
   convertToESP(_destination: string, overrides?: PayableOverrides): Promise<ContractTransaction>;
 
+  /**
+   * Converts native tokens to wrapped format.
+   * @param _destination : Address on which prepaid to be credited.
+   */
+  'convertToESP(address)'(
+    _destination: string,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
   decimals(overrides?: CallOverrides): Promise<number>;
+
+  'decimals()'(overrides?: CallOverrides): Promise<number>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
+  'name()'(overrides?: CallOverrides): Promise<string>;
+
   symbol(overrides?: CallOverrides): Promise<string>;
 
+  'symbol()'(overrides?: CallOverrides): Promise<string>;
+
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  'totalSupply()'(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
    * Private method that transfers tokens to receiver.
@@ -224,6 +373,17 @@ export class PrepaidEs extends Contract {
    * @param _value : Number of tokens to transfer.
    */
   transfer(
+    _receiver: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
+   * Private method that transfers tokens to receiver.
+   * @param _receiver : Address of receiver.
+   * @param _value : Number of tokens to transfer.
+   */
+  'transfer(address,uint256)'(
     _receiver: string,
     _value: BigNumberish,
     overrides?: Overrides
@@ -243,12 +403,37 @@ export class PrepaidEs extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
+   * Transfer tokens from one address to another.
+   * @param _owner : address The address which you want to send tokens from.
+   * @param _receiver : address The address which you want to transfer to.
+   * @param _value : uint256 the amount of tokens to be transferred.
+   */
+  'transferFrom(address,address,uint256)'(
+    _owner: string,
+    _receiver: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
    * Only callable by authorised platforms.
    * Converts prepaid tokens back to native tokens.
    * @param _receiver : Address of native tokens receiver.
    * @param _value : Amount of prepaid es tokens to convert.
    */
   transferLiquid(
+    _receiver: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
+   * Only callable by authorised platforms.
+   * Converts prepaid tokens back to native tokens.
+   * @param _receiver : Address of native tokens receiver.
+   * @param _value : Amount of prepaid es tokens to convert.
+   */
+  'transferLiquid(address,uint256)'(
     _receiver: string,
     _value: BigNumberish,
     overrides?: Overrides
@@ -263,11 +448,33 @@ export class PrepaidEs extends Contract {
     allowance(_owner: string, _delegate: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Function to check the amount of tokens that an owner allowed to a spender.
+     * @param _delegate : address The address which will spend the funds.
+     * @param _owner : address The address which owns the funds.
+     */
+    'allowance(address,address)'(
+      _owner: string,
+      _delegate: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    /**
      * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
      * @param _delegate : The address which will spend the funds.
      * @param _value : The amount of tokens to be spent.
      */
     approve(_delegate: string, _value: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    /**
+     * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+     * @param _delegate : The address which will spend the funds.
+     * @param _value : The amount of tokens to be spent.
+     */
+    'approve(address,uint256)'(
+      _delegate: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     /**
      * Gets the prepaid balance of a holder.
@@ -276,18 +483,38 @@ export class PrepaidEs extends Contract {
     balanceOf(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets the prepaid balance of a holder.
+     * @param _owner : Address of tokens owner.
+     */
+    'balanceOf(address)'(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Converts native tokens to wrapped format.
      * @param _destination : Address on which prepaid to be credited.
      */
     convertToESP(_destination: string, overrides?: CallOverrides): Promise<void>;
 
+    /**
+     * Converts native tokens to wrapped format.
+     * @param _destination : Address on which prepaid to be credited.
+     */
+    'convertToESP(address)'(_destination: string, overrides?: CallOverrides): Promise<void>;
+
     decimals(overrides?: CallOverrides): Promise<number>;
+
+    'decimals()'(overrides?: CallOverrides): Promise<number>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
+    'name()'(overrides?: CallOverrides): Promise<string>;
+
     symbol(overrides?: CallOverrides): Promise<string>;
 
+    'symbol()'(overrides?: CallOverrides): Promise<string>;
+
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    'totalSupply()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Private method that transfers tokens to receiver.
@@ -295,6 +522,17 @@ export class PrepaidEs extends Contract {
      * @param _value : Number of tokens to transfer.
      */
     transfer(_receiver: string, _value: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    /**
+     * Private method that transfers tokens to receiver.
+     * @param _receiver : Address of receiver.
+     * @param _value : Number of tokens to transfer.
+     */
+    'transfer(address,uint256)'(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     /**
      * Transfer tokens from one address to another.
@@ -310,12 +548,37 @@ export class PrepaidEs extends Contract {
     ): Promise<boolean>;
 
     /**
+     * Transfer tokens from one address to another.
+     * @param _owner : address The address which you want to send tokens from.
+     * @param _receiver : address The address which you want to transfer to.
+     * @param _value : uint256 the amount of tokens to be transferred.
+     */
+    'transferFrom(address,address,uint256)'(
+      _owner: string,
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    /**
      * Only callable by authorised platforms.
      * Converts prepaid tokens back to native tokens.
      * @param _receiver : Address of native tokens receiver.
      * @param _value : Amount of prepaid es tokens to convert.
      */
     transferLiquid(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
+     * Only callable by authorised platforms.
+     * Converts prepaid tokens back to native tokens.
+     * @param _receiver : Address of native tokens receiver.
+     * @param _value : Amount of prepaid es tokens to convert.
+     */
+    'transferLiquid(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: CallOverrides
@@ -337,11 +600,33 @@ export class PrepaidEs extends Contract {
     allowance(_owner: string, _delegate: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Function to check the amount of tokens that an owner allowed to a spender.
+     * @param _delegate : address The address which will spend the funds.
+     * @param _owner : address The address which owns the funds.
+     */
+    'allowance(address,address)'(
+      _owner: string,
+      _delegate: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    /**
      * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
      * @param _delegate : The address which will spend the funds.
      * @param _value : The amount of tokens to be spent.
      */
     approve(_delegate: string, _value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+
+    /**
+     * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+     * @param _delegate : The address which will spend the funds.
+     * @param _value : The amount of tokens to be spent.
+     */
+    'approve(address,uint256)'(
+      _delegate: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
 
     /**
      * Gets the prepaid balance of a holder.
@@ -350,18 +635,38 @@ export class PrepaidEs extends Contract {
     balanceOf(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets the prepaid balance of a holder.
+     * @param _owner : Address of tokens owner.
+     */
+    'balanceOf(address)'(_owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Converts native tokens to wrapped format.
      * @param _destination : Address on which prepaid to be credited.
      */
     convertToESP(_destination: string, overrides?: PayableOverrides): Promise<BigNumber>;
 
+    /**
+     * Converts native tokens to wrapped format.
+     * @param _destination : Address on which prepaid to be credited.
+     */
+    'convertToESP(address)'(_destination: string, overrides?: PayableOverrides): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
+
+    'decimals()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
+    'name()'(overrides?: CallOverrides): Promise<BigNumber>;
+
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
+    'symbol()'(overrides?: CallOverrides): Promise<BigNumber>;
+
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    'totalSupply()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Private method that transfers tokens to receiver.
@@ -369,6 +674,17 @@ export class PrepaidEs extends Contract {
      * @param _value : Number of tokens to transfer.
      */
     transfer(_receiver: string, _value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+
+    /**
+     * Private method that transfers tokens to receiver.
+     * @param _receiver : Address of receiver.
+     * @param _value : Number of tokens to transfer.
+     */
+    'transfer(address,uint256)'(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
 
     /**
      * Transfer tokens from one address to another.
@@ -384,12 +700,37 @@ export class PrepaidEs extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Transfer tokens from one address to another.
+     * @param _owner : address The address which you want to send tokens from.
+     * @param _receiver : address The address which you want to transfer to.
+     * @param _value : uint256 the amount of tokens to be transferred.
+     */
+    'transferFrom(address,address,uint256)'(
+      _owner: string,
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
      * Only callable by authorised platforms.
      * Converts prepaid tokens back to native tokens.
      * @param _receiver : Address of native tokens receiver.
      * @param _value : Amount of prepaid es tokens to convert.
      */
     transferLiquid(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
+     * Only callable by authorised platforms.
+     * Converts prepaid tokens back to native tokens.
+     * @param _receiver : Address of native tokens receiver.
+     * @param _value : Amount of prepaid es tokens to convert.
+     */
+    'transferLiquid(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -409,11 +750,33 @@ export class PrepaidEs extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Function to check the amount of tokens that an owner allowed to a spender.
+     * @param _delegate : address The address which will spend the funds.
+     * @param _owner : address The address which owns the funds.
+     */
+    'allowance(address,address)'(
+      _owner: string,
+      _delegate: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
      * @param _delegate : The address which will spend the funds.
      * @param _value : The amount of tokens to be spent.
      */
     approve(
+      _delegate: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+     * @param _delegate : The address which will spend the funds.
+     * @param _value : The amount of tokens to be spent.
+     */
+    'approve(address,uint256)'(
       _delegate: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -426,18 +789,41 @@ export class PrepaidEs extends Contract {
     balanceOf(_owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Gets the prepaid balance of a holder.
+     * @param _owner : Address of tokens owner.
+     */
+    'balanceOf(address)'(_owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * Converts native tokens to wrapped format.
      * @param _destination : Address on which prepaid to be credited.
      */
     convertToESP(_destination: string, overrides?: PayableOverrides): Promise<PopulatedTransaction>;
 
+    /**
+     * Converts native tokens to wrapped format.
+     * @param _destination : Address on which prepaid to be credited.
+     */
+    'convertToESP(address)'(
+      _destination: string,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    'decimals()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    'name()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    'symbol()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    'totalSupply()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Private method that transfers tokens to receiver.
@@ -445,6 +831,17 @@ export class PrepaidEs extends Contract {
      * @param _value : Number of tokens to transfer.
      */
     transfer(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Private method that transfers tokens to receiver.
+     * @param _receiver : Address of receiver.
+     * @param _value : Number of tokens to transfer.
+     */
+    'transfer(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: Overrides
@@ -464,12 +861,37 @@ export class PrepaidEs extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Transfer tokens from one address to another.
+     * @param _owner : address The address which you want to send tokens from.
+     * @param _receiver : address The address which you want to transfer to.
+     * @param _value : uint256 the amount of tokens to be transferred.
+     */
+    'transferFrom(address,address,uint256)'(
+      _owner: string,
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Only callable by authorised platforms.
      * Converts prepaid tokens back to native tokens.
      * @param _receiver : Address of native tokens receiver.
      * @param _value : Amount of prepaid es tokens to convert.
      */
     transferLiquid(
+      _receiver: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Only callable by authorised platforms.
+     * Converts prepaid tokens back to native tokens.
+     * @param _receiver : Address of native tokens receiver.
+     * @param _value : Amount of prepaid es tokens to convert.
+     */
+    'transferLiquid(address,uint256)'(
       _receiver: string,
       _value: BigNumberish,
       overrides?: Overrides
