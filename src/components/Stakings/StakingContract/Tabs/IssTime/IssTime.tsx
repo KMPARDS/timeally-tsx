@@ -50,9 +50,9 @@ export class IssTime extends Component<Props, State> {
     const issTimeTimestamp = await this.instance.issTimeTimestamp();
 
     // @TODO: remove any
-    const newState: any = { issTimeTotalLimit, issTimeTimestamp: issTimeTimestamp.toNumber() };
+    const newState: any = { issTimeTotalLimit, issTimeTimestamp };
 
-    if (!issTimeTimestamp.eq(0)) {
+    if (issTimeTimestamp !== 0) {
       newState.issTimeTakenValue = await this.instance.issTimeTakenValue();
       newState.issTimeInterest = await this.instance.getIssTimeInterest();
     }

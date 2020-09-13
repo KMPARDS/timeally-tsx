@@ -29,7 +29,7 @@ export class Home extends Component<{}, State> {
     const currentNrtMonth = await window.nrtManagerInstance.currentNrtMonth();
     const timeallyNrt = await window.timeallyManagerInstance.getTimeAllyMonthlyNRT(currentNrtMonth);
     const totalActiveStakings = await window.timeallyManagerInstance.getTotalActiveStaking(
-      currentNrtMonth.add(1)
+      currentNrtMonth + 1
     );
 
     this.setState({ timeallyNrt, totalActiveStakings });

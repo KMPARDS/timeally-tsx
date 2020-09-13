@@ -52,9 +52,9 @@ export class StakingListElement extends Component<
       this.setState({
         principal: ethers.utils.formatEther(await principalPromise),
         issTimeLimit: ethers.utils.formatEther(await issTimeLimitPromise),
-        startMonth: (await startMonthPromise).toNumber(),
-        endMonth: (await endMonthPromise).toNumber(),
-        timestamp: (await timestampPromise).toNumber(),
+        startMonth: await startMonthPromise,
+        endMonth: await endMonthPromise,
+        timestamp: await timestampPromise,
       });
     } catch (error) {
       const parsedLogs = (

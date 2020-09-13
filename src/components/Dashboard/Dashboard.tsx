@@ -71,7 +71,7 @@ export class Dashboard extends Component<{}, State> {
     ).length;
 
     this.setState({
-      currentNrtMonth: currentNrtMonth.toNumber(),
+      currentNrtMonth: currentNrtMonth,
       nrtRelease: nrtReleases.slice(-1)[0] ?? ethers.constants.Zero,
       nextMonthActiveStakes,
       lastNrtReleaseTimestamp: lastNrtReleaseTimestamp,

@@ -58,7 +58,7 @@ export class Withdraw extends Component<Props, State> {
   updateNrtMonth = async () => {
     const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
 
-    this.setState({ currentMonth: currentMonth.toNumber() });
+    this.setState({ currentMonth });
   };
 
   updateBenefits = async () => {

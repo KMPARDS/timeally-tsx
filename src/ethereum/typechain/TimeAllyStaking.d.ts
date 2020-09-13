@@ -16,40 +16,41 @@ import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
 interface TimeAllyStakingInterface extends ethers.utils.Interface {
   functions: {
     'SECONDS_IN_MONTH()': FunctionFragment;
-    'delegate(address,bytes,uint256[])': FunctionFragment;
+    'delegate(address,bytes,uint32[])': FunctionFragment;
     'endMonth()': FunctionFragment;
     'extend()': FunctionFragment;
-    'getDelegation(uint256)': FunctionFragment;
+    'getDelegation(uint32)': FunctionFragment;
     'getIssTimeInterest()': FunctionFragment;
-    'getMonthlyReward(uint256)': FunctionFragment;
-    'getPrincipalAmount(uint256)': FunctionFragment;
+    'getMonthlyReward(uint32)': FunctionFragment;
+    'getPrincipalAmount(uint32)': FunctionFragment;
     'getSplitFee(uint256,uint256)': FunctionFragment;
     'getTotalIssTime(bool)': FunctionFragment;
     'hasDelegations()': FunctionFragment;
     'increaseIssTime(uint256)': FunctionFragment;
-    'init(address,uint256,uint256,address,address,bool[])': FunctionFragment;
-    'isMonthClaimed(uint256)': FunctionFragment;
-    'isMonthDelegated(uint256)': FunctionFragment;
+    'init(address,uint32,uint256,address,address,bool[])': FunctionFragment;
+    'isMonthClaimed(uint32)': FunctionFragment;
+    'isMonthDelegated(uint32)': FunctionFragment;
     'issTimeLimit()': FunctionFragment;
     'issTimeTakenValue()': FunctionFragment;
     'issTimeTimestamp()': FunctionFragment;
+    'kycDapp()': FunctionFragment;
     'lastIssTimeMonth()': FunctionFragment;
     'mergeIn(address)': FunctionFragment;
     'nextMonthPrincipalAmount()': FunctionFragment;
     'nrtManager()': FunctionFragment;
     'owner()': FunctionFragment;
     'prepaidFallback(address,uint256)': FunctionFragment;
+    'principal()': FunctionFragment;
     'receiveMerge(address,uint256)': FunctionFragment;
     'reportIssTime()': FunctionFragment;
     'split(uint256)': FunctionFragment;
     'startIssTime(uint256,bool)': FunctionFragment;
     'startMonth()': FunctionFragment;
     'submitIssTime()': FunctionFragment;
-    'timeAllyManager()': FunctionFragment;
+    'timeallyManager()': FunctionFragment;
     'timestamp()': FunctionFragment;
     'transferOwnership(address)': FunctionFragment;
-    'validatorManager()': FunctionFragment;
-    'withdrawMonthlyNRT(uint256[],uint8)': FunctionFragment;
+    'withdrawMonthlyNRT(uint32[],uint8)': FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: 'SECONDS_IN_MONTH', values?: undefined): string;
@@ -76,22 +77,23 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: 'issTimeLimit', values?: undefined): string;
   encodeFunctionData(functionFragment: 'issTimeTakenValue', values?: undefined): string;
   encodeFunctionData(functionFragment: 'issTimeTimestamp', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'kycDapp', values?: undefined): string;
   encodeFunctionData(functionFragment: 'lastIssTimeMonth', values?: undefined): string;
   encodeFunctionData(functionFragment: 'mergeIn', values: [string]): string;
   encodeFunctionData(functionFragment: 'nextMonthPrincipalAmount', values?: undefined): string;
   encodeFunctionData(functionFragment: 'nrtManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(functionFragment: 'prepaidFallback', values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'principal', values?: undefined): string;
   encodeFunctionData(functionFragment: 'receiveMerge', values: [string, BigNumberish]): string;
   encodeFunctionData(functionFragment: 'reportIssTime', values?: undefined): string;
   encodeFunctionData(functionFragment: 'split', values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: 'startIssTime', values: [BigNumberish, boolean]): string;
   encodeFunctionData(functionFragment: 'startMonth', values?: undefined): string;
   encodeFunctionData(functionFragment: 'submitIssTime', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'timeAllyManager', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'timeallyManager', values?: undefined): string;
   encodeFunctionData(functionFragment: 'timestamp', values?: undefined): string;
   encodeFunctionData(functionFragment: 'transferOwnership', values: [string]): string;
-  encodeFunctionData(functionFragment: 'validatorManager', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'withdrawMonthlyNRT',
     values: [BigNumberish[], BigNumberish]
@@ -115,34 +117,37 @@ interface TimeAllyStakingInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'issTimeLimit', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'issTimeTakenValue', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'issTimeTimestamp', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'kycDapp', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'lastIssTimeMonth', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'mergeIn', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nextMonthPrincipalAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'nrtManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'prepaidFallback', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'principal', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'receiveMerge', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'reportIssTime', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'split', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'startIssTime', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'startMonth', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'submitIssTime', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'timeAllyManager', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'timeallyManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'timestamp', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'validatorManager', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'withdrawMonthlyNRT', data: BytesLike): Result;
 
   events: {
-    'Claim(uint256,uint256,uint8)': EventFragment;
-    'Delegate(uint256,address,bytes)': EventFragment;
+    'Claim(uint32,uint256,uint8)': EventFragment;
+    'Delegate(uint32,address,bytes)': EventFragment;
     'Destroy(uint8)': EventFragment;
+    'IssTimeIncrease(uint256,address)': EventFragment;
     'Topup(int256,address)': EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: 'Claim'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Delegate'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Destroy'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'IssTimeIncrease'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Topup'): EventFragment;
 }
 
@@ -166,6 +171,12 @@ export class TimeAllyStaking extends Contract {
       0: BigNumber;
     }>;
 
+    'SECONDS_IN_MONTH()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
     /**
      * Delegation gives the platform address to take control of the staking.
      * Delegates the staking to a platform.
@@ -181,12 +192,35 @@ export class TimeAllyStaking extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
+     * Delegation gives the platform address to take control of the staking.
+     * Delegates the staking to a platform.
+     * @param _extraData : Any extra data that the platform requires to link delegation.
+     * @param _months : Number of months for which delegation is done.
+     * @param _platform : Smart contract of the platform.
+     */
+    'delegate(address,bytes,uint32[])'(
+      _platform: string,
+      _extraData: BytesLike,
+      _months: BigNumberish[],
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
      * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
      */
     endMonth(
       overrides?: CallOverrides
     ): Promise<{
-      0: BigNumber;
+      0: number;
+    }>;
+
+    /**
+     * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
+     */
+    'endMonth()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
     }>;
 
     /**
@@ -196,10 +230,27 @@ export class TimeAllyStaking extends Contract {
     extend(overrides?: Overrides): Promise<ContractTransaction>;
 
     /**
+     * Increases the endMonth to next 12 months.
+     * Extends the staking.
+     */
+    'extend()'(overrides?: Overrides): Promise<ContractTransaction>;
+
+    /**
      * Get delegation for a month.
      * @param _month : NRT Month.
      */
     getDelegation(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    /**
+     * Get delegation for a month.
+     * @param _month : NRT Month.
+     */
+    'getDelegation(uint32)'(
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -216,10 +267,30 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * Gets live IssTime Interest amount.
+     */
+    'getIssTimeInterest()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Gets the amount monthly reward of NRT.
      * @param _month : NRT Month.
      */
     getMonthlyReward(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
+     * Gets the amount monthly reward of NRT.
+     * @param _month : NRT Month.
+     */
+    'getMonthlyReward(uint32)'(
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -239,11 +310,36 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * Calculates the principal amount based on topups.
+     * Gets the principal amount.
+     * @param _month : NRT Month.
+     */
+    'getPrincipalAmount(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Gets split fees based on staking age.
      * @param _month : NRT Month.
      * @param _value : Amount to be split.
      */
     getSplitFee(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
+     * Gets split fees based on staking age.
+     * @param _month : NRT Month.
+     * @param _value : Amount to be split.
+     */
+    'getSplitFee(uint256,uint256)'(
       _value: BigNumberish,
       _month: BigNumberish,
       overrides?: CallOverrides
@@ -263,9 +359,29 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * Gets allowed IssTime Limit for this staking.
+     * @param _destroy : Whether exit mode is selected.
+     */
+    'getTotalIssTime(bool)'(
+      _destroy: boolean,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Checks if staking has any delegation in present of future.
      */
     hasDelegations(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    /**
+     * Checks if staking has any delegation in present of future.
+     */
+    'hasDelegations()'(
       overrides?: CallOverrides
     ): Promise<{
       0: boolean;
@@ -282,21 +398,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
-     * Called by TimeAlly Manager immediately after deploying.
-     * Initialises the staking contract.
+     * Called by TimeAllyManager contract when processing NRT reward.
+     * Increases IssTime limit value.
+     * @param _increaseValue : Amount of IssTimeLimit to increase.
+     */
+    'increaseIssTime(uint256)'(
+      _increaseValue: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
      * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
-     * @param _defaultMonths : NRT months to extend the staking.
-     * @param _initialIssTimeLimit : Inital IssTimeLimit for the staking.
-     * @param _nrtManager : Address of NRT Manager smart contract.
-     * @param _owner : Address of owner for this staking.
-     * @param _validatorManager : Address of Validator Manager smart contract
      */
     init(
       _owner: string,
       _defaultMonths: BigNumberish,
       _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
       _nrtManager: string,
-      _validatorManager: string,
+      _claimedMonths: boolean[],
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
+    /**
+     * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
+     */
+    'init(address,uint32,uint256,address,address,bool[])'(
+      _owner: string,
+      _defaultMonths: BigNumberish,
+      _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
+      _nrtManager: string,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
@@ -313,10 +445,32 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * Gets claim status of NRT reward for a month.
+     * @param _month : NRT Month.
+     */
+    'isMonthClaimed(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    /**
      * Gets delegation status of a month.
      * @param _month : NRT month.
      */
     isMonthDelegated(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    /**
+     * Gets delegation status of a month.
+     * @param _month : NRT month.
+     */
+    'isMonthDelegated(uint32)'(
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -333,9 +487,27 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * Maximum amount of loan that can be taken or exit. Restaking increases this.
+     */
+    'issTimeLimit()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Amount of loan taken.
      */
     issTimeTakenValue(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
+     * Amount of loan taken.
+     */
+    'issTimeTakenValue()'(
       overrides?: CallOverrides
     ): Promise<{
       0: BigNumber;
@@ -347,7 +519,34 @@ export class TimeAllyStaking extends Contract {
     issTimeTimestamp(
       overrides?: CallOverrides
     ): Promise<{
-      0: BigNumber;
+      0: number;
+    }>;
+
+    /**
+     * Timestmap when IssTime was started. If zero means IssTime isn't active
+     */
+    'issTimeTimestamp()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
+    }>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    kycDapp(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    'kycDapp()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
     }>;
 
     /**
@@ -356,7 +555,16 @@ export class TimeAllyStaking extends Contract {
     lastIssTimeMonth(
       overrides?: CallOverrides
     ): Promise<{
-      0: BigNumber;
+      0: number;
+    }>;
+
+    /**
+     * NRT month in which last IssTime was taken.
+     */
+    'lastIssTimeMonth()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
     }>;
 
     /**
@@ -367,9 +575,25 @@ export class TimeAllyStaking extends Contract {
     mergeIn(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
 
     /**
+     * This action destroys any unclaimed NRT benefits of this staking.
+     * Merge the staking into a master staking.
+     * @param _masterStaking : Address of master staking contract
+     */
+    'mergeIn(address)'(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
+
+    /**
      * Gets principal amount for next month, can be treated to get staking's principal.
      */
     nextMonthPrincipalAmount(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'nextMonthPrincipalAmount()'(
       overrides?: CallOverrides
     ): Promise<{
       0: BigNumber;
@@ -385,9 +609,27 @@ export class TimeAllyStaking extends Contract {
     }>;
 
     /**
+     * NRT Manager contract reference.
+     */
+    'nrtManager()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    /**
      * ERC-173 Contract Ownership
      */
     owner(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    /**
+     * ERC-173 Contract Ownership
+     */
+    'owner()'(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -405,6 +647,35 @@ export class TimeAllyStaking extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
+     * Used for topup using Prepaid ES.
+     * Called by Prepaid contract then transfer done to this contract.
+     * @param _value : Amount of prepaid ES tokens transferred.
+     */
+    'prepaidFallback(address,uint256)'(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    principal(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'principal()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: BigNumber;
+    }>;
+
+    /**
      * Processes a merge request from other staking contract.
      * @param _childIssTimeLimit : IssTime of child smart contract.
      * @param _childOwner : Owner address in the child smart contract.
@@ -416,15 +687,40 @@ export class TimeAllyStaking extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
+     * Processes a merge request from other staking contract.
+     * @param _childIssTimeLimit : IssTime of child smart contract.
+     * @param _childOwner : Owner address in the child smart contract.
+     */
+    'receiveMerge(address,uint256)'(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
+    /**
      * Allows anyone after deadline to report IssTime not paid and earn incentive.
      */
     reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
+
+    /**
+     * Allows anyone after deadline to report IssTime not paid and earn incentive.
+     */
+    'reportIssTime()'(overrides?: Overrides): Promise<ContractTransaction>;
 
     /**
      * Splits the staking creating a new staking contract.
      * @param _value : Amount of tokens to seperate from this staking to create new.
      */
     split(_value: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    /**
+     * Splits the staking creating a new staking contract.
+     * @param _value : Amount of tokens to seperate from this staking to create new.
+     */
+    'split(uint256)'(
+      _value: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
 
     /**
      * Starts IssTime in Loan mode or Exit mode the staking.
@@ -438,12 +734,32 @@ export class TimeAllyStaking extends Contract {
     ): Promise<ContractTransaction>;
 
     /**
+     * Starts IssTime in Loan mode or Exit mode the staking.
+     * @param _destroy : Whether Exit mode is selected or not.
+     * @param _value : Amount of IssTime to be taken.
+     */
+    'startIssTime(uint256,bool)'(
+      _value: BigNumberish,
+      _destroy: boolean,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    /**
      * NRT month from which the staking receives rewards.
      */
     startMonth(
       overrides?: CallOverrides
     ): Promise<{
-      0: BigNumber;
+      0: number;
+    }>;
+
+    /**
+     * NRT month from which the staking receives rewards.
+     */
+    'startMonth()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
     }>;
 
     /**
@@ -453,9 +769,24 @@ export class TimeAllyStaking extends Contract {
     submitIssTime(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
     /**
+     * Interest need to be passed along the value
+     * Used to finish IssTime and bring staking back to normal form.
+     */
+    'submitIssTime()'(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    /**
      * TimeAlly Manager contract reference.
      */
-    timeAllyManager(
+    timeallyManager(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    /**
+     * TimeAlly Manager contract reference.
+     */
+    'timeallyManager()'(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -467,7 +798,16 @@ export class TimeAllyStaking extends Contract {
     timestamp(
       overrides?: CallOverrides
     ): Promise<{
-      0: BigNumber;
+      0: number;
+    }>;
+
+    /**
+     * Timestamp of staking creation
+     */
+    'timestamp()'(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: number;
     }>;
 
     /**
@@ -477,13 +817,13 @@ export class TimeAllyStaking extends Contract {
     transferOwnership(_newOwner: string, overrides?: Overrides): Promise<ContractTransaction>;
 
     /**
-     * Validator Manager contract reference.
+     * Transfers staking ownership to other wallet address.
+     * @param _newOwner : Address of the new owner.
      */
-    validatorManager(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    'transferOwnership(address)'(
+      _newOwner: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
 
     /**
      * Withdraws monthly NRT rewards from TimeAlly Manager.
@@ -495,9 +835,22 @@ export class TimeAllyStaking extends Contract {
       _rewardType: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
+
+    /**
+     * Withdraws monthly NRT rewards from TimeAlly Manager.
+     * @param _months : NRT Months for which rewards to be withdrawn.
+     * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
+     */
+    'withdrawMonthlyNRT(uint32[],uint8)'(
+      _months: BigNumberish[],
+      _rewardType: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
   };
 
   SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
+
+  'SECONDS_IN_MONTH()'(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
    * Delegation gives the platform address to take control of the staking.
@@ -514,9 +867,28 @@ export class TimeAllyStaking extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
+   * Delegation gives the platform address to take control of the staking.
+   * Delegates the staking to a platform.
+   * @param _extraData : Any extra data that the platform requires to link delegation.
+   * @param _months : Number of months for which delegation is done.
+   * @param _platform : Smart contract of the platform.
+   */
+  'delegate(address,bytes,uint32[])'(
+    _platform: string,
+    _extraData: BytesLike,
+    _months: BigNumberish[],
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
    * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
    */
-  endMonth(overrides?: CallOverrides): Promise<BigNumber>;
+  endMonth(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
+   */
+  'endMonth()'(overrides?: CallOverrides): Promise<number>;
 
   /**
    * Increases the endMonth to next 12 months.
@@ -525,15 +897,32 @@ export class TimeAllyStaking extends Contract {
   extend(overrides?: Overrides): Promise<ContractTransaction>;
 
   /**
+   * Increases the endMonth to next 12 months.
+   * Extends the staking.
+   */
+  'extend()'(overrides?: Overrides): Promise<ContractTransaction>;
+
+  /**
    * Get delegation for a month.
    * @param _month : NRT Month.
    */
   getDelegation(_month: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   /**
+   * Get delegation for a month.
+   * @param _month : NRT Month.
+   */
+  'getDelegation(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  /**
    * Gets live IssTime Interest amount.
    */
   getIssTimeInterest(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
+   * Gets live IssTime Interest amount.
+   */
+  'getIssTimeInterest()'(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
    * Gets the amount monthly reward of NRT.
@@ -542,11 +931,24 @@ export class TimeAllyStaking extends Contract {
   getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Gets the amount monthly reward of NRT.
+   * @param _month : NRT Month.
+   */
+  'getMonthlyReward(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Calculates the principal amount based on topups.
    * Gets the principal amount.
    * @param _month : NRT Month.
    */
   getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
+   * Calculates the principal amount based on topups.
+   * Gets the principal amount.
+   * @param _month : NRT Month.
+   */
+  'getPrincipalAmount(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
    * Gets split fees based on staking age.
@@ -560,15 +962,37 @@ export class TimeAllyStaking extends Contract {
   ): Promise<BigNumber>;
 
   /**
+   * Gets split fees based on staking age.
+   * @param _month : NRT Month.
+   * @param _value : Amount to be split.
+   */
+  'getSplitFee(uint256,uint256)'(
+    _value: BigNumberish,
+    _month: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  /**
    * Gets allowed IssTime Limit for this staking.
    * @param _destroy : Whether exit mode is selected.
    */
   getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Gets allowed IssTime Limit for this staking.
+   * @param _destroy : Whether exit mode is selected.
+   */
+  'getTotalIssTime(bool)'(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Checks if staking has any delegation in present of future.
    */
   hasDelegations(overrides?: CallOverrides): Promise<boolean>;
+
+  /**
+   * Checks if staking has any delegation in present of future.
+   */
+  'hasDelegations()'(overrides?: CallOverrides): Promise<boolean>;
 
   /**
    * Called by TimeAllyManager contract when processing NRT reward.
@@ -581,21 +1005,37 @@ export class TimeAllyStaking extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
-   * Called by TimeAlly Manager immediately after deploying.
-   * Initialises the staking contract.
+   * Called by TimeAllyManager contract when processing NRT reward.
+   * Increases IssTime limit value.
+   * @param _increaseValue : Amount of IssTimeLimit to increase.
+   */
+  'increaseIssTime(uint256)'(
+    _increaseValue: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
    * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
-   * @param _defaultMonths : NRT months to extend the staking.
-   * @param _initialIssTimeLimit : Inital IssTimeLimit for the staking.
-   * @param _nrtManager : Address of NRT Manager smart contract.
-   * @param _owner : Address of owner for this staking.
-   * @param _validatorManager : Address of Validator Manager smart contract
    */
   init(
     _owner: string,
     _defaultMonths: BigNumberish,
     _initialIssTimeLimit: BigNumberish,
+    _kycDapp: string,
     _nrtManager: string,
-    _validatorManager: string,
+    _claimedMonths: boolean[],
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
+  /**
+   * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
+   */
+  'init(address,uint32,uint256,address,address,bool[])'(
+    _owner: string,
+    _defaultMonths: BigNumberish,
+    _initialIssTimeLimit: BigNumberish,
+    _kycDapp: string,
+    _nrtManager: string,
     _claimedMonths: boolean[],
     overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
@@ -607,10 +1047,22 @@ export class TimeAllyStaking extends Contract {
   isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
   /**
+   * Gets claim status of NRT reward for a month.
+   * @param _month : NRT Month.
+   */
+  'isMonthClaimed(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+  /**
    * Gets delegation status of a month.
    * @param _month : NRT month.
    */
   isMonthDelegated(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+  /**
+   * Gets delegation status of a month.
+   * @param _month : NRT month.
+   */
+  'isMonthDelegated(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
   /**
    * Maximum amount of loan that can be taken or exit. Restaking increases this.
@@ -618,19 +1070,49 @@ export class TimeAllyStaking extends Contract {
   issTimeLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Maximum amount of loan that can be taken or exit. Restaking increases this.
+   */
+  'issTimeLimit()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Amount of loan taken.
    */
   issTimeTakenValue(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
+   * Amount of loan taken.
+   */
+  'issTimeTakenValue()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Timestmap when IssTime was started. If zero means IssTime isn't active
    */
-  issTimeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+  issTimeTimestamp(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * Timestmap when IssTime was started. If zero means IssTime isn't active
+   */
+  'issTimeTimestamp()'(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * KycDapp contract reference.
+   */
+  kycDapp(overrides?: CallOverrides): Promise<string>;
+
+  /**
+   * KycDapp contract reference.
+   */
+  'kycDapp()'(overrides?: CallOverrides): Promise<string>;
 
   /**
    * NRT month in which last IssTime was taken.
    */
-  lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
+  lastIssTimeMonth(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * NRT month in which last IssTime was taken.
+   */
+  'lastIssTimeMonth()'(overrides?: CallOverrides): Promise<number>;
 
   /**
    * This action destroys any unclaimed NRT benefits of this staking.
@@ -640,9 +1122,21 @@ export class TimeAllyStaking extends Contract {
   mergeIn(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
 
   /**
+   * This action destroys any unclaimed NRT benefits of this staking.
+   * Merge the staking into a master staking.
+   * @param _masterStaking : Address of master staking contract
+   */
+  'mergeIn(address)'(_masterStaking: string, overrides?: Overrides): Promise<ContractTransaction>;
+
+  /**
    * Gets principal amount for next month, can be treated to get staking's principal.
    */
   nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
+   * Gets principal amount for next month, can be treated to get staking's principal.
+   */
+  'nextMonthPrincipalAmount()'(overrides?: CallOverrides): Promise<BigNumber>;
 
   /**
    * NRT Manager contract reference.
@@ -650,9 +1144,19 @@ export class TimeAllyStaking extends Contract {
   nrtManager(overrides?: CallOverrides): Promise<string>;
 
   /**
+   * NRT Manager contract reference.
+   */
+  'nrtManager()'(overrides?: CallOverrides): Promise<string>;
+
+  /**
    * ERC-173 Contract Ownership
    */
   owner(overrides?: CallOverrides): Promise<string>;
+
+  /**
+   * ERC-173 Contract Ownership
+   */
+  'owner()'(overrides?: CallOverrides): Promise<string>;
 
   /**
    * Used for topup using Prepaid ES.
@@ -666,6 +1170,27 @@ export class TimeAllyStaking extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
+   * Used for topup using Prepaid ES.
+   * Called by Prepaid contract then transfer done to this contract.
+   * @param _value : Amount of prepaid ES tokens transferred.
+   */
+  'prepaidFallback(address,uint256)'(
+    arg0: string,
+    _value: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
+   * Gets principal amount for next month, can be treated to get staking's principal.
+   */
+  principal(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
+   * Gets principal amount for next month, can be treated to get staking's principal.
+   */
+  'principal()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+  /**
    * Processes a merge request from other staking contract.
    * @param _childIssTimeLimit : IssTime of child smart contract.
    * @param _childOwner : Owner address in the child smart contract.
@@ -677,15 +1202,40 @@ export class TimeAllyStaking extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
+   * Processes a merge request from other staking contract.
+   * @param _childIssTimeLimit : IssTime of child smart contract.
+   * @param _childOwner : Owner address in the child smart contract.
+   */
+  'receiveMerge(address,uint256)'(
+    _childOwner: string,
+    _childIssTimeLimit: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
+  /**
    * Allows anyone after deadline to report IssTime not paid and earn incentive.
    */
   reportIssTime(overrides?: Overrides): Promise<ContractTransaction>;
+
+  /**
+   * Allows anyone after deadline to report IssTime not paid and earn incentive.
+   */
+  'reportIssTime()'(overrides?: Overrides): Promise<ContractTransaction>;
 
   /**
    * Splits the staking creating a new staking contract.
    * @param _value : Amount of tokens to seperate from this staking to create new.
    */
   split(_value: BigNumberish, overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  /**
+   * Splits the staking creating a new staking contract.
+   * @param _value : Amount of tokens to seperate from this staking to create new.
+   */
+  'split(uint256)'(
+    _value: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
 
   /**
    * Starts IssTime in Loan mode or Exit mode the staking.
@@ -699,9 +1249,25 @@ export class TimeAllyStaking extends Contract {
   ): Promise<ContractTransaction>;
 
   /**
+   * Starts IssTime in Loan mode or Exit mode the staking.
+   * @param _destroy : Whether Exit mode is selected or not.
+   * @param _value : Amount of IssTime to be taken.
+   */
+  'startIssTime(uint256,bool)'(
+    _value: BigNumberish,
+    _destroy: boolean,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  /**
    * NRT month from which the staking receives rewards.
    */
-  startMonth(overrides?: CallOverrides): Promise<BigNumber>;
+  startMonth(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * NRT month from which the staking receives rewards.
+   */
+  'startMonth()'(overrides?: CallOverrides): Promise<number>;
 
   /**
    * Interest need to be passed along the value
@@ -710,14 +1276,30 @@ export class TimeAllyStaking extends Contract {
   submitIssTime(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   /**
+   * Interest need to be passed along the value
+   * Used to finish IssTime and bring staking back to normal form.
+   */
+  'submitIssTime()'(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  /**
    * TimeAlly Manager contract reference.
    */
-  timeAllyManager(overrides?: CallOverrides): Promise<string>;
+  timeallyManager(overrides?: CallOverrides): Promise<string>;
+
+  /**
+   * TimeAlly Manager contract reference.
+   */
+  'timeallyManager()'(overrides?: CallOverrides): Promise<string>;
 
   /**
    * Timestamp of staking creation
    */
-  timestamp(overrides?: CallOverrides): Promise<BigNumber>;
+  timestamp(overrides?: CallOverrides): Promise<number>;
+
+  /**
+   * Timestamp of staking creation
+   */
+  'timestamp()'(overrides?: CallOverrides): Promise<number>;
 
   /**
    * Transfers staking ownership to other wallet address.
@@ -726,9 +1308,13 @@ export class TimeAllyStaking extends Contract {
   transferOwnership(_newOwner: string, overrides?: Overrides): Promise<ContractTransaction>;
 
   /**
-   * Validator Manager contract reference.
+   * Transfers staking ownership to other wallet address.
+   * @param _newOwner : Address of the new owner.
    */
-  validatorManager(overrides?: CallOverrides): Promise<string>;
+  'transferOwnership(address)'(
+    _newOwner: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
 
   /**
    * Withdraws monthly NRT rewards from TimeAlly Manager.
@@ -741,8 +1327,21 @@ export class TimeAllyStaking extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
+  /**
+   * Withdraws monthly NRT rewards from TimeAlly Manager.
+   * @param _months : NRT Months for which rewards to be withdrawn.
+   * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
+   */
+  'withdrawMonthlyNRT(uint32[],uint8)'(
+    _months: BigNumberish[],
+    _rewardType: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
+
+    'SECONDS_IN_MONTH()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Delegation gives the platform address to take control of the staking.
@@ -759,9 +1358,28 @@ export class TimeAllyStaking extends Contract {
     ): Promise<void>;
 
     /**
+     * Delegation gives the platform address to take control of the staking.
+     * Delegates the staking to a platform.
+     * @param _extraData : Any extra data that the platform requires to link delegation.
+     * @param _months : Number of months for which delegation is done.
+     * @param _platform : Smart contract of the platform.
+     */
+    'delegate(address,bytes,uint32[])'(
+      _platform: string,
+      _extraData: BytesLike,
+      _months: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
      * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
      */
-    endMonth(overrides?: CallOverrides): Promise<BigNumber>;
+    endMonth(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
+     */
+    'endMonth()'(overrides?: CallOverrides): Promise<number>;
 
     /**
      * Increases the endMonth to next 12 months.
@@ -770,15 +1388,32 @@ export class TimeAllyStaking extends Contract {
     extend(overrides?: CallOverrides): Promise<void>;
 
     /**
+     * Increases the endMonth to next 12 months.
+     * Extends the staking.
+     */
+    'extend()'(overrides?: CallOverrides): Promise<void>;
+
+    /**
      * Get delegation for a month.
      * @param _month : NRT Month.
      */
     getDelegation(_month: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     /**
+     * Get delegation for a month.
+     * @param _month : NRT Month.
+     */
+    'getDelegation(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    /**
      * Gets live IssTime Interest amount.
      */
     getIssTimeInterest(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets live IssTime Interest amount.
+     */
+    'getIssTimeInterest()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Gets the amount monthly reward of NRT.
@@ -787,11 +1422,27 @@ export class TimeAllyStaking extends Contract {
     getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets the amount monthly reward of NRT.
+     * @param _month : NRT Month.
+     */
+    'getMonthlyReward(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Calculates the principal amount based on topups.
      * Gets the principal amount.
      * @param _month : NRT Month.
      */
     getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Calculates the principal amount based on topups.
+     * Gets the principal amount.
+     * @param _month : NRT Month.
+     */
+    'getPrincipalAmount(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     /**
      * Gets split fees based on staking age.
@@ -805,15 +1456,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Gets split fees based on staking age.
+     * @param _month : NRT Month.
+     * @param _value : Amount to be split.
+     */
+    'getSplitFee(uint256,uint256)'(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    /**
      * Gets allowed IssTime Limit for this staking.
      * @param _destroy : Whether exit mode is selected.
      */
     getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets allowed IssTime Limit for this staking.
+     * @param _destroy : Whether exit mode is selected.
+     */
+    'getTotalIssTime(bool)'(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Checks if staking has any delegation in present of future.
      */
     hasDelegations(overrides?: CallOverrides): Promise<boolean>;
+
+    /**
+     * Checks if staking has any delegation in present of future.
+     */
+    'hasDelegations()'(overrides?: CallOverrides): Promise<boolean>;
 
     /**
      * Called by TimeAllyManager contract when processing NRT reward.
@@ -823,21 +1496,37 @@ export class TimeAllyStaking extends Contract {
     increaseIssTime(_increaseValue: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     /**
-     * Called by TimeAlly Manager immediately after deploying.
-     * Initialises the staking contract.
+     * Called by TimeAllyManager contract when processing NRT reward.
+     * Increases IssTime limit value.
+     * @param _increaseValue : Amount of IssTimeLimit to increase.
+     */
+    'increaseIssTime(uint256)'(
+      _increaseValue: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
      * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
-     * @param _defaultMonths : NRT months to extend the staking.
-     * @param _initialIssTimeLimit : Inital IssTimeLimit for the staking.
-     * @param _nrtManager : Address of NRT Manager smart contract.
-     * @param _owner : Address of owner for this staking.
-     * @param _validatorManager : Address of Validator Manager smart contract
      */
     init(
       _owner: string,
       _defaultMonths: BigNumberish,
       _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
       _nrtManager: string,
-      _validatorManager: string,
+      _claimedMonths: boolean[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
+     * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
+     */
+    'init(address,uint32,uint256,address,address,bool[])'(
+      _owner: string,
+      _defaultMonths: BigNumberish,
+      _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
+      _nrtManager: string,
       _claimedMonths: boolean[],
       overrides?: CallOverrides
     ): Promise<void>;
@@ -849,10 +1538,22 @@ export class TimeAllyStaking extends Contract {
     isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
     /**
+     * Gets claim status of NRT reward for a month.
+     * @param _month : NRT Month.
+     */
+    'isMonthClaimed(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    /**
      * Gets delegation status of a month.
      * @param _month : NRT month.
      */
     isMonthDelegated(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    /**
+     * Gets delegation status of a month.
+     * @param _month : NRT month.
+     */
+    'isMonthDelegated(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
     /**
      * Maximum amount of loan that can be taken or exit. Restaking increases this.
@@ -860,19 +1561,49 @@ export class TimeAllyStaking extends Contract {
     issTimeLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Maximum amount of loan that can be taken or exit. Restaking increases this.
+     */
+    'issTimeLimit()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Amount of loan taken.
      */
     issTimeTakenValue(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Amount of loan taken.
+     */
+    'issTimeTakenValue()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Timestmap when IssTime was started. If zero means IssTime isn't active
      */
-    issTimeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+    issTimeTimestamp(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * Timestmap when IssTime was started. If zero means IssTime isn't active
+     */
+    'issTimeTimestamp()'(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    kycDapp(overrides?: CallOverrides): Promise<string>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    'kycDapp()'(overrides?: CallOverrides): Promise<string>;
 
     /**
      * NRT month in which last IssTime was taken.
      */
-    lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
+    lastIssTimeMonth(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * NRT month in which last IssTime was taken.
+     */
+    'lastIssTimeMonth()'(overrides?: CallOverrides): Promise<number>;
 
     /**
      * This action destroys any unclaimed NRT benefits of this staking.
@@ -882,9 +1613,21 @@ export class TimeAllyStaking extends Contract {
     mergeIn(_masterStaking: string, overrides?: CallOverrides): Promise<void>;
 
     /**
+     * This action destroys any unclaimed NRT benefits of this staking.
+     * Merge the staking into a master staking.
+     * @param _masterStaking : Address of master staking contract
+     */
+    'mergeIn(address)'(_masterStaking: string, overrides?: CallOverrides): Promise<void>;
+
+    /**
      * Gets principal amount for next month, can be treated to get staking's principal.
      */
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'nextMonthPrincipalAmount()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * NRT Manager contract reference.
@@ -892,9 +1635,19 @@ export class TimeAllyStaking extends Contract {
     nrtManager(overrides?: CallOverrides): Promise<string>;
 
     /**
+     * NRT Manager contract reference.
+     */
+    'nrtManager()'(overrides?: CallOverrides): Promise<string>;
+
+    /**
      * ERC-173 Contract Ownership
      */
     owner(overrides?: CallOverrides): Promise<string>;
+
+    /**
+     * ERC-173 Contract Ownership
+     */
+    'owner()'(overrides?: CallOverrides): Promise<string>;
 
     /**
      * Used for topup using Prepaid ES.
@@ -908,6 +1661,27 @@ export class TimeAllyStaking extends Contract {
     ): Promise<boolean>;
 
     /**
+     * Used for topup using Prepaid ES.
+     * Called by Prepaid contract then transfer done to this contract.
+     * @param _value : Amount of prepaid ES tokens transferred.
+     */
+    'prepaidFallback(address,uint256)'(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    principal(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'principal()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Processes a merge request from other staking contract.
      * @param _childIssTimeLimit : IssTime of child smart contract.
      * @param _childOwner : Owner address in the child smart contract.
@@ -919,15 +1693,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<boolean>;
 
     /**
+     * Processes a merge request from other staking contract.
+     * @param _childIssTimeLimit : IssTime of child smart contract.
+     * @param _childOwner : Owner address in the child smart contract.
+     */
+    'receiveMerge(address,uint256)'(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    /**
      * Allows anyone after deadline to report IssTime not paid and earn incentive.
      */
     reportIssTime(overrides?: CallOverrides): Promise<void>;
+
+    /**
+     * Allows anyone after deadline to report IssTime not paid and earn incentive.
+     */
+    'reportIssTime()'(overrides?: CallOverrides): Promise<void>;
 
     /**
      * Splits the staking creating a new staking contract.
      * @param _value : Amount of tokens to seperate from this staking to create new.
      */
     split(_value: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    /**
+     * Splits the staking creating a new staking contract.
+     * @param _value : Amount of tokens to seperate from this staking to create new.
+     */
+    'split(uint256)'(_value: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     /**
      * Starts IssTime in Loan mode or Exit mode the staking.
@@ -937,9 +1733,25 @@ export class TimeAllyStaking extends Contract {
     startIssTime(_value: BigNumberish, _destroy: boolean, overrides?: CallOverrides): Promise<void>;
 
     /**
+     * Starts IssTime in Loan mode or Exit mode the staking.
+     * @param _destroy : Whether Exit mode is selected or not.
+     * @param _value : Amount of IssTime to be taken.
+     */
+    'startIssTime(uint256,bool)'(
+      _value: BigNumberish,
+      _destroy: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
      * NRT month from which the staking receives rewards.
      */
-    startMonth(overrides?: CallOverrides): Promise<BigNumber>;
+    startMonth(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * NRT month from which the staking receives rewards.
+     */
+    'startMonth()'(overrides?: CallOverrides): Promise<number>;
 
     /**
      * Interest need to be passed along the value
@@ -948,14 +1760,30 @@ export class TimeAllyStaking extends Contract {
     submitIssTime(overrides?: CallOverrides): Promise<void>;
 
     /**
+     * Interest need to be passed along the value
+     * Used to finish IssTime and bring staking back to normal form.
+     */
+    'submitIssTime()'(overrides?: CallOverrides): Promise<void>;
+
+    /**
      * TimeAlly Manager contract reference.
      */
-    timeAllyManager(overrides?: CallOverrides): Promise<string>;
+    timeallyManager(overrides?: CallOverrides): Promise<string>;
+
+    /**
+     * TimeAlly Manager contract reference.
+     */
+    'timeallyManager()'(overrides?: CallOverrides): Promise<string>;
 
     /**
      * Timestamp of staking creation
      */
-    timestamp(overrides?: CallOverrides): Promise<BigNumber>;
+    timestamp(overrides?: CallOverrides): Promise<number>;
+
+    /**
+     * Timestamp of staking creation
+     */
+    'timestamp()'(overrides?: CallOverrides): Promise<number>;
 
     /**
      * Transfers staking ownership to other wallet address.
@@ -964,9 +1792,10 @@ export class TimeAllyStaking extends Contract {
     transferOwnership(_newOwner: string, overrides?: CallOverrides): Promise<void>;
 
     /**
-     * Validator Manager contract reference.
+     * Transfers staking ownership to other wallet address.
+     * @param _newOwner : Address of the new owner.
      */
-    validatorManager(overrides?: CallOverrides): Promise<string>;
+    'transferOwnership(address)'(_newOwner: string, overrides?: CallOverrides): Promise<void>;
 
     /**
      * Withdraws monthly NRT rewards from TimeAlly Manager.
@@ -974,6 +1803,17 @@ export class TimeAllyStaking extends Contract {
      * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
      */
     withdrawMonthlyNRT(
+      _months: BigNumberish[],
+      _rewardType: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    /**
+     * Withdraws monthly NRT rewards from TimeAlly Manager.
+     * @param _months : NRT Months for which rewards to be withdrawn.
+     * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
+     */
+    'withdrawMonthlyNRT(uint32[],uint8)'(
       _months: BigNumberish[],
       _rewardType: BigNumberish,
       overrides?: CallOverrides
@@ -987,11 +1827,15 @@ export class TimeAllyStaking extends Contract {
 
     Destroy(destroyReason: null): EventFilter;
 
+    IssTimeIncrease(amount: null, benefactor: null): EventFilter;
+
     Topup(amount: null, benefactor: null): EventFilter;
   };
 
   estimateGas: {
     SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<BigNumber>;
+
+    'SECONDS_IN_MONTH()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Delegation gives the platform address to take control of the staking.
@@ -1008,9 +1852,28 @@ export class TimeAllyStaking extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Delegation gives the platform address to take control of the staking.
+     * Delegates the staking to a platform.
+     * @param _extraData : Any extra data that the platform requires to link delegation.
+     * @param _months : Number of months for which delegation is done.
+     * @param _platform : Smart contract of the platform.
+     */
+    'delegate(address,bytes,uint32[])'(
+      _platform: string,
+      _extraData: BytesLike,
+      _months: BigNumberish[],
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
      * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
      */
     endMonth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
+     */
+    'endMonth()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Increases the endMonth to next 12 months.
@@ -1019,15 +1882,32 @@ export class TimeAllyStaking extends Contract {
     extend(overrides?: Overrides): Promise<BigNumber>;
 
     /**
+     * Increases the endMonth to next 12 months.
+     * Extends the staking.
+     */
+    'extend()'(overrides?: Overrides): Promise<BigNumber>;
+
+    /**
      * Get delegation for a month.
      * @param _month : NRT Month.
      */
     getDelegation(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Get delegation for a month.
+     * @param _month : NRT Month.
+     */
+    'getDelegation(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Gets live IssTime Interest amount.
      */
     getIssTimeInterest(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets live IssTime Interest amount.
+     */
+    'getIssTimeInterest()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Gets the amount monthly reward of NRT.
@@ -1036,11 +1916,27 @@ export class TimeAllyStaking extends Contract {
     getMonthlyReward(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets the amount monthly reward of NRT.
+     * @param _month : NRT Month.
+     */
+    'getMonthlyReward(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Calculates the principal amount based on topups.
      * Gets the principal amount.
      * @param _month : NRT Month.
      */
     getPrincipalAmount(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Calculates the principal amount based on topups.
+     * Gets the principal amount.
+     * @param _month : NRT Month.
+     */
+    'getPrincipalAmount(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     /**
      * Gets split fees based on staking age.
@@ -1054,15 +1950,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Gets split fees based on staking age.
+     * @param _month : NRT Month.
+     * @param _value : Amount to be split.
+     */
+    'getSplitFee(uint256,uint256)'(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    /**
      * Gets allowed IssTime Limit for this staking.
      * @param _destroy : Whether exit mode is selected.
      */
     getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets allowed IssTime Limit for this staking.
+     * @param _destroy : Whether exit mode is selected.
+     */
+    'getTotalIssTime(bool)'(_destroy: boolean, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Checks if staking has any delegation in present of future.
      */
     hasDelegations(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Checks if staking has any delegation in present of future.
+     */
+    'hasDelegations()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Called by TimeAllyManager contract when processing NRT reward.
@@ -1072,21 +1990,37 @@ export class TimeAllyStaking extends Contract {
     increaseIssTime(_increaseValue: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
 
     /**
-     * Called by TimeAlly Manager immediately after deploying.
-     * Initialises the staking contract.
+     * Called by TimeAllyManager contract when processing NRT reward.
+     * Increases IssTime limit value.
+     * @param _increaseValue : Amount of IssTimeLimit to increase.
+     */
+    'increaseIssTime(uint256)'(
+      _increaseValue: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
      * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
-     * @param _defaultMonths : NRT months to extend the staking.
-     * @param _initialIssTimeLimit : Inital IssTimeLimit for the staking.
-     * @param _nrtManager : Address of NRT Manager smart contract.
-     * @param _owner : Address of owner for this staking.
-     * @param _validatorManager : Address of Validator Manager smart contract
      */
     init(
       _owner: string,
       _defaultMonths: BigNumberish,
       _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
       _nrtManager: string,
-      _validatorManager: string,
+      _claimedMonths: boolean[],
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
+    /**
+     * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
+     */
+    'init(address,uint32,uint256,address,address,bool[])'(
+      _owner: string,
+      _defaultMonths: BigNumberish,
+      _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
+      _nrtManager: string,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<BigNumber>;
@@ -1098,10 +2032,22 @@ export class TimeAllyStaking extends Contract {
     isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Gets claim status of NRT reward for a month.
+     * @param _month : NRT Month.
+     */
+    'isMonthClaimed(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Gets delegation status of a month.
      * @param _month : NRT month.
      */
     isMonthDelegated(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets delegation status of a month.
+     * @param _month : NRT month.
+     */
+    'isMonthDelegated(uint32)'(_month: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Maximum amount of loan that can be taken or exit. Restaking increases this.
@@ -1109,9 +2055,19 @@ export class TimeAllyStaking extends Contract {
     issTimeLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Maximum amount of loan that can be taken or exit. Restaking increases this.
+     */
+    'issTimeLimit()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * Amount of loan taken.
      */
     issTimeTakenValue(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Amount of loan taken.
+     */
+    'issTimeTakenValue()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Timestmap when IssTime was started. If zero means IssTime isn't active
@@ -1119,9 +2075,29 @@ export class TimeAllyStaking extends Contract {
     issTimeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * Timestmap when IssTime was started. If zero means IssTime isn't active
+     */
+    'issTimeTimestamp()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    kycDapp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    'kycDapp()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * NRT month in which last IssTime was taken.
      */
     lastIssTimeMonth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * NRT month in which last IssTime was taken.
+     */
+    'lastIssTimeMonth()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * This action destroys any unclaimed NRT benefits of this staking.
@@ -1131,9 +2107,21 @@ export class TimeAllyStaking extends Contract {
     mergeIn(_masterStaking: string, overrides?: Overrides): Promise<BigNumber>;
 
     /**
+     * This action destroys any unclaimed NRT benefits of this staking.
+     * Merge the staking into a master staking.
+     * @param _masterStaking : Address of master staking contract
+     */
+    'mergeIn(address)'(_masterStaking: string, overrides?: Overrides): Promise<BigNumber>;
+
+    /**
      * Gets principal amount for next month, can be treated to get staking's principal.
      */
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'nextMonthPrincipalAmount()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * NRT Manager contract reference.
@@ -1141,9 +2129,19 @@ export class TimeAllyStaking extends Contract {
     nrtManager(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
+     * NRT Manager contract reference.
+     */
+    'nrtManager()'(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
      * ERC-173 Contract Ownership
      */
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * ERC-173 Contract Ownership
+     */
+    'owner()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Used for topup using Prepaid ES.
@@ -1151,6 +2149,27 @@ export class TimeAllyStaking extends Contract {
      * @param _value : Amount of prepaid ES tokens transferred.
      */
     prepaidFallback(arg0: string, _value: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+
+    /**
+     * Used for topup using Prepaid ES.
+     * Called by Prepaid contract then transfer done to this contract.
+     * @param _value : Amount of prepaid ES tokens transferred.
+     */
+    'prepaidFallback(address,uint256)'(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    principal(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'principal()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Processes a merge request from other staking contract.
@@ -1164,15 +2183,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Processes a merge request from other staking contract.
+     * @param _childIssTimeLimit : IssTime of child smart contract.
+     * @param _childOwner : Owner address in the child smart contract.
+     */
+    'receiveMerge(address,uint256)'(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
+    /**
      * Allows anyone after deadline to report IssTime not paid and earn incentive.
      */
     reportIssTime(overrides?: Overrides): Promise<BigNumber>;
+
+    /**
+     * Allows anyone after deadline to report IssTime not paid and earn incentive.
+     */
+    'reportIssTime()'(overrides?: Overrides): Promise<BigNumber>;
 
     /**
      * Splits the staking creating a new staking contract.
      * @param _value : Amount of tokens to seperate from this staking to create new.
      */
     split(_value: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
+
+    /**
+     * Splits the staking creating a new staking contract.
+     * @param _value : Amount of tokens to seperate from this staking to create new.
+     */
+    'split(uint256)'(_value: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
 
     /**
      * Starts IssTime in Loan mode or Exit mode the staking.
@@ -1186,9 +2227,25 @@ export class TimeAllyStaking extends Contract {
     ): Promise<BigNumber>;
 
     /**
+     * Starts IssTime in Loan mode or Exit mode the staking.
+     * @param _destroy : Whether Exit mode is selected or not.
+     * @param _value : Amount of IssTime to be taken.
+     */
+    'startIssTime(uint256,bool)'(
+      _value: BigNumberish,
+      _destroy: boolean,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    /**
      * NRT month from which the staking receives rewards.
      */
     startMonth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * NRT month from which the staking receives rewards.
+     */
+    'startMonth()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Interest need to be passed along the value
@@ -1197,14 +2254,30 @@ export class TimeAllyStaking extends Contract {
     submitIssTime(overrides?: PayableOverrides): Promise<BigNumber>;
 
     /**
+     * Interest need to be passed along the value
+     * Used to finish IssTime and bring staking back to normal form.
+     */
+    'submitIssTime()'(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    /**
      * TimeAlly Manager contract reference.
      */
-    timeAllyManager(overrides?: CallOverrides): Promise<BigNumber>;
+    timeallyManager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * TimeAlly Manager contract reference.
+     */
+    'timeallyManager()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Timestamp of staking creation
      */
     timestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    /**
+     * Timestamp of staking creation
+     */
+    'timestamp()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     /**
      * Transfers staking ownership to other wallet address.
@@ -1213,9 +2286,10 @@ export class TimeAllyStaking extends Contract {
     transferOwnership(_newOwner: string, overrides?: Overrides): Promise<BigNumber>;
 
     /**
-     * Validator Manager contract reference.
+     * Transfers staking ownership to other wallet address.
+     * @param _newOwner : Address of the new owner.
      */
-    validatorManager(overrides?: CallOverrides): Promise<BigNumber>;
+    'transferOwnership(address)'(_newOwner: string, overrides?: Overrides): Promise<BigNumber>;
 
     /**
      * Withdraws monthly NRT rewards from TimeAlly Manager.
@@ -1227,10 +2301,23 @@ export class TimeAllyStaking extends Contract {
       _rewardType: BigNumberish,
       overrides?: Overrides
     ): Promise<BigNumber>;
+
+    /**
+     * Withdraws monthly NRT rewards from TimeAlly Manager.
+     * @param _months : NRT Months for which rewards to be withdrawn.
+     * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
+     */
+    'withdrawMonthlyNRT(uint32[],uint8)'(
+      _months: BigNumberish[],
+      _rewardType: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     SECONDS_IN_MONTH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    'SECONDS_IN_MONTH()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Delegation gives the platform address to take control of the staking.
@@ -1247,9 +2334,28 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Delegation gives the platform address to take control of the staking.
+     * Delegates the staking to a platform.
+     * @param _extraData : Any extra data that the platform requires to link delegation.
+     * @param _months : Number of months for which delegation is done.
+     * @param _platform : Smart contract of the platform.
+     */
+    'delegate(address,bytes,uint32[])'(
+      _platform: string,
+      _extraData: BytesLike,
+      _months: BigNumberish[],
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
      */
     endMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Temporary end month for staking. Can be atmost `defaultMonths` far from         current NRT month to have less gas for split & merge, keeping user convenience.
+     */
+    'endMonth()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Increases the endMonth to next 12 months.
@@ -1258,10 +2364,25 @@ export class TimeAllyStaking extends Contract {
     extend(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     /**
+     * Increases the endMonth to next 12 months.
+     * Extends the staking.
+     */
+    'extend()'(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    /**
      * Get delegation for a month.
      * @param _month : NRT Month.
      */
     getDelegation(_month: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Get delegation for a month.
+     * @param _month : NRT Month.
+     */
+    'getDelegation(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     /**
      * Gets live IssTime Interest amount.
@@ -1269,10 +2390,24 @@ export class TimeAllyStaking extends Contract {
     getIssTimeInterest(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Gets live IssTime Interest amount.
+     */
+    'getIssTimeInterest()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * Gets the amount monthly reward of NRT.
      * @param _month : NRT Month.
      */
     getMonthlyReward(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets the amount monthly reward of NRT.
+     * @param _month : NRT Month.
+     */
+    'getMonthlyReward(uint32)'(
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1288,11 +2423,32 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Calculates the principal amount based on topups.
+     * Gets the principal amount.
+     * @param _month : NRT Month.
+     */
+    'getPrincipalAmount(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Gets split fees based on staking age.
      * @param _month : NRT Month.
      * @param _value : Amount to be split.
      */
     getSplitFee(
+      _value: BigNumberish,
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets split fees based on staking age.
+     * @param _month : NRT Month.
+     * @param _value : Amount to be split.
+     */
+    'getSplitFee(uint256,uint256)'(
       _value: BigNumberish,
       _month: BigNumberish,
       overrides?: CallOverrides
@@ -1305,9 +2461,23 @@ export class TimeAllyStaking extends Contract {
     getTotalIssTime(_destroy: boolean, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Gets allowed IssTime Limit for this staking.
+     * @param _destroy : Whether exit mode is selected.
+     */
+    'getTotalIssTime(bool)'(
+      _destroy: boolean,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Checks if staking has any delegation in present of future.
      */
     hasDelegations(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Checks if staking has any delegation in present of future.
+     */
+    'hasDelegations()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Called by TimeAllyManager contract when processing NRT reward.
@@ -1320,21 +2490,37 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
-     * Called by TimeAlly Manager immediately after deploying.
-     * Initialises the staking contract.
+     * Called by TimeAllyManager contract when processing NRT reward.
+     * Increases IssTime limit value.
+     * @param _increaseValue : Amount of IssTimeLimit to increase.
+     */
+    'increaseIssTime(uint256)'(
+      _increaseValue: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
-     * @param _defaultMonths : NRT months to extend the staking.
-     * @param _initialIssTimeLimit : Inital IssTimeLimit for the staking.
-     * @param _nrtManager : Address of NRT Manager smart contract.
-     * @param _owner : Address of owner for this staking.
-     * @param _validatorManager : Address of Validator Manager smart contract
      */
     init(
       _owner: string,
       _defaultMonths: BigNumberish,
       _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
       _nrtManager: string,
-      _validatorManager: string,
+      _claimedMonths: boolean[],
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * @param _claimedMonths : Markings for claimed months in previous TimeAlly ETH contract.
+     */
+    'init(address,uint32,uint256,address,address,bool[])'(
+      _owner: string,
+      _defaultMonths: BigNumberish,
+      _initialIssTimeLimit: BigNumberish,
+      _kycDapp: string,
+      _nrtManager: string,
       _claimedMonths: boolean[],
       overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
@@ -1346,10 +2532,28 @@ export class TimeAllyStaking extends Contract {
     isMonthClaimed(_month: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Gets claim status of NRT reward for a month.
+     * @param _month : NRT Month.
+     */
+    'isMonthClaimed(uint32)'(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Gets delegation status of a month.
      * @param _month : NRT month.
      */
     isMonthDelegated(
+      _month: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets delegation status of a month.
+     * @param _month : NRT month.
+     */
+    'isMonthDelegated(uint32)'(
       _month: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1360,9 +2564,19 @@ export class TimeAllyStaking extends Contract {
     issTimeLimit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Maximum amount of loan that can be taken or exit. Restaking increases this.
+     */
+    'issTimeLimit()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * Amount of loan taken.
      */
     issTimeTakenValue(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Amount of loan taken.
+     */
+    'issTimeTakenValue()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Timestmap when IssTime was started. If zero means IssTime isn't active
@@ -1370,9 +2584,29 @@ export class TimeAllyStaking extends Contract {
     issTimeTimestamp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Timestmap when IssTime was started. If zero means IssTime isn't active
+     */
+    'issTimeTimestamp()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    kycDapp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * KycDapp contract reference.
+     */
+    'kycDapp()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * NRT month in which last IssTime was taken.
      */
     lastIssTimeMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * NRT month in which last IssTime was taken.
+     */
+    'lastIssTimeMonth()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * This action destroys any unclaimed NRT benefits of this staking.
@@ -1382,9 +2616,24 @@ export class TimeAllyStaking extends Contract {
     mergeIn(_masterStaking: string, overrides?: Overrides): Promise<PopulatedTransaction>;
 
     /**
+     * This action destroys any unclaimed NRT benefits of this staking.
+     * Merge the staking into a master staking.
+     * @param _masterStaking : Address of master staking contract
+     */
+    'mergeIn(address)'(
+      _masterStaking: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Gets principal amount for next month, can be treated to get staking's principal.
      */
     nextMonthPrincipalAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'nextMonthPrincipalAmount()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * NRT Manager contract reference.
@@ -1392,9 +2641,19 @@ export class TimeAllyStaking extends Contract {
     nrtManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * NRT Manager contract reference.
+     */
+    'nrtManager()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * ERC-173 Contract Ownership
      */
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * ERC-173 Contract Ownership
+     */
+    'owner()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Used for topup using Prepaid ES.
@@ -1408,6 +2667,27 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Used for topup using Prepaid ES.
+     * Called by Prepaid contract then transfer done to this contract.
+     * @param _value : Amount of prepaid ES tokens transferred.
+     */
+    'prepaidFallback(address,uint256)'(
+      arg0: string,
+      _value: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    principal(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Gets principal amount for next month, can be treated to get staking's principal.
+     */
+    'principal()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * Processes a merge request from other staking contract.
      * @param _childIssTimeLimit : IssTime of child smart contract.
      * @param _childOwner : Owner address in the child smart contract.
@@ -1419,15 +2699,40 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Processes a merge request from other staking contract.
+     * @param _childIssTimeLimit : IssTime of child smart contract.
+     * @param _childOwner : Owner address in the child smart contract.
+     */
+    'receiveMerge(address,uint256)'(
+      _childOwner: string,
+      _childIssTimeLimit: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * Allows anyone after deadline to report IssTime not paid and earn incentive.
      */
     reportIssTime(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Allows anyone after deadline to report IssTime not paid and earn incentive.
+     */
+    'reportIssTime()'(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     /**
      * Splits the staking creating a new staking contract.
      * @param _value : Amount of tokens to seperate from this staking to create new.
      */
     split(_value: BigNumberish, overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Splits the staking creating a new staking contract.
+     * @param _value : Amount of tokens to seperate from this staking to create new.
+     */
+    'split(uint256)'(
+      _value: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
 
     /**
      * Starts IssTime in Loan mode or Exit mode the staking.
@@ -1441,9 +2746,25 @@ export class TimeAllyStaking extends Contract {
     ): Promise<PopulatedTransaction>;
 
     /**
+     * Starts IssTime in Loan mode or Exit mode the staking.
+     * @param _destroy : Whether Exit mode is selected or not.
+     * @param _value : Amount of IssTime to be taken.
+     */
+    'startIssTime(uint256,bool)'(
+      _value: BigNumberish,
+      _destroy: boolean,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
      * NRT month from which the staking receives rewards.
      */
     startMonth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * NRT month from which the staking receives rewards.
+     */
+    'startMonth()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Interest need to be passed along the value
@@ -1452,14 +2773,30 @@ export class TimeAllyStaking extends Contract {
     submitIssTime(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
 
     /**
+     * Interest need to be passed along the value
+     * Used to finish IssTime and bring staking back to normal form.
+     */
+    'submitIssTime()'(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    /**
      * TimeAlly Manager contract reference.
      */
-    timeAllyManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    timeallyManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * TimeAlly Manager contract reference.
+     */
+    'timeallyManager()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Timestamp of staking creation
      */
     timestamp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    /**
+     * Timestamp of staking creation
+     */
+    'timestamp()'(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     /**
      * Transfers staking ownership to other wallet address.
@@ -1468,9 +2805,13 @@ export class TimeAllyStaking extends Contract {
     transferOwnership(_newOwner: string, overrides?: Overrides): Promise<PopulatedTransaction>;
 
     /**
-     * Validator Manager contract reference.
+     * Transfers staking ownership to other wallet address.
+     * @param _newOwner : Address of the new owner.
      */
-    validatorManager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    'transferOwnership(address)'(
+      _newOwner: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
 
     /**
      * Withdraws monthly NRT rewards from TimeAlly Manager.
@@ -1478,6 +2819,17 @@ export class TimeAllyStaking extends Contract {
      * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
      */
     withdrawMonthlyNRT(
+      _months: BigNumberish[],
+      _rewardType: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    /**
+     * Withdraws monthly NRT rewards from TimeAlly Manager.
+     * @param _months : NRT Months for which rewards to be withdrawn.
+     * @param _rewardType : 0 => Liquid, 1 => Prepaid, 2 => Staked.
+     */
+    'withdrawMonthlyNRT(uint32[],uint8)'(
       _months: BigNumberish[],
       _rewardType: BigNumberish,
       overrides?: Overrides
