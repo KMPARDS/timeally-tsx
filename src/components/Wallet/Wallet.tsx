@@ -10,6 +10,7 @@ type State = {
   liquid: BigNumber | null;
   prepaid: BigNumber | null;
   addressCopied: boolean;
+  kycName: string | null;
 };
 
 export class Wallet extends Component<{}, State> {
@@ -17,12 +18,23 @@ export class Wallet extends Component<{}, State> {
     liquid: null,
     prepaid: null,
     addressCopied: false,
+    kycName: null,
   };
 
   intervalIds: NodeJS.Timeout[] = [];
 
   componentDidMount = async () => {
     this.intervalIds.push(routine(this.updateBalances, 10000));
+    if (window.wallet) {
+      try {
+        const kycName = await window.provider.resolveUsername(window.wallet.address);
+        this.setState({ kycName });
+      } catch {
+        this.setState({
+          kycName: 'Kyc name does not exist for this wallet. Get yours by registering on Kyc Dapp!',
+        });
+      }
+    }
   };
 
   componentWillUnmount = () => {
@@ -53,6 +65,10 @@ export class Wallet extends Component<{}, State> {
           <>
             <Table>
               <tbody>
+                <tr>
+                  <td>Kyc Name</td>
+                  <td onClick={this.copyAddress}>{this.state.kycName ?? 'Loading...'}</td>
+                </tr>
                 <tr>
                   <td>Wallet Address</td>
                   <td onClick={this.copyAddress} style={{ cursor: 'pointer' }}>
