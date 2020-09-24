@@ -26,7 +26,7 @@ export const ListOfLoadMethods = () => {
       <Link to="/load-wallet/using-address">
         <Card style={{ margin: '15px 0', cursor: 'pointer' }}>
           <Card.Body>
-            Use <strong>Address</strong> to read account
+            Use <strong>Address</strong> or <strong>KycName</strong> to read account
           </Card.Body>
         </Card>
       </Link>
