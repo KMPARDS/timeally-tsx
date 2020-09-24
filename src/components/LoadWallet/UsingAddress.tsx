@@ -60,6 +60,17 @@ export function UsingAddress() {
     };
   }, []);
 
+  const readAccountMethod = async () => {
+    // @ts-ignore
+    window.wallet = new ethers.VoidSigner(
+      await window.provider.resolveAddress(addressInput),
+      window.provider
+    );
+
+    setDisplayMessage('Address loaded. Redirecting to wallet page...');
+    setTimeout(() => history.push('/wallet'), 1500);
+  };
+
   return (
     <Layout title="Load Wallet using Address">
       <Card>
@@ -91,6 +102,11 @@ export function UsingAddress() {
                 !isCorrectKycName &&
                 !isChecking
               }
+              onKeyPress={(event: React.KeyboardEvent) => {
+                if (event.key === 'Enter') {
+                  readAccountMethod();
+                }
+              }}
             />
           </Form.Group>
 
@@ -101,16 +117,7 @@ export function UsingAddress() {
             id="addressSubmit"
             type="submit"
             disabled={(!isCorrectKycName && !ethers.utils.isAddress(addressInput)) || isChecking}
-            onClick={async () => {
-              // @ts-ignore
-              window.wallet = new ethers.VoidSigner(
-                await window.provider.resolveAddress(addressInput),
-                window.provider
-              );
-
-              setDisplayMessage('Address loaded. Redirecting to wallet page...');
-              setTimeout(() => history.push('/wallet'), 1500);
-            }}
+            onClick={readAccountMethod}
           >
             Read Account
           </Button>
