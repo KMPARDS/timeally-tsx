@@ -17,7 +17,10 @@ export function UsingAddress() {
   const history = useHistory();
 
   useEffect(() => {
-    setIsChecking(true);
+    if (isCorrectKycName) setIsCorrectKycName(false);
+    if (!ethers.utils.isHexString(addressInput)) {
+      setIsChecking(true);
+    }
   }, [addressInput]);
 
   console.log('hi', addressInput);
