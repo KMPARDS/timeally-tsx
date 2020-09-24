@@ -3,6 +3,7 @@ import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaki
 import { Form, Alert, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { runInThisContext } from 'vm';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -67,7 +68,10 @@ export class Split extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success!' });
       this.props.refreshDetailsHook();
     } catch (error) {
-      this.setState({ displayMessage: error.message, spinner: false });
+      this.setState({
+        displayMessage: renderEthersJsError(error),
+        spinner: false,
+      });
     }
   };
 

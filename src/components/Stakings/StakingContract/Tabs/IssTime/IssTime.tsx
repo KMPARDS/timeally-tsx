@@ -3,7 +3,7 @@ import { Button, DropdownButton, Dropdown, Card, Alert, Spinner, Form } from 're
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import '../../../Stakings.css';
-import { routine } from '../../../../../utils';
+import { routine, renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -72,7 +72,7 @@ export class IssTime extends Component<Props, State> {
       this.updateDetails();
     } catch (error) {
       this.setState({
-        errorMessage: `Error from smart contract: ${error.message}`,
+        errorMessage: `Error from smart contract: ${renderEthersJsError(error)}`,
         spinner: false,
       });
     }
@@ -89,7 +89,7 @@ export class IssTime extends Component<Props, State> {
       this.updateDetails();
     } catch (error) {
       this.setState({
-        errorMessage: `Error from smart contract: ${error.message}`,
+        errorMessage: `Error from smart contract: ${renderEthersJsError(error)}`,
         spinner: false,
       });
     }

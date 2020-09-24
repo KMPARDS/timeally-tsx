@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import { Form, DropdownButton, Dropdown, Alert, Button, Spinner, Card, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { isValidAmountInput } from '../../../../../utils';
+import { isValidAmountInput, renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -38,7 +38,7 @@ export class NewDelegation extends Component<Props, State> {
       this.setState({ spinner: false, displayMesssage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMesssage: `Error from smart contract: ${error.message}`,
+        displayMesssage: `Error from smart contract: ${renderEthersJsError(error)}`,
         spinner: false,
       });
     }

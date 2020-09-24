@@ -4,6 +4,7 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 
 import { Logger } from '@ethersproject/logger';
 import { isHexString, parseBytes32String, hexStripZeros, hexZeroPad } from 'ethers/lib/utils';
+import { renderEthersJsError } from '../utils';
 
 const logger = new Logger(version);
 
@@ -92,8 +93,8 @@ export class CustomProvider extends ethers.providers.StaticJsonRpcProvider {
       // console.log(resp);
 
       return resp;
-    } catch (err) {
-      const data = err?.error?.data;
+    } catch (error) {
+      const data = error?.error?.data;
       console.log('yey', data);
 
       if (typeof data === 'string' && data.slice(0, 9) === 'Reverted ') {
@@ -107,7 +108,7 @@ export class CustomProvider extends ethers.providers.StaticJsonRpcProvider {
           Logger.errors.CALL_EXCEPTION
         );
       } else {
-        throw err;
+        throw error;
       }
     }
   }
@@ -118,7 +119,7 @@ export class CustomProvider extends ethers.providers.StaticJsonRpcProvider {
       // console.log(resp);
 
       return resp;
-    } catch (err) {
+    } catch (error) {
       let { from, to, data, value } = transaction;
 
       // @ts-ignore
@@ -137,7 +138,7 @@ export class CustomProvider extends ethers.providers.StaticJsonRpcProvider {
             ['vmtrace', 'trace'],
           ]);
         } catch (error) {
-          console.log('trace_call error:', error.message);
+          console.log('trace_call error:', renderEthersJsError(error));
         }
 
         if (result?.output) {
@@ -157,7 +158,7 @@ export class CustomProvider extends ethers.providers.StaticJsonRpcProvider {
         'cannot estimate gas; transaction may fail or may require manual gas limit',
         Logger.errors.UNPREDICTABLE_GAS_LIMIT,
         {
-          error: err,
+          error,
           tx: transaction,
         }
       );

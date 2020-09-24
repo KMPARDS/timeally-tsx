@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { EraswapInfo } from '../../../../../utils';
+import { EraswapInfo, renderEthersJsError } from '../../../../../utils';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import '../../../Stakings.css';
 
@@ -152,7 +152,7 @@ export class Withdraw extends Component<Props, State> {
       // deselect months
       // endState.selectedMonths = []; // commenting to not deselect months
     } catch (error) {
-      endState.displayMessage = `There was an error: ${error.message}`;
+      endState.displayMessage = `There was an error: ${renderEthersJsError(error)}`;
     }
 
     this.setState(endState);

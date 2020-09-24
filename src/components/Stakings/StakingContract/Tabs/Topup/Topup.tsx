@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Form, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -91,7 +92,10 @@ export class Topup extends Component<Props, State> {
       await tx.wait();
       this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
     } catch (error) {
-      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+      this.setState({
+        spinnerLiquid: false,
+        displayMessage: renderEthersJsError(error),
+      });
     }
     this.loadTopups();
     this.props.refreshDetailsHook();
@@ -109,7 +113,10 @@ export class Topup extends Component<Props, State> {
       await tx.wait();
       this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
     } catch (error) {
-      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+      this.setState({
+        spinnerLiquid: false,
+        displayMessage: renderEthersJsError(error),
+      });
     }
     this.loadTopups();
     this.props.refreshDetailsHook();
