@@ -25,6 +25,10 @@ export class Nominee extends Component {
   render() {
     return (
       <Layout title="Nominee">
+        <Alert variant="warning">
+          ATTENTION: This section of Nominee Multi-Sig Smart Contract is work under progress. Please
+          do not use it.
+        </Alert>
         <div className="nominee-home">
           <Tabs defaultActiveKey="home" transition={false} id="noanim-tab-example">
             <Tab eventKey="home" title="Home">
