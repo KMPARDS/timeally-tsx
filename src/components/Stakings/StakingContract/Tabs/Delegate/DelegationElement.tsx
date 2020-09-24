@@ -44,7 +44,7 @@ export class DelegationElement extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMessage: `Error from smart contract: ${renderEthersJsError(error)}`,
+        displayMessage: renderEthersJsError(error),
         spinner: false,
       });
     }

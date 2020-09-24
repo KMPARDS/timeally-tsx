@@ -72,7 +72,7 @@ export class IssTime extends Component<Props, State> {
       this.updateDetails();
     } catch (error) {
       this.setState({
-        errorMessage: `Error from smart contract: ${renderEthersJsError(error)}`,
+        errorMessage: renderEthersJsError(error),
         spinner: false,
       });
     }
@@ -89,7 +89,7 @@ export class IssTime extends Component<Props, State> {
       this.updateDetails();
     } catch (error) {
       this.setState({
-        errorMessage: `Error from smart contract: ${renderEthersJsError(error)}`,
+        errorMessage: renderEthersJsError(error),
         spinner: false,
       });
     }

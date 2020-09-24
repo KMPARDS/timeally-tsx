@@ -56,5 +56,10 @@ export function renderTimestampRemaining(unixTimestampSeconds: number): string {
 }
 
 export function renderEthersJsError(error: any): string {
-  return error.error.reason || error.error.message || error.message;
+  return (
+    (error?.error?.reason && `Error from Smart Contract ${error?.error?.reason}`) ||
+    (error?.error?.message && `Error from Blockchain: ${error?.error?.message}`) ||
+    (error?.message && `Error on UI: ${error?.message}`) ||
+    `Weird error: ${typeof error === 'object' ? JSON.stringify(error) : error}`
+  );
 }

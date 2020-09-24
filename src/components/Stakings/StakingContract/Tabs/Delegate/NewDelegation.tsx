@@ -38,7 +38,7 @@ export class NewDelegation extends Component<Props, State> {
       this.setState({ spinner: false, displayMesssage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMesssage: `Error from smart contract: ${renderEthersJsError(error)}`,
+        displayMesssage: renderEthersJsError(error),
         spinner: false,
       });
     }

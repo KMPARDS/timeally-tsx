@@ -152,7 +152,7 @@ export class Withdraw extends Component<Props, State> {
       // deselect months
       // endState.selectedMonths = []; // commenting to not deselect months
     } catch (error) {
-      endState.displayMessage = `There was an error: ${renderEthersJsError(error)}`;
+      endState.displayMessage = renderEthersJsError(error);
     }
 
     this.setState(endState);
