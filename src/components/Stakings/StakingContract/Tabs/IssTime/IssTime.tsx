@@ -1,9 +1,21 @@
-import React, { Component } from 'react';
-import { Button, DropdownButton, Dropdown, Card, Alert, Spinner, Form } from 'react-bootstrap';
+import React, { Component, useEffect, useState } from 'react';
+import {
+  Button,
+  DropdownButton,
+  Dropdown,
+  Card,
+  Alert,
+  Spinner,
+  Form,
+  Table,
+} from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import '../../../Stakings.css';
-import { routine, renderEthersJsError } from '../../../../../utils';
+import { routine, renderEthersJsError, EraswapInfo } from '../../../../../utils';
+import { formatEther } from 'ethers/lib/utils';
+import { AddressDisplayer } from '../../../../../AddressDisplayer';
+import { BlockNumberToTimeElapsed } from '../../../../../BlockNumberToTimeElapsed';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -20,7 +32,17 @@ type State = {
   issTimeTakenValue: ethers.BigNumber | null;
   issTimeInterest: ethers.BigNumber | null;
   spinner: boolean;
+  issTimeIncreases: IssTimeIncrease[] | null;
 };
+
+interface IssTimeIncrease {
+  amount: ethers.BigNumber;
+  0: ethers.BigNumber;
+  benefactor: string;
+  1: string;
+  txHash: string;
+  blockNumber: number;
+}
 
 export class IssTime extends Component<Props, State> {
   state: State = {
@@ -32,6 +54,7 @@ export class IssTime extends Component<Props, State> {
     issTimeTakenValue: null,
     issTimeInterest: null,
     spinner: false,
+    issTimeIncreases: null,
   };
 
   instance = this.props.instance;
@@ -39,6 +62,7 @@ export class IssTime extends Component<Props, State> {
 
   componentDidMount = () => {
     this.intervalIds.push(routine(this.updateDetails, 8000));
+    this.intervalIds.push(routine(this.loadIssTimeIncreases, 8000));
   };
 
   componentWillUnmount = () => {
@@ -95,6 +119,21 @@ export class IssTime extends Component<Props, State> {
     }
   };
 
+  loadIssTimeIncreases = async () => {
+    const logs = await this.instance.queryFilter(this.instance.filters.IssTimeIncrease(null, null));
+    const args = logs.map(
+      (log) =>
+        (({
+          ...log.args,
+          txHash: log.transactionHash,
+          blockNumber: log.blockNumber,
+        } as unknown) as IssTimeIncrease)
+    );
+    console.log(args);
+
+    this.setState({ issTimeIncreases: args });
+  };
+
   render() {
     // checks if user's arbitary input is a valid ES value
     let isAmountValid = false;
@@ -119,8 +158,8 @@ export class IssTime extends Component<Props, State> {
                 <div className="row">
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="row ">
-                      <div className="col-md-6 col-lg-6 pdb30">
-                        <h3>Check your eligibility for Loans</h3>
+                      <div className="col-md-12 col-lg-12 pdb30">
+                        {/* <h3>Check your eligibility for Loans</h3>
                         <p>
                           Lever A:{' '}
                           {this.state.issTimeTotalLimit === null
@@ -129,7 +168,42 @@ export class IssTime extends Component<Props, State> {
                         </p>
                         <p>Lever B: Comming soon...</p>
                         <p>Lever C: Comming soon...</p>
-                        <p>Lever D: Comming soon...</p>
+                        <p>Lever D: Comming soon...</p> */}
+                        {this.state.issTimeIncreases !== null ? (
+                          <Table responsive>
+                            <thead>
+                              <tr>
+                                <th>IssTime Credited</th>
+                                <th>Source</th>
+                                <th>Timestamp</th>
+                                <th>Tx hash</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {this.state.issTimeIncreases.map((event) => (
+                                <tr>
+                                  <td>{formatEther(event[0])} ES</td>
+                                  <td>
+                                    <AddressDisplayer address={event[1]} />
+                                  </td>
+                                  <td>
+                                    <BlockNumberToTimeElapsed blockNumber={event.blockNumber} />
+                                  </td>
+                                  <td>
+                                    <a target="_blank" href={EraswapInfo.getTxHref(event.txHash)}>
+                                      View Tx on Eraswap.info
+                                    </a>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        ) : (
+                          <>
+                            You will see list of sources of IssTime received. To get IssTime,
+                            withdraw your rewards on various platforms in restake mode.
+                          </>
+                        )}
                         <p>
                           Total:{' '}
                           {this.state.issTimeTotalLimit === null

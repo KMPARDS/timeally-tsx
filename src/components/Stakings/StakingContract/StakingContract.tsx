@@ -16,6 +16,7 @@ import { Nominee } from './Tabs/Nominee';
 import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
 import '../Stakings.css';
 import { EraswapInfo } from '../../../utils';
+import { AddressDisplayer } from '../../../AddressDisplayer';
 
 interface MatchParams {
   address: string;
@@ -131,7 +132,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                     {this.state.owner !== null ? (
                       <span className="hex-string">
                         <a target="_blank" href={EraswapInfo.getAddressHref(this.state.owner)}>
-                          {this.state.owner}
+                          <AddressDisplayer address={this.state.owner} />
                         </a>
                       </span>
                     ) : (
