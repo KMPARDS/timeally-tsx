@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import { Card, Button, Spinner, Alert } from 'react-bootstrap';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -27,7 +28,10 @@ export class Extend extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success!' });
       this.props.refreshDetailsHook();
     } catch (error) {
-      this.setState({ displayMessage: error.message, spinner: false });
+      this.setState({
+        displayMessage: renderEthersJsError(error),
+        spinner: false,
+      });
     }
   };
 

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { CustomWallet } from './custom-wallet';
+import { CustomProvider } from './custom-provider';
 
 import { NrtManagerFactory } from './typechain/NrtManagerFactory';
 import { TimeAllyManagerFactory } from './typechain/TimeAllyManagerFactory';
@@ -8,22 +8,26 @@ import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
 
 const config = {
   ESN: {
-    nrtManager: '0x89309551Fb7AbaaB85867ACa60404CDA649751d4',
-    timeallyManager: '0x7F87f9830baB8A591E6f94fd1A47EE87560B0bB0',
-    timeallyStakingTarget: '0xA3C6cf908EeeebF61da6e0e885687Cab557b5e3F',
-    validatorSet: '0x8418249278d74D46014683A8029Fd6fbC88482a1',
-    validatorManager: '0xE14D14bd8D0E2c36f5E4D00106417d8cf1000e22',
-    randomnessManager: '0x44F70d80642998F6ABc424ceAf1E706a479De8Ce',
-    blockRewardManager: '0x2AA786Cd8544c50136e5097D5E19F6AE10E02543',
-    prepaidEs: '0x22E0940C1AE5D31B9efBaf7D674F7D62895FBde8',
-    dayswappers: '0xF9FCb8678dB15A5507A5f5414D68aBB2f4568E27',
+    nrtManager: 'NRT_MANAGER',
+    timeallyManager: 'TIMEALLY_MANAGER',
+    timeallyStakingTarget: 'TIMEALLY_STAKING_TARGET',
+    validatorSet: 'VALIDATOR_SET',
+    validatorManager: 'VALIDATOR_MANAGER',
+    randomnessManager: 'RANDOMNESS_MANAGER',
+    blockRewardManager: 'BLOCK_REWARD',
+    prepaidEs: 'PREPAID_ES',
+    dayswappers: 'DAYSWAPPERS',
     kycdapp: '0xC4336494606203e3907539d5b462A5cb7853B3C6',
-    timeallyclub: '0x6D57FaDF31e62E28Ab059f3dCd565df055428c57',
-    timeAllyPromotionalBucket: '0xaDbA96fDA88B0Cbcf11d668FF6f7A29d062eD050',
+    timeallyclub: 'TIMEALLY_CLUB',
+    timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
   },
 };
 
-window.provider = new ethers.providers.JsonRpcProvider('https://node0.testnet.eraswap.network');
+window.provider = new CustomProvider('https://node0.testnet.eraswap.network', {
+  name: 'EraSwapNetwork',
+  chainId: 5196,
+  ensAddress: config.ESN.kycdapp,
+});
 
 if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
   config.ESN = {
@@ -40,12 +44,22 @@ if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
     timeallyclub: '',
     timeAllyPromotionalBucket: '',
   };
-  window.provider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
+
+  window.provider = new CustomProvider(
+    'http://localhost:8545',
+    config.ESN.kycdapp !== ''
+      ? {
+          name: 'Ganache',
+          chainId: 1337,
+          ensAddress: config.ESN.kycdapp,
+        }
+      : undefined
+  );
 }
 
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
-  window.wallet = new CustomWallet(process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY, window.provider);
+  window.wallet = new ethers.Wallet(process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY, window.provider);
 }
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
 import { Alert, Form, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
@@ -30,7 +31,7 @@ export class Merge extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMessage: `Error from smart contract: ${error.message}`,
+        displayMessage: renderEthersJsError(error),
         spinner: false,
       });
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ethers } from 'ethers';
 import { Button, Spinner, Alert } from 'react-bootstrap';
 import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { renderEthersJsError } from '../../../../../utils';
 
 export interface Delegation {
   month: number;
@@ -43,7 +44,7 @@ export class DelegationElement extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMessage: `Error from smart contract: ${error.message}`,
+        displayMessage: renderEthersJsError(error),
         spinner: false,
       });
     }
