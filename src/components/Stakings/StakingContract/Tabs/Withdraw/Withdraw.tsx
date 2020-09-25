@@ -89,7 +89,7 @@ export class Withdraw extends Component<Props, State> {
       .map((_) => {
         const [event, logDescription] = _;
         const claim: BenefitClaim = {
-          nrtMonth: (logDescription.args[0] as ethers.BigNumber).toNumber(),
+          nrtMonth: logDescription.args[0] as number,
           amount: logDescription.args[1] as ethers.BigNumber,
           rewardType: logDescription.args[2] as 0 | 1 | 2,
           txHash: event.transactionHash,
