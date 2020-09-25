@@ -18,18 +18,24 @@ export function UsingAddress() {
 
   useEffect(() => {
     if (isCorrectKycName) setIsCorrectKycName(false);
+
     if (!ethers.utils.isHexString(addressInput)) {
       setIsChecking(true);
     }
   }, [addressInput]);
 
-  console.log('hi', addressInput);
+  // console.log('hi', addressInput);
 
   const checkedAddressInputRef = useRef('');
 
   const savedCallback = useRef<() => Promise<void>>();
   const callback = async () => {
-    console.log({ addressInput, checked: checkedAddressInputRef.current, isCorrectKycName });
+    // console.log({
+    //   addressInput,
+    //   checked: checkedAddressInputRef.current,
+    //   isCorrectKycName,
+    //   isChecking,
+    // });
 
     if (
       !ethers.utils.isHexString(addressInput) &&
@@ -42,9 +48,9 @@ export function UsingAddress() {
         console.log('check address error', error);
         if (isCorrectKycName) setIsCorrectKycName(false);
       }
-      setIsChecking(false);
-      checkedAddressInputRef.current = addressInput;
     }
+    checkedAddressInputRef.current = addressInput;
+    setIsChecking(false);
   };
 
   useEffect(() => {
@@ -52,7 +58,7 @@ export function UsingAddress() {
   });
 
   useEffect(() => {
-    console.log('hooooo', addressInput);
+    // console.log('hooooo', addressInput);
 
     const intervalId = setInterval(() => {
       if (savedCallback.current) savedCallback.current();
