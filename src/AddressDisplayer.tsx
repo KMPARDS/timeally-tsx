@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { EraswapInfo } from './utils';
 
-export function AddressDisplayer(props: { address: string }) {
+export function AddressDisplayer(props: { address: string; chars?: number }) {
   const [username, setUsername] = useState<string | null>(null);
   useEffect(() => {
     window.provider
@@ -8,5 +9,20 @@ export function AddressDisplayer(props: { address: string }) {
       .then(setUsername)
       .catch(() => {});
   }, []);
-  return <>{username === null ? props.address : `${username} (${props.address})`}</>;
+  const addrElement = (
+    <span className="hex-string">
+      {props.chars ? `${props.address.slice(0, props.chars)}...` : props.address}
+    </span>
+  );
+  return (
+    <a target="_blank" href={EraswapInfo.getAddressHref(props.address)}>
+      {username === null ? (
+        addrElement
+      ) : (
+        <>
+          {username} ({addrElement})
+        </>
+      )}
+    </a>
+  );
 }

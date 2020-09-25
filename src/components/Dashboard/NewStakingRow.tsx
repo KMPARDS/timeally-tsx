@@ -3,6 +3,7 @@ import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStaking
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { EraswapInfo } from '../../utils';
+import { AddressDisplayer } from '../../AddressDisplayer';
 
 export interface NewStaking {
   owner: string;
@@ -85,9 +86,7 @@ export class NewStakingRow extends Component<Props, State> {
         </td>
         <td>
           <span className="hex-string">
-            <a target="_blank" href={EraswapInfo.getAddressHref(this.props.newStaking.owner)}>
-              {this.props.newStaking.owner.slice(0, 20)}...
-            </a>
+            <AddressDisplayer address={this.props.newStaking.owner} chars={20} />
           </span>
         </td>
         {this.state.destroyStatus === null ? (
