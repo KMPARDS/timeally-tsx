@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { EraswapInfo } from '../../utils';
@@ -40,7 +40,7 @@ export class NewStakingRow extends Component<Props, State> {
       this.setState({ principal, timestamp });
     } catch (error) {
       const parsedLogs = (
-        await this.instance.queryFilter(this.instance.filters.Destroy(null))
+        (await this.instance.queryFilter(this.instance.filters.Destroy(null))) ?? []
       ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
         log,
         this.instance.interface.parseLog(log),
@@ -53,9 +53,9 @@ export class NewStakingRow extends Component<Props, State> {
 
         if (reason === 2) {
           const parsedLogs = (
-            await window.timeallyManagerInstance.queryFilter(
+            (await window.timeallyManagerInstance.queryFilter(
               window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
-            )
+            )) ?? []
           ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
 
           if (parsedLogs.length) {

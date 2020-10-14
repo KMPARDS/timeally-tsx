@@ -1,10 +1,12 @@
 import { ethers } from 'ethers';
-import { CustomProvider } from './custom-provider';
+import { CustomProvider, CustomProviderBase, addresses } from 'eraswap-sdk';
 
-import { NrtManagerFactory } from './typechain/NrtManagerFactory';
-import { TimeAllyManagerFactory } from './typechain/TimeAllyManagerFactory';
-import { ValidatorManagerFactory } from './typechain/ValidatorManagerFactory';
-import { PrepaidEsFactory } from './typechain/PrepaidEsFactory';
+import {
+  NrtManagerFactory,
+  TimeAllyManagerFactory,
+  ValidatorManagerFactory,
+  PrepaidEsFactory,
+} from 'eraswap-sdk/dist/typechain/ESN';
 
 const config = {
   ESN: {
@@ -17,17 +19,13 @@ const config = {
     blockRewardManager: 'BLOCK_REWARD',
     prepaidEs: 'PREPAID_ES',
     dayswappers: 'DAYSWAPPERS',
-    kycdapp: '0xC4336494606203e3907539d5b462A5cb7853B3C6',
+    kycdapp: addresses['development'].ESN.kycdapp,
     timeallyclub: 'TIMEALLY_CLUB',
     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
   },
 };
 
-window.provider = new CustomProvider('https://node0.testnet.eraswap.network', {
-  name: 'EraSwapNetwork',
-  chainId: 5196,
-  ensAddress: config.ESN.kycdapp,
-});
+window.provider = new CustomProvider('testnet');
 
 if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
   config.ESN = {
@@ -45,7 +43,7 @@ if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
     timeAllyPromotionalBucket: '',
   };
 
-  window.provider = new CustomProvider(
+  window.provider = new CustomProviderBase(
     'http://localhost:8545',
     config.ESN.kycdapp !== ''
       ? {

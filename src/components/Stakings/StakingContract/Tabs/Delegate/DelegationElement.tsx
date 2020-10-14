@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ethers } from 'ethers';
 import { Button, Spinner, Alert } from 'react-bootstrap';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { renderEthersJsError } from '../../../../../utils';
 import { AddressDisplayer } from '../../../../../AddressDisplayer';
 

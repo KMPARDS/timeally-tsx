@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { EraswapInfo, renderEthersJsError } from '../../../../../utils';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import '../../../Stakings.css';
 
 type Props = {

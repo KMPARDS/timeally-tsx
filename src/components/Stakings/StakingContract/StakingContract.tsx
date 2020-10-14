@@ -13,7 +13,7 @@ import { Merge } from './Tabs/Merge';
 import { Delegate } from './Tabs/Delegate';
 import { Nominee } from './Tabs/Nominee';
 
-import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import '../Stakings.css';
 import { EraswapInfo } from '../../../utils';
 import { AddressDisplayer } from '../../../AddressDisplayer';

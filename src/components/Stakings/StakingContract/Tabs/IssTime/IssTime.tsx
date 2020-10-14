@@ -10,7 +10,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import '../../../Stakings.css';
 import { routine, renderEthersJsError, EraswapInfo } from '../../../../../utils';
 import { formatEther } from 'ethers/lib/utils';

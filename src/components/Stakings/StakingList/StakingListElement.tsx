@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { ethers } from 'ethers';
-import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { EraswapInfo } from '../../../utils';
 
 type StakingListElementProps = {

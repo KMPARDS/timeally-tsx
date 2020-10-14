@@ -1,9 +1,12 @@
 import { ethers } from 'ethers';
-import { NrtManager } from './ethereum/typechain/NrtManager';
-import { TimeAllyManager } from './ethereum/typechain/TimeAllyManager';
-import { ValidatorManager } from './ethereum/typechain/ValidatorManager';
-import { PrepaidEs } from './ethereum/typechain/PrepaidEs';
-import { CustomProvider } from './ethereum/custom-provider';
+import {
+  NrtManager,
+  TimeAllyManager,
+  ValidatorManager,
+  PrepaidEs,
+} from 'eraswap-sdk/dist/typechain/ESN';
+
+import { CustomProvider } from 'eraswap-sdk';
 
 declare global {
   interface Window {
