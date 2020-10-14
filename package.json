@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "copy-to-clipboard": "^3.3.1",
+    "eraswap-sdk": "^2.0.0-commit.cc337c5b",
     "ethers": "^5.0.5",
     "react": "^16.13.1",
     "react-bootstrap": "1.0.1",
