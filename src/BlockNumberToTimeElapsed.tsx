@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { renderTimestampRemaining } from './utils';
 
 export function BlockNumberToTimeElapsed(props: { blockNumber: number }) {
@@ -10,8 +10,8 @@ export function BlockNumberToTimeElapsed(props: { blockNumber: number }) {
       .catch(() => {});
   }, []);
 
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = useState<any>();
+  const forceUpdate = useCallback(() => updateState({}), []);
   useEffect(() => {
     const intervalId = setInterval(() => {
       forceUpdate();

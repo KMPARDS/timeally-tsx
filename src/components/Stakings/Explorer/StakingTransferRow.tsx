@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { EraswapInfo } from '../../../utils';

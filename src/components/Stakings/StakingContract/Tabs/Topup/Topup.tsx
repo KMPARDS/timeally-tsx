@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Form, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { renderEthersJsError, EraswapInfo } from '../../../../../utils';
 import { AddressDisplayer } from '../../../../../AddressDisplayer';
 import { BlockNumberToTimeElapsed } from '../../../../../BlockNumberToTimeElapsed';
@@ -9,7 +9,7 @@ import { BlockNumberToTimeElapsed } from '../../../../../BlockNumberToTimeElapse
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -236,23 +236,11 @@ export class Topup extends Component<Props, State> {
               ) : null}
             </Form.Group>
 
-            {this.props.destroyStatus !== null ? (
-              <Alert variant="danger">
-                The staking contract is destroyed, so any topup done will be permanently locked at
-                the staking contract address.
-              </Alert>
-            ) : null}
-
             <Button
               variant="primary"
               onClick={this.topupLiquid}
               id="firstSubmit"
-              disabled={
-                !sufficientLiquid ||
-                spinnerLiquid ||
-                spinnerPrepaid ||
-                this.props.destroyStatus !== null
-              }
+              disabled={!sufficientLiquid || spinnerLiquid || spinnerPrepaid}
             >
               {this.state.spinnerLiquid ? (
                 <Spinner
@@ -270,12 +258,7 @@ export class Topup extends Component<Props, State> {
               variant="warning"
               onClick={this.topupPrepaid}
               id="firstSubmit"
-              disabled={
-                !sufficientPrepaid ||
-                spinnerLiquid ||
-                spinnerPrepaid ||
-                this.props.destroyStatus !== null
-              }
+              disabled={!sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
             >
               {this.state.spinnerPrepaid ? (
                 <Spinner

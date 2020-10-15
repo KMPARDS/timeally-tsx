@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { EraswapInfo, renderEthersJsError } from '../../../../../utils';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import '../../../Stakings.css';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   startMonth: number | null;
   endMonth: number | null;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -336,13 +336,6 @@ export class Withdraw extends Component<Props, State> {
         ) : (
           <p>No NRT claimed on this staking</p>
         )}
-
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so any pending NRT benefits withdraw cannot be
-            executed.
-          </Alert>
-        ) : null}
 
         {this.monthsArray !== null ? (
           <>

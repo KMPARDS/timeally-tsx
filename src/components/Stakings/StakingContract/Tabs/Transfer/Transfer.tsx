@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { Alert, Form, Button, Spinner, Col } from 'react-bootstrap';
 import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -62,20 +62,10 @@ export class Transfer extends Component<Props, State> {
               {this.state.displayMessage ? (
                 <Alert variant="info">{this.state.displayMessage}</Alert>
               ) : null}
-
-              {this.props.destroyStatus !== null ? (
-                <Alert variant="danger">
-                  The staking contract is destroyed, so a transfer ownership transaction cannot be
-                  executed.
-                </Alert>
-              ) : null}
             </Col>
 
             <Col xs="auto" className="my-1">
-              <Button
-                onClick={this.transferOwnership}
-                disabled={this.state.spinner || this.props.destroyStatus !== null}
-              >
+              <Button onClick={this.transferOwnership} disabled={this.state.spinner}>
                 {this.state.spinner ? (
                   <Spinner
                     as="span"
