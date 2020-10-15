@@ -6,7 +6,7 @@ import { renderEthersJsError } from '../../../../../utils';
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -53,16 +53,7 @@ export class Extend extends Component<Props, State> {
           <Alert variant="info">{this.state.displayMessage}</Alert>
         ) : null}
 
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so you cannot execute an extension transaction.
-          </Alert>
-        ) : null}
-
-        <Button
-          onClick={this.extendStaking}
-          disabled={this.state.spinner || this.props.destroyStatus !== null}
-        >
+        <Button onClick={this.extendStaking} disabled={this.state.spinner}>
           {this.state.spinner ? (
             <Spinner
               as="span"

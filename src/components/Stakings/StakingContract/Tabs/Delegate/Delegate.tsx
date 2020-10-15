@@ -8,7 +8,7 @@ import { NewDelegation } from './NewDelegation';
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -78,19 +78,13 @@ export class Delegate extends Component<Props, State> {
           </>
         )}
 
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so delegation is not possible.
-          </Alert>
-        ) : (
-          <NewDelegation
-            instance={this.props.instance}
-            refreshDetailsHook={async () => {
-              await this.props.refreshDetailsHook();
-              await this.loadDelegations();
-            }}
-          />
-        )}
+        <NewDelegation
+          instance={this.props.instance}
+          refreshDetailsHook={async () => {
+            await this.props.refreshDetailsHook();
+            await this.loadDelegations();
+          }}
+        />
       </>
     );
   }

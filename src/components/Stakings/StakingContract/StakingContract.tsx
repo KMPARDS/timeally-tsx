@@ -51,10 +51,14 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
   );
 
   componentDidMount = async () => {
+    // @ts-ignore
+    window.stakingInstance = this.instance;
+
     await this.updateDetails();
   };
 
   updateDetails = async () => {
+    // const isDestroyed = await this.instance.isDestroyed();
     try {
       const owner = await this.instance.owner();
       const startMonth = await this.instance.startMonth();
@@ -73,42 +77,42 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
         issTime,
         balance,
       });
-    } catch (error) {
-      const parsedLogs = (
-        await this.instance.queryFilter(this.instance.filters.Destroy(null))
-      ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
-        log,
-        this.instance.interface.parseLog(log),
-      ]);
+    } catch {}
 
-      if (parsedLogs.length) {
-        const reason: 0 | 1 | 2 = parsedLogs[0][1].args[0];
-        const txHash = parsedLogs[0][0].transactionHash;
-        let mergedIn: string | null = null;
+    // if (isDestroyed) {
+    const parsedLogs = (
+      await this.instance.queryFilter(this.instance.filters.Destroy(null))
+    ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
+      log,
+      this.instance.interface.parseLog(log),
+    ]);
 
-        if (reason === 2) {
-          const parsedLogs = (
-            await window.timeallyManagerInstance.queryFilter(
-              window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
-            )
-          ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
+    if (parsedLogs.length) {
+      const reason: 0 | 1 | 2 = parsedLogs[0][1].args[0];
+      const txHash = parsedLogs[0][0].transactionHash;
+      let mergedIn: string | null = null;
 
-          if (parsedLogs.length) {
-            mergedIn = parsedLogs[0].args[0];
-          }
+      if (reason === 2) {
+        const parsedLogs = (
+          await window.timeallyManagerInstance.queryFilter(
+            window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
+          )
+        ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
+
+        if (parsedLogs.length) {
+          mergedIn = parsedLogs[0].args[0];
         }
-
-        this.setState({
-          destroyStatus: {
-            reason,
-            txHash,
-            mergedIn,
-          },
-        });
-      } else {
-        throw error;
       }
+
+      this.setState({
+        destroyStatus: {
+          reason,
+          txHash,
+          mergedIn,
+        },
+      });
     }
+    // }
   };
 
   render() {
@@ -124,74 +128,21 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
         ) : null}
         <Card>
           <Table responsive>
-            {this.state.destroyStatus === null ? (
-              <tbody>
-                <tr>
-                  <td>Current Owner</td>
-                  <td>
-                    {this.state.owner !== null ? (
-                      <span className="hex-string">
-                        <a target="_blank" href={EraswapInfo.getAddressHref(this.state.owner)}>
-                          <AddressDisplayer address={this.state.owner} />
-                        </a>
-                      </span>
-                    ) : (
-                      'Loading...'
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Start NRT Month</td>
-                  <td>{this.state.startMonth !== null ? this.state.startMonth : 'Loading...'}</td>
-                </tr>
-                <tr>
-                  <td>End NRT Month</td>
-                  <td>{this.state.endMonth !== null ? this.state.endMonth : 'Loading...'}</td>
-                </tr>
-                <tr>
-                  <td>Age of contract</td>
-                  <td>
-                    {this.state.startMonth !== null && this.state.currentMonth !== null
-                      ? `${this.state.currentMonth - this.state.startMonth + 1} NRTs`
-                      : 'Loading...'}
-                  </td>
-                </tr>
-                <tr>
-                  <td>ES Staked</td>
-                  <td>
-                    {this.state.principal !== null
-                      ? `${ethers.utils.formatEther(this.state.principal)} ES`
-                      : 'Loading...'}
-                  </td>
-                </tr>
-                <tr>
-                  <td>IssTime Limit</td>
-                  <td>
-                    {this.state.issTime !== null
-                      ? `${ethers.utils.formatEther(this.state.issTime)} ES`
-                      : 'Loading...'}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Balance (smart contract balance, should be same as principal amount. This value
-                    will be removed in future. If this value and principal is different, it is a
-                    signal that there is a bug in smart contract)
-                  </td>
-                  <td>
-                    {this.state.balance !== null
-                      ? `${ethers.utils.formatEther(this.state.balance)} ES`
-                      : 'Loading...'}
-                  </td>
-                </tr>
-              </tbody>
-            ) : (
-              <>
-                <tbody>
+            <tbody>
+              {this.state.destroyStatus !== null ? (
+                <>
                   <tr>
                     <td colSpan={2}>
                       <h5>
-                        This staking smart contract was destroyed with EVM selfdestruct opcode
+                        This staking smart contract was destroyed in a{' '}
+                        <a
+                          target="_blank"
+                          href={EraswapInfo.getTxHref(this.state.destroyStatus.txHash)}
+                          className="hex-string"
+                        >
+                          transaction
+                        </a>
+                        .
                       </h5>
                     </td>
                   </tr>
@@ -236,9 +187,67 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                       </a>
                     </td>
                   </tr>
-                </tbody>
-              </>
-            )}
+                </>
+              ) : null}
+              <tr>
+                <td>{this.state.destroyStatus !== null ? 'Last Owner' : 'Current Owner'}</td>
+                <td>
+                  {this.state.owner !== null ? (
+                    <span className="hex-string">
+                      <a target="_blank" href={EraswapInfo.getAddressHref(this.state.owner)}>
+                        <AddressDisplayer address={this.state.owner} />
+                      </a>
+                    </span>
+                  ) : (
+                    'Loading...'
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <td>Start NRT Month</td>
+                <td>{this.state.startMonth !== null ? this.state.startMonth : 'Loading...'}</td>
+              </tr>
+              <tr>
+                <td>End NRT Month</td>
+                <td>{this.state.endMonth !== null ? this.state.endMonth : 'Loading...'}</td>
+              </tr>
+              <tr>
+                <td>Age of contract</td>
+                <td>
+                  {this.state.startMonth !== null && this.state.currentMonth !== null
+                    ? `${this.state.currentMonth - this.state.startMonth + 1} NRTs`
+                    : 'Loading...'}
+                </td>
+              </tr>
+              <tr>
+                <td>ES Staked</td>
+                <td>
+                  {this.state.principal !== null
+                    ? `${ethers.utils.formatEther(this.state.principal)} ES`
+                    : 'Loading...'}
+                </td>
+              </tr>
+              <tr>
+                <td>IssTime Limit</td>
+                <td>
+                  {this.state.issTime !== null
+                    ? `${ethers.utils.formatEther(this.state.issTime)} ES`
+                    : 'Loading...'}
+                </td>
+              </tr>
+              {/* <tr>
+                <td>
+                  Balance (smart contract balance, should be same as principal amount. This value
+                  will be removed in future. If this value and principal is different, it is a
+                  signal that there is a bug in smart contract)
+                </td>
+                <td>
+                  {this.state.balance !== null
+                    ? `${ethers.utils.formatEther(this.state.balance)} ES`
+                    : 'Loading...'}
+                </td>
+              </tr> */}
+            </tbody>
           </Table>
         </Card>
 
@@ -291,7 +300,7 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
                 startMonth={this.state.startMonth}
                 endMonth={this.state.endMonth}
                 refreshDetailsHook={this.updateDetails}
-                destroyStatus={this.state.destroyStatus}
+                // destroyStatus={this.state.destroyStatus}
               />
             ) : (
               <>Loading...</>
@@ -301,49 +310,49 @@ export class StakingContract extends Component<RouteComponentProps<MatchParams>,
             <Topup
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/extend`} exact>
             <Extend
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/isstime`} exact>
             <IssTime
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/split`} exact>
             <Split
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/transfer`} exact>
             <Transfer
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/merge`} exact>
             <Merge
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/delegate`} exact>
             <Delegate
               instance={this.instance}
               refreshDetailsHook={this.updateDetails}
-              destroyStatus={this.state.destroyStatus}
+              // destroyStatus={this.state.destroyStatus}
             />
           </Route>
           <Route path={`${url}/nominee`} exact component={Nominee} />
