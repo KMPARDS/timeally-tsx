@@ -11,6 +11,7 @@ import { Support } from './components/Support';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { LoadWallet } from './components/LoadWallet';
 import { Nominee } from './components/Nominee';
+import { Tsgap} from './components/Tsgap/Tsgap';
 import './style.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/terms" component={TermsAndConditions} />
           <Route path="/load-wallet" component={LoadWallet} />
           <Route path="/nominee" component={Nominee} />
+          <Route path="/tsgap" component={Tsgap} />
         </Switch>
         <Footer />
       </BrowserRouter>
