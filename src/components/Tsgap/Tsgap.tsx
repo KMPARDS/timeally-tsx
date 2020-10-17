@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { renderSecondsRemaining, routine } from '../../utils';
 import { Button, Modal } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 import './Tsgap';
 // import LayoutTsgap from '../../components/Tsgap/LayoutTsgap';
 
@@ -15,7 +16,6 @@ type State = {
 export class Tsgap extends Component<Props, State> {
   constructor(props:Props) {
     super(props);
-
     this.state = {
       showLoginModal:false
     };
@@ -26,9 +26,7 @@ export class Tsgap extends Component<Props, State> {
     
   };
 
-  componentWillUnmount = () => {
-   
-  };
+
 
   render() {
    return <div>
@@ -121,7 +119,7 @@ export class Tsgap extends Component<Props, State> {
 	     
 	        <p><strong>ES Bucket In Smart Contract:</strong> </p>
 	        <p><strong>Benefits Already Alloted:</strong> </p>
-	        <Button  style={{margin: '10px auto'}} >SAP Calculator</Button>
+	        <Button href="/calculate" style={{margin: '10px auto'}} >SAP Calculator</Button>
          
 	        <Button style={{marginLeft:'10px',marginTop: '10px'}}>View My SAPs</Button>
 	        <p style={{marginTop:'1rem'}}><strong>SAP Smart Contract Link:</strong> <a href="https://etherscan.io/address/0xbad9af4db5401b7d5e8177a18c1d69c35fc03fd3#code" target="_blank" style={{color: '#000', textDecoration: 'underline'}}>EtherScan</a></p>

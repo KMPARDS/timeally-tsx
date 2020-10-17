@@ -18,7 +18,9 @@ export class TsgapCalculator extends Component {
     montlhyAmount: 0
   };
 
-  updateCommitment = async event => {
+
+  //@ts-ignore
+  updateCommitment = async (event) => {
     try {
       if(String(+event.target.value) === 'NaN') throw new Error('Only Number is allowed');
       // console.log(+event.target.value, +event.target.value === NaN);
@@ -54,7 +56,6 @@ export class TsgapCalculator extends Component {
 
   render = () => {
     const returns = [];
-    console.log(this.state.monthlyAmount);
     for(let i = 1; i <= 108; i++) {
       let amount = this.state.montlhyAmount;
       // if(i%12 === 0) amount += (+this.state.commitmentAmount)*12/3;
@@ -69,6 +70,33 @@ export class TsgapCalculator extends Component {
 
     return (
      <div>
+          <div className="page-header">
+              <div className="container">
+                <div className="row">
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="page-breadcrumb">
+                     
+                    </div>
+                  </div>
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="bg-white pinside30">
+                      <div className="row">
+                        <div className="col-xl-8 col-lg-8 col-md-3 col-sm-12 col-12">
+                          <h1 className="page-title">Calculate Your TimeAlly Super Goal</h1>
+                        
+                        </div>
+                        <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
+                          {/* {this.props.buttonName ? <Button onClick={this.props.buttonOnClick}>{this.props.buttonName}</Button> : null} */}
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="container">
         {/*<a style={{color:'black', textDecoration: 'underline'}} href="/excel/TSGAP_Illustration.xlsx">Download Illustration Excel File</a>*/}
         <p style={{margin:'0'}}>Commitment Amount Above 100 ES: 16%</p>
         <p style={{margin:'0'}}>Commitment Amount Above 500 ES: 18%</p>
@@ -127,6 +155,7 @@ export class TsgapCalculator extends Component {
           </div>
           </>
           : null}
+          </div>
           </div>
     );
   }
