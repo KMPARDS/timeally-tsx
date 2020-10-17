@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { TimeAllyStakingFactory } from '../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { EraswapInfo } from '../../utils';
+import { AddressDisplayer } from '../../AddressDisplayer';
 
 export interface NewStaking {
   owner: string;
@@ -39,7 +40,7 @@ export class NewStakingRow extends Component<Props, State> {
       this.setState({ principal, timestamp });
     } catch (error) {
       const parsedLogs = (
-        await this.instance.queryFilter(this.instance.filters.Destroy(null))
+        (await this.instance.queryFilter(this.instance.filters.Destroy(null))) ?? []
       ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
         log,
         this.instance.interface.parseLog(log),
@@ -52,9 +53,9 @@ export class NewStakingRow extends Component<Props, State> {
 
         if (reason === 2) {
           const parsedLogs = (
-            await window.timeallyManagerInstance.queryFilter(
+            (await window.timeallyManagerInstance.queryFilter(
               window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
-            )
+            )) ?? []
           ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
 
           if (parsedLogs.length) {
@@ -85,9 +86,7 @@ export class NewStakingRow extends Component<Props, State> {
         </td>
         <td>
           <span className="hex-string">
-            <a target="_blank" href={EraswapInfo.getAddressHref(this.props.newStaking.owner)}>
-              {this.props.newStaking.owner.slice(0, 20)}...
-            </a>
+            <AddressDisplayer address={this.props.newStaking.owner} chars={20} />
           </span>
         </td>
         {this.state.destroyStatus === null ? (

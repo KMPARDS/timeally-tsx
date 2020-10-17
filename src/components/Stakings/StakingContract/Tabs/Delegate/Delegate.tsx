@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { ethers } from 'ethers';
 import { Table, Button, Alert } from 'react-bootstrap';
 import { DelegationElement, Delegation } from './DelegationElement';
@@ -8,7 +8,7 @@ import { NewDelegation } from './NewDelegation';
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -29,15 +29,7 @@ export class Delegate extends Component<Props, State> {
   };
 
   loadDelegations = async () => {
-    const currentMonth = (await window.nrtManagerInstance.currentNrtMonth()).toNumber();
-    // const startMonth = (await this.props.instance.startMonth()).toNumber();
-    // const endMonth = (await this.props.instance.endMonth()).toNumber();
-    // const monthlyDelegations = await Promise.all(
-    //   Object.keys([...Array(endMonth - startMonth + 1)]).map(async (i) => {
-    //     const delegations = await this.props.instance.getDelegations(startMonth + +i);
-    //     return delegations;
-    //   })
-    // );
+    const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
 
     const delegations = (
       await this.props.instance.queryFilter(this.props.instance.filters.Delegate(null, null, null))
@@ -45,7 +37,7 @@ export class Delegate extends Component<Props, State> {
       .map((logs) => this.props.instance.interface.parseLog(logs))
       .map((parsedLogs) => {
         const delegation: Delegation = {
-          month: parsedLogs.args[0].toNumber(),
+          month: parsedLogs.args[0],
           platform: parsedLogs.args[1],
           delegatee: parsedLogs.args[2],
         };
@@ -86,19 +78,13 @@ export class Delegate extends Component<Props, State> {
           </>
         )}
 
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so delegation is not possible.
-          </Alert>
-        ) : (
-          <NewDelegation
-            instance={this.props.instance}
-            refreshDetailsHook={async () => {
-              await this.props.refreshDetailsHook();
-              await this.loadDelegations();
-            }}
-          />
-        )}
+        <NewDelegation
+          instance={this.props.instance}
+          refreshDetailsHook={async () => {
+            await this.props.refreshDetailsHook();
+            await this.loadDelegations();
+          }}
+        />
       </>
     );
   }

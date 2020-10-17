@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { ethers } from 'ethers';
 import { Button, Spinner, Alert } from 'react-bootstrap';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
+import { renderEthersJsError } from '../../../../../utils';
+import { AddressDisplayer } from '../../../../../AddressDisplayer';
 
 export interface Delegation {
   month: number;
@@ -43,7 +45,7 @@ export class DelegationElement extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMessage: `Error from smart contract: ${error.message}`,
+        displayMessage: renderEthersJsError(error),
         spinner: false,
       });
     }
@@ -54,8 +56,12 @@ export class DelegationElement extends Component<Props, State> {
       <>
         <tr>
           <td>{this.props.delegation.month}</td>
-          <td>{this.props.delegation.platform}</td>
-          <td>{this.props.delegation.delegatee}</td>
+          <td>
+            <AddressDisplayer address={this.props.delegation.platform} />
+          </td>
+          <td>
+            <AddressDisplayer address={this.props.delegation.delegatee} />
+          </td>
           <td>
             {this.state.displayMessage ? (
               <Alert variant="info">{this.state.displayMessage}</Alert>

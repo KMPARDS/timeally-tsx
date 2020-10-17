@@ -27,9 +27,9 @@ export class Home extends Component<{}, State> {
 
   updateValues = async () => {
     const currentNrtMonth = await window.nrtManagerInstance.currentNrtMonth();
-    const timeallyNrt = await window.timeallyManagerInstance.getTimeAllyMonthlyNRT(currentNrtMonth);
+    const timeallyNrt = await window.timeallyManagerInstance.getMonthlyNRT(currentNrtMonth);
     const totalActiveStakings = await window.timeallyManagerInstance.getTotalActiveStaking(
-      currentNrtMonth.add(1)
+      currentNrtMonth + 1
     );
 
     this.setState({ timeallyNrt, totalActiveStakings });

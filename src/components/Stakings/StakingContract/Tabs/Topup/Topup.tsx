@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Card, Form, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
+import { renderEthersJsError, EraswapInfo } from '../../../../../utils';
+import { AddressDisplayer } from '../../../../../AddressDisplayer';
+import { BlockNumberToTimeElapsed } from '../../../../../BlockNumberToTimeElapsed';
 
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -20,7 +23,8 @@ type State = {
     | {
         amount: ethers.BigNumber;
         benefactor: string;
-        timestamp: number;
+        blockNumber: number;
+        txHash: string;
       }[]
     | null;
 };
@@ -59,19 +63,22 @@ export class Topup extends Component<Props, State> {
   loadTopups = async () => {
     const filter = this.instance.filters.Topup(null, null);
     const logs = await this.instance.queryFilter(filter);
-    const timestamps = await Promise.all(
-      logs.map(async (log) => {
-        const block = await window.provider.getBlock(log.blockNumber);
-        return block.timestamp;
-      })
-    );
+    // const timestamps = await Promise.all(
+    //   logs.map(async (log) => {
+    //     const block = await window.provider.getBlock(log.blockNumber);
+    //     return block.timestamp;
+    //   })
+    // );
     let topups = logs
-      .map((log) => this.instance.interface.parseLog(log))
-      .map((parsedLog, i) => {
+      // .map((log) => this.instance.interface.parseLog(log))
+      .map((log, i) => {
         return {
-          amount: parsedLog.args[0],
-          benefactor: parsedLog.args[1],
-          timestamp: timestamps[i],
+          // @ts-ignore
+          amount: log.args[0],
+          // @ts-ignore
+          benefactor: log.args[1],
+          blockNumber: log.blockNumber,
+          txHash: log.transactionHash,
         };
       });
 
@@ -91,7 +98,10 @@ export class Topup extends Component<Props, State> {
       await tx.wait();
       this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
     } catch (error) {
-      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+      this.setState({
+        spinnerLiquid: false,
+        displayMessage: renderEthersJsError(error),
+      });
     }
     this.loadTopups();
     this.props.refreshDetailsHook();
@@ -109,7 +119,10 @@ export class Topup extends Component<Props, State> {
       await tx.wait();
       this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
     } catch (error) {
-      this.setState({ spinnerLiquid: false, displayMessage: error.message });
+      this.setState({
+        spinnerLiquid: false,
+        displayMessage: renderEthersJsError(error),
+      });
     }
     this.loadTopups();
     this.props.refreshDetailsHook();
@@ -155,14 +168,24 @@ export class Topup extends Component<Props, State> {
                   <th>Topup Amount</th>
                   <th>Benefactor</th>
                   <th>Timestamp</th>
+                  <th>Tx hash</th>
                 </tr>
               </thead>
               <tbody>
-                {this.state.topups.map((topup, index) => (
+                {this.state.topups.reverse().map((topup, index) => (
                   <tr key={index}>
                     <td>{ethers.utils.formatEther(topup.amount)} ES</td>
-                    <td>{topup.benefactor}</td>
-                    <td>{new Date(topup.timestamp * 1000).toLocaleString()}</td>
+                    <td>
+                      <AddressDisplayer address={topup.benefactor} />
+                    </td>
+                    <td>
+                      <BlockNumberToTimeElapsed blockNumber={topup.blockNumber} />
+                    </td>
+                    <td>
+                      <a target="_blank" href={EraswapInfo.getTxHref(topup.txHash)}>
+                        View Tx on Eraswap.info
+                      </a>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -213,23 +236,11 @@ export class Topup extends Component<Props, State> {
               ) : null}
             </Form.Group>
 
-            {this.props.destroyStatus !== null ? (
-              <Alert variant="danger">
-                The staking contract is destroyed, so any topup done will be permanently locked at
-                the staking contract address.
-              </Alert>
-            ) : null}
-
             <Button
               variant="primary"
               onClick={this.topupLiquid}
               id="firstSubmit"
-              disabled={
-                !sufficientLiquid ||
-                spinnerLiquid ||
-                spinnerPrepaid ||
-                this.props.destroyStatus !== null
-              }
+              disabled={!sufficientLiquid || spinnerLiquid || spinnerPrepaid}
             >
               {this.state.spinnerLiquid ? (
                 <Spinner
@@ -247,12 +258,7 @@ export class Topup extends Component<Props, State> {
               variant="warning"
               onClick={this.topupPrepaid}
               id="firstSubmit"
-              disabled={
-                !sufficientPrepaid ||
-                spinnerLiquid ||
-                spinnerPrepaid ||
-                this.props.destroyStatus !== null
-              }
+              disabled={!sufficientPrepaid || spinnerLiquid || spinnerPrepaid}
             >
               {this.state.spinnerPrepaid ? (
                 <Spinner

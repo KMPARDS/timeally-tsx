@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 import { EraswapInfo } from '../../../utils';
+import { AddressDisplayer } from '../../../AddressDisplayer';
 
 export interface StakingTransferEvent {
   from: string;
@@ -39,7 +40,7 @@ export class StakingTransferRow extends Component<Props, State> {
   componentDidMount = async () => {
     try {
       const principal = await this.instance.nextMonthPrincipalAmount();
-      const endMonth = (await this.instance.endMonth()).toNumber();
+      const endMonth = await this.instance.endMonth();
       const block = await window.provider.getBlock(this.props.stakingTransferEvent.blockNumber);
       const timestamp = block.timestamp;
 
@@ -95,22 +96,12 @@ export class StakingTransferRow extends Component<Props, State> {
         </td>
         <td>
           <span className="hex-string">
-            <a
-              target="_blank"
-              href={EraswapInfo.getAddressHref(this.props.stakingTransferEvent.from)}
-            >
-              {this.props.stakingTransferEvent.from.slice(0, 20)}...
-            </a>
+            <AddressDisplayer address={this.props.stakingTransferEvent.from} chars={20} />
           </span>
         </td>
         <td>
           <span className="hex-string">
-            <a
-              target="_blank"
-              href={EraswapInfo.getAddressHref(this.props.stakingTransferEvent.to)}
-            >
-              {this.props.stakingTransferEvent.to.slice(0, 20)}...
-            </a>
+            <AddressDisplayer address={this.props.stakingTransferEvent.to} chars={20} />
           </span>
         </td>
 

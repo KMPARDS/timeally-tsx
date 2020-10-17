@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { Form, Alert, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { runInThisContext } from 'vm';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -67,7 +68,10 @@ export class Split extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success!' });
       this.props.refreshDetailsHook();
     } catch (error) {
-      this.setState({ displayMessage: error.message, spinner: false });
+      this.setState({
+        displayMessage: renderEthersJsError(error),
+        spinner: false,
+      });
     }
   };
 
@@ -102,21 +106,10 @@ export class Split extends Component<Props, State> {
               {this.state.displayMessage ? (
                 <Alert variant="info">{this.state.displayMessage}</Alert>
               ) : null}
-
-              {this.props.destroyStatus !== null ? (
-                <Alert variant="danger">
-                  The staking contract is destroyed, so a split staking transaction cannot be
-                  executed and a trial to do this would cause the split fee to be permanently locked
-                  at the staking contract address.
-                </Alert>
-              ) : null}
             </Col>
 
             <Col xs="auto" className="my-1">
-              <Button
-                onClick={this.split}
-                disabled={this.state.spinner || this.props.destroyStatus !== null}
-              >
+              <Button onClick={this.split} disabled={this.state.spinner}>
                 {this.state.spinner ? (
                   <Spinner
                     as="span"

@@ -29,7 +29,7 @@ export class UsingMetamask extends Component<{}, State> {
     try {
       if (window.ethereum) {
         // @ts-ignore
-        window.ethereum.enable();
+        await window.ethereum.send('eth_requestAccounts');
         const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
         const network = await metamaskProvider.getNetwork();
         // console.log(network);
@@ -43,7 +43,8 @@ export class UsingMetamask extends Component<{}, State> {
 
         // console.log(network);
 
-        const onCorrectNetwork = network.chainId === Number(process.env.REACT_APP_CHAIN_ID ?? 0);
+        const onCorrectNetwork =
+          network.chainId === (process.env.NODE_ENV === 'production' ? 5197 : 5196);
 
         if (!onCorrectNetwork) {
           this.setState({

@@ -45,7 +45,9 @@ export function renderSecondsRemaining(numberOfSeconds: number): string {
   const minutes = Math.floor((numberOfSeconds - days * 60 * 60 * 24 - hours * 60 * 60) / 60);
   const seconds = numberOfSeconds - days * 60 * 60 * 24 - hours * 60 * 60 - minutes * 60;
 
-  return `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
+  return `${days !== 0 ? `${days} days, ` : ''}${hours !== 0 ? `${hours} hours, ` : ''}${
+    minutes !== 0 ? `${minutes} minutes and ` : ''
+  }${seconds} seconds`;
 }
 
 export function renderTimestampRemaining(unixTimestampSeconds: number): string {
@@ -53,4 +55,13 @@ export function renderTimestampRemaining(unixTimestampSeconds: number): string {
   let secondsRemaining = currentTimestamp - unixTimestampSeconds;
   if (secondsRemaining < 0) secondsRemaining = 0;
   return renderSecondsRemaining(secondsRemaining);
+}
+
+export function renderEthersJsError(error: any): string {
+  return (
+    (error?.error?.reason && `Error from Smart Contract ${error?.error?.reason}`) ||
+    (error?.error?.message && `Error from Blockchain: ${error?.error?.message}`) ||
+    (error?.message && `Error on UI: ${error?.message}`) ||
+    `Weird error: ${typeof error === 'object' ? JSON.stringify(error) : error}`
+  );
 }

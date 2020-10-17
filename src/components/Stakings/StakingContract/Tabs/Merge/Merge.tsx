@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { Alert, Form, Button, Spinner, Col } from 'react-bootstrap';
 import { ethers } from 'ethers';
+import { renderEthersJsError } from '../../../../../utils';
 
 type Props = {
   instance: TimeAllyStaking;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -30,7 +31,7 @@ export class Merge extends Component<Props, State> {
       this.setState({ spinner: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        displayMessage: `Error from smart contract: ${error.message}`,
+        displayMessage: renderEthersJsError(error),
         spinner: false,
       });
     }
@@ -76,19 +77,10 @@ export class Merge extends Component<Props, State> {
               {this.state.displayMessage ? (
                 <Alert variant="info">{this.state.displayMessage}</Alert>
               ) : null}
-
-              {this.props.destroyStatus !== null ? (
-                <Alert variant="danger">
-                  The staking contract is destroyed, so you cannot execute a merge transaction.
-                </Alert>
-              ) : null}
             </Col>
 
             <Col xs="auto" className="my-1">
-              <Button
-                onClick={this.mergeIn}
-                disabled={this.state.spinner || this.props.destroyStatus !== null}
-              >
+              <Button onClick={this.mergeIn} disabled={this.state.spinner}>
                 {this.state.spinner ? (
                   <Spinner
                     as="span"

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { TimeAllyStaking } from '../../../ethereum/typechain/TimeAllyStaking';
 import { ethers } from 'ethers';
-import { TimeAllyStakingFactory } from '../../../ethereum/typechain/TimeAllyStakingFactory';
+import { TimeAllyStakingFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import { EraswapInfo } from '../../../utils';
 
 type StakingListElementProps = {
@@ -42,7 +41,7 @@ export class StakingListElement extends Component<
   componentDidMount = async () => {
     // fetchs data parallelly
     try {
-      const principalPromise = this.instance.nextMonthPrincipalAmount();
+      const principalPromise = this.instance.principal();
       const issTimeLimitPromise = this.instance.issTimeLimit();
       const startMonthPromise = this.instance.startMonth();
       const endMonthPromise = this.instance.endMonth();
@@ -52,45 +51,43 @@ export class StakingListElement extends Component<
       this.setState({
         principal: ethers.utils.formatEther(await principalPromise),
         issTimeLimit: ethers.utils.formatEther(await issTimeLimitPromise),
-        startMonth: (await startMonthPromise).toNumber(),
-        endMonth: (await endMonthPromise).toNumber(),
-        timestamp: (await timestampPromise).toNumber(),
+        startMonth: await startMonthPromise,
+        endMonth: await endMonthPromise,
+        timestamp: await timestampPromise,
       });
-    } catch (error) {
-      const parsedLogs = (
-        await this.instance.queryFilter(this.instance.filters.Destroy(null))
-      ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
-        log,
-        this.instance.interface.parseLog(log),
-      ]);
+    } catch {}
 
-      if (parsedLogs.length) {
-        const reason: 0 | 1 | 2 = parsedLogs[0][1].args[0];
-        const txHash = parsedLogs[0][0].transactionHash;
-        let mergedIn: string | null = null;
+    const parsedLogs = (
+      await this.instance.queryFilter(this.instance.filters.Destroy(null))
+    ).map((log): [ethers.Event, ethers.utils.LogDescription] => [
+      log,
+      this.instance.interface.parseLog(log),
+    ]);
 
-        if (reason === 2) {
-          const parsedLogs = (
-            await window.timeallyManagerInstance.queryFilter(
-              window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
-            )
-          ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
+    if (parsedLogs.length) {
+      const reason: 0 | 1 | 2 = parsedLogs[0][1].args[0];
+      const txHash = parsedLogs[0][0].transactionHash;
+      let mergedIn: string | null = null;
 
-          if (parsedLogs.length) {
-            mergedIn = parsedLogs[0].args[0];
-          }
+      if (reason === 2) {
+        const parsedLogs = (
+          await window.timeallyManagerInstance.queryFilter(
+            window.timeallyManagerInstance.filters.StakingMerge(null, this.instance.address)
+          )
+        ).map((log) => window.timeallyManagerInstance.interface.parseLog(log));
+
+        if (parsedLogs.length) {
+          mergedIn = parsedLogs[0].args[0];
         }
-
-        this.setState({
-          destroyStatus: {
-            reason,
-            txHash,
-            mergedIn,
-          },
-        });
-      } else {
-        throw error;
       }
+
+      this.setState({
+        destroyStatus: {
+          reason,
+          txHash,
+          mergedIn,
+        },
+      });
     }
   };
 

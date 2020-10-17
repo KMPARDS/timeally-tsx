@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button, DropdownButton, Dropdown, Card, Alert, Spinner } from 'react-bootstrap';
 import { ethers } from 'ethers';
-import { EraswapInfo } from '../../../../../utils';
-import { TimeAllyStaking } from '../../../../../ethereum/typechain/TimeAllyStaking';
+import { EraswapInfo, renderEthersJsError } from '../../../../../utils';
+import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import '../../../Stakings.css';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   startMonth: number | null;
   endMonth: number | null;
   refreshDetailsHook(): Promise<void>;
-  destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
+  // destroyStatus: { reason: 0 | 1 | 2; txHash: string; mergedIn: string | null } | null;
 };
 
 type State = {
@@ -58,7 +58,7 @@ export class Withdraw extends Component<Props, State> {
   updateNrtMonth = async () => {
     const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
 
-    this.setState({ currentMonth: currentMonth.toNumber() });
+    this.setState({ currentMonth });
   };
 
   updateBenefits = async () => {
@@ -89,7 +89,7 @@ export class Withdraw extends Component<Props, State> {
       .map((_) => {
         const [event, logDescription] = _;
         const claim: BenefitClaim = {
-          nrtMonth: (logDescription.args[0] as ethers.BigNumber).toNumber(),
+          nrtMonth: logDescription.args[0] as number,
           amount: logDescription.args[1] as ethers.BigNumber,
           rewardType: logDescription.args[2] as 0 | 1 | 2,
           txHash: event.transactionHash,
@@ -152,7 +152,7 @@ export class Withdraw extends Component<Props, State> {
       // deselect months
       // endState.selectedMonths = []; // commenting to not deselect months
     } catch (error) {
-      endState.displayMessage = `There was an error: ${error.message}`;
+      endState.displayMessage = renderEthersJsError(error);
     }
 
     this.setState(endState);
@@ -336,13 +336,6 @@ export class Withdraw extends Component<Props, State> {
         ) : (
           <p>No NRT claimed on this staking</p>
         )}
-
-        {this.props.destroyStatus !== null ? (
-          <Alert variant="danger">
-            The staking contract is destroyed, so any pending NRT benefits withdraw cannot be
-            executed.
-          </Alert>
-        ) : null}
 
         {this.monthsArray !== null ? (
           <>

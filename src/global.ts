@@ -1,14 +1,17 @@
 import { ethers } from 'ethers';
-import { NrtManager } from './ethereum/typechain/NrtManager';
-import { TimeAllyManager } from './ethereum/typechain/TimeAllyManager';
-import { ValidatorManager } from './ethereum/typechain/ValidatorManager';
-import { PrepaidEs } from './ethereum/typechain/PrepaidEs';
-import { CustomWallet } from './ethereum/custom-wallet';
+import {
+  NrtManager,
+  TimeAllyManager,
+  ValidatorManager,
+  PrepaidEs,
+} from 'eraswap-sdk/dist/typechain/ESN';
+
+import { CustomProvider } from 'eraswap-sdk';
 
 declare global {
   interface Window {
-    provider: ethers.providers.JsonRpcProvider;
-    wallet: CustomWallet | undefined;
+    provider: CustomProvider;
+    wallet: ethers.Wallet | undefined;
     nrtManagerInstance: NrtManager;
     timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;

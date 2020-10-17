@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Form, Button, Spinner, Alert, DropdownButton, Dropdown } from 'react-bootstrap';
 import { ethers } from 'ethers';
 import { Layout } from '../../Layout';
+import { renderEthersJsError } from '../../../utils';
 
 type State = {
   amount: string;
@@ -84,7 +85,10 @@ export class NewStaking extends Component<{}, State> {
       }
       this.setState({ spinner: false, displayMessage: stakingAddress || 'Success' });
     } catch (error) {
-      this.setState({ spinner: false, displayMessage: error.message });
+      this.setState({
+        spinner: false,
+        displayMessage: renderEthersJsError(error),
+      });
     }
   };
 
