@@ -64,7 +64,6 @@ export class TsgapCalculator extends Component {
         <tr>
           <td><strong>Month {i}</strong> Withdraw</td>
           <td><strong>{amount} ES</strong>{i % 36 === 0 ? <> + power booster <strong>{(+this.state.commitmentAmount) * 12 / 3} ES</strong></> : null}</td>
-          <td><strong>{(+this.state.commitmentAmount) * 1 / 100} ES</strong> to introducer + <strong>{(+this.state.commitmentAmount) * 1 / 100} ES</strong> to tree</td>
         </tr>
       );
     }
@@ -150,7 +149,6 @@ export class TsgapCalculator extends Component {
                 <tr>
                   <th style={{ textAlign: 'center' }}>Withdrawals</th>
                   <th style={{ textAlign: 'center' }}>Staker Benefits</th>
-                  <th style={{ textAlign: 'center' }}>Partner Benefits</th>
                 </tr>
                 {returns}
               </table>
