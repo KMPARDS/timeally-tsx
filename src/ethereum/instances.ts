@@ -8,6 +8,10 @@ import {
   PrepaidEsFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
+import { es } from 'eraswap-sdk';
+
+
+
 const config = {
   ESN: {
     nrtManager: 'NRT_MANAGER',
@@ -22,6 +26,7 @@ const config = {
     kycdapp: addresses['development'].ESN.kycdapp,
     timeallyclub: 'TIMEALLY_CLUB',
     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
+    tsgapManager: 'TSGAP_MANAGER'
   },
 };
 
@@ -41,6 +46,7 @@ if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
     kycdapp: '0xE14D14bd8D0E2c36f5E4D00106417d8cf1000e22',
     timeallyclub: '0x44F70d80642998F6ABc424ceAf1E706a479De8Ce',
     timeAllyPromotionalBucket: '0x2AA786Cd8544c50136e5097D5E19F6AE10E02543',
+    tsgapManager:'0x98dD383CE722eFc881354cE38922d50017C3eE89'
   };
 
   window.provider = new CustomProviderBase(
@@ -73,3 +79,12 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
 );
 
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
+
+
+
+const providerESN = new es.CustomProvider(process.env.NODE_ENV === "development" ? 'testnet' :'mainnet');
+
+export const tsgapInstance = es.typechain.ESN.TsgapFactory.connect(
+  es.addresses[process.env.NODE_ENV].ESN.timeallyManager,
+  providerESN
+);

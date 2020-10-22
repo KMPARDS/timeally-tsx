@@ -26,7 +26,7 @@ export class Tsgap extends Component<Props, State> {
     
   };
 
-
+  
 
   render() {
    return <div>
@@ -38,12 +38,11 @@ export class Tsgap extends Component<Props, State> {
                       <div className="row">
                         <div className="col-xl-8 col-lg-8 col-md-3 col-sm-12 col-12">
                           <h1 className="page-title-pet">TSGAP Right SAP for Achievers</h1>
-                         <p className="page-subtitle-pet">fnsjdnjs</p> 
                         </div>
                         
                       </div>
                       <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                      <Button className="custom-button" >New SAP</Button>
+                      <Button href="/new" className="custom-button"  >New SAP</Button>
                       </div>
                     </div>
 

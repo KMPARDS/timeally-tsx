@@ -13,6 +13,7 @@ import { LoadWallet } from './components/LoadWallet';
 import { Nominee } from './components/Nominee';
 import { Tsgap} from './components/Tsgap/Tsgap';
 import { TsgapCalculator} from './components/TsgapCalculator/TsgapCalculator';
+import {NewSip} from './components/Assurance/NewSip';
 import './style.css';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/nominee" component={Nominee} />
           <Route path="/tsgap" component={Tsgap} />
           <Route path="/calculate" component={TsgapCalculator} />
+          <Route path="/new" component={NewSip} />
         </Switch>
         <Footer />
       </BrowserRouter>

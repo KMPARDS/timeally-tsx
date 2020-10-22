@@ -17,5 +17,6 @@ declare global {
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
     ethereum: ethers.providers.ExternalProvider;
+    providerESN: CustomProvider;
   }
 }
