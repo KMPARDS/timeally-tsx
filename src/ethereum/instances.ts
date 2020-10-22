@@ -6,9 +6,10 @@ import {
   TimeAllyManagerFactory,
   ValidatorManagerFactory,
   PrepaidEsFactory,
+  TsgapFactory
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-import { es } from 'eraswap-sdk';
+
 
 
 
@@ -26,7 +27,7 @@ const config = {
     kycdapp: addresses['development'].ESN.kycdapp,
     timeallyclub: 'TIMEALLY_CLUB',
     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
-    tsgapManager: 'TSGAP_MANAGER'
+    tsgapManager: '0x98dD383CE722eFc881354cE38922d50017C3eE89'
   },
 };
 
@@ -80,11 +81,5 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
 
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
 
+window.tsgapLiquidInstance = TsgapFactory.connect(config.ESN.tsgapManager, window.provider);
 
-
-const providerESN = new es.CustomProvider(process.env.NODE_ENV === "development" ? 'testnet' :'mainnet');
-
-export const tsgapInstance = es.typechain.ESN.TsgapFactory.connect(
-  es.addresses[process.env.NODE_ENV].ESN.timeallyManager,
-  providerESN
-);

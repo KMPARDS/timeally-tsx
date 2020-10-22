@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
-import { tsgapInstance } from '../../ethereum/instances';
 import { es } from 'eraswap-sdk/dist';
 
 
@@ -51,7 +50,7 @@ export class NewSip extends Component<Props, State> {
       if (!window.wallet) {
         throw new Error('Wallet is not loaded');
       }
-      const tx = await tsgapInstance.connect(window.wallet.connect(window.providerESN)).
+      const tx = await window.tsgapLiquidInstance.connect(window.wallet.connect(window.provider)).
       addFunds()
       const receipt = tx.wait()
             console.log('receipt',receipt);

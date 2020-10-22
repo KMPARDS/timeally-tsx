@@ -4,19 +4,20 @@ import {
   TimeAllyManager,
   ValidatorManager,
   PrepaidEs,
+  Tsgap
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { CustomProvider } from 'eraswap-sdk';
 
 declare global {
   interface Window {
-    provider: CustomProvider;
     wallet: ethers.Wallet | undefined;
     nrtManagerInstance: NrtManager;
     timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
     ethereum: ethers.providers.ExternalProvider;
-    providerESN: CustomProvider;
+    provider: CustomProvider;
+    tsgapLiquidInstance: Tsgap;
   }
 }
