@@ -184,6 +184,11 @@ export class NavbarMain extends Component<{}, State> {
                       <Link to="/stakings">
                         <div className="navbar-item">Stakings</div>
                       </Link>
+
+                      <Link to="/rewards">
+                        <div className="navbar-item">Rewards</div>
+                      </Link>
+
                       <Link to="/nominee">
                         <div className="navbar-item">Nominee</div>
                       </Link>

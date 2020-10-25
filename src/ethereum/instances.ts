@@ -6,54 +6,56 @@ import {
   TimeAllyManagerFactory,
   ValidatorManagerFactory,
   PrepaidEsFactory,
+  TimeAllyPromotionalBucketFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-const config = {
-  ESN: {
-    nrtManager: 'NRT_MANAGER',
-    timeallyManager: 'TIMEALLY_MANAGER',
-    timeallyStakingTarget: 'TIMEALLY_STAKING_TARGET',
-    validatorSet: 'VALIDATOR_SET',
-    validatorManager: 'VALIDATOR_MANAGER',
-    randomnessManager: 'RANDOMNESS_MANAGER',
-    blockRewardManager: 'BLOCK_REWARD',
-    prepaidEs: 'PREPAID_ES',
-    dayswappers: 'DAYSWAPPERS',
-    kycdapp: addresses['development'].ESN.kycdapp,
-    timeallyclub: 'TIMEALLY_CLUB',
-    timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
-  },
-};
+// const config = {
+//   ESN: {
+//     nrtManager: 'NRT_MANAGER',
+//     timeallyManager: 'TIMEALLY_MANAGER',
+//     timeallyStakingTarget: 'TIMEALLY_STAKING_TARGET',
+//     validatorSet: 'VALIDATOR_SET',
+//     validatorManager: 'VALIDATOR_MANAGER',
+//     randomnessManager: 'RANDOMNESS_MANAGER',
+//     blockRewardManager: 'BLOCK_REWARD',
+//     prepaidEs: 'PREPAID_ES',
+//     dayswappers: 'DAYSWAPPERS',
+//     kycdapp: addresses['development'].ESN.kycdapp,
+//     timeallyclub: 'TIMEALLY_CLUB',
+//     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
+//   },
+// };
+const config = addresses['development'];
 
 window.provider = new CustomProvider('testnet');
 
-if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
-  config.ESN = {
-    nrtManager: '0x3bEb087e33eC0B830325991A32E3F8bb16A51317',
-    timeallyManager: '0xc4cfb05119Ea1F59fb5a8F949288801491D00110',
-    timeallyStakingTarget: '0x961D3860d840D6ACCeAA302fbF5C0bb83b801bb4',
-    validatorSet: '0x7eCb2899D9D66858D558391D448e6e4D1B4a86cF',
-    validatorManager: '0xcA4d0578c5e07F0964C7E7ccc87E606A234625b8',
-    randomnessManager: '0x89309551Fb7AbaaB85867ACa60404CDA649751d4',
-    blockRewardManager: '0x7F87f9830baB8A591E6f94fd1A47EE87560B0bB0',
-    prepaidEs: '0xA3C6cf908EeeebF61da6e0e885687Cab557b5e3F',
-    dayswappers: '0x8418249278d74D46014683A8029Fd6fbC88482a1',
-    kycdapp: '0xE14D14bd8D0E2c36f5E4D00106417d8cf1000e22',
-    timeallyclub: '0x44F70d80642998F6ABc424ceAf1E706a479De8Ce',
-    timeAllyPromotionalBucket: '0x2AA786Cd8544c50136e5097D5E19F6AE10E02543',
-  };
+// if (true || process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
+//   config.ESN = {
+//     nrtManager: '0x961D3860d840D6ACCeAA302fbF5C0bb83b801bb4',
+//     timeallyManager: '0x89309551Fb7AbaaB85867ACa60404CDA649751d4',
+//     timeallyStakingTarget: '0x7F87f9830baB8A591E6f94fd1A47EE87560B0bB0',
+//     validatorSet: '0xA3C6cf908EeeebF61da6e0e885687Cab557b5e3F',
+//     validatorManager: '0x44F70d80642998F6ABc424ceAf1E706a479De8Ce',
+//     randomnessManager: '0x22E0940C1AE5D31B9efBaf7D674F7D62895FBde8',
+//     blockRewardManager: '0x6D57FaDF31e62E28Ab059f3dCd565df055428c57',
+//     prepaidEs: '0xCf535dB3c1EDbFbBdadbDe725119906BE20fb362',
+//     dayswappers: '0x7DD7EDB18C271959156967bc7651D685E8C1B225',
+//     kycdapp: '0x56578Ff4c37Fd4e02C8d75FF9982A22C095dD3c5',
+//     timeallyclub: '0xee42b2Dcc3d32AD5E736df6245AD8A88a70ba6bF',
+//     timeAllyPromotionalBucket: '0x8b2C9732137bAD7e629139B1fDa9E6094368f6B4',
+//   };
 
-  window.provider = new CustomProviderBase(
-    'http://localhost:8545',
-    config.ESN.kycdapp !== ''
-      ? {
-          name: 'Ganache',
-          chainId: 1337,
-          ensAddress: config.ESN.kycdapp,
-        }
-      : undefined
-  );
-}
+//   window.provider = new CustomProviderBase(
+//     'http://localhost:8545',
+//     config.ESN.kycdapp !== ''
+//       ? {
+//           name: 'Ganache',
+//           chainId: 1337,
+//           ensAddress: config.ESN.kycdapp,
+//         }
+//       : undefined
+//   );
+// }
 
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
@@ -64,6 +66,11 @@ window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, win
 
 window.timeallyManagerInstance = TimeAllyManagerFactory.connect(
   config.ESN.timeallyManager,
+  window.provider
+);
+
+window.timeallyPromotionalBucketInstance = TimeAllyPromotionalBucketFactory.connect(
+  config.ESN.timeAllyPromotionalBucket,
   window.provider
 );
 

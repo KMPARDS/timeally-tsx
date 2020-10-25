@@ -4,6 +4,7 @@ import {
   TimeAllyManager,
   ValidatorManager,
   PrepaidEs,
+  TimeAllyPromotionalBucket,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { CustomProvider } from 'eraswap-sdk';
@@ -16,6 +17,7 @@ declare global {
     timeallyManagerInstance: TimeAllyManager;
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
+    timeallyPromotionalBucketInstance: TimeAllyPromotionalBucket;
     ethereum: ethers.providers.ExternalProvider;
   }
 }
