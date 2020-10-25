@@ -80,10 +80,12 @@ export class PromotionalRewards extends Component<{}, State> {
       <Layout title="Promotional Rewards">
         <p>When you receive promotional rewards from smart contracts, it will appear here.</p>
 
-        <p>
-          Your pending rewards:{' '}
-          {this.state.rewards !== null ? formatEther(this.state.rewards) + ' ES' : 'Loading...'}
-        </p>
+        {window.wallet ? (
+          <p>
+            Your pending rewards:{' '}
+            {this.state.rewards !== null ? formatEther(this.state.rewards) + ' ES' : 'Loading...'}
+          </p>
+        ) : null}
 
         {this.state.rewards !== null && this.state.rewards.gt(0) ? (
           <Card>
