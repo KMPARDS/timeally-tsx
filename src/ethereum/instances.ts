@@ -6,6 +6,7 @@ import {
   TimeAllyManagerFactory,
   ValidatorManagerFactory,
   PrepaidEsFactory,
+  TimeAllyPromotionalBucketFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 // const config = {
@@ -65,6 +66,11 @@ window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, win
 
 window.timeallyManagerInstance = TimeAllyManagerFactory.connect(
   config.ESN.timeallyManager,
+  window.provider
+);
+
+window.timeallyPromotionalBucketInstance = TimeAllyPromotionalBucketFactory.connect(
+  config.ESN.timeAllyPromotionalBucket,
   window.provider
 );
 
