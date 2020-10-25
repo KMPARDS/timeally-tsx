@@ -15,6 +15,7 @@ type State = {
   monthsInput: string;
   displayMesssage: string;
   spinner: boolean;
+  currentMonth: number | null;
 };
 
 export class NewDelegation extends Component<Props, State> {
@@ -24,6 +25,12 @@ export class NewDelegation extends Component<Props, State> {
     monthsInput: '',
     displayMesssage: '',
     spinner: false,
+    currentMonth: null,
+  };
+
+  componentDidMount = async () => {
+    const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
+    this.setState({ currentMonth });
   };
 
   delegate = async () => {
@@ -111,7 +118,14 @@ export class NewDelegation extends Component<Props, State> {
                 onChange={(event) => this.setState({ monthsInput: event.target.value })}
                 value={this.state.monthsInput}
                 type="text"
-                placeholder="Enter Months e.g. 4,5,6"
+                placeholder={`Enter Months e.g. ${
+                  this.state.currentMonth === null
+                    ? '4,5,6'
+                    : (() => {
+                        const m = this.state.currentMonth;
+                        return [m + 1, m + 2, m + 3].join(',');
+                      })()
+                }`}
                 autoComplete="off"
                 isValid={!!this.state.monthsInput && isValidMonths(this.state.monthsInput)}
                 isInvalid={!!this.state.monthsInput && !isValidMonths(this.state.monthsInput)}
