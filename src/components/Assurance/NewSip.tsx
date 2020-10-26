@@ -42,7 +42,7 @@ export class NewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .newSIP(0,{value:ethers.utils.parseEther('1000')});
+        .newSIP(this.state.plan,{value:ethers.utils.parseEther('1000')});
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
     } catch (error) {
@@ -213,7 +213,7 @@ export class NewSip extends Component<Props, State> {
                 margin: '15px auto',
               }}
             >
-              <h3 style={{ marginBottom: '15px' }}>New Assurance SIP - Step 1 of 4</h3>
+              <h3 style={{ marginBottom: '15px' }}>New Assurance SIP</h3>
 
               <Form.Group controlId="sipAmount">
                 <Form.Control

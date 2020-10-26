@@ -55,17 +55,11 @@ export class Tsgap extends Component<Props, State> {
       <div className="container pinside30 position-top">
         <h2 style={{marginTop: '1rem'}}>TSGAP Right SAP for Achievers </h2>
         <p style={{marginBottom: '1rem'}}>TimeAlly Super Goal Achiever Plan (TSGAP) is a decentralized Smart Contract powered Systematic Accumulation Plan to safeguard your interest so that you can have a helping hand to support you achieving your goal & make the most of your golden years with financial independence </p>
-			{/* <Button onClick={this.props.store.walletInstance && this.props.store.walletInstance.address
-			? () => this.props.history.push('/assurance/view')
-			: () => (
-			window.returnLocationAfterLoadWallet={
-			name:'View My SAPs',
-			location:'/assurance/view',
-			sourceLocation:this.props.location.pathname
-			},this.setState({showLoginModal:true})
-			)}>View My SAPs</Button> */}
-
+        <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
+        <Button href="/view" className="custom-button"  >View My SAP</Button>
+        </div>
 	 </div>
+
       <div className="row tsgap-fet">
         <div className="col-xl-4 col-md-12">
           <div className="bg-white pinside306090 number-block outline mb60 bg-boxshadow">
@@ -120,7 +114,7 @@ export class Tsgap extends Component<Props, State> {
 	        <p><strong>Benefits Already Alloted:</strong> </p>
 	        <Button href="/calculate" style={{margin: '10px auto'}} >SAP Calculator</Button>
          
-	        <Button style={{marginLeft:'10px',marginTop: '10px'}}>View My SAPs</Button>
+	        <Button href="/view" style={{marginLeft:'10px',marginTop: '10px'}}>View My SAPs</Button>
 	        <p style={{marginTop:'1rem'}}><strong>SAP Smart Contract Link:</strong> <a href="https://etherscan.io/address/0xbad9af4db5401b7d5e8177a18c1d69c35fc03fd3#code" target="_blank" style={{color: '#000', textDecoration: 'underline'}}>EtherScan</a></p>
 	         </div>
          </div>
