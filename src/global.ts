@@ -4,7 +4,7 @@ import {
   TimeAllyManager,
   ValidatorManager,
   PrepaidEs,
-  Tsgap
+  Tsgap,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { CustomProvider } from 'eraswap-sdk';
