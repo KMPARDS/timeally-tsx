@@ -51,6 +51,7 @@ export class PromotionalRewards extends Component<{}, State> {
   };
 
   withdraw = async () => {
+    this.setState({ spinner: true });
     try {
       if (!window.wallet) {
         throw new Error('Wallet not loaded');
@@ -67,10 +68,12 @@ export class PromotionalRewards extends Component<{}, State> {
             'The claim was successful. Please visit the staking topup page to see topup history',
           variant: 'success',
         },
+        spinner: false,
       });
     } catch (error) {
       this.setState({
         display: { message: parseEthersJsError(error), variant: 'danger' },
+        spinner: false,
       });
     }
   };
@@ -78,7 +81,11 @@ export class PromotionalRewards extends Component<{}, State> {
   render() {
     return (
       <Layout title="Promotional Rewards">
-        <p>When you receive promotional rewards from smart contracts, it will appear here.</p>
+        <p>
+          When you receive promotional rewards from smart contracts, it will appear here. Please
+          note that, if you are looking for previous rewards from TimeAlly, they are distributed as
+          Prepaid ES tokens (WES) and you can see them in Wallet tab.
+        </p>
 
         {window.wallet ? (
           <p>
@@ -105,7 +112,7 @@ export class PromotionalRewards extends Component<{}, State> {
                   !!this.state.stakingAddressInput && !isAddress(this.state.stakingAddressInput)
                 }
               />
-              <Button onClick={this.withdraw}>
+              <Button disabled={this.state.spinner} onClick={this.withdraw}>
                 {this.state.spinner ? 'Withdrawing' : 'Withdraw'}
               </Button>
             </Card.Body>

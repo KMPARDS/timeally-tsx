@@ -153,8 +153,13 @@ export class NavbarMain extends Component<{}, State> {
                       <Link to="/">
                         <div className="navbar-item">Home</div>
                       </Link>
+
                       <Link to="/dashboard">
                         <div className="navbar-item">Dashboard</div>
+                      </Link>
+
+                      <Link to="/nrt">
+                        <div className="navbar-item">NRT</div>
                       </Link>
 
                       <Link to="/1lifetime">
