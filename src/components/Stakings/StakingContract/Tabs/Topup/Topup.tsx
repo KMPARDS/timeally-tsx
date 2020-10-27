@@ -176,7 +176,7 @@ export class Topup extends Component<Props, State> {
                   .slice()
                   .reverse()
                   .map((topup, index) => (
-                    <tr key={index}>
+                    <tr key={(this.state.topups ?? []).length - index}>
                       <td>{ethers.utils.formatEther(topup.amount)} ES</td>
                       <td>
                         <AddressDisplayer address={topup.benefactor} />
