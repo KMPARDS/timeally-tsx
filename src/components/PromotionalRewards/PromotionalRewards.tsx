@@ -81,7 +81,11 @@ export class PromotionalRewards extends Component<{}, State> {
   render() {
     return (
       <Layout title="Promotional Rewards">
-        <p>When you receive promotional rewards from smart contracts, it will appear here.</p>
+        <p>
+          When you receive promotional rewards from smart contracts, it will appear here. Please
+          note that, if you are looking for previous rewards from TimeAlly, they are distributed as
+          Prepaid ES tokens (WES) and you can see them in Wallet tab.
+        </p>
 
         {window.wallet ? (
           <p>
