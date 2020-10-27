@@ -3,16 +3,29 @@ import { Layout } from '../Layout';
 import { BigNumber } from 'ethers';
 import { formatEther, isAddress, parseEther } from 'ethers/lib/utils';
 import { isValidAmountInput, routine } from '../../utils';
-import { Alert, Button, Card, Dropdown, DropdownButton, Form } from 'react-bootstrap';
+import { Alert, Button, Card, Dropdown, DropdownButton, Form, Table } from 'react-bootstrap';
 import type { Variant } from 'react-bootstrap/types';
-import { parseEthersJsError } from 'eraswap-sdk/dist/utils';
+import { EraswapInfo, parseEthersJsError } from 'eraswap-sdk/dist/utils';
+import { AddressDisplayer } from '../../AddressDisplayer';
+import { BlockNumberToTimeElapsed } from '../../BlockNumberToTimeElapsed';
 
 type State = {
   display: { message: string; variant: Variant } | null;
   amountInput: string;
   poolSelect: null | 'Burn Pool' | 'Luck Pool';
   spinner: boolean;
+
+  burnPoolAdditions: PoolEvent[] | null;
+  luckPoolAdditions: PoolEvent[] | null;
 };
+
+interface PoolEvent {
+  nrtMonth: number;
+  value: BigNumber;
+  sender: string;
+  blockNumber: number;
+  txHash: string;
+}
 
 export class NRT extends Component<{}, State> {
   state: State = {
@@ -20,17 +33,21 @@ export class NRT extends Component<{}, State> {
     amountInput: '',
     poolSelect: null,
     spinner: false,
+
+    burnPoolAdditions: null,
+    luckPoolAdditions: null,
   };
 
-  // intervalIds: NodeJS.Timeout[] = [];
+  intervalIds: NodeJS.Timeout[] = [];
 
-  // componentDidMount = () => {
-  //   this.intervalIds.push(routine(this.updateDetails, 8000));
-  // };
+  componentDidMount = () => {
+    this.intervalIds.push(routine(this.updateBurnPoolAdditions, 8000));
+    this.intervalIds.push(routine(this.updateLuckPoolAdditions, 8000));
+  };
 
-  // componentWillUnmount = () => {
-  //   this.intervalIds.forEach(clearInterval);
-  // };
+  componentWillUnmount = () => {
+    this.intervalIds.forEach(clearInterval);
+  };
 
   addToPool = async () => {
     this.setState({ spinner: true });
@@ -63,6 +80,60 @@ export class NRT extends Component<{}, State> {
         spinner: false,
       });
     }
+  };
+
+  updateBurnPoolAdditions = async () => {
+    const blockNumber = await window.provider.getBlockNumber();
+    const filter = window.nrtManagerInstance.filters.BurnPoolAccrue(null, null, null);
+    const logs = ((await window.nrtManagerInstance.queryFilter(
+      filter,
+      blockNumber - 3000,
+      blockNumber
+    )) as unknown) as {
+      args: PoolEvent;
+      transactionHash: string;
+      blockNumber: number;
+    }[];
+
+    this.setState({
+      burnPoolAdditions: logs
+        .slice()
+        .reverse()
+        .map((l) => ({
+          nrtMonth: l.args.nrtMonth,
+          value: l.args.value,
+          sender: l.args.sender,
+          txHash: l.transactionHash,
+          blockNumber: l.blockNumber,
+        })),
+    });
+  };
+
+  updateLuckPoolAdditions = async () => {
+    const blockNumber = await window.provider.getBlockNumber();
+    const filter = window.nrtManagerInstance.filters.LuckPoolAccrue(null, null, null);
+    const logs = ((await window.nrtManagerInstance.queryFilter(
+      filter,
+      blockNumber - 3000,
+      blockNumber
+    )) as unknown) as {
+      args: PoolEvent;
+      transactionHash: string;
+      blockNumber: number;
+    }[];
+
+    this.setState({
+      luckPoolAdditions: logs
+        .slice()
+        .reverse()
+        .map((l) => ({
+          nrtMonth: l.args.nrtMonth,
+          value: l.args.value,
+          sender: l.args.sender,
+          txHash: l.transactionHash,
+          blockNumber: l.blockNumber,
+        })),
+    });
   };
 
   render() {
@@ -109,6 +180,88 @@ export class NRT extends Component<{}, State> {
         {this.state.display !== null ? (
           <Alert variant={this.state.display.variant}>{this.state.display.message}</Alert>
         ) : null}
+
+        <h3>Burn Pool Additions</h3>
+
+        {this.state.burnPoolAdditions !== null ? (
+          this.state.burnPoolAdditions.length ? (
+            <Table responsive>
+              <thead style={{ textAlign: 'center' }}>
+                <tr>
+                  <th>NRT Month</th>
+                  <th>Value</th>
+                  <th>Sender</th>
+                  <th>Timestamp</th>
+                  <th>Tx</th>
+                </tr>
+              </thead>
+              <tbody style={{ textAlign: 'center' }}>
+                {this.state.burnPoolAdditions.map((burnPoolAddition, index) => (
+                  <tr key={(this.state.burnPoolAdditions ?? []).length - index}>
+                    <td>{burnPoolAddition.nrtMonth}</td>
+                    <td>{formatEther(burnPoolAddition.value)} ES</td>
+                    <td>
+                      <AddressDisplayer address={burnPoolAddition.sender} />
+                    </td>
+                    <td>
+                      <BlockNumberToTimeElapsed blockNumber={burnPoolAddition.blockNumber} />
+                    </td>
+                    <td>
+                      <a target="_blank" href={EraswapInfo.getTxHref(burnPoolAddition.txHash)}>
+                        View Tx on Eraswap.info
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            'No recent burn pool additions.'
+          )
+        ) : (
+          'Please wait loading burn pool additions...'
+        )}
+
+        <h3>Luck Pool Additions</h3>
+
+        {this.state.luckPoolAdditions !== null ? (
+          this.state.luckPoolAdditions.length ? (
+            <Table responsive>
+              <thead style={{ textAlign: 'center' }}>
+                <tr>
+                  <th>NRT Month</th>
+                  <th>Value</th>
+                  <th>Sender</th>
+                  <th>Timestamp</th>
+                  <th>Tx</th>
+                </tr>
+              </thead>
+              <tbody style={{ textAlign: 'center' }}>
+                {this.state.luckPoolAdditions.map((luckPoolAddition, index) => (
+                  <tr key={(this.state.luckPoolAdditions ?? []).length - index}>
+                    <td>{luckPoolAddition.nrtMonth}</td>
+                    <td>{formatEther(luckPoolAddition.value)} ES</td>
+                    <td>
+                      <AddressDisplayer address={luckPoolAddition.sender} />
+                    </td>
+                    <td>
+                      <BlockNumberToTimeElapsed blockNumber={luckPoolAddition.blockNumber} />
+                    </td>
+                    <td>
+                      <a target="_blank" href={EraswapInfo.getTxHref(luckPoolAddition.txHash)}>
+                        View Tx on Eraswap.info
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            'No recent luck pool additions.'
+          )
+        ) : (
+          'Please wait loading luck pool additions...'
+        )}
       </Layout>
     );
   }
