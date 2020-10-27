@@ -117,10 +117,10 @@ export class Topup extends Component<Props, State> {
         .connect(window.wallet)
         .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
       await tx.wait();
-      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+      this.setState({ spinnerPrepaid: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        spinnerLiquid: false,
+        spinnerPrepaid: false,
         displayMessage: renderEthersJsError(error),
       });
     }
