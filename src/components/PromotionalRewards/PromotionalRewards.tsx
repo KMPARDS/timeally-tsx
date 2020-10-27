@@ -51,6 +51,7 @@ export class PromotionalRewards extends Component<{}, State> {
   };
 
   withdraw = async () => {
+    this.setState({ spinner: true });
     try {
       if (!window.wallet) {
         throw new Error('Wallet not loaded');
@@ -67,10 +68,12 @@ export class PromotionalRewards extends Component<{}, State> {
             'The claim was successful. Please visit the staking topup page to see topup history',
           variant: 'success',
         },
+        spinner: false,
       });
     } catch (error) {
       this.setState({
         display: { message: parseEthersJsError(error), variant: 'danger' },
+        spinner: false,
       });
     }
   };
@@ -105,7 +108,7 @@ export class PromotionalRewards extends Component<{}, State> {
                   !!this.state.stakingAddressInput && !isAddress(this.state.stakingAddressInput)
                 }
               />
-              <Button onClick={this.withdraw}>
+              <Button disabled={this.state.spinner} onClick={this.withdraw}>
                 {this.state.spinner ? 'Withdrawing' : 'Withdraw'}
               </Button>
             </Card.Body>
