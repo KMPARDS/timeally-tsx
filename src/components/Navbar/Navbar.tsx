@@ -153,8 +153,13 @@ export class NavbarMain extends Component<{}, State> {
                       <Link to="/">
                         <div className="navbar-item">Home</div>
                       </Link>
+
                       <Link to="/dashboard">
                         <div className="navbar-item">Dashboard</div>
+                      </Link>
+
+                      <Link to="/nrt">
+                        <div className="navbar-item">NRT</div>
                       </Link>
 
                       <Link to="/1lifetime">
@@ -189,6 +194,11 @@ export class NavbarMain extends Component<{}, State> {
                       <Link to="/stakings">
                         <div className="navbar-item">Stakings</div>
                       </Link>
+
+                      <Link to="/rewards">
+                        <div className="navbar-item">Rewards</div>
+                      </Link>
+
                       <Link to="/nominee">
                         <div className="navbar-item">Nominee</div>
                       </Link>

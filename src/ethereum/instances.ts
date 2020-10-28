@@ -7,6 +7,7 @@ import {
   ValidatorManagerFactory,
   PrepaidEsFactory,
   TsgapFactory,
+  TimeAllyPromotionalBucketFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 const config = {
@@ -27,7 +28,9 @@ const config = {
   },
 };
 
-window.provider = new CustomProvider('testnet');
+window.provider = new CustomProvider(
+  process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
+);
 
 if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
   config.ESN = {
@@ -46,17 +49,17 @@ if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
     tsgapManager: '0x98dD383CE722eFc881354cE38922d50017C3eE89',
   };
 
-  window.provider = new CustomProviderBase(
-    'http://localhost:8545',
-    config.ESN.kycdapp !== ''
-      ? {
-          name: 'Ganache',
-          chainId: 1337,
-          ensAddress: config.ESN.kycdapp,
-        }
-      : undefined
-  );
-}
+//   window.provider = new CustomProviderBase(
+//     'http://localhost:8545',
+//     config.ESN.kycdapp !== ''
+//       ? {
+//           name: 'Ganache',
+//           chainId: 1337,
+//           ensAddress: config.ESN.kycdapp,
+//         }
+//       : undefined
+//   );
+// }
 
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
@@ -70,6 +73,11 @@ window.timeallyManagerInstance = TimeAllyManagerFactory.connect(
   window.provider
 );
 
+window.timeallyPromotionalBucketInstance = TimeAllyPromotionalBucketFactory.connect(
+  config.ESN.timeAllyPromotionalBucket,
+  window.provider
+);
+
 window.validatorManagerInstance = ValidatorManagerFactory.connect(
   config.ESN.validatorManager,
   window.provider
@@ -78,3 +86,4 @@ window.validatorManagerInstance = ValidatorManagerFactory.connect(
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
 
 window.tsgapLiquidInstance = TsgapFactory.connect(config.ESN.tsgapManager, window.provider);
+}

@@ -5,8 +5,10 @@ import { NavbarMain } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { OneLifeTime } from './components/OneLifeTime';
 import { Dashboard } from './components/Dashboard';
+import { NRT } from './components/NRT';
 import { Wallet } from './components/Wallet';
 import { Stakings } from './components/Stakings';
+import { PromotionalRewards } from './components/PromotionalRewards';
 import { Support } from './components/Support';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { LoadWallet } from './components/LoadWallet';
@@ -26,8 +28,10 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/1lifetime" exact component={OneLifeTime} />
           <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/nrt" exact component={NRT} />
           <Route path="/wallet" exact component={Wallet} />
           <Route path="/stakings" component={Stakings} />
+          <Route path="/rewards" component={PromotionalRewards} />
           <Route path="/support" component={Support} />
           <Route path="/terms" component={TermsAndConditions} />
           <Route path="/load-wallet" component={LoadWallet} />

@@ -117,10 +117,10 @@ export class Topup extends Component<Props, State> {
         .connect(window.wallet)
         .transfer(this.instance.address, ethers.utils.parseEther(this.state.amount));
       await tx.wait();
-      this.setState({ spinnerLiquid: false, displayMessage: 'Success' });
+      this.setState({ spinnerPrepaid: false, displayMessage: 'Success' });
     } catch (error) {
       this.setState({
-        spinnerLiquid: false,
+        spinnerPrepaid: false,
         displayMessage: renderEthersJsError(error),
       });
     }
@@ -172,22 +172,25 @@ export class Topup extends Component<Props, State> {
                 </tr>
               </thead>
               <tbody>
-                {this.state.topups.reverse().map((topup, index) => (
-                  <tr key={index}>
-                    <td>{ethers.utils.formatEther(topup.amount)} ES</td>
-                    <td>
-                      <AddressDisplayer address={topup.benefactor} />
-                    </td>
-                    <td>
-                      <BlockNumberToTimeElapsed blockNumber={topup.blockNumber} />
-                    </td>
-                    <td>
-                      <a target="_blank" href={EraswapInfo.getTxHref(topup.txHash)}>
-                        View Tx on Eraswap.info
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                {this.state.topups
+                  .slice()
+                  .reverse()
+                  .map((topup, index) => (
+                    <tr key={(this.state.topups ?? []).length - index}>
+                      <td>{ethers.utils.formatEther(topup.amount)} ES</td>
+                      <td>
+                        <AddressDisplayer address={topup.benefactor} />
+                      </td>
+                      <td>
+                        <BlockNumberToTimeElapsed blockNumber={topup.blockNumber} />
+                      </td>
+                      <td>
+                        <a target="_blank" href={EraswapInfo.getTxHref(topup.txHash)}>
+                          View Tx on Eraswap.info
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           </>
