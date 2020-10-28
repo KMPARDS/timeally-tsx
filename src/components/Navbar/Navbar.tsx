@@ -198,6 +198,10 @@ export class NavbarMain extends Component<{}, State> {
                         <div className="navbar-item">Nominee</div>
                       </Link>
 
+                      <Link to="/tsgap">
+                        <div className="navbar-item">TSGAP</div>
+                      </Link>
+
                       <Link to="/support">
                         <div className="navbar-item">Report a bug</div>
                       </Link>

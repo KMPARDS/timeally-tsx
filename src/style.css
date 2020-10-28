@@ -1176,6 +1176,7 @@ display: block; background: #dddddd; content: '';}*/
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+
 #navigation.small-screen .submenu-button {
   position: absolute;
   z-index: 99;
@@ -2756,6 +2757,16 @@ Page header
   background: url(/images/pet-background.jpg) no-repeat center;
   background-size: cover;
 }
+
+.page-header-tsgap {
+  background: url(/images/ban-tsgap.png) no-repeat center !important;
+  margin: 0;
+  padding: 60px 0px 80px;
+  min-height: 280px;
+  border: none;
+  background-size: cover;
+}
+
 .page-title-pet {
   position: relative;
   left: 22%;
