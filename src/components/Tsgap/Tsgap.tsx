@@ -112,7 +112,7 @@ export class Tsgap extends Component<Props, State> {
 	     
 	        <p><strong>ES Bucket In Smart Contract:</strong> </p>
 	        <p><strong>Benefits Already Alloted:</strong> </p>
-	        <Button href="/calculate" style={{margin: '10px auto'}} >SAP Calculator</Button>
+	        <Button href="https://eraswap.info/" style={{margin: '10px auto'}} >SAP Calculator</Button>
          
 	        <Button href="/view" style={{marginLeft:'10px',marginTop: '10px'}}>View My SAPs</Button>
 	        <p style={{marginTop:'1rem'}}><strong>SAP Smart Contract Link:</strong> <a href="https://etherscan.io/address/0xbad9af4db5401b7d5e8177a18c1d69c35fc03fd3#code" target="_blank" style={{color: '#000', textDecoration: 'underline'}}>EtherScan</a></p>

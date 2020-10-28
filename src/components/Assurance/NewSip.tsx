@@ -23,28 +23,31 @@ export class NewSip extends Component<Props, State> {
       spinner: false,
       open: false,
       currentScreen: 0,
-      plan: -1,
+      plan:-1,
       userAmount: 0,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    this.fetchNewSip().catch((e) => console.log(e));
+  };
 
 
 
   onFirstSubmit = async (event: React.MouseEvent<HTMLElement>) => {
-    console.log('sdfdsfsdf');
     event.preventDefault();
     await this.setState({ spinner: true });
     try {
       if (!window.wallet) {
         throw new Error('Wallet is not loaded');
+                                                     
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
         .newSIP(this.state.plan,{value:ethers.utils.parseEther('1000')});
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
+      this.fetchNewSip()
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
       console.log(`Error: ${readableError}`);
@@ -53,6 +56,27 @@ export class NewSip extends Component<Props, State> {
       spinner: false,
     });
   };
+
+
+  async fetchNewSip() {
+    const data = (
+      await window.tsgapLiquidInstance.queryFilter(
+        window.tsgapLiquidInstance.filters.NewSIP(
+          null,
+          null,
+          null,
+        )
+      )
+    )
+    console.log('fetchsip',data)
+      const sipNew = data.map((log) => {
+        return window.tsgapLiquidInstance.interface.parseLog(log)
+      })
+      console.log("check a",sipNew)
+      sipNew.map((log) => {
+        
+      });
+  }
 
   onOpenModal = () => {
     this.setState({ open: true });
@@ -229,7 +253,7 @@ export class NewSip extends Component<Props, State> {
 
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Control as="select"  onChange={(event) => this.setState({plan:Number(event.target.value )})} style={{ width: '325px' }}>
-                    <option disabled selected={this.state.plan === undefined}>
+                    <option disabled selected={this.state.plan === -1}>
                       Select Assurance Plan
                     </option>
                     <option value="0" selected={this.state.plan === 0}>
@@ -261,7 +285,7 @@ export class NewSip extends Component<Props, State> {
                     style={{ marginRight: '2px' }}
                   />
                 ) : null}
-                {this.state.spinner ? 'Please wait..' : 'Next'}
+                {this.state.spinner ? 'Please wait..' : 'Submit'}
               </Button>
             </Form>
           </Card>

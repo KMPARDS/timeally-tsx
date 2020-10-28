@@ -14,6 +14,7 @@ type State = {
   
 };
 
+
 export class ViewSip extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -23,11 +24,32 @@ export class ViewSip extends Component<Props, State> {
     };
   }
 
-  componentDidMount = async () => {};
-
-
-
+  componentDidMount = async () => {
+    this.viewSipFetch().catch((e) => console.log(e));
+  };
  
+
+  
+viewSipFetch = async () => {
+  await this.setState({ spinner: true });
+  try {
+    if (!window.wallet) {
+      throw new Error('Wallet is not loaded');                              
+    }
+    const tx = await window.tsgapLiquidInstance
+      .connect(window.wallet.connect(window.provider))
+      .getSip('hjgjh',0,{value:ethers.utils.parseEther('1000')});
+    const receipt = tx;
+    console.log('receipt viewsip', receipt);
+  } catch (error) {
+    const readableError = es.utils.parseEthersJsError(error);
+    console.log(`Error: ${readableError}`);
+  }
+  this.setState({
+    spinner: false,
+  });
+};
+
   onOpenModal = () => {
     this.setState({ open: true });
   };
@@ -58,6 +80,8 @@ export class ViewSip extends Component<Props, State> {
             </div>
           </div>
         </div>
+        <div className="row">
+        <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12"></div>
         <thead>
               <tr>
                 <th>SIP ID</th>
@@ -69,7 +93,7 @@ export class ViewSip extends Component<Props, State> {
                 <th>Click on the buttons to view</th>
               </tr>
             </thead>
-          
+            </div>
       </div>
     );
   }
