@@ -13,10 +13,10 @@ import { Support } from './components/Support';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { LoadWallet } from './components/LoadWallet';
 import { Nominee } from './components/Nominee';
-import { Tsgap} from './components/Tsgap/Tsgap';
-import { TsgapCalculator} from './components/TsgapCalculator/TsgapCalculator';
-import {NewSip} from './components/Assurance/NewSip';
-import {ViewSip} from './components/ViewSip/ViewSip';
+import { Tsgap } from './components/Tsgap/Tsgap';
+import { TsgapCalculator } from './components/TsgapCalculator/TsgapCalculator';
+import { NewSip } from './components/Assurance/NewSip';
+import { ViewSip } from './components/ViewSip/ViewSip';
 import './style.css';
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
           <Route path="/tsgap" component={Tsgap} />
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
-          <Route path ="/view" component={ViewSip}/>
+          <Route path="/view" component={ViewSip} />
         </Switch>
         <Footer />
       </BrowserRouter>

@@ -3,7 +3,6 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
 
-
 interface Props {
   navigation: any;
 }
@@ -23,7 +22,7 @@ export class NewSip extends Component<Props, State> {
       spinner: false,
       open: false,
       currentScreen: 0,
-      plan:-1,
+      plan: -1,
       userAmount: 0,
     };
   }
@@ -32,22 +31,19 @@ export class NewSip extends Component<Props, State> {
     this.fetchNewSip().catch((e) => console.log(e));
   };
 
-
-
   onFirstSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     await this.setState({ spinner: true });
     try {
       if (!window.wallet) {
         throw new Error('Wallet is not loaded');
-                                                     
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .newSIP(this.state.plan,{value:ethers.utils.parseEther('1000')});
+        .newSIP(this.state.plan, { value: ethers.utils.parseEther('1000') });
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
-      this.fetchNewSip()
+      this.fetchNewSip();
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
       console.log(`Error: ${readableError}`);
@@ -57,25 +53,16 @@ export class NewSip extends Component<Props, State> {
     });
   };
 
-
   async fetchNewSip() {
-    const data = (
-      await window.tsgapLiquidInstance.queryFilter(
-        window.tsgapLiquidInstance.filters.NewSIP(
-          null,
-          null,
-          null,
-        )
-      )
-    )
-    console.log('fetchsip',data)
-      const sipNew = data.map((log) => {
-        return window.tsgapLiquidInstance.interface.parseLog(log)
-      })
-      console.log("check a",sipNew)
-      sipNew.map((log) => {
-        
-      });
+    const data = await window.tsgapLiquidInstance.queryFilter(
+      window.tsgapLiquidInstance.filters.NewSIP(null, null, null)
+    );
+    console.log('fetchsip', data);
+    const sipNew = data.map((log) => {
+      return window.tsgapLiquidInstance.interface.parseLog(log);
+    });
+    console.log('check a', sipNew);
+    sipNew.map((log) => {});
   }
 
   onOpenModal = () => {
@@ -252,7 +239,11 @@ export class NewSip extends Component<Props, State> {
                 />
 
                 <Form.Group controlId="exampleForm.ControlSelect1">
-                  <Form.Control as="select"  onChange={(event) => this.setState({plan:Number(event.target.value )})} style={{ width: '325px' }}>
+                  <Form.Control
+                    as="select"
+                    onChange={(event) => this.setState({ plan: Number(event.target.value) })}
+                    style={{ width: '325px' }}
+                  >
                     <option disabled selected={this.state.plan === -1}>
                       Select Assurance Plan
                     </option>

@@ -181,7 +181,6 @@ export class NavbarMain extends Component<{}, State> {
                           />
                         </span>
                       </Nav.Link>
-                     
 
                       <Link to="/tsgap">
                         <div className="navbar-item">TSGAP</div>

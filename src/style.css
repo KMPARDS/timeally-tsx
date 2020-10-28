@@ -1177,8 +1177,6 @@ display: block; background: #dddddd; content: '';}*/
   transform: rotate(-45deg);
 }
 
-
-
 #navigation.small-screen .submenu-button {
   position: absolute;
   z-index: 99;
@@ -2768,7 +2766,6 @@ Page header
   border: none;
   background-size: cover;
 }
-
 
 .page-title-pet {
   position: relative;
