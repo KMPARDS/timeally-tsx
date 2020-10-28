@@ -182,10 +182,6 @@ export class NavbarMain extends Component<{}, State> {
                         </span>
                       </Nav.Link>
 
-                      <Link to="/tsgap">
-                        <div className="navbar-item">TSGAP</div>
-                      </Link>
-
                       <Link to="/wallet">
                         <div className="navbar-item">My Wallet</div>
                       </Link>
@@ -200,6 +196,10 @@ export class NavbarMain extends Component<{}, State> {
 
                       <Link to="/nominee">
                         <div className="navbar-item">Nominee</div>
+                      </Link>
+
+                      <Link to="/tsgap">
+                        <div className="navbar-item">TSGAP</div>
                       </Link>
 
                       <Link to="/support">
