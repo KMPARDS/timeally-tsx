@@ -44,7 +44,7 @@ export class UsingMetamask extends Component<{}, State> {
         // console.log(network);
 
         const onCorrectNetwork =
-          network.chainId === (process.env.NODE_ENV === 'production' ? 5197 : 5196);
+          network.chainId === (process.env.REACT_APP_ENV === 'production' ? 5197 : 5196);
 
         if (!onCorrectNetwork) {
           this.setState({
@@ -100,8 +100,11 @@ export class UsingMetamask extends Component<{}, State> {
                     <div>
                       You are on "
                       {this.state.network !== null ? this.state.network.name : 'Unknown'}" network
-                      in MetaMask, but to use the New TimeAlly you need to connect to the Era Swap
-                      Network.
+                      in MetaMask, but to use the New TimeAlly you need to connect to the "
+                      {process.env.REACT_APP_ENV === 'production'
+                        ? 'Era Swap Network Mainnet'
+                        : 'Test EraSwap Network'}
+                      ".
                       <br />
                       To connect to Era Swap Network, follow these steps:{' '}
                       <ol>
@@ -111,10 +114,20 @@ export class UsingMetamask extends Component<{}, State> {
                           Select <u>Custom RPC</u>.
                         </li>
                         <li>
-                          Network Name: <u>Test EraSwap Network</u>
+                          Network Name:{' '}
+                          <u>
+                            {process.env.REACT_APP_ENV === 'production'
+                              ? 'Era Swap Network Mainnet'
+                              : 'Test EraSwap Network'}
+                          </u>
                         </li>
                         <li>
-                          New RPC Url: <u>https://testnet.eraswap.network</u>
+                          New RPC Url:{' '}
+                          <u>
+                            {process.env.REACT_APP_ENV === 'production'
+                              ? 'https://mainnet.eraswap.network'
+                              : 'https://testnet.eraswap.network'}
+                          </u>
                         </li>
                         <li>
                           Symbol: <u>ES</u>

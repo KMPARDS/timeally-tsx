@@ -25,9 +25,11 @@ import {
 //     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
 //   },
 // };
-const config = addresses['development'];
+const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
-window.provider = new CustomProvider('testnet');
+window.provider = new CustomProvider(
+  process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
+);
 
 // if (true || process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
 //   config.ESN = {
