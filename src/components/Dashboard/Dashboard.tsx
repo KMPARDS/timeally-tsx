@@ -41,7 +41,7 @@ export class Dashboard extends Component<{}, State> {
     const currentNrtMonth = await window.nrtManagerInstance.currentNrtMonth();
     // const nrtReleasePromise
     const nextMonthActiveStakes = await window.timeallyManagerInstance.getTotalActiveStaking(
-      currentNrtMonth
+      currentNrtMonth + 1
     );
 
     const logs = await window.nrtManagerInstance.queryFilter(
