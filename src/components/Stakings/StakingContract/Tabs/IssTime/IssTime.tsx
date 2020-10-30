@@ -33,6 +33,7 @@ type State = {
   issTimeInterest: ethers.BigNumber | null;
   spinner: boolean;
   issTimeIncreases: IssTimeIncrease[] | null;
+  activeDayswappers: number | null;
 };
 
 interface IssTimeIncrease {
@@ -55,6 +56,7 @@ export class IssTime extends Component<Props, State> {
     issTimeInterest: null,
     spinner: false,
     issTimeIncreases: null,
+    activeDayswappers: null,
   };
 
   instance = this.props.instance;
@@ -73,8 +75,13 @@ export class IssTime extends Component<Props, State> {
     const issTimeTotalLimit = await this.instance.getTotalIssTime(this.state.issTimeDestroy);
     const issTimeTimestamp = await this.instance.issTimeTimestamp();
 
+    const month = await window.nrtManagerInstance.currentNrtMonth();
+    const activeDayswappers = (
+      await window.dayswappersInstance.getTotalMonthlyActiveDayswappers(month)
+    ).toNumber();
+
     // @TODO: remove any
-    const newState: any = { issTimeTotalLimit, issTimeTimestamp };
+    const newState: any = { issTimeTotalLimit, issTimeTimestamp, activeDayswappers };
 
     if (issTimeTimestamp !== 0) {
       newState.issTimeTakenValue = await this.instance.issTimeTakenValue();
@@ -199,7 +206,21 @@ export class IssTime extends Component<Props, State> {
                         </>
                       )}
                       <p>
-                        Total:{' '}
+                        Active Dayswappers: {this.state.activeDayswappers}. IssTime:{' '}
+                        {(() => {
+                          if (this.state.activeDayswappers === null) {
+                            return 'Loading...';
+                          } else if (this.state.activeDayswappers < 10000) {
+                            return '0%';
+                          } else {
+                            return (
+                              Math.min(this.state.activeDayswappers / (10000 * 100), 100) + '%'
+                            );
+                          }
+                        })()}
+                      </p>
+                      <p>
+                        Total IssTime:{' '}
                         {this.state.issTimeTotalLimit === null
                           ? 'Loading...'
                           : `${ethers.utils.formatEther(this.state.issTimeTotalLimit)} ES`}
