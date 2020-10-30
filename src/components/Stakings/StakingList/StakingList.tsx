@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
+//@ts-ignore
 import { Alert, Table } from 'react-bootstrap';
 import { Layout } from '../../Layout';
 import { StakingListElement } from './StakingListElement';

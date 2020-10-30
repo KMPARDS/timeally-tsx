@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//@ts-ignore
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
@@ -40,7 +41,7 @@ export class NewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .newSIP(this.state.plan, { value: ethers.utils.parseEther('1000') });
+        .newSIP(this.state.plan, { value: ethers.utils.parseEther(this.state.userAmount.toString()) });
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
       this.fetchNewSip();
