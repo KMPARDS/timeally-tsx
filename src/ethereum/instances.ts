@@ -8,6 +8,7 @@ import {
   PrepaidEsFactory,
   TsgapFactory,
   TimeAllyPromotionalBucketFactory,
+  DayswappersWithMigrationFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 // const config = {
@@ -81,6 +82,11 @@ window.timeallyPromotionalBucketInstance = TimeAllyPromotionalBucketFactory.conn
 
 window.validatorManagerInstance = ValidatorManagerFactory.connect(
   config.ESN.validatorManager,
+  window.provider
+);
+
+window.dayswappersInstance = DayswappersWithMigrationFactory.connect(
+  config.ESN.dayswappers,
   window.provider
 );
 
