@@ -1,25 +1,60 @@
 import React, { Component } from 'react';
 import { renderSecondsRemaining, routine } from '../../utils';
 import { Button, Modal } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import './Tsgap';
 // import LayoutTsgap from '../../components/Tsgap/LayoutTsgap';
 
 type Props = {};
 
+
 type State = {
   showLoginModal: boolean;
+  newSipEvent: NewSipEvent[],
 };
+
+interface MatchParams {
+	staker: string;
+}
+
+interface NewSipEvent {
+  staker: string;
+  sipId: number;
+  monthlyCommitmentAmount: number;
+}
 
 export class Tsgap extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      newSipEvent:[],
       showLoginModal: false,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    this.fetchNewSip().catch((e) => console.log(e));
+  };
+
+
+  async fetchNewSip() {
+    const data = await window.tsgapLiquidInstance.queryFilter(
+      window.tsgapLiquidInstance.filters.NewSIP(null, null, null)
+    );
+    console.log('fetchsip', data);
+    const sipNew = data.map((log) => {
+      return window.tsgapLiquidInstance.interface.parseLog(log);
+    });
+    console.log('check a', sipNew);
+    const newSipData= sipNew.map((log) => ({
+      staker: log.args['staker'],
+      sipId:log.args['sipId'],
+      monthlyCommitmentAmount:log.args['monthlyCommitmentAmount']
+    }));
+    this.setState({
+      newSipEvent: newSipData,
+    })
+  }
 
   render() {
     return (
