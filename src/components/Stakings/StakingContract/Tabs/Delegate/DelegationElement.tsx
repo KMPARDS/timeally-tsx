@@ -23,6 +23,7 @@ type State = {
   displayMessage: string;
   delegationShare: BigNumber | null;
   withdrawn: boolean | null;
+  currentMonth: number | null;
 };
 
 export class DelegationElement extends Component<Props, State> {
@@ -31,19 +32,20 @@ export class DelegationElement extends Component<Props, State> {
     displayMessage: '',
     delegationShare: null,
     withdrawn: null,
+    currentMonth: null,
   };
 
   componentDidMount = async () => {
     try {
-      const month = await window.nrtManagerInstance.currentNrtMonth();
+      const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
       const delegationShare = await window.validatorManagerInstance.getDelegationShare(
-        month,
+        this.props.delegation.month,
         this.props.delegation.delegatee,
         this.props.instance.address
       );
-      this.setState({ delegationShare });
+      this.setState({ delegationShare, currentMonth });
       const { withdrawn } = await window.validatorManagerInstance.getDelegatorByAddress(
-        month,
+        this.props.delegation.month,
         this.props.delegation.delegatee,
         this.props.instance.address
       );
@@ -88,10 +90,15 @@ export class DelegationElement extends Component<Props, State> {
             <AddressDisplayer address={this.props.delegation.delegatee} />
           </td>
           <td>
-            {this.state.delegationShare !== null ? (
-              <>{formatEther(this.state.delegationShare)} ES</>
+            {this.state.currentMonth !== null &&
+            this.props.delegation.month > this.state.currentMonth !== null ? (
+              this.state.delegationShare !== null ? (
+                <>{formatEther(this.state.delegationShare)} ES</>
+              ) : (
+                'Loading share...'
+              )
             ) : (
-              'Loading share...'
+              'Not available yet'
             )}
           </td>
           <td>
