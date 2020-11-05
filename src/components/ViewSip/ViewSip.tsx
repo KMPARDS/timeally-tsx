@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
+import { Link, RouteComponentProps } from 'react-router-dom';
+// import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
+// import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
 
 interface Props {
   navigation: any;
@@ -24,8 +27,12 @@ interface NewSipEvent {
   monthlyCommitmentAmount: number;
 }
 
-export class ViewSip extends Component<Props, State> {
+export class ViewSip extends Component<Props,State> {
+  //@ts-ignore
+  tsgapInstance:Tsgap;
+
   constructor(props: Props) {
+    //@ts-ignore
     super(props);
     this.state = {
       newSipEvent:[],
@@ -36,6 +43,10 @@ export class ViewSip extends Component<Props, State> {
   }
 
   componentDidMount = async () => {
+    // this.tsgapInstance = TsgapFactory.connect(
+		//  this.props.match.params.staker,
+		// 	window.provider
+		// );
     this.viewSipFetch().catch((e) => console.log(e));
     this.fetchNewSip().catch((e) => console.log(e));
   };
@@ -89,7 +100,7 @@ export class ViewSip extends Component<Props, State> {
   };
 
   render() {
-    console.log("newsipvalue",this.state.newSipEvent)
+    console.log("newsipvalue*************",this.state.newSipEvent)
     return (
       <div>
         <div className="page-header">
