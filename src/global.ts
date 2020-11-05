@@ -6,6 +6,7 @@ import {
   PrepaidEs,
   Tsgap,
   TimeAllyPromotionalBucket,
+  DayswappersWithMigration,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { CustomProvider } from 'eraswap-sdk';
@@ -18,6 +19,7 @@ declare global {
     validatorManagerInstance: ValidatorManager;
     prepaidEsInstance: PrepaidEs;
     timeallyPromotionalBucketInstance: TimeAllyPromotionalBucket;
+    dayswappersInstance: DayswappersWithMigration;
     ethereum: ethers.providers.ExternalProvider;
     provider: CustomProvider;
     tsgapLiquidInstance: Tsgap;

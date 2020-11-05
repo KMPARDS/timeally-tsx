@@ -45,7 +45,9 @@ export class NewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .newSIP(0, {value: ethers.utils.parseEther('500')})
+        .newSIP(this.state.plan, {
+          value: ethers.utils.parseEther(this.state.userAmount.toString()),
+        });
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
       this.fetchNewSip();
