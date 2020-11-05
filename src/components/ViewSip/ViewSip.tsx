@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
+import { Link, RouteComponentProps } from 'react-router-dom';
+// import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
+// import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
 
 interface Props {
   navigation: any;
@@ -10,20 +13,63 @@ interface Props {
 type State = {
   spinner: boolean;
   open: boolean;
+  newSipEvent: NewSipEvent[],
 };
 
-export class ViewSip extends Component<Props, State> {
+
+interface MatchParams {
+	staker: string;
+}
+
+interface NewSipEvent {
+  staker: string;
+  sipId: number;
+  monthlyCommitmentAmount: number;
+}
+
+export class ViewSip extends Component<Props,State> {
+  //@ts-ignore
+  tsgapInstance:Tsgap;
+
   constructor(props: Props) {
+    //@ts-ignore
     super(props);
     this.state = {
+      newSipEvent:[],
       spinner: false,
       open: false,
+     
     };
   }
 
   componentDidMount = async () => {
+    // this.tsgapInstance = TsgapFactory.connect(
+		//  this.props.match.params.staker,
+		// 	window.provider
+		// );
     this.viewSipFetch().catch((e) => console.log(e));
+    this.fetchNewSip().catch((e) => console.log(e));
   };
+
+  async fetchNewSip() {
+    const data = await window.tsgapLiquidInstance.queryFilter(
+      window.tsgapLiquidInstance.filters.NewSIP(null, null, null)
+    );
+    console.log('fetchsip', data);
+    const sipNew = data.map((log) => {
+      return window.tsgapLiquidInstance.interface.parseLog(log);
+    });
+    console.log('check a', sipNew);
+    const newSipData= sipNew.map((log) => ({
+      staker: log.args['staker'],
+      sipId:log.args['sipId'],
+      monthlyCommitmentAmount:log.args['monthlyCommitmentAmount']
+    }));
+    this.setState({
+      newSipEvent: newSipData,
+    })
+  }
+
 
   viewSipFetch = async () => {
     await this.setState({ spinner: true });
@@ -33,7 +79,7 @@ export class ViewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .getSip('hjgjh', 0, { value: ethers.utils.parseEther('1000') });
+        .getSip("0x1031a1C7Cc8edc64Cae561DcEA4285f8ab97e02F", 0);
       const receipt = tx;
       console.log('receipt viewsip', receipt);
     } catch (error) {
@@ -54,6 +100,7 @@ export class ViewSip extends Component<Props, State> {
   };
 
   render() {
+    console.log("newsipvalue*************",this.state.newSipEvent)
     return (
       <div>
         <div className="page-header">
