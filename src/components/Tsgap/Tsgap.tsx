@@ -89,11 +89,10 @@ export class Tsgap extends Component<Props, State> {
                 helping hand to support you achieving your goal & make the most of your golden years
                 with financial independence{' '}
               </p>
+              { this.state.newSipEvent.map((event,i)=>(
               <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                <Button href="/view" className="custom-button">
-                  View My SAP
-                </Button>
-              </div>
+                <Button href={"/view/"+ event.staker} className="custom-button">View My SIP</Button>
+              </div>))}
             </div>
 
             <div className="row tsgap-fet">

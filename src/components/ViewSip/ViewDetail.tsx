@@ -3,11 +3,10 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-// import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
-// import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
+import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
+import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
 
-interface Props {
-  navigation: any;
+type Props ={
 }
 
 type State = {
@@ -47,7 +46,7 @@ interface GetSip {
   appointeeVotes: number;
 }
 
-export class ViewSip extends Component<Props, State> {
+export class ViewDetail extends Component<RouteComponentProps<MatchParams>, State> {
   //@ts-ignore
   tsgapInstance: Tsgap;
 
@@ -71,10 +70,10 @@ export class ViewSip extends Component<Props, State> {
   }
 
   componentDidMount = async () => {
-    // this.tsgapInstance = TsgapFactory.connect(
-    //  this.props.match.params.staker,
-    // 	window.provider
-    // );
+    this.tsgapInstance = TsgapFactory.connect(
+     this.props.match.params.staker,
+    	window.provider
+    );
     this.viewSipFetch().catch((e) => console.log(e));
     this.fetchNewSip().catch((e) => console.log(e));
   };
@@ -107,15 +106,11 @@ export class ViewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .getSip("0x1031a1C7Cc8edc64Cae561DcEA4285f8ab97e02F", 0);
+        .appointeeVote(this.props.match.params.staker, 0);
       const receipt = tx;
       console.log('receipt viewsip', receipt);
       this.setState({
-        planId: receipt.planId,
-        powerBoosterWithdrawls:receipt.powerBoosterWithdrawls,
-        stakingTimestamp:receipt.stakingTimestamp,
-        lastWithdrawlMonthId:receipt.lastWithdrawlMonthId,
-        numberOfAppointees:receipt.numberOfAppointees
+       
       })
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
@@ -135,6 +130,7 @@ export class ViewSip extends Component<Props, State> {
   };
 
   render() {
+      console.log("match props",this.props.match.params)
     console.log("newsipvalue****", this.state.newSipEvent)
     return (
       <div>
@@ -175,9 +171,6 @@ export class ViewSip extends Component<Props, State> {
               <td>{this.state.numberOfAppointees}</td>
                <td>{this.state.monthlyCommitmentAmount}</td> 
                <td>{this.state.lastWithdrawlMonthId}</td>
-               {this.state.newSipEvent.map((event)=>
-               <td><Link to ={"/view-detail/" + event.staker}>VIEW</Link></td>
-                )}
             </tr>
           </thead>
         </div>
