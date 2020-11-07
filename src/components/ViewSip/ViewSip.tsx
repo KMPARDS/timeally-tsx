@@ -3,8 +3,8 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-// import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
-// import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
+import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
+import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
 
 interface Props {
   navigation: any;
@@ -47,7 +47,7 @@ interface GetSip {
   appointeeVotes: number;
 }
 
-export class ViewSip extends Component<Props, State> {
+export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
   //@ts-ignore
   tsgapInstance: Tsgap;
 
@@ -71,10 +71,10 @@ export class ViewSip extends Component<Props, State> {
   }
 
   componentDidMount = async () => {
-    // this.tsgapInstance = TsgapFactory.connect(
-    //  this.props.match.params.staker,
-    // 	window.provider
-    // );
+    this.tsgapInstance = TsgapFactory.connect(
+     this.props.match.params.staker,
+    	window.provider
+    );
     this.viewSipFetch().catch((e) => console.log(e));
     this.fetchNewSip().catch((e) => console.log(e));
   };
@@ -135,7 +135,7 @@ export class ViewSip extends Component<Props, State> {
   };
 
   render() {
-    console.log("newsipvalue****", this.state.newSipEvent)
+    console.log("match params****", this.props.match.params)
     return (
       <div>
         <div className="page-header">
@@ -173,11 +173,9 @@ export class ViewSip extends Component<Props, State> {
               <td>{this.state.planId}</td>
               <td>{this.state.stakingTimestamp}</td>
               <td>{this.state.numberOfAppointees}</td>
-               <td>{this.state.monthlyCommitmentAmount}</td> 
+               <td>{ethers.utils.formatEther(this.state.monthlyCommitmentAmount)}</td> 
                <td>{this.state.lastWithdrawlMonthId}</td>
-               {this.state.newSipEvent.map((event)=>
-               <td><Link to ={"/view-detail/" + event.staker}>VIEW</Link></td>
-                )}
+               <td><Link to ={"/view-detail/" }>VIEW</Link></td>
             </tr>
           </thead>
         </div>
