@@ -175,7 +175,7 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
               <td>{this.state.numberOfAppointees}</td>
                <td>{ethers.utils.formatEther(this.state.monthlyCommitmentAmount)}</td> 
                <td>{this.state.lastWithdrawlMonthId}</td>
-               <td><Link to ={"/view-detail/" }>VIEW</Link></td>
+               <td className="view-bgd-color"><Link to ={"/view-detail/" + this.props.match.params.staker }>VIEW</Link></td>
             </tr>
           </thead>
         </div>
