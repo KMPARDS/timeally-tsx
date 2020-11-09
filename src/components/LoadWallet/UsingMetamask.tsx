@@ -133,6 +133,10 @@ export class UsingMetamask extends Component<{}, State> {
                           Symbol: <u>ES</u>
                         </li>
                         <li>
+                          Chain ID:{' '}
+                          <u>{process.env.REACT_APP_ENV === 'production' ? '0x144d' : '144c'}</u>
+                        </li>
+                        <li>
                           You can leave other fields blank. Click on Save button. If you've followed
                           the above instructions and still don't see your address on this page,
                           please try refreshing this page.
