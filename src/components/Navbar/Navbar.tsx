@@ -202,6 +202,10 @@ export class NavbarMain extends Component<{}, State> {
                         <div className="navbar-item">TSGAP</div>
                       </Link>
 
+                      <Link to="/pet">
+                        <div className="navbar-item">PET</div>
+                      </Link>
+
                       <Link to="/support">
                         <div className="navbar-item">Report a bug</div>
                       </Link>

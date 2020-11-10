@@ -14,6 +14,7 @@ import { TermsAndConditions } from './components/TermsAndConditions';
 import { LoadWallet } from './components/LoadWallet';
 import { Nominee } from './components/Nominee';
 import { Tsgap } from './components/Tsgap/Tsgap';
+import { PET } from './components/PET/PET';
 import { TsgapCalculator } from './components/TsgapCalculator/TsgapCalculator';
 import { NewSip } from './components/Assurance/NewSip';
 import { ViewSip } from './components/ViewSip/ViewSip';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/load-wallet" component={LoadWallet} />
           <Route path="/nominee" component={Nominee} />
           <Route path="/tsgap" component={Tsgap} />
+          <Route path="/pet" component={PET} />
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
           <Route path="/view" component={ViewSip} />

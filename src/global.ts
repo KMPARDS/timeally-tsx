@@ -6,6 +6,8 @@ import {
   PrepaidEs,
   Tsgap,
   TimeAllyPromotionalBucket,
+  PetLiquidFundsBucket,
+  PetLiquidTimeAllyPet
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { CustomProvider } from 'eraswap-sdk';
@@ -21,5 +23,7 @@ declare global {
     ethereum: ethers.providers.ExternalProvider;
     provider: CustomProvider;
     tsgapLiquidInstance: Tsgap;
+    petInstance: PetLiquidTimeAllyPet,
+    petFundsInstance: PetLiquidFundsBucket
   }
 }
