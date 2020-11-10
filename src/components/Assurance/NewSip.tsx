@@ -8,7 +8,11 @@ interface Props {
   navigation: any;
 }
 
+
+
+
 type State = {
+  
   currentScreen: Number;
   spinner: boolean;
   open: boolean;
@@ -41,7 +45,9 @@ export class NewSip extends Component<Props, State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .newSIP(this.state.plan, { value: ethers.utils.parseEther(this.state.userAmount.toString()) });
+        .newSIP(this.state.plan, {
+          value: ethers.utils.parseEther(this.state.userAmount.toString()),
+        });
       const receipt = tx.wait();
       console.log('receipt Sip', receipt);
       this.fetchNewSip();

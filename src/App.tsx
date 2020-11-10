@@ -18,6 +18,7 @@ import { PET } from './components/PET/PET';
 import { TsgapCalculator } from './components/TsgapCalculator/TsgapCalculator';
 import { NewSip } from './components/Assurance/NewSip';
 import { ViewSip } from './components/ViewSip/ViewSip';
+import {ViewDetail} from './components/ViewSip/ViewDetail';
 import './style.css';
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
           <Route path="/pet" component={PET} />
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
-          <Route path="/view" component={ViewSip} />
+          <Route path="/view/:staker" component={ViewSip} />
+          <Route path= "/view-detail/:staker" component={ViewDetail} />
         </Switch>
         <Footer />
       </BrowserRouter>
