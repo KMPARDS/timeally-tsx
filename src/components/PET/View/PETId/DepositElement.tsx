@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
+type State = {
 
-class DepositElement extends Component {
+};
+type Props = {
+  stakingTimestamp: number
+  monthId: number;
+  depositAmount: number;
+}
+class DepositElement extends Component<Props,State> {
   state = {
     status: null,
     text: 'Loading...',
@@ -15,21 +22,21 @@ class DepositElement extends Component {
   };
 
   componentDidMount = async() => {
-    const status = (await window.petInstance.functions.getDepositDoneStatus(
-      window.walletInstance.address,
-      this.props.petId,
-      this.props.monthId
-    )).toNumber();
-    // console.log(status);
-    this.setState({ status, loading: false });
+    // const status = (await window.petInstance.functions.getDepositDoneStatus(
+    //   window.walletInstance.address,
+    //   this.props.petId,
+    //   this.props.monthId
+    // )).toNumber();
+    // // console.log(status);
+    // this.setState({ status, loading: false });
 
-    this.intervalId = setInterval(() => {
-      this.setState({ currentTimestamp: Math.floor(Date.now()/1000) })
-    }, 1000);
+    // this.intervalId = setInterval(() => {
+    //   this.setState({ currentTimestamp: Math.floor(Date.now()/1000) })
+    // }, 1000);
   };
 
   componentWillUnmount = () => {
-    clearInterval(this.intervalId);
+    // clearInterval(this.intervalId);
   }
 
   render = () => {
@@ -100,7 +107,7 @@ class DepositElement extends Component {
         <td>{this.props.monthId}</td>
         <td>{this.props.depositAmount ? this.props.depositAmount+' ES' : '-'}</td>
         <td>{this.state.loading ? 'Loading...' : status}</td>
-        <td>{this.state.loading
+        {/* <td>{this.state.loading
           ? 'Loading...'
           : <>
             {displayText}<br />
@@ -114,7 +121,7 @@ class DepositElement extends Component {
                 </Button>
               : null}
             </>}
-          </td>
+          </td> */}
       </tr>
     )
   };

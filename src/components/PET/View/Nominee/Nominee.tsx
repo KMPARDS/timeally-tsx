@@ -14,44 +14,44 @@ class Nominee extends Component {
   };
 
   componentDidMount = async() => {
-    const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
-    const topics = [
-      nomineeNewEventSig,
-      ethers.utils.hexZeroPad(window.walletInstance.address, 32),
-      ethers.utils.hexZeroPad(ethers.utils.bigNumberify(this.props.match.params.id)._hex, 32)
-    ];
+    // const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
+    // const topics = [
+    //   nomineeNewEventSig,
+    //   ethers.utils.hexZeroPad(window.walletInstance.address, 32),
+    //   ethers.utils.hexZeroPad(ethers.utils.bigNumberify(this.props.match.params.id)._hex, 32)
+    // ];
 
-    const logs = await window.providerInstance.getLogs({
-      address: pet.address,
-      fromBlock: 0,
-      toBlock: 'latest',
-      topics
-    });
+    // const logs = await window.providerInstance.getLogs({
+    //   address: pet.address,
+    //   fromBlock: 0,
+    //   toBlock: 'latest',
+    //   topics
+    // });
 
-    console.log(logs);
+    // console.log(logs);
 
-    const nominees = {};
-    logs.forEach(log => {
-      const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
-      const status = Boolean(+log.data);
-      nominees[address] = status;
-    });
+    // const nominees = {};
+    // logs.forEach(log => {
+    //   const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
+    //   const status = Boolean(+log.data);
+    //   nominees[address] = status;
+    // });
 
-    console.log('nominees', nominees);
-    this.setState({
-      activeNominees: Object.entries(nominees).filter(entry => entry[1]).map(entry => entry[0]),
-      loading: false
-    });
+    // console.log('nominees', nominees);
+    // this.setState({
+    //   activeNominees: Object.entries(nominees).filter(entry => entry[1]).map(entry => entry[0]),
+    //   loading: false
+    // });
 
   };
 
   render = () => {
     return (
       <Layout
-        breadcrumb={['Home', 'PET','View', this.props.match.params.id, 'Nominee']}
+        breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/ 1, 'Nominee']}
         title='Nominee'
         buttonName="New Nominee"
-        buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
+        // buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
       >
         <h2>Nominees of this PET</h2>
         {this.state.loading
@@ -93,7 +93,7 @@ class Nominee extends Component {
                 contract: window.petInstance,
                 contractName: 'TimeAllyPET',
                 arguments: [
-                  this.props.match.params.id,
+                  1,// this.props.match.params.id,
                   this.state.removeNomineeAddress,
                   false
                 ],

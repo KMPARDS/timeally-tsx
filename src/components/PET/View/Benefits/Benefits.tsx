@@ -13,47 +13,47 @@ class Benefits extends Component {
   };
 
   componentDidMount = async() => {
-    const sip = await window.sipInstance.functions.sips(
-      window.walletInstance.address,
-      this.props.match.params.id
-    );
-    const sipPlan = await window.sipInstance.functions.sipPlans(sip.planId);
+    // const sip = await window.sipInstance.functions.sips(
+    //   window.walletInstance.address,
+    //   this.props.match.params.id
+    // );
+    // const sipPlan = await window.sipInstance.functions.sipPlans(sip.planId);
 
-    const monthlyBenefitAmountPromiseArray = []
-    , depositDoneStatusPromiseArray = [];
+    // const monthlyBenefitAmountPromiseArray = []
+    // , depositDoneStatusPromiseArray = [];
 
-    for(let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
-      monthlyBenefitAmountPromiseArray.push(
-        window.sipInstance.functions.viewMonthlyBenefitAmount(
-          window.walletInstance.address,
-          this.props.match.params.id,
-          i
-        )
-      );
-      depositDoneStatusPromiseArray.push(
-        window.sipInstance.functions.getDepositDoneStatus(
-          window.walletInstance.address,
-          this.props.match.params.id,
-          i
-        )
-      );
-    }
+    // for(let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
+    //   monthlyBenefitAmountPromiseArray.push(
+    //     window.sipInstance.functions.viewMonthlyBenefitAmount(
+    //       window.walletInstance.address,
+    //       this.props.match.params.id,
+    //       i
+    //     )
+    //   );
+    //   depositDoneStatusPromiseArray.push(
+    //     window.sipInstance.functions.getDepositDoneStatus(
+    //       window.walletInstance.address,
+    //       this.props.match.params.id,
+    //       i
+    //     )
+    //   );
+    // }
 
-    await Promise.all([...monthlyBenefitAmountPromiseArray, ...depositDoneStatusPromiseArray]);
+    // await Promise.all([...monthlyBenefitAmountPromiseArray, ...depositDoneStatusPromiseArray]);
 
-    const monthlyBenefitAmountArray = []
-    , depositStatusArray = [];
+    // const monthlyBenefitAmountArray = []
+    // , depositStatusArray = [];
 
-    for(let i = 0; i < sipPlan.accumulationPeriodMonths; i++) {
-      monthlyBenefitAmountArray.push(await monthlyBenefitAmountPromiseArray[i]);
-      depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
-    }
+    // for(let i = 0; i < sipPlan.accumulationPeriodMonths; i++) {
+    //   monthlyBenefitAmountArray.push(await monthlyBenefitAmountPromiseArray[i]);
+    //   depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
+    // }
 
-    this.setState({
-      monthlyBenefitAmountArray,
-      depositStatusArray,
+    // this.setState({
+    //   monthlyBenefitAmountArray,
+    //   depositStatusArray,
 
-    });
+    // });
   }
   render = () => {
     const benefitTableElementArray = [];
@@ -79,8 +79,10 @@ class Benefits extends Component {
 
     return (
       <Layout
-          breadcrumb={['Home', 'PET','View', this.props.match.params.id, 'Benefits']}
-          title={this.props.match.params.id}>
+          breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/, 'Benefits']}
+          title={1}
+          // title={this.props.match.params.id}
+          >
           <p>This page is under construction. On this page user can see their monthly benefits in advance and withdraw them after the withdraw window is open for the month.</p>
           <Table responsive>
           <thead>

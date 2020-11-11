@@ -29,7 +29,7 @@ class NewNominee extends Component {
 
           <Form.Group controlId="nomineeAddress">
             <Form.Control
-              onKeyUp={event => {
+              onKeyUp={(event:any) => {
                 try {
                   this.setState({
                     nomineeAddress: ethers.utils.getAddress(event.target.value),
@@ -114,9 +114,9 @@ class NewNominee extends Component {
             <h3>Confirmed!</h3>
             <Alert variant="success">Nominee is added to your PET!</Alert>
             <p>You can view the transaction on <a href={`https://${process.env.network === 'homestead' ? '' : 'kovan.' }etherscan.io/tx/${this.state.txHash}`} rel="noopener noreferrer" target="_blank" style={{color: 'black', textDecoration: 'underline', cursor:'pointer'}}>EtherScan</a> or you can go back to <span onClick={() => {
-              const pathArray = this.props.location.pathname.split('/');
-              pathArray.pop();
-              this.props.history.push(pathArray.join('/'));
+              // const pathArray = this.props.location.pathname.split('/');
+              // pathArray.pop();
+              // this.props.history.push(pathArray.join('/'));
             }} style={{color: 'black', textDecoration: 'underline', cursor:'pointer'}}>nominees page</span>.</p>
           </div>
         </Card>
@@ -125,7 +125,7 @@ class NewNominee extends Component {
 
     return (
       <Layout
-        breadcrumb={['Home', 'PET','View', this.props.match.params.id, 'Nominee', 'New']}
+        breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/1, 'Nominee', 'New']}
         title='New Nominee'
       >
         {screen}
@@ -139,7 +139,7 @@ class NewNominee extends Component {
               contract: window.petInstance,
               contractName: 'TimeAllyPET',
               arguments: [
-                this.props.match.params.id,
+                1,// this.props.match.params.id,
                 this.state.nomineeAddress,
                 true
               ],
@@ -147,7 +147,7 @@ class NewNominee extends Component {
               headingName: 'Toggle Nominee',
               functionName: 'Toggle Nominee',
               directGasScreen: true,
-              continueFunction: txHash => this.setState({
+              continueFunction: (txHash: any) => this.setState({
                 spinner: false,
                 currentScreen: 2,
                 showNomineeTransactionModal: false,

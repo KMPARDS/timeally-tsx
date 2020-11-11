@@ -26,12 +26,12 @@ class SendPrepaidESDifferent extends Component {
   }
 
   componentDidMount = async() => {
-    const prepaidESBalance = await window.petInstance.functions.prepaidES(
-      window.walletInstance.address);
-    this.setState({ prepaidESBalance });
+    // const prepaidESBalance = await window.petInstance.functions.prepaidES(
+    //   window.wallet.address);
+    // this.setState({ prepaidESBalance });
   }
 
-  onFirstSubmit = event => {
+  onFirstSubmit = (event:any) => {
     event.preventDefault();
     let rowNumber = 0;
     try {
@@ -87,7 +87,7 @@ class SendPrepaidESDifferent extends Component {
                     type="text"
                     autoComplete="off"
                     placeholder="Enter Address"
-                    isInvalid={this.state.errorDisplay}
+                    // isInvalid={this.state.errorDisplay}
                   />
                   </div>
                 </Col>
@@ -104,7 +104,7 @@ class SendPrepaidESDifferent extends Component {
                     type="text"
                     autoComplete="off"
                     placeholder="Enter PrepaidES to Send"
-                    isInvalid={this.state.errorDisplay}
+                    // isInvalid={this.state.errorDisplay}
                   />
                   </div>
                 </Col>
@@ -229,7 +229,9 @@ class SendPrepaidESDifferent extends Component {
             <div className="custom-width" style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '.25rem', padding:'20px 40px', margin: '15px auto'}}>
               <h3 style={{marginBottom: '15px'}}>PrepaidES Sent!</h3>
               <Alert variant="success">PrepaidES are sent! You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a>. Since, this is not Liquid EraSwap transaction, EtherScan does not show the tokens transferred clearly.</Alert>
-              <Button onClick={() => this.props.history.push('/pet')}>Go to PET Home</Button>
+              <Button
+              // onClick={() => this.props.history.push('/pet')}
+              >Go to PET Home</Button>
             </div>
           </Card>
 
@@ -243,7 +245,7 @@ class SendPrepaidESDifferent extends Component {
         title='Send Prepaid ES Different'
         subtitle='Send multiple Prepaid ES in one transaction!'
         buttonName='Add to Prepaid ES'
-        buttonOnClick={() => this.props.history.push('/pet/prepaid-es/add-to-prepaid')}
+        // buttonOnClick={() => this.props.history.push('/pet/prepaid-es/add-to-prepaid')}
       >
         <p style={{marginTop: '.5rem'}}>Your PrepaidES balance: {this.state.prepaidESBalance ? ethers.utils.formatEther(this.state.prepaidESBalance) : 'Loading...'} ES</p>
         {screen}
@@ -251,7 +253,7 @@ class SendPrepaidESDifferent extends Component {
             show={this.state.showSendPrepaidESDifferentTransactionModal}
             hideFunction={() => this.setState({ showSendPrepaidESDifferentTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.petInstance.functions.sendPrepaidESDifferent,
+              // transactor: window.petInstance.functions.sendPrepaidESDifferent,
               estimator: window.petInstance.estimate.sendPrepaidESDifferent,
               contract: window.petInstance,
               contractName: 'TimeAllyPET',
@@ -264,7 +266,7 @@ class SendPrepaidESDifferent extends Component {
               functionName: 'sendPrepaidESDifferent',
               // stakingPlan: this.state.plan,
               directGasScreen: true,
-              continueFunction: txHash => this.setState({
+              continueFunction: (txHash:any) => this.setState({
                 spinner: false,
                 currentScreen: 2,
                 showSendPrepaidESDifferentTransactionModal: false,

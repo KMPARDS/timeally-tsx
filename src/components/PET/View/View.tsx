@@ -14,9 +14,9 @@ class View extends Component {
 
   componentDidMount = async() => {
     const newPETEventSig = ethers.utils.id('NewPET(address,uint256,uint256)');
-    const topics = [ newPETEventSig, ethers.utils.hexZeroPad(window.walletInstance.address, 32) ];
+    const topics = [ newPETEventSig, ethers.utils.hexZeroPad(window.wallet?.address, 32) ];
 
-    const logs = await window.providerInstance.getLogs({
+    const logs = await window.provider.getLogs({
       address: window.petInstance.address,
       fromBlock: 0,
       toBlock: 'latest',
@@ -27,7 +27,7 @@ class View extends Component {
     const pets = [];
     for(let i = logs.length - 1; i >= 0; i--) {
       const log = logs[i];
-      const petId = Number(window.sliceDataTo32Bytes(log.data,0));
+      const petId = Number(/*window.sliceDataTo32Bytes(log.data,0)*/0);
       // const monthlyCommitmentAmount = ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1));
       pets.push({
         petId
@@ -42,10 +42,11 @@ class View extends Component {
             breadcrumb={['Home', 'PET','View']}
             title='List of your PETs'
             buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
-            buttonOnClick={window.walletInstance && window.walletInstance.address
-              ? () => this.props.history.push('/pet/new')
-              : () => this.setState({showLoginModal:true})}>
-            {this.state.pets.length ? <Table style={{'margin-bottom': '0'}} responsive>
+            // buttonOnClick={window.wallet && window.wallet.address
+            //   ? () => this.props.history.push('/pet/new')
+            //   : () => this.setState({showLoginModal:true})}
+              >
+            {this.state.pets.length ? <Table style={{marginBottom: '0'}} responsive>
             <thead>
               <tr>
                 <th>PET ID</th>
@@ -59,8 +60,8 @@ class View extends Component {
             <tbody>
               {this.state.pets.map(pet => (
                 <PETElement
-                  petId={pet.petId}
-                  onClick={() => this.props.history.push('/pet/view/'+pet.petId)}
+                  // petId={pet.petId}
+                  // onClick={() => this.props.history.push('/pet/view/'+pet.petId)}
                 />
               ))}
             </tbody>
