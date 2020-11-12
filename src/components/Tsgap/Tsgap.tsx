@@ -210,7 +210,7 @@ export class Tsgap extends Component<Props, State> {
                     SAP Calculator
                   </Button>
 
-                  <Button href="/view" style={{ marginLeft: '10px', marginTop: '10px' }}>
+                  <Button href={"/view/" + this.state.walletAddress} style={{ marginLeft: '10px', marginTop: '10px' }}>
                     View My SAPs
                   </Button>
                   <p style={{ marginTop: '1rem' }}>
