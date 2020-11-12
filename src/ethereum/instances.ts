@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { CustomProvider, CustomProviderBase, addresses } from 'eraswap-sdk';
+import { CustomProvider, addresses } from 'eraswap-sdk';
 
 import {
   NrtManagerFactory,
@@ -11,38 +11,10 @@ import {
   DayswappersWithMigrationFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-const config = {
-  ESN: {
-    proxyAdmin: '0xc3b32965b799E5f96d54A312ad3afA5E57044B20',
-    nrtManager: '0x44EeD9580aEa47405F98173377296E75765074C8',
-    timeallyManager: '0xF19Ea5D90cD8b9480f6B46880b020fe3eADd392F',
-    timeallyStakingTarget: '0xDA7c99e1c5b8f6B6983502953540e621b092a69e',
-    validatorSet: '0x8433035CBb293b0e460E99ad6B42274FdcE7099F',
-    validatorManager: '0xd014d4149A57b9126F67c03F93FBC078810972Ef',
-    randomnessManager: '0xB2D158fcc47320F580E96374c34394750EC07558',
-    blockRewardManager: '0x69601642417b3fE47E5f8Cc893696a410e8F7448',
-    prepaidEs: '0x6325e975a09E047720f6D8cF25bD2577fB706250',
-    dayswappers: '0x38CB3aeF3aAD8fB063C03F5EFD067C992EEFfDEC',
-    kycdapp: '0xe1347dAAffbd3102F6CD67edAEA9dfc8A8C4FaDB',
-    timeallyclub: '0x8422da7f9bd28868796545D0cd9c15483bD6d214',
-    timeAllyPromotionalBucket: '0xE30be1E70e944b800f4933A11EC90C8E44a42594',
-    betdeex: '0xEcEB558CB9B905674544AB393414Aa2E2D2004c7',
-    betImplementation: '0x0bD7e7a62Da3fE867E6dDae56801D79785E4FC0B',
-    buildSurvey: '0x87D673fCc902EF19241633674f6617fcd5B95F15',
-    rentingDappManager: '0xE79be7ba19d3fA67736A27EC0d0D30D6cfC146F7',
-    tsgap: '0x3334690604871703d27DC0c25FE2f5A0A91551D1',
-    petLiquid: '0x4125e6Ef70AbA4f4Ed7c4eB3d53a08DC53a9316D',
-    petPrepaid: '0xEAFB2b46B523B5199311d46D160f1174BFfe9A9E',
-  },
-};
-// const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
+const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
-// window.provider = new CustomProvider(
-//   process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
-// );
-window.provider = new CustomProviderBase(
-  // process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
-  'https://rpc-temp.mainnet.eraswap.network'
+window.provider = new CustomProvider(
+  process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
 );
 
 // if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
