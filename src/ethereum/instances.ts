@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ethers, providers } from 'ethers';
 import { CustomProvider, addresses } from 'eraswap-sdk';
 
 import {
@@ -9,6 +9,9 @@ import {
   TsgapFactory,
   TimeAllyPromotionalBucketFactory,
   DayswappersWithMigrationFactory,
+  PetPrepaidTimeAllyPetFactory,
+  PetLiquidTimeAllyPetFactory,
+  PetLiquidFundsBucketFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 // const config = {
@@ -93,3 +96,7 @@ window.dayswappersInstance = DayswappersWithMigrationFactory.connect(
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
 
 window.tsgapLiquidInstance = TsgapFactory.connect(config.ESN.tsgap, window.provider);
+
+window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
+
+window.petFundsInstance = PetLiquidFundsBucketFactory.connect(config.ESN.petPrepaid,window.provider);

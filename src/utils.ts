@@ -65,3 +65,5 @@ export function renderEthersJsError(error: any): string {
     `Weird error: ${typeof error === 'object' ? JSON.stringify(error) : error}`
   );
 }
+
+export const hexToNum = (hex: string | ethers.BigNumber) => Number(Number(ethers.utils.formatEther(hex)).toFixed(2));

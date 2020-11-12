@@ -21,6 +21,17 @@ import { ViewSip } from './components/ViewSip/ViewSip';
 import {ViewDetail} from './components/ViewSip/ViewDetail';
 import './style.css';
 
+// window.lessDecimals = (ethersBigNumber, decimals = 2) => {
+//   let lessDecimals = ethers.utils.formatEther(ethersBigNumber).split('.');
+//   if(lessDecimals[1].length >= decimals) {
+//     lessDecimals[1] = lessDecimals[1].slice(0, decimals);
+//   }
+//   return lessDecimals.join('.');
+// }
+// window.sliceDataTo32Bytes = (data, index = 0) => {
+//   return '0x'+data.slice(2+64*index, 2+64*(index+1));
+// }
+
 function App() {
   return (
     <div className="App">

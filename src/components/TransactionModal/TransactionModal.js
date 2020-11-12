@@ -65,7 +65,7 @@ class TransactionModal extends Component {
     this.setState({
       estimating: true,
       estimationError: '',
-      userAddress: this.props.store.walletInstance.address.toLowerCase(),
+      userAddress: this.props.wallet.address.toLowerCase(),
       contractAddress: this.props.ethereum.contract.address
     });
 
@@ -143,8 +143,8 @@ class TransactionModal extends Component {
 
   render() {
     let screenContent;
-    console.log('this.props.store.walletInstance._ethersType !== \'Signer\'', this.props.store.walletInstance._ethersType !== 'Signer');
-    if(Object.entries(this.props.store.walletInstance).length === 0) {
+    // console.log('this.props.wallet._ethersType !== \'Signer\'', this.props.wallet._ethersType !== 'Signer');
+    if(Object.entries(this.props.wallet).length === 0) {
       screenContent = (
         <Modal.Body style={{textAlign: 'center'}}>
           <h5>You need to load your wallet to place your staking.</h5>
@@ -154,11 +154,16 @@ class TransactionModal extends Component {
           <Button onClick={() => this.props.history.push('/create-wallet')}>Create wallet</Button>
         </Modal.Body>
       );
-    } else if(this.props.store.walletInstance._ethersType !== 'Signer') {
+    // } else if(this.props.wallet._ethersType !== 'Signer') {
+    } else if(!this.props.wallet._isSigner) {
+
       screenContent = (
         <Modal.Body style={{textAlign: 'center'}}>
           You are trying to do a transaction using an address. For a transaction on behalf of an address to be accepted by the blockchain, the private key corresponding to the address is required to sign the transaction. Without a private key, tranasaction cannot be signed. The private key can be in the form of a mnemonic, keystore or stored inside your hardware wallet or metamask. You can load your wallet to make transaction.
-          <Button onClick={() => {window.redirectHereAfterLoadWallet=this.props.location.pathname;this.props.history.push('/load-wallet')}}>Go to load wallet page</Button>
+          <Button onClick={() => {
+            window.redirectHereAfterLoadWallet = this.props.location.pathname;
+            this.props.history.push('/load-wallet');
+          }}>Go to load wallet page</Button>
         </Modal.Body>
       );
     } else if(this.state.currentScreen === 0) {
@@ -376,4 +381,4 @@ class TransactionModal extends Component {
     );
   }
 }
-export default TransactionModal;
+export default withRouter(TransactionModal);

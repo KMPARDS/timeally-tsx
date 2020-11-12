@@ -26,6 +26,7 @@ declare global {
     provider: CustomProvider;
     tsgapLiquidInstance: Tsgap;
     petInstance: PetLiquidTimeAllyPet,
-    petFundsInstance: PetLiquidFundsBucket
+    petFundsInstance: PetLiquidFundsBucket,
+    returnLocationAfterLoadWallet: any
   }
 }
