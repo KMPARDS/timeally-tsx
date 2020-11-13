@@ -149,8 +149,9 @@ export class BenefitPage extends Component<RouteComponentProps<MatchParams>, Sta
             </tr>
             <tr>
              <td>1</td>
-             <td></td>
-             <td></td>
+             <td>{this.state.benefitValue !== null  ? ethers.utils.formatEther(this.state.benefitValue)
+                        : 'Loading...'}</td>
+            <td></td>
             </tr>
           </thead>
         </div>
