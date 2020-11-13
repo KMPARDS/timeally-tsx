@@ -25,12 +25,7 @@ class View extends Component<Props & RouteComponentProps,State> {
     if(window.wallet){
       const pets =(await window.petInstance.queryFilter(window.petInstance.filters.NewPET(window.wallet?.address,null,null)))
         .map(log => window.petInstance.interface.parseLog(log))
-        .map(log => {
-          console.log({log});
-
-          return {petId: hexToNum(log.args['_petId'])}
-        });
-        console.log({pets});
+        .map(log => ({petId: hexToNum(log.args['_petId'])}));
 
       this.setState({ pets,loading: false });
     }

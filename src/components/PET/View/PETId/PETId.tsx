@@ -1,78 +1,114 @@
+import { RouteComponentProps, RouteProps } from 'react-router';
 import React, { Component } from 'react';
 import { Button,Table } from 'react-bootstrap';
 
 import Layout from '../../../Layout/LayoutPET';
 // import DepositElement from './DepositElement';
 import '../../PET.css';
+import { ethers } from 'ethers';
+import { hexToNum } from '../../../../utils';
+
+interface RouteParams { id: string };
+type Props = {}
+
+type State = {
+  months: any[],
+  loading: boolean,
+  currentTime: number,
+  lumSum: boolean,
+  commitmentAmount: ethers.BigNumber,
+  initTimestamp: number,
+  depositMonth: number
+};
 
 
-const ethers = require('ethers');
-
-class PETId extends Component {
-  state = {
+class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
+  state: State = {
     months: [],
     loading: true,
     currentTime: Math.floor(Date.now() / 1000),
-    lumSum: false
+    lumSum: false,
+    commitmentAmount: ethers.constants.Zero,
+    initTimestamp: -1,
+    depositMonth: -1
   };
 
   componentDidMount = async() => {
-    // const currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()).toNumber();
+    if(window.wallet){
+      // const currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()).toNumber();
 
-    // const depositMonth = (await window.petInstance.functions.getDepositMonth(
-    //   window.walletInstance.address, this.props.match.params.id)).toNumber();
+      const depositMonth = (await window.petInstance.getDepositMonth(
+      window.wallet.address, this.props.match.params.id)).toNumber();
 
-    // const pet = await window.petInstance.functions.pets(
-    //   window.walletInstance.address,
-    //   // '0xC8e1F3B9a0CdFceF9fFd2343B943989A22517b26',
-    //   this.props.match.params.id
-    // );
-    // const petPlan = await window.petInstance.functions.petPlans(pet.planId);
+      const pet = await window.petInstance.pets(
+        window.wallet.address,
+        // '0xC8e1F3B9a0CdFceF9fFd2343B943989A22517b26',
+        this.props.match.params.id
+      );
+      const petPlan = await window.petInstance.petPlans(pet.planId);
 
-    // const months = [];
-    // for(let i = 1; i <= 12; i++) {
-    //   months.push([]);
-    // }
+      const months: any[] = [];
+      for(let i = 1; i <= 12; i++) {
+        months.push([]);
+      }
 
-    // const newDepositSig = ethers.utils.id('NewDeposit(address,uint256,uint256,uint256,address,bool)');
+      const data = (await window.petInstance.queryFilter(window.petInstance.filters.NewDeposit(
+          window.wallet.address,
+          ethers.utils.parseEther(this.props.match.params.id).toHexString(),
+          null,
+          null,
+          null,
+          null))
+        )
+        .map(log => window.petInstance.interface.parseLog(log))
+        .map(log => {
+          console.log({log});
 
-    // const topics = [
-    //   newDepositSig,
-    //   ethers.utils.hexZeroPad(window.walletInstance.address, 32),
-    //   ethers.utils.hexZeroPad('0x'+Number(this.props.match.params.id).toString(16), 32)
-    // ];
+        });
 
-    // const logs = await window.providerInstance.getLogs({
-    //   address: window.petInstance.address,
-    //   fromBlock: 0,
-    //   toBlock: 'latest',
-    //   topics
-    // });
+      // const newDepositSig = ethers.utils.id('NewDeposit(address,uint256,uint256,uint256,address,bool)');
 
-    // console.log('deposits logs', logs);
+      // const topics = [
+      //   newDepositSig,
+      //   ethers.utils.hexZeroPad(window.wallet.address, 32),
+      //   ethers.utils.hexZeroPad('0x'+Number(this.props.match.params.id).toString(16), 32)
+      // ];
 
-    // logs.forEach(log => {
-    //   const month = Number(window.sliceDataTo32Bytes(log.data,0));
-    //   months[month - 1].push(
-    //     // window.lessDecimals(
-    //       ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1))
-    //     // )
-    //   );
-    // });
+      // const logs = await window.provider.getLogs({
+      //   address: window.petInstance.address,
+      //   fromBlock: 0,
+      //   toBlock: 'latest',
+      //   topics
+      // });
 
-    // this.setState({
-    //   months,
-    //   commitmentAmount: pet.monthlyCommitmentAmount,
-    //   initTimestamp: pet.initTimestamp.toNumber(),
-    //   depositMonth,
-    //   lumSum: months[depositMonth - 1].length === 0
-    // });
+      // console.log('deposits logs', logs);
+
+      // logs.forEach(log => {
+      //   const month = Number(window.sliceDataTo32Bytes(log.data,0));
+      //   months[month - 1].push(
+      //     // hexToNum(
+      //       ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1))
+      //     // )
+      //   );
+      // });
+
+      this.setState({
+        months,
+        commitmentAmount: pet.monthlyCommitmentAmount,
+        initTimestamp: pet.initTimestamp.toNumber(),
+        depositMonth,
+        lumSum: months[depositMonth - 1].length === 0
+      });
+    }
+
+
+
   }
 
   render = () => (
     <Layout
       breadcrumb={['Home', 'PET','View']}
-      // title={`PET ID: ${this.props.match.params.id}`}
+      title={`PET ID: ${this.props.match.params.id}`}
       >
       {this.state.months.length ? <>
         <p style={{padding: '10px'}}>On this page you can see your deposits on your PET.</p>
@@ -80,7 +116,7 @@ class PETId extends Component {
           ? <div style={{backgroundColor: '#ffffed', padding: '1rem', borderRadius: '.25rem', margin: '16px 0'}}>
             <p>PET is all about Systematic Accumulation Plan (SAP) to accumulate ES on a regular basis at different price points of ES. SAP monthly mode is fee free and helps in ES cost averaging. PET Smart Contract gives bounty to stake holders for accumulating ES by influencing their behaviour to follow SAP methodology and gives an opportunity to acquire ES without exposing their ES tokens in trading risk. PET encourages SAP and discourages LumpSum deposits, however from convenience prospective PET provides options in Smart Contract to even choose LumpSum options like Quarterly, Half Yearly and Annual Deposit Frequency Mode with a fee of 1%, 2% and 3% respectively.</p>
             <Button
-            // onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/lum-sum-deposit`)}
+            onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/lum-sum-deposit`)}
             >Make LumpSum Deposit</Button>
           </div>
           : null}
@@ -94,7 +130,7 @@ class PETId extends Component {
             </tr>
           </thead>
           <tbody>
-            {/* {this.state.months.map((depositArray, index) => {
+            {this.state.months.map((depositArray: [], index) => {
               const monthId = index+1;
               let depositAmount = ethers.constants.Zero;
               depositArray.forEach(amount => depositAmount = depositAmount.add(amount));
@@ -120,16 +156,16 @@ class PETId extends Component {
               , showDepositButton = false
               , statusText = '';
               if(depositAmount.gte(this.state.commitmentAmount)) {
-                targetStatus = `Target of ${window.lessDecimals(this.state.commitmentAmount)} ES is Acheived!`;
+                targetStatus = `Target of ${hexToNum(this.state.commitmentAmount)} ES is Acheived!`;
                 backgroundColor = '#90EE90';
               } else if(depositAmount.gte(this.state.commitmentAmount.div(2))) {
-                targetStatus = `Half of ${window.lessDecimals(this.state.commitmentAmount)} ES Target Acheived.`;
+                targetStatus = `Half of ${hexToNum(this.state.commitmentAmount)} ES Target Acheived.`;
                 backgroundColor = '#CBA580';
               } else if(this.state.depositMonth > monthId) {
-                targetStatus = `Target of ${window.lessDecimals(this.state.commitmentAmount)} ES is not achieved.`;
+                targetStatus = `Target of ${hexToNum(this.state.commitmentAmount)} ES is not achieved.`;
                 backgroundColor = '#E19FAF';
               } else {
-                targetStatus = `Target of ${window.lessDecimals(this.state.commitmentAmount)} ES is yet to be achieved.`;
+                targetStatus = `Target of ${hexToNum(this.state.commitmentAmount)} ES is yet to be achieved.`;
                 if(depositAmount.gt(0)) {
                   backgroundColor = '#E19FAF';
                 }
@@ -147,8 +183,8 @@ class PETId extends Component {
               return (
                 <tr style={{backgroundColor: backgroundColor ? backgroundColor + '77' : '#fff'}}>
                   <td>{monthId}</td>
-                  <td>{depositArray.length ? <span style={{fontSize: '1rem'}}>{depositArray.map(amount => window.lessDecimals(amount)+' ES').join(' + ')}{depositArray.length > 1
-                    ? <> = {window.lessDecimals(depositAmount)} ES</>
+                  <td>{depositArray.length ? <span style={{fontSize: '1rem'}}>{depositArray.map(amount => hexToNum(amount)+' ES').join(' + ')}{depositArray.length > 1
+                    ? <> = {hexToNum(depositAmount)} ES</>
                     : null}</span> : null}<br />
                     {targetStatus}
                       {showDepositButton
@@ -159,22 +195,22 @@ class PETId extends Component {
                     </td>
                   <td>{petArray[0]
                     ? <>
-                      <span style={{fontSize: '1rem'}}>{window.lessDecimals(petAmount)} ES</span><br />
-                    {window.lessDecimals(petArray[0] || ethers.constants.Zero)} ES (for acheiving {(() => {
+                      <span style={{fontSize: '1rem'}}>{hexToNum(petAmount)} ES</span><br />
+                    {hexToNum(petArray[0] || ethers.constants.Zero)} ES (for acheiving {(() => {
                       if(depositAmount.gte(this.state.commitmentAmount)) {
                         return <>self commitment</>;
                     } else if(depositAmount.lt(this.state.commitmentAmount) && depositAmount.gte(this.state.commitmentAmount.div(2))) {
                       return <>half of self commitment</>;
                     }
-                    })()} of {window.lessDecimals(this.state.commitmentAmount)} ES){(petArray[1] || ethers.constants.Zero).gt(0)
-                      ? <> and {window.lessDecimals(petArray[1] || ethers.constants.Zero)} ES (for topup of {window.lessDecimals(depositAmount.sub(this.state.commitmentAmount))} ES)</>
+                    })()} of {hexToNum(this.state.commitmentAmount)} ES){(petArray[1] || ethers.constants.Zero).gt(0)
+                      ? <> and {hexToNum(petArray[1] || ethers.constants.Zero)} ES (for topup of {hexToNum(depositAmount.sub(this.state.commitmentAmount))} ES)</>
                       :null}</>
                     : <></>}
                   </td>
                   <td>{statusText}</td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </Table>
 
