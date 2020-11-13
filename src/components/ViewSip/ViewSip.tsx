@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
 import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
@@ -15,14 +15,14 @@ type State = {
   open: boolean;
   newSipEvent: NewSipEvent[],
   getSip: GetSip[],
+  //
   planId: number,
   stakingTimestamp: number,
   monthlyCommitmentAmount: number,
-  totalDeposited: number,
   lastWithdrawlMonthId: number,
   powerBoosterWithdrawls: number,
   numberOfAppointees: number,
-  appointeeVotes: number,
+  //
 };
 
 
@@ -40,11 +40,10 @@ interface GetSip {
   planId: number;
   stakingTimestamp: number;
   monthlyCommitmentAmount: number;
-  totalDeposited: number;
+  totalDeposited: BigNumber ;
   lastWithdrawlMonthId: number;
   powerBoosterWithdrawls: number;
   numberOfAppointees: number;
-  appointeeVotes: number;
 }
 
 export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
@@ -62,11 +61,10 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
       planId: -1,
       stakingTimestamp: 0,
       monthlyCommitmentAmount: 0,
-      totalDeposited: 0,
+     
       lastWithdrawlMonthId: 0,
       powerBoosterWithdrawls: 0,
       numberOfAppointees: 0,
-      appointeeVotes: 0,
     };
   }
 
@@ -107,15 +105,16 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .getSip("0x1031a1C7Cc8edc64Cae561DcEA4285f8ab97e02F", 0);
+        .getSip(this.props.match.params.staker, 0);
       const receipt = tx;
       console.log('receipt viewsip', receipt);
+    
       this.setState({
         planId: receipt.planId,
         powerBoosterWithdrawls:receipt.powerBoosterWithdrawls,
         stakingTimestamp:receipt.stakingTimestamp,
         lastWithdrawlMonthId:receipt.lastWithdrawlMonthId,
-        numberOfAppointees:receipt.numberOfAppointees
+        numberOfAppointees:receipt.numberOfAppointees,
       })
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
@@ -135,7 +134,6 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
   };
 
   render() {
-    console.log("match params****", this.props.match.params)
     return (
       <div>
         <div className="page-header">
@@ -163,7 +161,6 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
             <tr>
               <th>SIP ID</th>
               <th>Time of Staking</th>
-             
               <th>Number Of Appointees</th>
               <th>Monthly Commitment Amount</th>
               <th>Last Withdrawl MonthId</th>
@@ -171,7 +168,7 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
             </tr>
             <tr>
               <td>{this.state.planId}</td>
-              <td>{this.state.stakingTimestamp}</td>
+              <td>{new Date(this.state.stakingTimestamp).toString().split('GMT')[0]}</td>
               <td>{this.state.numberOfAppointees}</td>
                <td>{ethers.utils.formatEther(this.state.monthlyCommitmentAmount)}</td> 
                <td>{this.state.lastWithdrawlMonthId}</td>
