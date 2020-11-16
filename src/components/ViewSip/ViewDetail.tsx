@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
 import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
@@ -14,7 +14,7 @@ type State = {
   spinner: boolean;
   open: boolean;
   newSipEvent: NewSipEvent[],
-  getSip: GetSip[],
+  NewDeposit: NewDeposit[],
   sipId:number,
   staker:string
 };
@@ -30,9 +30,11 @@ interface NewSipEvent {
   monthlyCommitmentAmount: number;
 }
 
-interface GetSip {
- 
- 
+interface NewDeposit {
+  monthId: number |null,
+  depositAmount: number,
+  benefitQueued: number,
+  depositedBy: string
 }
 
 export class ViewDetail extends Component<RouteComponentProps<MatchParams>, State> {
@@ -43,7 +45,7 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     super(props);
   
     this.state = {
-      getSip: [],
+      NewDeposit: [],
       newSipEvent: [],
       spinner: false,
       open: false,
@@ -60,6 +62,8 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     this.fetchNewSip().catch((e) => console.log(e));
     this.getDepositStatus().catch((e) => console.log(e));
     this.sips().catch((e) => console.log(e));
+    this.NewDeposit().catch((e) => console.log(e));
+
     const sipData = this.state.newSipEvent.map((log) => {
       this.setState({
         sipId:log.sipId,
@@ -134,7 +138,31 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     });
   };
 
-
+  async NewDeposit() {
+    const data = await window.tsgapLiquidInstance.queryFilter(
+      window.tsgapLiquidInstance.filters.NewDeposit(
+        null, 
+        null, 
+        null,
+        null, 
+        null, 
+        null)
+    );
+    console.log('fetchsip', data);
+    const NewDeposit = data.map((log) => {
+      return window.tsgapLiquidInstance.interface.parseLog(log);
+    });
+    console.log('NewDeposit22', NewDeposit);
+    const newDeposit = NewDeposit.map((log) => ({
+      benefitQueued:log.args['benefitQueued'],
+      depositAmount:log.args['depositAmount'],
+      depositedBy:log.args['depositedBy'],
+      monthId:log.args['monthId']
+    }));
+    this.setState({
+      NewDeposit:newDeposit
+    })
+  }
 
 
   onOpenModal = () => {
@@ -146,9 +174,7 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
   };
 
   render() {
-  
-      console.log("check sipdata2222",this.state.sipId)
-    console.log("newsipvalue****", this.state.newSipEvent)
+      console.log("check NewDeposit",this.state.NewDeposit)
     return (
       <div>
         <div className="page-header">
@@ -175,13 +201,24 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
           <thead>
             <tr>
               <th>Deposit Month</th>
-              <th>Deposit Amounts</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Deposit Amount</th>
+              <th>Deposit Benefits</th>
+              <th>Beneficiary</th>
             </tr>
-            <tr>
-             <td></td>
-            </tr>
+            
+            {this.state.NewDeposit?.length ? (
+              this.state.NewDeposit.map((event) => (
+                <tr>
+              <td>{event.monthId}</td>
+              <td>{ethers.utils.formatEther(event.depositAmount)}</td>
+              <td>{ethers.utils.formatEther(event.benefitQueued)}</td>
+              <td>{event.depositedBy}</td>
+              </tr>
+             ))
+             ) : (
+                 <div>No Deposit To show</div>
+               )}
+            
           </thead>
         </div>
         <div className="row">
@@ -190,12 +227,15 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
         <p className="view-para">Grace penalty is 1% per graced months on Power Booster. <br/>Default penalty is 2% per defaulted months on Power Booster.</p>
       
       <div  className="view-flex-style">
+
         <div className="details">
           <Button href={"/benefits/"+ this.props.match.params.staker}>Benefit Page</Button>
         </div>
+
         <div className="details">
-          <Button href="">Nominee Page</Button>
+          <Button href={"/nominee/"+ this.props.match.params.staker}>Nominee Page</Button>
         </div>
+
         </div>
         </div>
        </div>
