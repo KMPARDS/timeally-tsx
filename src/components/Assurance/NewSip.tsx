@@ -8,11 +8,7 @@ interface Props {
   navigation: any;
 }
 
-
-
-
 type State = {
-  
   currentScreen: Number;
   spinner: boolean;
   open: boolean;
