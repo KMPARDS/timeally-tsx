@@ -3,8 +3,8 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { BigNumber, ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
-import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
+import { TsgapFactory } from 'eraswap-sdk/dist/typechain/ESN';
+import { Tsgap } from 'eraswap-sdk/dist/typechain/ESN';
 
 interface Props {
   navigation: any;
@@ -13,18 +13,17 @@ interface Props {
 type State = {
   spinner: boolean;
   open: boolean;
-  newSipEvent: NewSipEvent[],
-  getSip: GetSip[],
+  newSipEvent: NewSipEvent[];
+  getSip: GetSip[];
   //
-  planId: number,
-  stakingTimestamp: number,
-  monthlyCommitmentAmount: number,
-  lastWithdrawlMonthId: number,
-  powerBoosterWithdrawls: number,
-  numberOfAppointees: number,
+  planId: number;
+  stakingTimestamp: number;
+  monthlyCommitmentAmount: number;
+  lastWithdrawlMonthId: number;
+  powerBoosterWithdrawls: number;
+  numberOfAppointees: number;
   //
 };
-
 
 interface MatchParams {
   staker: string;
@@ -40,13 +39,13 @@ interface GetSip {
   planId: number;
   stakingTimestamp: number;
   monthlyCommitmentAmount: number;
-  totalDeposited: BigNumber ;
+  totalDeposited: BigNumber;
   lastWithdrawlMonthId: number;
   powerBoosterWithdrawls: number;
   numberOfAppointees: number;
 }
 
-export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
+export class ViewSip extends Component<RouteComponentProps<MatchParams>, State> {
   //@ts-ignore
   tsgapInstance: Tsgap;
 
@@ -61,7 +60,7 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
       planId: -1,
       stakingTimestamp: 0,
       monthlyCommitmentAmount: 0,
-     
+
       lastWithdrawlMonthId: 0,
       powerBoosterWithdrawls: 0,
       numberOfAppointees: 0,
@@ -69,10 +68,7 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
   }
 
   componentDidMount = async () => {
-    this.tsgapInstance = TsgapFactory.connect(
-     this.props.match.params.staker,
-    	window.provider
-    );
+    this.tsgapInstance = TsgapFactory.connect(this.props.match.params.staker, window.provider);
     this.viewSipFetch().catch((e) => console.log(e));
     this.fetchNewSip().catch((e) => console.log(e));
   };
@@ -89,13 +85,12 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
     const newSipData = sipNew.map((log) => ({
       staker: log.args['staker'],
       sipId: log.args['sipId'],
-      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount']
+      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount'],
     }));
     this.setState({
       newSipEvent: newSipData,
-    })
+    });
   }
-
 
   viewSipFetch = async () => {
     await this.setState({ spinner: true });
@@ -108,14 +103,14 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
         .getSip(this.props.match.params.staker, 0);
       const receipt = tx;
       console.log('receipt viewsip', receipt);
-    
+
       this.setState({
         planId: receipt.planId,
-        powerBoosterWithdrawls:receipt.powerBoosterWithdrawls,
-        stakingTimestamp:receipt.stakingTimestamp,
-        lastWithdrawlMonthId:receipt.lastWithdrawlMonthId,
-        numberOfAppointees:receipt.numberOfAppointees,
-      })
+        powerBoosterWithdrawls: receipt.powerBoosterWithdrawls,
+        stakingTimestamp: receipt.stakingTimestamp,
+        lastWithdrawlMonthId: receipt.lastWithdrawlMonthId,
+        numberOfAppointees: receipt.numberOfAppointees,
+      });
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
       console.log(`Error: ${readableError}`);
@@ -170,9 +165,11 @@ export class ViewSip extends Component<RouteComponentProps<MatchParams>,State> {
               <td>{this.state.planId}</td>
               <td>{new Date(this.state.stakingTimestamp).toString().split('GMT')[0]}</td>
               <td>{this.state.numberOfAppointees}</td>
-               <td>{ethers.utils.formatEther(this.state.monthlyCommitmentAmount)}</td> 
-               <td>{this.state.lastWithdrawlMonthId}</td>
-               <td className="view-bgd-color"><Link to ={"/view-detail/" + this.props.match.params.staker }>VIEW</Link></td>
+              <td>{ethers.utils.formatEther(this.state.monthlyCommitmentAmount)}</td>
+              <td>{this.state.lastWithdrawlMonthId}</td>
+              <td className="view-bgd-color">
+                <Link to={'/view-detail/' + this.props.match.params.staker}>VIEW</Link>
+              </td>
             </tr>
           </thead>
         </div>
