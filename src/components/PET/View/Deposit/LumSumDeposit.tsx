@@ -1,9 +1,11 @@
+import { ethers } from 'ethers';
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
+import { RouteComponentProps } from 'react-router-dom';
+import { getOrdinalString, hexToNum, lessDecimals } from '../../../../utils';
 import Layout from '../../../Layout/LayoutPET';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 
-const ethers = require('ethers');
 
 function getFees(frequencyMode: number) {
   switch(frequencyMode) {
@@ -18,10 +20,40 @@ function getFees(frequencyMode: number) {
   }
 }
 
-class LumSumDeposit extends Component {
-  state = {
+type State = {
+  currentScreen: number,
+  userAmount: number,
+  spinner: boolean,
+  waiting: boolean,
+  approveTxHash: string,
+  txHash: string,
+  open: boolean,
+  errorMessage: string,
+  showApproveTransactionModal: boolean,
+  showStakeTransactionModal: boolean,
+  approveSuccess: boolean,
+  approveAlreadyDone: boolean,
+  userLiquidEsBalance: ethers.BigNumber,
+  userPrepaidESBalance: ethers.BigNumber,
+  isLiquidAvailable: boolean,
+  isPrepaidAvailable: boolean,
+  insufficientBalance: boolean,
+  insufficientBalanceText: string,
+  usePrepaidES: boolean,
+  monthlyCommitmentAmount: ethers.BigNumber,
+  currentTime: number,
+  frequencyMode: number,
+  monthId: number
+}
+
+interface RouteParams { id: string };
+
+type Props = {};
+
+class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, State> {
+  state: State = {
     currentScreen: 0,
-    userAmount: undefined,
+    userAmount: 0,
     spinner: true,
     waiting: false,
     approveTxHash: '',
@@ -32,107 +64,109 @@ class LumSumDeposit extends Component {
     showStakeTransactionModal: false,
     approveSuccess: false,
     approveAlreadyDone: false,
-    userLiquidEsBalance: undefined,
-    userPrepaidESBalance: undefined,
+    userLiquidEsBalance: ethers.constants.Zero,
+    userPrepaidESBalance: ethers.constants.Zero,
     isLiquidAvailable: false,
     isPrepaidAvailable: false,
     insufficientBalance: false,
     insufficientBalanceText: '',
     usePrepaidES: false,
-    monthlyCommitmentAmount: undefined,
+    monthlyCommitmentAmount: ethers.constants.Zero,
     currentTime: Math.floor(Date.now()/1000),
-    frequencyMode: null
+    frequencyMode: 0,
+    monthId: 0
   }
 
   componentDidMount= async() => {
-    // await this.setState({ currentTime: process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()) });
-    // this.state.currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou());
+    // await this.setState({ currentTime: process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.prepaidEsInstance.functions.mou()) });
+    this.state.currentTime = /* process.env.network === 'homestead' ? */Math.floor(Date.now() / 1000)/* : (await window.prepaidEsInstance.functions.mou());*/
 
-    // if(window.wallet) {
-    //   const userLiquidEsBalancePromise = window.esInstance.functions.balanceOf(window.wallet.address);
-    //   const userPrepaidESBalancePromise = window.petInstance.functions.prepaidES(window.wallet.address);
-    //   const petPromise = window.petInstance.functions.pets(window.wallet.address, this.props.match.params.id);
-    //   await Promise.all([userLiquidEsBalancePromise, userPrepaidESBalancePromise, petPromise]);
-    //   this.setState({
-    //     userLiquidEsBalance: await userLiquidEsBalancePromise,
-    //     userPrepaidESBalance: await userPrepaidESBalancePromise,
-    //     // monthId: Math.floor((this.state.currentTime - (await petPromise).initTimestamp)/2629744)+1,
-    //     monthlyCommitmentAmount: (await petPromise).monthlyCommitmentAmount,
-    //     spinner: false
-    //   });
-    //   this.onAmountUpdate({target:{value:this.state.userAmount}});
-    // }
+    if(window.wallet) {
+      const userLiquidEsBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
+      const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
+      const petPromise = window.petInstance.functions.pets(window.wallet.address, this.props.match.params.id);
+      await Promise.all([userLiquidEsBalancePromise, userPrepaidESBalancePromise, petPromise]);
+      this.setState({
+        userLiquidEsBalance: await userLiquidEsBalancePromise,
+        userPrepaidESBalance: await userPrepaidESBalancePromise,
+        monthId: Math.floor((this.state.currentTime - hexToNum((await petPromise).initTimestamp))/2629744)+1,
+        monthlyCommitmentAmount: (await petPromise).monthlyCommitmentAmount,
+        spinner: false
+      });
+      this.onAmountUpdate({target:{value:this.state.userAmount}});
+    }
   }
 
-  // onAmountUpdate = async event => {
-  //   console.log('onAmountUpdate');
-  //   try {
-  //     if(this.state.userLiquidEsBalance && this.state.userPrepaidESBalance) {
-  //       console.log('1');
-  //       const isLiquidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userLiquidEsBalance);
-  //       const isPrepaidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userPrepaidESBalance);
-  //       const isDepositAtleastMinimum = ethers.utils.parseEther(event.target.value || '0').gte(this.state.monthlyCommitmentAmount.mul(this.state.frequencyMode || 1));
-  //       console.log('isLiquidAvailable', isLiquidAvailable, 'isPrepaidAvailable', isPrepaidAvailable);
-  //       console.log('2');
-  //       let insufficientBalance = false;
-  //       let insufficientBalanceText = '';
-  //       if(+event.target.value) {
-  //         if(isDepositAtleastMinimum) {
-  //           if(isLiquidAvailable && isPrepaidAvailable) {
-  //             insufficientBalanceText = `You can use either your liquid tokens (${window.lessDecimals(this.state.userLiquidEsBalance)} ES) or your TimeAllyPET prepaidES tokens (${window.lessDecimals(this.state.userPrepaidESBalance)} ES) for this PET.`;
-  //           } else if(isLiquidAvailable && !isPrepaidAvailable) {
-  //             insufficientBalanceText = this.state.userPrepaidESBalance.gt(0) ? `You can use your liquid ES tokens (${window.lessDecimals(this.state.userLiquidEsBalance)} ES) for this PET as there aren't enough tokens in your TimeAllyPET prepaidES.` : '' ;
-  //           } else if(!isLiquidAvailable && isPrepaidAvailable) {
-  //             insufficientBalanceText = `You can use your TimeAllyPET prepaidES tokens (${window.lessDecimals(this.state.userPrepaidESBalance)} ES) for this PET.`
-  //           } else {
-  //             insufficientBalance = true;
-  //             insufficientBalanceText = `Insufficient ES balance. You only have ${window.lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens${this.state.userPrepaidESBalance.gt(0) ? ` and ${window.lessDecimals(this.state.userPrepaidESBalance)} TimeAllyPET prepaidES tokens.` : '.'}`;
-  //           }
-  //         } else {
-  //           console.log('3');
-  //           insufficientBalance = true;
-  //           insufficientBalanceText = `Your commitment is ${window.lessDecimals(this.state.monthlyCommitmentAmount)} ES`+(this.state.frequencyMode?`, hence your amount should be ${window.lessDecimals(this.state.monthlyCommitmentAmount.mul(this.state.frequencyMode || 1))} ES.`:'');
-  //         }
-  //       }
+  onAmountUpdate = async (event: any) => {
+    console.log('onAmountUpdate');
+    try {
+      if(this.state.userLiquidEsBalance && this.state.userPrepaidESBalance) {
+        console.log('1');
+        const isLiquidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userLiquidEsBalance);
+        const isPrepaidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userPrepaidESBalance);
+        const isDepositAtleastMinimum = ethers.utils.parseEther(event.target.value || '0').gte(this.state.monthlyCommitmentAmount.mul(this.state.frequencyMode || 1));
+        console.log('isLiquidAvailable', isLiquidAvailable, 'isPrepaidAvailable', isPrepaidAvailable);
+        console.log('2');
+        let insufficientBalance = false;
+        let insufficientBalanceText = '';
+        if(+event.target.value) {
+          if(isDepositAtleastMinimum) {
+            if(isLiquidAvailable && isPrepaidAvailable) {
+              insufficientBalanceText = `You can use either your liquid tokens (${lessDecimals(this.state.userLiquidEsBalance)} ES) or your TimeAllyPET prepaidES tokens (${lessDecimals(this.state.userPrepaidESBalance)} ES) for this PET.`;
+            } else if(isLiquidAvailable && !isPrepaidAvailable) {
+              insufficientBalanceText = this.state.userPrepaidESBalance.gt(0) ? `You can use your liquid ES tokens (${lessDecimals(this.state.userLiquidEsBalance)} ES) for this PET as there aren't enough tokens in your TimeAllyPET prepaidES.` : '' ;
+            } else if(!isLiquidAvailable && isPrepaidAvailable) {
+              insufficientBalanceText = `You can use your TimeAllyPET prepaidES tokens (${lessDecimals(this.state.userPrepaidESBalance)} ES) for this PET.`
+            } else {
+              insufficientBalance = true;
+              insufficientBalanceText = `Insufficient ES balance. You only have ${lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens${this.state.userPrepaidESBalance.gt(0) ? ` and ${lessDecimals(this.state.userPrepaidESBalance)} TimeAllyPET prepaidES tokens.` : '.'}`;
+            }
+          } else {
+            console.log('3');
+            insufficientBalance = true;
+            insufficientBalanceText = `Your commitment is ${lessDecimals(this.state.monthlyCommitmentAmount)} ES`+(this.state.frequencyMode?`, hence your amount should be ${lessDecimals(this.state.monthlyCommitmentAmount.mul(this.state.frequencyMode || 1))} ES.`:'');
+          }
+        }
 
-  //       await this.setState({
-  //         userAmount: event.target.value,
-  //         isLiquidAvailable,
-  //         isPrepaidAvailable,
-  //         insufficientBalance,
-  //         insufficientBalanceText,
-  //       });
-  //     } else {
-  //       await this.setState({ userAmount: event.target.value });
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     this.setState({ insufficientBalance: true, insufficientBalanceText: error.message })
-  //   }
-  //   // console.log('this.state.userLiquidEsBalance', this.state.userLiquidEsBalance, this.state.insufficientBalance);
-  // }
+        await this.setState({
+          userAmount: event.target.value,
+          isLiquidAvailable,
+          isPrepaidAvailable,
+          insufficientBalance,
+          insufficientBalanceText,
+        });
+      } else {
+        await this.setState({ userAmount: event.target.value });
+      }
+    } catch (error) {
+      console.log(error.message);
+      this.setState({ insufficientBalance: true, insufficientBalanceText: error.message })
+    }
+    // console.log('this.state.userLiquidEsBalance', this.state.userLiquidEsBalance, this.state.insufficientBalance);
+  }
 
-  // onFirstSubmit = async event => {
-  //   event.preventDefault();
+  onFirstSubmit = async (event: any) => {
+    event.preventDefault();
+    if(window.wallet){
+      await this.setState({ spinner: true });
+      const allowance = (await window.prepaidEsInstance.allowance(
+        window.wallet?.address,
+        window.petInstance.address
+      ));
 
-  //   await this.setState({ spinner: true });
-  //   const allowance = await window.esInstance.functions.allowance(
-  //     window.wallet.address,
-  //     window.petInstance.address
-  //   );
+      // console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount).add(ethers.utils.parseEther(getFees(this.state.frequencyMode)))));
 
-  //   // console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount).add(ethers.utils.parseEther(getFees(this.state.frequencyMode)))));
-
-  //   if(allowance.gte(ethers.utils.parseEther(this.state.userAmount))) {
-  //     this.setState({
-  //       spinner: false,
-  //       currentScreen: 1,
-  //       approveAlreadyDone: true
-  //     });
-  //   } else {
-  //     this.setState({ spinner: false, currentScreen: 1, approveAlreadyDone: false });
-  //   }
-  // }
+      if(allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))) {
+        this.setState({
+          spinner: false,
+          currentScreen: 1,
+          approveAlreadyDone: true
+        });
+      } else {
+        this.setState({ spinner: false, currentScreen: 1, approveAlreadyDone: false });
+      }
+    }
+  }
 
   render() {
     let screen;
@@ -142,10 +176,10 @@ class LumSumDeposit extends Component {
     );
 
     const headingText = `Lump Sum Deposit`;
-    const feesBN = ethers.utils.parseEther(this.state.userAmount?this.state.userAmount:'0').mul(getFees(/*this.state.frequencyMode*/0)||'1').div(100);
+    const feesBN = ethers.utils.parseEther(this.state.userAmount.toString()).mul(getFees(this.state.frequencyMode)||'1').div(100);
     const fees = ethers.utils.formatEther(feesBN);
 
-    const userAmountWithFees = ethers.utils.formatEther(ethers.utils.parseEther(this.state.userAmount?this.state.userAmount:'0').add(feesBN));
+    const userAmountWithFees = ethers.utils.formatEther(ethers.utils.parseEther(this.state.userAmount.toString()).add(feesBN));
 
     if(this.state.currentScreen === 0) {
       screen = (
@@ -153,15 +187,15 @@ class LumSumDeposit extends Component {
         <Card>
 
           <Form className="custom-width"
-            // onSubmit={this.onFirstSubmit}
+            onSubmit={this.onFirstSubmit}
              style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '.25rem', padding:'20px 40px', margin: '15px auto'}}>
             <h3 style={{marginBottom: '15px'}}>{headingText} - Step 1 of 4</h3>
 
             <Form.Group controlId="exampleForm.ControlSelect1">
               <Form.Control className="width-100" as="select" onChange={async event => {
-                // await this.setState({ frequencyMode: +event.target.value });
-                // this.state.frequencyMode = +event.target.value;
-                // this.onAmountUpdate({target: {value: this.state.userAmount}});
+                await this.setState({ frequencyMode: +event.target.value });
+                this.state.frequencyMode = +event.target.value;
+                this.onAmountUpdate({target: {value: this.state.userAmount}});
               }}>
                 <option disabled selected={this.state.frequencyMode === null}>Select SAP Frequency Mode</option>
                 {[[3, getFees(3)], [6, getFees(6)], [12, getFees(12)]].map(entry => (
@@ -177,7 +211,7 @@ class LumSumDeposit extends Component {
               <Form.Control
                 className="stakingInput"
                 autoFocus
-                // onChange={this.onAmountUpdate}
+                onChange={this.onAmountUpdate}
                 type="text"
                 autoComplete="off"
                 placeholder="Enter total deposit amount"
@@ -205,16 +239,16 @@ class LumSumDeposit extends Component {
         </>
       );
     } else if(this.state.currentScreen === 1) {
-      let displayText = '';
-      // if(this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
-      //   displayText = <p>This dApp just noticed that you have <strong>{window.lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens</strong> as well as <strong>{window.lessDecimals(this.state.userPrepaidESBalance)} TimeAllyPET prepaidES</strong>. Please choose which you want to use to deposit the <strong>{this.state.monthId ? window.getOrdinalString(this.state.monthId) : 'Loading...'} monthly installment of {this.state.userAmount} ES</strong> of your PET with initial monthly commitment of  ES.</p>;
-      // } else if(this.state.isLiquidAvailable && !this.state.isPrepaidAvailable) {
-      //   displayText = <p>You have enough tokens (<strong>{window.lessDecimals(this.state.userLiquidEsBalance)} ES</strong>) in your wallet for PET. Go to Step 3 for doing approval procedure of <strong>{this.state.userAmount} ES + {fees} ES = {userAmountWithFees} ES</strong> to TimeAllyPET Smart Contract.</p>;
-      // } else if(!this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
-      //   displayText = <p>You have enough tokens in your TimeAllyPET prepaidES to make a deposit of <strong>{this.state.userAmount} ES</strong> in your PET with initial monthly commitment of  ES.</p>;
-      // } else {
-      //   displayText = <p>Seems that you don't have enough ES tokens for making deposit of <strong>{this.state.userAmount} ES</strong> for {this.state.monthId ? window.getOrdinalString(this.state.monthId) : 'Loading...'} Month. Your liquid balance is <strong>{window.lessDecimals(this.state.userLiquidEsBalance)} ES</strong>{this.state.userPrepaidESBalance.gt(0) ? <> and prepaidES balance is <strong>{window.lessDecimals(this.state.userPrepaidESBalance)} ES</strong></> : null}. Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens. ES tokens are also trading on Probit Exchange, where you can exchange your other crypto assets with the exchange community for ES.</p>;
-      // }
+      let displayText: any = '';
+      if(this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
+        displayText = <p>This dApp just noticed that you have <strong>{lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens</strong> as well as <strong>{lessDecimals(this.state.userPrepaidESBalance)} TimeAllyPET prepaidES</strong>. Please choose which you want to use to deposit the <strong>{this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} monthly installment of {this.state.userAmount} ES</strong> of your PET with initial monthly commitment of  ES.</p>;
+      } else if(this.state.isLiquidAvailable && !this.state.isPrepaidAvailable) {
+        displayText = <p>You have enough tokens (<strong>{lessDecimals(this.state.userLiquidEsBalance)} ES</strong>) in your wallet for PET. Go to Step 3 for doing approval procedure of <strong>{this.state.userAmount} ES + {fees} ES = {userAmountWithFees} ES</strong> to TimeAllyPET Smart Contract.</p>;
+      } else if(!this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
+        displayText = <p>You have enough tokens in your TimeAllyPET prepaidES to make a deposit of <strong>{this.state.userAmount} ES</strong> in your PET with initial monthly commitment of  ES.</p>;
+      } else {
+        displayText = <p>Seems that you don't have enough ES tokens for making deposit of <strong>{this.state.userAmount} ES</strong> for {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} Month. Your liquid balance is <strong>{lessDecimals(this.state.userLiquidEsBalance)} ES</strong>{this.state.userPrepaidESBalance.gt(0) ? <> and prepaidES balance is <strong>{lessDecimals(this.state.userPrepaidESBalance)} ES</strong></> : null}. Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens. ES tokens are also trading on Probit Exchange, where you can exchange your other crypto assets with the exchange community for ES.</p>;
+      }
 
       screen = (
         <Card>
@@ -230,8 +264,8 @@ class LumSumDeposit extends Component {
                 currentScreen: 2
               })}
             >
-              From Liquid: 0
-              {/* {window.lessDecimals(this.state.userLiquidEsBalance)} */}
+              From Liquid:
+              {lessDecimals(this.state.userLiquidEsBalance)}
             </Button>
             <Button
               variant="warning"
@@ -242,8 +276,8 @@ class LumSumDeposit extends Component {
                 currentScreen: 3
               })}
             >
-              From PrepaidES: 0
-              {/* {window.lessDecimals(this.state.userPrepaidESBalance)} */}
+              From PrepaidES:
+              {lessDecimals(this.state.userPrepaidESBalance)}
             </Button>
           </div>
         </Card>
@@ -338,9 +372,9 @@ class LumSumDeposit extends Component {
         <>
           <Card>
             <div className="custom-width" style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '.25rem', padding:'20px 40px', margin: '15px auto'}}>
-              {/* <h3 style={{marginBottom: '15px'}}>{this.state.monthId ? window.getOrdinalString(this.state.monthId) : ''} Lump Sum Deposit confirmed!</h3> */}
+              {/* <h3 style={{marginBottom: '15px'}}>{this.state.monthId ? getOrdinalString(this.state.monthId) : ''} Lump Sum Deposit confirmed!</h3> */}
               <Alert variant="success">Your lump sum deposit transaction is confirmed. You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a></Alert>
-              {/* <Button onClick={() => this.props.history.push('/pet/view/'+this.props.match.params.id)}>Go to PET Deposits Page</Button> */}
+              <Button onClick={() => this.props.history.push('/pet/view/'+this.props.match.params.id)}>Go to PET Deposits Page</Button>
             </div>
           </Card>
 
@@ -351,7 +385,7 @@ class LumSumDeposit extends Component {
     return (
       <Layout
         breadcrumb={['Home', ...(() => {
-          const x:any =[]// this.props.location.pathname.split('/');
+          const x:any =this.props.location.pathname.split('/');
           x.shift();
           return x;
         })()]}
@@ -362,9 +396,9 @@ class LumSumDeposit extends Component {
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            // transactor: window.esInstance.functions.approve,
-            // estimator: window.esInstance.estimate.approve,
-            // contract: window.esInstance,
+            transactor: window.prepaidEsInstance.functions.approve,
+            estimator: window.prepaidEsInstance.estimateGas.approve,
+            contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [window.petInstance.address, ethers.utils.parseEther(userAmountWithFees)],
             ESAmount: userAmountWithFees,
@@ -385,13 +419,13 @@ class LumSumDeposit extends Component {
             hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
             ethereum={{
               transactor: window.petInstance.functions.makeFrequencyModeDeposit,
-              estimator: window.petInstance.estimate.makeFrequencyModeDeposit,
+              estimator: window.petInstance.estimateGas.makeFrequencyModeDeposit,
               contract: window.petInstance,
               contractName: 'TimeAllyPET',
               arguments: [
                 window.wallet?.address,
-                // this.props.match.params.id,
-                ethers.utils.parseEther(this.state.userAmount?this.state.userAmount:'0'),
+                this.props.match.params.id,
+                ethers.utils.parseEther(this.state.userAmount.toString()),
                 this.state.frequencyMode,
                 this.state.usePrepaidES
               ],

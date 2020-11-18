@@ -65,7 +65,7 @@ class TransactionModal extends Component {
     this.setState({
       estimating: true,
       estimationError: '',
-      userAddress: this.props.wallet.address.toLowerCase(),
+      userAddress: window.wallet.address.toLowerCase(),
       contractAddress: this.props.ethereum.contract.address
     });
 
@@ -143,8 +143,8 @@ class TransactionModal extends Component {
 
   render() {
     let screenContent;
-    // console.log('this.props.wallet._ethersType !== \'Signer\'', this.props.wallet._ethersType !== 'Signer');
-    if(Object.entries(this.props.wallet).length === 0) {
+    // console.log('window.wallet._ethersType !== \'Signer\'', window.wallet._ethersType !== 'Signer');
+    if(Object.entries(window.wallet).length === 0) {
       screenContent = (
         <Modal.Body style={{textAlign: 'center'}}>
           <h5>You need to load your wallet to place your staking.</h5>
@@ -154,8 +154,8 @@ class TransactionModal extends Component {
           <Button onClick={() => this.props.history.push('/create-wallet')}>Create wallet</Button>
         </Modal.Body>
       );
-    // } else if(this.props.wallet._ethersType !== 'Signer') {
-    } else if(!this.props.wallet._isSigner) {
+    // } else if(window.wallet._ethersType !== 'Signer') {
+    } else if(!window.wallet._isSigner) {
 
       screenContent = (
         <Modal.Body style={{textAlign: 'center'}}>

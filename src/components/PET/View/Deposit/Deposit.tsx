@@ -37,7 +37,7 @@ type State = {
 class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state: State = {
     currentScreen: 0,
-    userAmount: -1,
+    userAmount: 0,
     spinner: true,
     waiting: false,
     approveTxHash: '',
@@ -61,12 +61,12 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
   }
 
   componentDidMount= async() => {
-    // // await this.setState({ currentTime: process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()) });
-    // this.state.currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou());
+    // // await this.setState({ currentTime: process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.prepaidEsInstance.functions.mou()) });
+    // this.state.currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.prepaidEsInstance.functions.mou());
 
     if(window.wallet) {
       const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
-      const userPrepaidESBalancePromise = window.petInstance.prepaidES(window.wallet.address);
+      const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
       const petPromise = window.petInstance.functions.pets(window.wallet.address, this.props.match.params.id);
       await Promise.all([userLiquidEsBalancePromise, userPrepaidESBalancePromise, petPromise]);
       this.setState({
@@ -85,9 +85,15 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     try {
       if(this.state.userLiquidEsBalance && this.state.userPrepaidESBalance) {
         console.log('1');
+        console.log('this.state.userLiquidEsBalance',this.state.userLiquidEsBalance,event.target.value);
+
         const isLiquidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userLiquidEsBalance);
-        const isPrepaidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userPrepaidESBalance);
-        const isDepositAtleastMinimum = ethers.utils.parseEther(event.target.value || '0').gte(this.state.monthlyCommitmentAmount);
+        console.log('this.state.userPrepaidESBalance',this.state.userPrepaidESBalance);
+
+        const isPrepaidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userPrepaidESBalance.toHexString());
+        console.log('this.state.monthlyCommitmentAmount',this.state.monthlyCommitmentAmount);
+
+        const isDepositAtleastMinimum = ethers.utils.parseEther(event.target.value || '0').gte(this.state.monthlyCommitmentAmount.toHexString());
         console.log('isLiquidAvailable', isLiquidAvailable, 'isPrepaidAvailable', isPrepaidAvailable);
         console.log('2');
         let insufficientBalance = false;
@@ -141,7 +147,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       });
     }
 
-    // const allowance = await window.esInstance.functions.allowance(
+    // const allowance = await window.prepaidEsInstance.functions.allowance(
     //   window.wallet.address,
     //   window.petInstance.address
     // );
@@ -235,8 +241,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 currentScreen: 2
               })}
             >
-              From Liquid: 0
-              {/* {hexToNum(this.state.userLiquidEsBalance)} */}
+              From Liquid: {hexToNum(this.state.userLiquidEsBalance)}
             </Button>
             <Button
               variant="warning"
@@ -247,8 +252,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 currentScreen: 3
               })}
             >
-              From PrepaidES: 0
-              {/* {hexToNum(this.state.userPrepaidESBalance)} */}
+              From PrepaidES: {hexToNum(this.state.userPrepaidESBalance)}
             </Button>
           </div>
         </Card>
@@ -360,20 +364,20 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     return (
       <Layout
         breadcrumb={['Home', ...(() => {
-          const x: any[] =[];// this.props.location.pathname.split('/');
+          const x: any[] =this.props.location.pathname.split('/');
           x.shift();
           return x;
         })()]}
-        title={`Make Deposit to PET${this.state.monthId ? ' of '+/*window.getOrdinalString(this.state.monthId)*/+' Month' : ''}`}
+        title={`Make Deposit to PET${this.state.monthId ? ' of '+getOrdinalString(this.state.monthId)+' Month' : ''}`}
       >
         {screen}
         <TransactionModal
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            // transactor: window.esInstance.functions.approve,
-            // estimator: window.esInstance.estimate.approve,
-            // contract: window.esInstance,
+            transactor: window.prepaidEsInstance.functions.approve,
+            estimator: window.prepaidEsInstance.estimateGas.approve,
+            contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [window.petInstance.address,this.state.userAmount ? ethers.utils.parseEther(this.state.userAmount.toString()).toHexString() : ethers.constants.Zero.toHexString()],
             ESAmount: this.state.userAmount,
@@ -404,7 +408,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 this.state.usePrepaidES
               ],
               ESAmount: this.state.userAmount,
-              // headingName: window.getOrdinalString(this.state.monthId)+' Monthly Deposit',
+              headingName: getOrdinalString(this.state.monthId)+' Monthly Deposit',
               functionName: 'makeDeposit',
               // stakingPlan: this.state.plan,
               directGasScreen: true,
