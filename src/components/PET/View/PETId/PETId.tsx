@@ -6,7 +6,7 @@ import Layout from '../../../Layout/LayoutPET';
 // import DepositElement from './DepositElement';
 import '../../PET.css';
 import { ethers } from 'ethers';
-import { hexToNum } from '../../../../utils';
+import { hexToNum, sliceDataTo32Bytes } from '../../../../utils';
 
 interface RouteParams { id: string };
 type Props = {}
@@ -52,19 +52,45 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         months.push([]);
       }
 
-      const data = (await window.petInstance.queryFilter(window.petInstance.filters.NewDeposit(
-          window.wallet.address,
-          ethers.utils.parseEther(this.props.match.params.id).toHexString(),
-          null,
-          null,
-          null,
-          null))
-        )
-        .map(log => window.petInstance.interface.parseLog(log))
-        .map(log => {
-          console.log({log});
+      // const data = (await window.petInstance.queryFilter(window.petInstance.filters.NewDeposit(
+      //     window.wallet.address,
+      //     ethers.utils.parseEther(this.props.match.params.id).toHexString(),
+      //     null,
+      //     null,
+      //     null,
+      //     null))
+      //   )
+      //   .map(log => window.petInstance.interface.parseLog(log))
+      //   .map(log => {
+      //     console.log({log});
 
-        });
+      //   });
+
+      const newDepositSig = ethers.utils.id('NewDeposit(address,uint256,uint256,uint256,address,bool)');
+
+      const topics = [
+        newDepositSig,
+        ethers.utils.hexZeroPad(window.wallet.address, 32),
+        ethers.utils.hexZeroPad('0x'+Number(this.props.match.params.id).toString(16), 32)
+      ];
+
+      const logs = await window.provider.getLogs({
+        address: window.petInstance.address,
+        fromBlock: 0,
+        toBlock: 'latest',
+        topics
+      });
+
+      console.log('deposits logs', logs);
+
+      logs.forEach(log => {
+        const month = Number(sliceDataTo32Bytes(log.data,0));
+        months[month - 1].push(
+          // window.lessDecimals(
+            ethers.BigNumber.from(sliceDataTo32Bytes(log.data,1))
+          // )
+        );
+      });
 
       this.setState({
         months,
@@ -74,9 +100,6 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         lumSum: months[depositMonth - 1].length === 0
       });
     }
-
-
-
   }
 
   render = () => (
