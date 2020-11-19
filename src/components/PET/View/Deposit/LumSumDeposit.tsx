@@ -15,8 +15,8 @@ function getFees(frequencyMode: number) {
       return 2;
     case 12:
       return 3;
-    default:
-      return null;
+    // default:
+    //   return null;
   }
 }
 
@@ -73,7 +73,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
     usePrepaidES: false,
     monthlyCommitmentAmount: ethers.constants.Zero,
     currentTime: Math.floor(Date.now()/1000),
-    frequencyMode: 0,
+    frequencyMode: 3,
     monthId: 0
   }
 
@@ -82,7 +82,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
     this.state.currentTime = /* process.env.network === 'homestead' ? */Math.floor(Date.now() / 1000)/* : (await window.prepaidEsInstance.functions.mou());*/
 
     if(window.wallet) {
-      const userLiquidEsBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
+      const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
       const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
       const petPromise = window.petInstance.functions.pets(window.wallet.address, this.props.match.params.id);
       await Promise.all([userLiquidEsBalancePromise, userPrepaidESBalancePromise, petPromise]);
@@ -100,6 +100,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
   onAmountUpdate = async (event: any) => {
     console.log('onAmountUpdate');
     try {
+      if(!event.target.value?.length) event.target.value = '0';
       if(this.state.userLiquidEsBalance && this.state.userPrepaidESBalance) {
         console.log('1');
         const isLiquidAvailable = ethers.utils.parseEther(event.target.value || '0').lte(this.state.userLiquidEsBalance);
@@ -176,7 +177,9 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
     );
 
     const headingText = `Lump Sum Deposit`;
-    const feesBN = ethers.utils.parseEther(this.state.userAmount.toString()).mul(getFees(this.state.frequencyMode)||'1').div(100);
+
+    const feesBN = ethers.utils.parseEther(this.state.userAmount.toString()).mul(getFees(this.state.frequencyMode) as ethers.BigNumberish).div(100);
+
     const fees = ethers.utils.formatEther(feesBN);
 
     const userAmountWithFees = ethers.utils.formatEther(ethers.utils.parseEther(this.state.userAmount.toString()).add(feesBN));
@@ -198,11 +201,16 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
                 this.onAmountUpdate({target: {value: this.state.userAmount}});
               }}>
                 <option disabled selected={this.state.frequencyMode === null}>Select SAP Frequency Mode</option>
-                {[[3, getFees(3)], [6, getFees(6)], [12, getFees(12)]].map(entry => (
-                  <option key={'lumsumplan-'+entry[0]}
-                  // value={entry[0]} selected={this.state.frequencyMode === 0}
-                  >{entry[0]} Months =&gt; {entry[1]}% Convenience Fee</option>
-                ))}
+                {[[3, getFees(3)], [6, getFees(6)], [12, getFees(12)]]
+                  .filter(entry => entry)
+                  .map(entry => {
+                    if(entry && entry[0])
+                      return (
+                        <option key={'lumsumplan-'+entry[0]}
+                        value={entry[0]} selected={this.state.frequencyMode === 0}
+                        >{entry[0]} Months =&gt; {entry[1]}% Convenience Fee</option>
+                      )
+                })}
 
               </Form.Control>
             </Form.Group>
@@ -222,7 +230,16 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             </Form.Group>
 
 
-            <Button variant="primary" id="firstSubmit" type="submit" disabled={!this.state.userAmount || !this.state.frequencyMode || this.state.spinner || this.state.insufficientBalance}>
+            <Button
+              variant="primary"
+              id="firstSubmit"
+              type="submit"
+              disabled={
+                !this.state.userAmount
+                || !this.state.frequencyMode
+                || this.state.spinner
+                || this.state.insufficientBalance}
+              >
               {this.state.spinner ?
               <Spinner
                 as="span"
@@ -360,7 +377,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
               {this.state.waiting ? 'Waiting for confirmation' : ( this.state.spinner ? 'Sending transaction' : 'Confirm Lump Sum Deposit')}
             </Button>
             { this.state.txHash
-              ? <p>You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a>.</p>
+              ? <p>You can view your transaction on <a style={{color: 'black'}} href={`https://eraswap.info/txn/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">Eraswap.info</a>.</p>
               : null
             }
           </div>
@@ -372,8 +389,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
         <>
           <Card>
             <div className="custom-width" style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '.25rem', padding:'20px 40px', margin: '15px auto'}}>
-              {/* <h3 style={{marginBottom: '15px'}}>{this.state.monthId ? getOrdinalString(this.state.monthId) : ''} Lump Sum Deposit confirmed!</h3> */}
-              <Alert variant="success">Your lump sum deposit transaction is confirmed. You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a></Alert>
+              {/* <h3 style={{marginBottom: '15px'}}>{this.state.mo                                 nthId ? getOrdinalString(this.state.monthId) : ''} Lump Sum Deposit confirmed!</h3> */}
+              <Alert variant="success">Your lump sum deposit transaction is confirmed. You can view your transaction on <a style={{color: 'black'}} href={`https://eraswap.info/txn/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">Eraswap.info</a></Alert>
               <Button onClick={() => this.props.history.push('/pet/view/'+this.props.match.params.id)}>Go to PET Deposits Page</Button>
             </div>
           </Card>
@@ -396,7 +413,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            transactor: window.prepaidEsInstance.functions.approve,
+            //@ts-ignore
+            transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider)).approve,
             estimator: window.prepaidEsInstance.estimateGas.approve,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
@@ -418,7 +436,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             show={this.state.showStakeTransactionModal}
             hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.petInstance.functions.makeFrequencyModeDeposit,
+              //@ts-ignore
+              transactor: window.petInstance.connect(window.wallet?.connect(window.provider)).makeFrequencyModeDeposit,
               estimator: window.petInstance.estimateGas.makeFrequencyModeDeposit,
               contract: window.petInstance,
               contractName: 'TimeAllyPET',
