@@ -8,11 +8,7 @@ interface Props {
   navigation: any;
 }
 
-
-
-
 type State = {
-  
   currentScreen: Number;
   spinner: boolean;
   open: boolean;
@@ -234,6 +230,7 @@ export class NewSip extends Component<Props, State> {
               <h3 style={{ marginBottom: '15px' }}>New Assurance SIP</h3>
 
               <Form.Group controlId="sipAmount">
+                <p>Enter commitment amount for SIP</p>
                 <Form.Control
                   className="stakingInput"
                   onChange={(event) => this.setState({ userAmount: Number(event.target.value) })}
@@ -244,6 +241,7 @@ export class NewSip extends Component<Props, State> {
                   style={{ width: '325px' }}
                   // isInvalid={this.state.insufficientBalance}
                 />
+                {/* <p className="text-danger">*Amount should be greater than 500 ES</p> */}
 
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Control

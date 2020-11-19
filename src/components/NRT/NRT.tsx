@@ -136,10 +136,31 @@ export class NRT extends Component<{}, State> {
     });
   };
 
+  releaseNrt = async () => {
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet not loaded');
+      }
+      const tx = await window.nrtManagerInstance.connect(window.wallet).releaseMonthlyNRT();
+      alert(`Tx sent! Hash: ${tx.hash}`);
+    } catch (error) {
+      alert(parseEthersJsError(error));
+    }
+  };
+
   render() {
     return (
       <Layout title="NRT Manager">
-        <p>This screen is used to add tokens to Burn pool or Luck Pool of NRT contract.</p>
+        <Card>
+          <Card.Body>
+            <p>
+              Monthly NRT is released according to white paper. Please read that particular section
+              in Whitepaper for getting a understanding of NRT Tokenomics.
+            </p>
+            <Button onClick={this.releaseNrt}>Release Monthly NRT</Button>
+          </Card.Body>
+        </Card>
+        <p>Below section is used to add tokens to Burn pool or Luck Pool of NRT contract.</p>
         <Card>
           <Card.Body>
             <p>

@@ -18,7 +18,8 @@ import { PET } from './components/PET/PET';
 import { TsgapCalculator } from './components/TsgapCalculator/TsgapCalculator';
 import { NewSip } from './components/Assurance/NewSip';
 import { ViewSip } from './components/ViewSip/ViewSip';
-import {ViewDetail} from './components/ViewSip/ViewDetail';
+import { ViewDetail } from './components/ViewSip/ViewDetail';
+import { BenefitPage } from './components/Tsgap/BenefitPage/BenefitPage';
 import './style.css';
 
 // window.lessDecimals = (ethersBigNumber, decimals = 2) => {
@@ -54,7 +55,8 @@ function App() {
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
           <Route path="/view/:staker" component={ViewSip} />
-          <Route path= "/view-detail/:staker" component={ViewDetail} />
+          <Route path="/view-detail/:staker" component={ViewDetail} />
+          <Route path="/benefits/:staker" component={BenefitPage} />
         </Switch>
         <Footer />
       </BrowserRouter>

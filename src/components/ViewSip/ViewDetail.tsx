@@ -3,27 +3,20 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
-import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
+import { TsgapFactory } from 'eraswap-sdk/dist/typechain/ESN';
+import { Tsgap } from 'eraswap-sdk/dist/typechain/ESN';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
-type Props ={
-}
+type Props = {};
 
 type State = {
   spinner: boolean;
   open: boolean;
-  newSipEvent: NewSipEvent[],
-  getSip: GetSip[],
-  planId: number,
-  stakingTimestamp: number,
-  monthlyCommitmentAmount: number,
-  totalDeposited: number,
-  lastWithdrawlMonthId: number,
-  powerBoosterWithdrawls: number,
-  numberOfAppointees: number,
-  appointeeVotes: number,
+  newSipEvent: NewSipEvent[];
+  getSip: GetSip[];
+  sipId: number;
+  staker: string;
 };
-
 
 interface MatchParams {
   staker: string;
@@ -35,47 +28,36 @@ interface NewSipEvent {
   monthlyCommitmentAmount: number;
 }
 
-interface GetSip {
-  planId: number;
-  stakingTimestamp: number;
-  monthlyCommitmentAmount: number;
-  totalDeposited: number;
-  lastWithdrawlMonthId: number;
-  powerBoosterWithdrawls: number;
-  numberOfAppointees: number;
-  appointeeVotes: number;
-}
+interface GetSip {}
 
 export class ViewDetail extends Component<RouteComponentProps<MatchParams>, State> {
   //@ts-ignore
   tsgapInstance: Tsgap;
-
   constructor(props: Props) {
     //@ts-ignore
     super(props);
+
     this.state = {
       getSip: [],
       newSipEvent: [],
       spinner: false,
       open: false,
-      planId: -1,
-      stakingTimestamp: 0,
-      monthlyCommitmentAmount: 0,
-      totalDeposited: 0,
-      lastWithdrawlMonthId: 0,
-      powerBoosterWithdrawls: 0,
-      numberOfAppointees: 0,
-      appointeeVotes: 0,
+      sipId: 0,
+      staker: '',
     };
   }
 
   componentDidMount = async () => {
-    this.tsgapInstance = TsgapFactory.connect(
-     this.props.match.params.staker,
-    	window.provider
-    );
-    this.viewSipFetch().catch((e) => console.log(e));
+    this.tsgapInstance = TsgapFactory.connect(this.props.match.params.staker, window.provider);
     this.fetchNewSip().catch((e) => console.log(e));
+    this.getDepositStatus().catch((e) => console.log(e));
+    this.sips().catch((e) => console.log(e));
+    const sipData = this.state.newSipEvent.map((log) => {
+      this.setState({
+        sipId: log.sipId,
+        staker: log.staker,
+      });
+    });
   };
 
   async fetchNewSip() {
@@ -90,15 +72,14 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     const newSipData = sipNew.map((log) => ({
       staker: log.args['staker'],
       sipId: log.args['sipId'],
-      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount']
+      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount'],
     }));
     this.setState({
       newSipEvent: newSipData,
-    })
+    });
   }
 
-
-  viewSipFetch = async () => {
+  getDepositStatus = async () => {
     await this.setState({ spinner: true });
     try {
       if (!window.wallet) {
@@ -106,15 +87,35 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .appointeeVote(this.props.match.params.staker, 0);
+        .monthlyDeposit(this.props.match.params.staker, this.state.sipId, 1);
       const receipt = tx;
-      console.log('receipt viewsip', receipt);
-      this.setState({
-       
-      })
+      console.log('Deposit is *****', receipt);
+      this.setState({});
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
-      console.log(`Error: ${readableError}`);
+      console.log(`Error of deposit: ${readableError}`);
+    }
+    this.setState({
+      spinner: false,
+    });
+  };
+
+  sips = async () => {
+    await this.setState({ spinner: true });
+    try {
+      if (!window.wallet) {
+        throw new Error('Wallet is not loaded');
+      }
+      const tx = await window.tsgapLiquidInstance
+        .connect(window.wallet.connect(window.provider))
+        .sips(this.props.match.params.staker, this.state.sipId);
+      const receipt = tx;
+      console.log('sips is *****', receipt);
+
+      this.setState({});
+    } catch (error) {
+      const readableError = es.utils.parseEthersJsError(error);
+      console.log(`Error of sips: ${readableError}`);
     }
     this.setState({
       spinner: false,
@@ -130,8 +131,8 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
   };
 
   render() {
-      console.log("match props",this.props.match.params)
-    console.log("newsipvalue****", this.state.newSipEvent)
+    console.log('check sipdata2222', this.state.sipId);
+    console.log('newsipvalue****', this.state.newSipEvent);
     return (
       <div>
         <div className="page-header">
@@ -157,22 +158,33 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
           <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12"></div>
           <thead>
             <tr>
-              <th>SIP ID</th>
-              <th>Time of Staking</th>
-             
-              <th>Number Of Appointees</th>
-              <th>Monthly Commitment Amount</th>
-              <th>Last Withdrawl MonthId</th>
-              <th>Click on the buttons to view</th>
+              <th>Deposit Month</th>
+              <th>Deposit Amounts</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
             <tr>
-              <td>{this.state.planId}</td>
-              <td>{this.state.stakingTimestamp}</td>
-              <td>{this.state.numberOfAppointees}</td>
-               <td>{this.state.monthlyCommitmentAmount}</td> 
-               <td>{this.state.lastWithdrawlMonthId}</td>
+              <td></td>
             </tr>
           </thead>
+        </div>
+        <div className="row">
+          <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12"></div>
+          <div>
+            <p className="view-para">
+              Grace penalty is 1% per graced months on Power Booster. <br />
+              Default penalty is 2% per defaulted months on Power Booster.
+            </p>
+
+            <div className="view-flex-style">
+              <div className="details">
+                <Button href={'/benefits/' + this.props.match.params.staker}>Benefit Page</Button>
+              </div>
+              <div className="details">
+                <Button href="">Nominee Page</Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
