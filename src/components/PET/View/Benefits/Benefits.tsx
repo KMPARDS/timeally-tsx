@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import Layout from '../../../Layout/LayoutPET';
 import '../../PET.css';
 
@@ -9,19 +9,17 @@ class Benefits extends Component {
   state = {
     benefitPeriodYears: null,
     monthlyBenefitAmountArray: [],
-    depositStatusArray: []
+    depositStatusArray: [],
   };
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     // const sip = await window.sipInstance.functions.sips(
     //   window.walletInstance.address,
     //   this.props.match.params.id
     // );
     // const sipPlan = await window.sipInstance.functions.sipPlans(sip.planId);
-
     // const monthlyBenefitAmountPromiseArray = []
     // , depositDoneStatusPromiseArray = [];
-
     // for(let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
     //   monthlyBenefitAmountPromiseArray.push(
     //     window.sipInstance.functions.viewMonthlyBenefitAmount(
@@ -38,40 +36,43 @@ class Benefits extends Component {
     //     )
     //   );
     // }
-
     // await Promise.all([...monthlyBenefitAmountPromiseArray, ...depositDoneStatusPromiseArray]);
-
     // const monthlyBenefitAmountArray = []
     // , depositStatusArray = [];
-
     // for(let i = 0; i < sipPlan.accumulationPeriodMonths; i++) {
     //   monthlyBenefitAmountArray.push(await monthlyBenefitAmountPromiseArray[i]);
     //   depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
     // }
-
     // this.setState({
     //   monthlyBenefitAmountArray,
     //   depositStatusArray,
-
     // });
-  }
+  };
   render = () => {
     const benefitTableElementArray = [];
 
-    for(let i = 0; i < 108; i++) {
+    for (let i = 0; i < 108; i++) {
       benefitTableElementArray.push(
         <tr>
-          <td>{i+1}</td>
-          <td>{this.state.monthlyBenefitAmountArray[i%12] ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i%12]) + ' ES' : 'Loading...'}</td>
-          <td><Button disabled>Select</Button></td>
+          <td>{i + 1}</td>
+          <td>
+            {this.state.monthlyBenefitAmountArray[i % 12]
+              ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i % 12]) + ' ES'
+              : 'Loading...'}
+          </td>
+          <td>
+            <Button disabled>Select</Button>
+          </td>
         </tr>
       );
-      if((i+1)%36===0) {
+      if ((i + 1) % 36 === 0) {
         benefitTableElementArray.push(
-          <tr style={{backgroundColor:'#aaa'}}>
-            <td>Power Booster {Math.ceil(i/36)}</td>
+          <tr style={{ backgroundColor: '#aaa' }}>
+            <td>Power Booster {Math.ceil(i / 36)}</td>
             <td></td>
-            <td><Button disabled>Select</Button></td>
+            <td>
+              <Button disabled>Select</Button>
+            </td>
           </tr>
         );
       }
@@ -79,12 +80,15 @@ class Benefits extends Component {
 
     return (
       <Layout
-          breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/, 'Benefits']}
-          title={1}
-          // title={this.props.match.params.id}
-          >
-          <p>This page is under construction. On this page user can see their monthly benefits in advance and withdraw them after the withdraw window is open for the month.</p>
-          <Table responsive>
+        breadcrumb={['Home', 'PET', 'View' /*this.props.match.params.id*/, , 'Benefits']}
+        title={1}
+        // title={this.props.match.params.id}
+      >
+        <p>
+          This page is under construction. On this page user can see their monthly benefits in
+          advance and withdraw them after the withdraw window is open for the month.
+        </p>
+        <Table responsive>
           <thead>
             <tr>
               <th>Month Number</th>
@@ -92,19 +96,15 @@ class Benefits extends Component {
               <th>Click on buttons to Select</th>
             </tr>
           </thead>
-          <tbody>
-            {benefitTableElementArray}
-          </tbody>
+          <tbody>{benefitTableElementArray}</tbody>
         </Table>
 
-      <div className="details">
+        <div className="details">
           <Button disabled>Withdraw</Button>
-      </div>
-
+        </div>
       </Layout>
-
     );
-  }
+  };
 }
 
 export default Benefits;

@@ -1,26 +1,25 @@
-
-.form-control{
-    margin: auto;
-    width: 310px;
-    margin-top: 8px !important;
-    margin-bottom: 10px !important;
+.form-control {
+  margin: auto;
+  width: 310px;
+  margin-top: 8px !important;
+  margin-bottom: 10px !important;
 }
 
-.details{
-    text-align: center;
-    position: relative;
-    width: 310px;
-    margin: auto;
+.details {
+  text-align: center;
+  position: relative;
+  width: 310px;
+  margin: auto;
 }
 
-.pet-steps h2{
-    margin-top: 10px;
+.pet-steps h2 {
+  margin-top: 10px;
 }
 
-.details Button{
-    margin-top: 5px;
+.details Button {
+  margin-top: 5px;
 }
 
-table td{
-    text-align: center !important;
+table td {
+  text-align: center !important;
 }

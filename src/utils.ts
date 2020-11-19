@@ -66,32 +66,33 @@ export function renderEthersJsError(error: any): string {
   );
 }
 
-export const hexToNum = (hex: string | ethers.BigNumber) => Number(Number(ethers.utils.formatEther(hex)).toFixed(2));
+export const hexToNum = (hex: string | ethers.BigNumber) =>
+  Number(Number(ethers.utils.formatEther(hex)).toFixed(2));
 
 export const lessDecimals = (ethersBigNumber: ethers.BigNumber, decimals = 2) => {
   let lessDecimals = ethers.utils.formatEther(ethersBigNumber).split('.');
-  if(lessDecimals[1].length >= decimals) {
+  if (lessDecimals[1].length >= decimals) {
     lessDecimals[1] = lessDecimals[1].slice(0, decimals);
   }
   return lessDecimals.join('.');
-}
+};
 export const sliceDataTo32Bytes = (data: string, index = 0) => {
-  return '0x'+data.slice(2+64*index, 2+64*(index+1));
-}
+  return '0x' + data.slice(2 + 64 * index, 2 + 64 * (index + 1));
+};
 
 export const getTimeRemaining = (totalSeconds: number) => {
-  const days = Math.floor(totalSeconds/60/60/24);
+  const days = Math.floor(totalSeconds / 60 / 60 / 24);
   const hours = Math.floor((totalSeconds - days * 60 * 60 * 24) / 60 / 60);
   const minutes = Math.floor((totalSeconds - days * 60 * 60 * 24 - hours * 60 * 60) / 60);
   const seconds = totalSeconds - days * 60 * 60 * 24 - hours * 60 * 60 - minutes * 60;
   return `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
-}
+};
 
 export const getOrdinalString = (number: number) => {
   const numberString = String(number);
   const lastChar = numberString.charAt(numberString.length - 1);
   let ordinalString = '';
-  switch(lastChar) {
+  switch (lastChar) {
     case '1':
       ordinalString = 'st';
       break;
@@ -105,5 +106,5 @@ export const getOrdinalString = (number: number) => {
       ordinalString = 'th';
       break;
   }
-  return numberString+ordinalString;
-}
+  return numberString + ordinalString;
+};
