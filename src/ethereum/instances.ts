@@ -68,7 +68,7 @@ window.provider = new CustomProvider(
 
 // Temporary wallet
 if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
-  window.wallet = new ethers.Wallet(process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY, window.provider);
+  window.wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07' || process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY, window.provider);
 }
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
@@ -97,6 +97,7 @@ window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window
 
 window.tsgapLiquidInstance = TsgapFactory.connect(config.ESN.tsgap, window.provider);
 
-window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
+// window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
+window.petInstance = PetPrepaidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
 
 window.petFundsInstance = PetLiquidFundsBucketFactory.connect(config.ESN.petPrepaid,window.provider);

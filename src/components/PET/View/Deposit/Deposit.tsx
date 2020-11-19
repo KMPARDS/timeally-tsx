@@ -138,31 +138,42 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     event.preventDefault();
     if(window.wallet){
       await this.setState({ spinner: true });
-      const tx = await window.petInstance.makeDeposit(window.wallet?.address,this.props.match.params.id,this.state.userAmount,false);
-      await tx.wait()
+
+      const tx = await window.petInstance
+        .connect(window.wallet.connect(window.provider))
+        .makeDeposit(
+          window.wallet?.address,
+          this.props.match.params.id,
+          this.state.userAmount,
+          false
+        ,{
+          value: this.state.userAmount.toString()
+        });
+      await tx.wait();
       this.setState({
         spinner: false,
         currentScreen: 1,
         approveAlreadyDone: true
       });
+
+
+      const allowance = await window.prepaidEsInstance.allowance(
+        window.wallet?.address,
+        window.petInstance.address
+      );
+
+      console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString())));
+
+      if(allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))) {
+        this.setState({
+          spinner: false,
+          currentScreen: 1,
+          approveAlreadyDone: true
+        });
+      } else {
+        this.setState({ spinner: false, currentScreen: 1, approveAlreadyDone: false });
+      }
     }
-
-    // const allowance = await window.prepaidEsInstance.functions.allowance(
-    //   window.wallet.address,
-    //   window.petInstance.address
-    // );
-
-    // console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString())));
-
-    // if(allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))) {
-    //   this.setState({
-    //     spinner: false,
-    //     currentScreen: 1,
-    //     approveAlreadyDone: true
-    //   });
-    // } else {
-    //   this.setState({ spinner: false, currentScreen: 1, approveAlreadyDone: false });
-    // }
   }
 
   render() {
@@ -335,7 +346,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               {this.state.waiting ? 'Waiting for confirmation' : ( this.state.spinner ? 'Sending transaction' : 'Confirm Monthly Deposit')}
             </Button>
             { this.state.txHash
-              ? <p>You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a>.</p>
+              ? <p>You can view your transaction on <a style={{color: 'black'}} href={`https://eraswap.info/txn/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">Eraswap.info</a>.</p>
               : null
             }
           </div>
@@ -348,11 +359,11 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           <Card style={{marginBottom: '0'}}>
             <div style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '.25rem', width: '500px', padding:'20px 40px', margin: '15px auto'}}>
               <h3 style={{marginBottom: '15px'}}>
-                {/* {this.state.monthId ? window.getOrdinalString(this.state.monthId) : ''} */}0
+                {this.state.monthId ? getOrdinalString(this.state.monthId) : ''}
                  Monthly Deposit confirmed!</h3>
-              <Alert variant="success">Your deposit transaction is confirmed. You can view your transaction on <a style={{color: 'black'}} href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">EtherScan</a></Alert>
+              <Alert variant="success">Your deposit transaction is confirmed. You can view your transaction on <a style={{color: 'black'}} href={`https://eraswap.info/txn/${this.state.txHash}`} target="_blank" rel="noopener noreferrer">Eraswap.info</a></Alert>
               <Button
-                // onClick={() => this.props.history.push('/pet/view/'+this.props.match.params.id)}
+                onClick={() => this.props.history.push('/pet/view/'+this.props.match.params.id)}
                 >Go to PET Deposits Page</Button>
             </div>
           </Card>
@@ -375,7 +386,8 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            transactor: window.prepaidEsInstance.functions.approve,
+            //@ts-ignore
+            transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider)).approve,
             estimator: window.prepaidEsInstance.estimateGas.approve,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
@@ -397,7 +409,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             show={this.state.showStakeTransactionModal}
             hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.petInstance.makeDeposit,
+              transactor: window.wallet && window.petInstance.connect(window.wallet?.connect(window.provider)).makeDeposit,
               estimator: window.petInstance.estimateGas.makeDeposit,
               contract: window.petInstance,
               contractName: 'TimeAlly PET',

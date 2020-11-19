@@ -66,32 +66,6 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
 
         });
 
-      // const newDepositSig = ethers.utils.id('NewDeposit(address,uint256,uint256,uint256,address,bool)');
-
-      // const topics = [
-      //   newDepositSig,
-      //   ethers.utils.hexZeroPad(window.wallet.address, 32),
-      //   ethers.utils.hexZeroPad('0x'+Number(this.props.match.params.id).toString(16), 32)
-      // ];
-
-      // const logs = await window.provider.getLogs({
-      //   address: window.petInstance.address,
-      //   fromBlock: 0,
-      //   toBlock: 'latest',
-      //   topics
-      // });
-
-      // console.log('deposits logs', logs);
-
-      // logs.forEach(log => {
-      //   const month = Number(window.sliceDataTo32Bytes(log.data,0));
-      //   months[month - 1].push(
-      //     // hexToNum(
-      //       ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1))
-      //     // )
-      //   );
-      // });
-
       this.setState({
         months,
         commitmentAmount: pet.monthlyCommitmentAmount,
@@ -149,7 +123,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
 
               const MONTH_LENGTH = 2629744;
               const windowOpenUntil = this.state.initTimestamp + 2629744 * monthId;
-              // const currentTimestamp = Math.floor(Date.now() / 1000);
+              const currentTimestamp = Math.floor(Date.now() / 1000);
 
               let targetStatus = ''
               , backgroundColor
@@ -217,17 +191,17 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         <div style={{backgroundColor: '#eee', padding: '1rem', borderRadius: '.25rem'}}>
           <p>To make a deposit for the current month in your PET you can click the below button.</p>
           <Button
-          // onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/deposit`)}
+          onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/deposit`)}
           >Make a Deposit</Button>
         </div>
 
-        {/*<div className="details">
+        <div className="details">
           <Button onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/benefits`)}>Benefit Page</Button>
-        </div>*/}
+        </div>
 
         <div className="details" style={{margin: '10px auto'}}>
           <Button
-            // onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/nominees`)}
+            onClick={() => this.props.history.push(`/pet/view/${this.props.match.params.id}/nominees`)}
             >Nominee Page</Button>
         </div>
       </> : (

@@ -30,29 +30,6 @@ class View extends Component<Props & RouteComponentProps,State> {
       this.setState({ pets,loading: false });
     }
 
-
-    // const newPETEventSig = ethers.utils.id('NewPET(address,uint256,uint256)');
-    // const topics = [ newPETEventSig, ethers.utils.hexZeroPad(window.wallet?.address, 32) ];
-
-    // const logs = await window.provider.getLogs({
-    //   address: window.petInstance.address,
-    //   fromBlock: 0,
-    //   toBlock: 'latest',
-    //   topics
-    // });
-
-    // console.log('logs', logs);
-    // const pets = [];
-    // for(let i = logs.length - 1; i >= 0; i--) {
-    //   const log = logs[i];
-    //   const petId = Number(this.sliceDataTo32Bytes(log.data,0));
-    //   // const monthlyCommitmentAmount = ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1));
-    //   pets.push({
-    //     petId
-    //   });
-    // }
-
-    // this.setState({ pets, loading: false });
   };
 
   sliceDataTo32Bytes = (data: any, index = 0) => {
@@ -64,9 +41,9 @@ class View extends Component<Props & RouteComponentProps,State> {
             breadcrumb={['Home', 'PET','View']}
             title='List of your PETs'
             buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
-            // buttonOnClick={window.wallet && window.wallet.address
-            //   ? () => this.props.history.push('/pet/new')
-            //   : () => this.setState({showLoginModal:true})}
+            buttonOnClick={window.wallet && window.wallet.address
+              ? () => this.props.history.push('/pet/new')
+              : () => this.setState({showLoginModal:true})}
               >
             {this.state.pets.length ? <Table style={{marginBottom: '0'}} responsive>
             <thead>

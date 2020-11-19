@@ -1,11 +1,23 @@
+import { addresses } from 'eraswap-sdk/dist';
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
+import { RouteComponentProps } from 'react-router-dom';
 import Layout from '../../../Layout/LayoutPET';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
-const ethers = require('ethers');
+import { ethers } from 'ethers';
 
-const pet = 'address here';
-class Nominee extends Component {
+interface RouteParams { id: string };
+type Props = {};
+type State = {
+  loading: boolean,
+  activeNominees: any[],
+  removeNomineeAddress: string,
+  showRemoveNomineeModal: boolean
+}
+
+
+const pet = { address: process.env.REACT_APP_ENV === 'development' ? addresses.development.ESN.petPrepaid : addresses.production.ESN.petPrepaid };
+class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state = {
     loading: true,
     activeNominees: [],
@@ -14,44 +26,45 @@ class Nominee extends Component {
   };
 
   componentDidMount = async() => {
-    // const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
-    // const topics = [
-    //   nomineeNewEventSig,
-    //   ethers.utils.hexZeroPad(window.walletInstance.address, 32),
-    //   ethers.utils.hexZeroPad(ethers.utils.bigNumberify(this.props.match.params.id)._hex, 32)
-    // ];
+    if(window.wallet){
+      const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
+      const topics = [
+        nomineeNewEventSig,
+        ethers.utils.hexZeroPad(window.wallet.address, 32),
+        ethers.utils.hexZeroPad(ethers.utils.parseEther(this.props.match.params.id).toHexString(), 32)
+      ];
 
-    // const logs = await window.providerInstance.getLogs({
-    //   address: pet.address,
-    //   fromBlock: 0,
-    //   toBlock: 'latest',
-    //   topics
-    // });
+      const logs = await window.provider.getLogs({
+        address: pet.address,
+        fromBlock: 0,
+        toBlock: 'latest',
+        topics
+      });
 
-    // console.log(logs);
+      console.log(logs);
 
-    // const nominees = {};
-    // logs.forEach(log => {
-    //   const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
-    //   const status = Boolean(+log.data);
-    //   nominees[address] = status;
-    // });
+      const nominees: any = {};
+      logs.forEach(log => {
+        const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
+        const status = Boolean(+log.data);
+        nominees[address] = status;
+      });
 
-    // console.log('nominees', nominees);
-    // this.setState({
-    //   activeNominees: Object.entries(nominees).filter(entry => entry[1]).map(entry => entry[0]),
-    //   loading: false
-    // });
-
+      console.log('nominees', nominees);
+      this.setState({
+        activeNominees: Object.entries(nominees).filter(entry => entry[1]).map(entry => entry[0]),
+        loading: false
+      });
+    }
   };
 
   render = () => {
     return (
       <Layout
-        breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/ 1, 'Nominee']}
+        breadcrumb={['Home', 'PET','View', this.props.match.params.id, 'Nominee']}
         title='Nominee'
         buttonName="New Nominee"
-        // buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
+        buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
       >
         <h2>Nominees of this PET</h2>
         {this.state.loading
@@ -88,12 +101,12 @@ class Nominee extends Component {
               show={this.state.showRemoveNomineeModal}
               hideFunction={() => this.setState({ showRemoveNomineeModal: false })}
               ethereum={{
-                transactor: window.petInstance.functions.toogleNominee,
-                estimator: window.petInstance.estimate.toogleNominee,
+                transactor: window.petInstance.toogleNominee,
+                estimator: window.petInstance.estimateGas.toogleNominee,
                 contract: window.petInstance,
                 contractName: 'TimeAllyPET',
                 arguments: [
-                  1,// this.props.match.params.id,
+                  this.props.match.params.id,
                   this.state.removeNomineeAddress,
                   false
                 ],

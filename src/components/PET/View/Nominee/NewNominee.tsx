@@ -2,10 +2,22 @@ import React, { Component } from 'react';
 import { Card, Form, Alert, Button, Row, Col, Spinner } from 'react-bootstrap';
 import Layout from '../../../Layout/LayoutPET';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
+import { ethers } from 'ethers';
+import { RouteComponentProps } from 'react-router-dom';
 
-const ethers = require('ethers');
+interface RouteParams { id: string };
+type Props = {};
+type State = {
+  currentScreen: number,
+  nomineeAddress: string,
+  isAddressInvalid: boolean,
+  showNomineeTransactionModal: boolean,
+  spinner: boolean,
+  txHash: string
+}
 
-class NewNominee extends Component {
+
+class NewNominee extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state = {
     currentScreen: 0,
     nomineeAddress: '',
@@ -101,7 +113,7 @@ class NewNominee extends Component {
             </Row>
             {
               this.state.txHash
-              ? <p>You can view the transaction on <a href={`https://${process.env.network === 'homestead' ? '' : 'kovan.'}etherscan.io/tx/${this.state.txHash}`} rel="noopener noreferrer" style={{color: 'black'}}>EtherScan</a></p>
+              ? <p>You can view the transaction on <a href={`https://eraswap.info/txn/${this.state.txHash}`} rel="noopener noreferrer" style={{color: 'black'}}>Eraswap.info</a></p>
               : null
             }
           </Form>
@@ -114,9 +126,9 @@ class NewNominee extends Component {
             <h3>Confirmed!</h3>
             <Alert variant="success">Nominee is added to your PET!</Alert>
             <p>You can view the transaction on <a href={`https://${process.env.network === 'homestead' ? '' : 'kovan.' }etherscan.io/tx/${this.state.txHash}`} rel="noopener noreferrer" target="_blank" style={{color: 'black', textDecoration: 'underline', cursor:'pointer'}}>EtherScan</a> or you can go back to <span onClick={() => {
-              // const pathArray = this.props.location.pathname.split('/');
-              // pathArray.pop();
-              // this.props.history.push(pathArray.join('/'));
+              const pathArray = this.props.location.pathname.split('/');
+              pathArray.pop();
+              this.props.history.push(pathArray.join('/'));
             }} style={{color: 'black', textDecoration: 'underline', cursor:'pointer'}}>nominees page</span>.</p>
           </div>
         </Card>
@@ -125,7 +137,7 @@ class NewNominee extends Component {
 
     return (
       <Layout
-        breadcrumb={['Home', 'PET','View', /*this.props.match.params.id*/1, 'Nominee', 'New']}
+        breadcrumb={['Home', 'PET','View', this.props.match.params.id, 'Nominee', 'New']}
         title='New Nominee'
       >
         {screen}
@@ -134,12 +146,13 @@ class NewNominee extends Component {
             show={this.state.showNomineeTransactionModal}
             hideFunction={() => this.setState({ showNomineeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.petInstance.functions.toogleNominee,
-              estimator: window.petInstance.estimate.toogleNominee,
+              //@ts-ignore
+              transactor: window.petInstance.connect(window.wallet?.connect(window.provider)).toogleNominee,
+              estimator: () => ethers.constants.Zero,
               contract: window.petInstance,
               contractName: 'TimeAllyPET',
               arguments: [
-                1,// this.props.match.params.id,
+                this.props.match.params.id,
                 this.state.nomineeAddress,
                 true
               ],
