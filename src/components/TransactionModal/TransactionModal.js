@@ -438,14 +438,12 @@ class TransactionModal extends Component {
             <p>
               You can view your transaction on{' '}
               <a
-                href={`https://${
-                  process.env.network === 'homestead' ? '' : 'kovan.'
-                }etherscan.io/tx/${this.state.hash}`}
+                href={`https://eraswap.info/txn/${this.state.hash}`}
                 style={{ color: 'black', textDecoration: 'underline' }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                EtherScan
+                Eraswap.info
               </a>
             </p>
           ) : null}
