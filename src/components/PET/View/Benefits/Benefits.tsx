@@ -19,6 +19,9 @@ type State = {
   showWithdrawModal: boolean;
   spinner: boolean;
   benefitAmount: number;
+  selectedPowerBooster: number;
+  powerBoosterAmount: number;
+  showPowerBoosterWithdrawModal: boolean;
 };
 class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state: State = {
@@ -30,6 +33,9 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
     showWithdrawModal: false,
     spinner: false,
     benefitAmount: -1,
+    selectedPowerBooster: -1,
+    powerBoosterAmount: -1,
+    showPowerBoosterWithdrawModal: false
   };
 
   componentDidMount = async () => {
@@ -41,6 +47,8 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         window.wallet.address,
         this.props.match.params.id
       );
+
+      const powerBoosterAmount = await window.petLiquidInstance.calculatePowerBoosterAmount(window.wallet.address,this.props.match.params.id);
 
       const pets = await window.petInstance.pets(
         window.wallet?.address,
@@ -88,6 +96,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       this.setState({
         monthlyBenefitAmountArray,
         currentMonth: hexToNum(currentMonth),
+        powerBoosterAmount: hexToNum(powerBoosterAmount)
         // depositStatusArray,
       });
     }
@@ -117,6 +126,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
   render = () => {
     const benefitTableElementArray = [];
     const LAST_MONTH_NUMBER = 12 * 5;
+    let powerBoosterCount = 0;
     for (let i = 0; i < LAST_MONTH_NUMBER; i++) {
       benefitTableElementArray.push(
         <tr>
@@ -153,12 +163,23 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         benefitTableElementArray.push(
           <tr style={{ backgroundColor: '#aaa' }}>
             <td>Power Booster {Math.ceil(i / 36)}</td>
-            <td></td>
+            <td>{this.state.powerBoosterAmount > -1 ? this.state.powerBoosterAmount : 'Loading...'}</td>
             <td>
-              <Button /*disabled*/>Select</Button>
+              <Button
+                onClick={async (e) => {
+                  if (window.wallet) {
+                    this.setState({
+                      selectedPowerBooster: powerBoosterCount,
+                      benefitAmount: this.state.powerBoosterAmount,
+                      showPowerBoosterWithdrawModal: true
+                    });
+                  }
+                }}
+              >Withdraw</Button>
             </td>
           </tr>
         );
+        powerBoosterCount++;
       }
     }
 
@@ -205,6 +226,35 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             {this.state.spinner ? 'Please wait...' : 'Withdraw'}
           </Button>
         </div>
+        <TransactionModal
+          show={this.state.showPowerBoosterWithdrawModal}
+          hideFunction={() => this.setState({ showPowerBoosterWithdrawModal: false, spinner: false })}
+          ethereum={{
+            //@ts-ignore
+            transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
+              .withdrawPowerBooster,
+            estimator: () => ethers.constants.Zero,
+            contract: window.prepaidEsInstance,
+            contractName: 'EraSwap',
+            arguments: [
+              window.wallet?.address,
+              this.props.match.params.id,
+              this.state.selectedPowerBooster
+            ],
+            ESAmount: this.state.benefitAmount,
+            headingName: 'Withdraw Power Booster',
+            functionName: 'Withdraw',
+            // stakingPlan: this.state.plan,
+            directGasScreen: true,
+            continueFunction: () =>
+              this.setState({
+                spinner: false,
+                // currentScreen: 2,
+                // approveSuccess: true,
+                showPowerBoosterWithdrawModal: false,
+              }),
+          }}
+        />
         <TransactionModal
           show={this.state.showWithdrawModal}
           hideFunction={() => this.setState({ showWithdrawModal: false, spinner: false })}
