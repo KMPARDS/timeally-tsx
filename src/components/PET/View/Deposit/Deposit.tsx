@@ -566,7 +566,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 </a>
               </Alert>
               <Button
-                onClick={() => this.props.history.push('/pet/view/' + this.props.match.params.id)}
+                onClick={() => this.props.history.push('/pet-old/view/' + this.props.match.params.id)}
               >
                 Go to PET Deposits Page
               </Button>

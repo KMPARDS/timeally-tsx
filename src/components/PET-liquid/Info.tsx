@@ -98,11 +98,11 @@ class PET extends Component<PETProps, State> {
         buttonName="New PET"
         buttonOnClick={
           window.wallet && window.wallet.address
-            ? () => this.props.history.push('/pet-old/new')
+            ? () => this.props.history.push('/pet-new/new')
             : () => (
                 (window.returnLocationAfterLoadWallet = {
                   name: 'New PET',
-                  location: '/pet-old/new',
+                  location: '/pet-new/new',
                   sourceLocation: this.props.location.pathname,
                 }),
                 this.setState({ showLoginModal: true })
@@ -127,11 +127,11 @@ class PET extends Component<PETProps, State> {
           <Button
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/view')
+                ? () => this.props.history.push('/pet-new/view')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'View My PETs',
-                      location: '/pet-old/view',
+                      location: '/pet-new/view',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })
@@ -292,11 +292,11 @@ class PET extends Component<PETProps, State> {
             style={{ margin: '10px auto' }}
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/prepaid-es')
+                ? () => this.props.history.push('/pet-new/prepaid-es')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'PET Prepaid ES',
-                      location: '/pet-old/prepaid-es',
+                      location: '/pet-new/prepaid-es',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })
@@ -308,11 +308,11 @@ class PET extends Component<PETProps, State> {
           <Button
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/view')
+                ? () => this.props.history.push('/pet-new/view')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'View My PETs',
-                      location: '/pet-old/view',
+                      location: '/pet-new/view',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })
