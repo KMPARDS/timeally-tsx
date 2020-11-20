@@ -121,8 +121,10 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
           show={this.state.showRemoveNomineeModal}
           hideFunction={() => this.setState({ showRemoveNomineeModal: false })}
           ethereum={{
-            transactor: window.petInstance.toogleNominee,
-            estimator: window.petInstance.estimateGas.toogleNominee,
+            //@ts-ignore
+            transactor: window.petInstance.connect(window.wallet.connect(window.provider))
+              .toogleNominee,
+            estimator: () => ethers.constants.Zero,
             contract: window.petInstance,
             contractName: 'TimeAllyPET',
             arguments: [this.props.match.params.id, this.state.removeNomineeAddress, false],
