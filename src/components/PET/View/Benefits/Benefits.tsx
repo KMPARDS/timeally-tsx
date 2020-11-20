@@ -11,17 +11,17 @@ interface RouteParams {
 }
 type Props = {};
 type State = {
-  monthlyBenefitAmountArray: ethers.BigNumber[],
-  depositStatusArray: number[],
-  currentMonth: number,
-  selectedMonth: number,
-  withdrawMessage: string,
-  showWithdrawModal: boolean,
-  spinner: boolean,
-  benefitAmount: number
-}
+  monthlyBenefitAmountArray: ethers.BigNumber[];
+  depositStatusArray: number[];
+  currentMonth: number;
+  selectedMonth: number;
+  withdrawMessage: string;
+  showWithdrawModal: boolean;
+  spinner: boolean;
+  benefitAmount: number;
+};
 class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State> {
-  state:State = {
+  state: State = {
     monthlyBenefitAmountArray: [],
     depositStatusArray: [],
     currentMonth: -1,
@@ -29,15 +29,18 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
     withdrawMessage: '',
     showWithdrawModal: false,
     spinner: false,
-    benefitAmount: -1
+    benefitAmount: -1,
   };
 
   componentDidMount = async () => {
     console.log('mounted');
 
-    if(window.wallet){
+    if (window.wallet) {
       console.log('called');
-      const currentMonth = await window.petInstance.getDepositMonth(window.wallet.address,this.props.match.params.id);
+      const currentMonth = await window.petInstance.getDepositMonth(
+        window.wallet.address,
+        this.props.match.params.id
+      );
 
       const pets = await window.petInstance.pets(
         window.wallet?.address,
@@ -47,13 +50,10 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       const petPlan = await window.petInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
       const TWELVETH_MONTH = 12;
-      for(let i=1;i<=TWELVETH_MONTH;i++){
-        monthlyBenefitAmountArray.push(await window.petInstance.getSumOfMonthlyAnnuity(
-          window.wallet.address,
-          pets.planId,
-          i,
-          i
-        ));
+      for (let i = 1; i <= TWELVETH_MONTH; i++) {
+        monthlyBenefitAmountArray.push(
+          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+        );
       }
       // const monthlyBenefitAmountPromiseArray = []
       // , depositDoneStatusPromiseArray = [];
@@ -81,22 +81,21 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       //   monthlyBenefitAmountArray.push(await monthlyBenefitAmountPromiseArray[i]);
       //   depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
       // }
-      console.log('currentMonth',currentMonth);
+      console.log('currentMonth', currentMonth);
 
-      console.log(`hexToNum(${currentMonth})`,hexToNum(currentMonth));
+      console.log(`hexToNum(${currentMonth})`, hexToNum(currentMonth));
 
       this.setState({
         monthlyBenefitAmountArray,
-        currentMonth: hexToNum(currentMonth)
+        currentMonth: hexToNum(currentMonth),
         // depositStatusArray,
       });
-
     }
   };
 
   withdrawAnnuity = async () => {
-    try{
-      if(window.wallet){
+    try {
+      if (window.wallet) {
         const tx = await window.petInstance.withdrawAnnuity(
           window.wallet.address,
           this.props.match.params.id,
@@ -104,22 +103,21 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         );
         await tx.wait();
         this.setState({
-          withdrawMessage: 'Success! Tx Hash: '+tx.hash
+          withdrawMessage: 'Success! Tx Hash: ' + tx.hash,
         });
       }
-    }catch(e){
+    } catch (e) {
       console.log(e);
       this.setState({
-        withdrawMessage: e.message
+        withdrawMessage: e.message,
       });
     }
-  }
+  };
 
   render = () => {
     const benefitTableElementArray = [];
     const LAST_MONTH_NUMBER = 12 * 5;
     for (let i = 0; i < LAST_MONTH_NUMBER; i++) {
-
       benefitTableElementArray.push(
         <tr>
           <td>{i + 1}</td>
@@ -130,22 +128,24 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           </td>
           <td>
             <Button
-              onClick={async e => {
-                if(window.wallet){
+              onClick={async (e) => {
+                if (window.wallet) {
                   const benefitAmount = await window.petInstance.getSumOfMonthlyAnnuity(
                     window.wallet?.address,
                     this.props.match.params.id,
                     1,
-                    i+1
+                    i + 1
                   );
                   this.setState({
-                    selectedMonth: i+1,
-                    benefitAmount: hexToNum(benefitAmount)
+                    selectedMonth: i + 1,
+                    benefitAmount: hexToNum(benefitAmount),
                   });
-              }
-            }}
-            // disabled={this.state.selectedMonth > (i+1)}
-          >{this.state.selectedMonth >= (i+1) ? 'Selected':'Select'}</Button>
+                }
+              }}
+              // disabled={this.state.selectedMonth > (i+1)}
+            >
+              {this.state.selectedMonth >= i + 1 ? 'Selected' : 'Select'}
+            </Button>
           </td>
         </tr>
       );
@@ -164,7 +164,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
     return (
       <Layout
-        breadcrumb={['Home', 'PET', 'View' ,this.props.match.params.id , 'Benefits']}
+        breadcrumb={['Home', 'PET', 'View', this.props.match.params.id, 'Benefits']}
         title={`PET ID: ${this.props.match.params.id}`}
       >
         {/* <p>
@@ -188,21 +188,22 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             onClick={() => {
               this.setState({
                 showWithdrawModal: true,
-                spinner: true
-              })
+                spinner: true,
+              });
             }}
           >
             {this.state.spinner ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  style={{ marginRight: '2px' }}
-                />
-              ) : null}
-            {this.state.spinner ? 'Please wait...' : 'Withdraw'}</Button>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                style={{ marginRight: '2px' }}
+              />
+            ) : null}
+            {this.state.spinner ? 'Please wait...' : 'Withdraw'}
+          </Button>
         </div>
         <TransactionModal
           show={this.state.showWithdrawModal}
@@ -217,7 +218,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             arguments: [
               window.wallet?.address,
               this.props.match.params.id,
-              this.state.selectedMonth
+              this.state.selectedMonth,
             ],
             ESAmount: this.state.benefitAmount,
             headingName: 'Withdraw Benefit',
