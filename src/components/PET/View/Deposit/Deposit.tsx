@@ -598,7 +598,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             //@ts-ignore
             transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider))
               .approve,
-            estimator: window.prepaidEsInstance.estimateGas.approve,
+            estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [
@@ -628,7 +628,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             transactor:
               window.wallet &&
               window.petInstance.connect(window.wallet?.connect(window.provider)).makeDeposit,
-            estimator: window.petInstance.estimateGas.makeDeposit,
+            estimator: () => ethers.constants.Zero,
             contract: window.petInstance,
             contractName: 'TimeAlly PET',
             arguments: [
