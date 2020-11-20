@@ -39,22 +39,22 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       // const currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()).toNumber();
 
       const depositMonth = (
-        await window.petInstance.getDepositMonth(window.wallet.address, this.props.match.params.id)
+        await window.petLiquidInstance.getDepositMonth(window.wallet.address, this.props.match.params.id)
       ).toNumber();
 
-      const pet = await window.petInstance.pets(
+      const pet = await window.petLiquidInstance.pets(
         window.wallet.address,
         // '0xC8e1F3B9a0CdFceF9fFd2343B943989A22517b26',
         this.props.match.params.id
       );
-      const petPlan = await window.petInstance.petPlans(pet.planId);
+      const petPlan = await window.petLiquidInstance.petPlans(pet.planId);
 
       const months: any[] = [];
       for (let i = 1; i <= 12; i++) {
         months.push([]);
       }
 
-      // const data = (await window.petInstance.queryFilter(window.petInstance.filters.NewDeposit(
+      // const data = (await window.petLiquidInstance.queryFilter(window.petLiquidInstance.filters.NewDeposit(
       //     window.wallet.address,
       //     ethers.utils.parseEther(this.props.match.params.id).toHexString(),
       //     null,
@@ -62,7 +62,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       //     null,
       //     null))
       //   )
-      //   .map(log => window.petInstance.interface.parseLog(log))
+      //   .map(log => window.petLiquidInstance.interface.parseLog(log))
       //   .map(log => {
       //     console.log({log});
 
@@ -79,7 +79,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       ];
 
       const logs = await window.provider.getLogs({
-        address: window.petInstance.address,
+        address: window.petLiquidInstance.address,
         fromBlock: 0,
         toBlock: 'latest',
         topics,

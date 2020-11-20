@@ -37,36 +37,36 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
     if (window.wallet) {
       console.log('called');
-      const currentMonth = await window.petInstance.getDepositMonth(
+      const currentMonth = await window.petLiquidInstance.getDepositMonth(
         window.wallet.address,
         this.props.match.params.id
       );
 
-      const pets = await window.petInstance.pets(
+      const pets = await window.petLiquidInstance.pets(
         window.wallet?.address,
         this.props.match.params.id
       );
 
-      const petPlan = await window.petInstance.petPlans(pets.planId);
+      const petPlan = await window.petLiquidInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
       const TWELVETH_MONTH = 12;
       for (let i = 1; i <= TWELVETH_MONTH; i++) {
         monthlyBenefitAmountArray.push(
-          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+          await window.petLiquidInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
         );
       }
       // const monthlyBenefitAmountPromiseArray = []
       // , depositDoneStatusPromiseArray = [];
       // for(let i = 1; i <= petPlan.accumulationPeriodMonths; i++) {
       //   monthlyBenefitAmountPromiseArray.push(
-      //     window.petInstance.viewMonthlyBenefitAmount(
+      //     window.petLiquidInstance.viewMonthlyBenefitAmount(
       //       window.wallet?.address,
       //       this.props.match.params.id,
       //       i
       //     )
       //   );
       //   depositDoneStatusPromiseArray.push(
-      //     window.petInstance.getDepositDoneStatus(
+      //     window.petLiquidInstance.getDepositDoneStatus(
       //       window.wallet?.address,
       //       this.props.match.params.id,
       //       i
@@ -96,7 +96,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
   withdrawAnnuity = async () => {
     try {
       if (window.wallet) {
-        const tx = await window.petInstance.withdrawAnnuity(
+        const tx = await window.petLiquidInstance.withdrawAnnuity(
           window.wallet.address,
           this.props.match.params.id,
           this.state.selectedMonth
@@ -130,7 +130,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             <Button
               onClick={async (e) => {
                 if (window.wallet) {
-                  const benefitAmount = await window.petInstance.getSumOfMonthlyAnnuity(
+                  const benefitAmount = await window.petLiquidInstance.getSumOfMonthlyAnnuity(
                     window.wallet?.address,
                     this.props.match.params.id,
                     1,
@@ -210,7 +210,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           hideFunction={() => this.setState({ showWithdrawModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
+            transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
               .withdrawAnnuity,
             estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,

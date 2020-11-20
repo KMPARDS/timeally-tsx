@@ -68,7 +68,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     if (window.wallet) {
       const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
       const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
-      const petPromise = window.petInstance.functions.pets(
+      const petPromise = window.petLiquidInstance.functions.pets(
         window.wallet.address,
         this.props.match.params.id
       );
@@ -181,7 +181,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     if (window.wallet) {
       await this.setState({ spinner: true });
 
-      const tx = await window.petInstance
+      const tx = await window.petLiquidInstance
         .connect(window.wallet.connect(window.provider))
         .makeDeposit(
           window.wallet?.address,
@@ -201,7 +201,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
 
       const allowance = await window.prepaidEsInstance.allowance(
         window.wallet?.address,
-        window.petInstance.address
+        window.petLiquidInstance.address
       );
 
       console.log(
@@ -603,7 +603,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [
-              window.petInstance.address,
+              window.petLiquidInstance.address,
               this.state.userAmount
                 ? ethers.utils.parseEther(this.state.userAmount.toString()).toHexString()
                 : ethers.constants.Zero.toHexString(),
@@ -628,9 +628,9 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           ethereum={{
             transactor:
               window.wallet &&
-              window.petInstance.connect(window.wallet?.connect(window.provider)).makeDeposit,
+              window.petLiquidInstance.connect(window.wallet?.connect(window.provider)).makeDeposit,
             estimator: () => ethers.constants.Zero,
-            contract: window.petInstance,
+            contract: window.petLiquidInstance,
             contractName: 'TimeAlly PET',
             arguments: [
               window.wallet?.address,

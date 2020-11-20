@@ -197,10 +197,10 @@ class NewNominee extends Component<Props & RouteComponentProps<RouteParams>, Sta
           hideFunction={() => this.setState({ showNomineeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
+            transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
               .toogleNominee,
             estimator: () => ethers.constants.Zero,
-            contract: window.petInstance,
+            contract: window.petLiquidInstance,
             contractName: 'TimeAllyPET',
             arguments: [this.props.match.params.id, this.state.nomineeAddress, true],
             ESAmount: '0',

@@ -87,7 +87,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
     if (window.wallet) {
       const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
       const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
-      const petPromise = window.petInstance.functions.pets(
+      const petPromise = window.petLiquidInstance.functions.pets(
         window.wallet.address,
         this.props.match.params.id
       );
@@ -196,7 +196,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
       await this.setState({ spinner: true });
       const allowance = await window.prepaidEsInstance.allowance(
         window.wallet?.address,
-        window.petInstance.address
+        window.petLiquidInstance.address
       );
 
       // console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount).add(ethers.utils.parseEther(getFees(this.state.frequencyMode)))));
@@ -650,7 +650,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             estimator: window.prepaidEsInstance.estimateGas.approve,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
-            arguments: [window.petInstance.address, ethers.utils.parseEther(userAmountWithFees)],
+            arguments: [window.petLiquidInstance.address, ethers.utils.parseEther(userAmountWithFees)],
             ESAmount: userAmountWithFees,
             headingName: 'Approval Status',
             functionName: 'Approve',
@@ -670,10 +670,10 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
+            transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
               .makeFrequencyModeDeposit,
-            estimator: window.petInstance.estimateGas.makeFrequencyModeDeposit,
-            contract: window.petInstance,
+            estimator: window.petLiquidInstance.estimateGas.makeFrequencyModeDeposit,
+            contract: window.petLiquidInstance,
             contractName: 'TimeAllyPET',
             arguments: [
               window.wallet?.address,

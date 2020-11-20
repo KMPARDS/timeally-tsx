@@ -127,7 +127,7 @@ class New extends Component<PropsInterface, State> {
 
     await this.setState({ spinner: true, errorDisplay: false, errorDisplayText: '' });
 
-    const petPlan = await window.petInstance.petPlans(this.state.plan);
+    const petPlan = await window.petLiquidInstance.petPlans(this.state.plan);
     console.log({ petPlan });
 
     if (
@@ -624,10 +624,10 @@ class New extends Component<PropsInterface, State> {
           location={this.props.location}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance?.connect(window.wallet?.connect(window.provider)).newPET,
-            // estimator: window.petInstance.estimate.newPET,
-            estimator: window.petInstance.estimateGas.newPET,
-            contract: window.petInstance,
+            transactor: window.petLiquidInstance?.connect(window.wallet?.connect(window.provider)).newPET,
+            // estimator: window.petLiquidInstance.estimate.newPET,
+            estimator: window.petLiquidInstance.estimateGas.newPET,
+            contract: window.petLiquidInstance,
             contractName: 'TimeAllyPET',
             arguments: [this.state.plan, ethers.utils.parseEther(this.state.userAmount || '0')],
             ESAmount: '0.0',

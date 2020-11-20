@@ -20,7 +20,7 @@ class DepositElement extends Component<Props, State> {
   };
 
   componentDidMount = async () => {
-    // const status = (await window.petInstance.functions.getDepositDoneStatus(
+    // const status = (await window.petLiquidInstance.functions.getDepositDoneStatus(
     //   window.walletInstance.address,
     //   this.props.petId,
     //   this.props.monthId
