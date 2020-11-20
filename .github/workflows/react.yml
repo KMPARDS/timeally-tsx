@@ -21,8 +21,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: npm install
+      - run: npm run build
         env:
           # TODO: Make this true someday, treats react warnings as errors
           CI: false
@@ -41,5 +41,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn add prettier --dev
-      - run: yarn style-check
+      - run: npm install prettier --save-dev
+      - run: npm run style-check
