@@ -24,9 +24,7 @@ type State = {
   approveSuccess: boolean;
   approveAlreadyDone: boolean;
   userLiquidEsBalance: ethers.BigNumber;
-  userPrepaidESBalance: ethers.BigNumber;
   isLiquidAvailable: boolean;
-  isPrepaidAvailable: boolean;
   insufficientBalance: boolean;
   insufficientBalanceText: string;
   usePrepaidES: boolean;
@@ -50,9 +48,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     approveSuccess: false,
     approveAlreadyDone: false,
     userLiquidEsBalance: ethers.constants.Zero,
-    userPrepaidESBalance: ethers.constants.Zero,
     isLiquidAvailable: false,
-    isPrepaidAvailable: false,
     insufficientBalance: false,
     insufficientBalanceText: '',
     usePrepaidES: false,
@@ -67,15 +63,13 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
 
     if (window.wallet) {
       const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
-      const userPrepaidESBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
       const petPromise = window.petLiquidInstance.functions.pets(
         window.wallet.address,
         this.props.match.params.id
       );
-      await Promise.all([userLiquidEsBalancePromise, userPrepaidESBalancePromise, petPromise]);
+      await Promise.all([userLiquidEsBalancePromise, petPromise]);
       this.setState({
         userLiquidEsBalance: await userLiquidEsBalancePromise,
-        userPrepaidESBalance: await userPrepaidESBalancePromise,
         monthId:
           Math.floor(
             (this.state.currentTime - hexToNum((await petPromise).initTimestamp)) / 2629744
@@ -90,7 +84,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
   onAmountUpdate = async (event: any) => {
     console.log('onAmountUpdate');
     try {
-      if (this.state.userLiquidEsBalance && this.state.userPrepaidESBalance) {
+      if (this.state.userLiquidEsBalance) {
         console.log('1');
         console.log(
           'this.state.userLiquidEsBalance',
@@ -101,54 +95,33 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
         const isLiquidAvailable = ethers.utils
           .parseEther(event.target.value || '0')
           .lte(this.state.userLiquidEsBalance);
-        console.log('this.state.userPrepaidESBalance', this.state.userPrepaidESBalance);
-
-        const isPrepaidAvailable = ethers.utils
-          .parseEther(event.target.value || '0')
-          .lte(this.state.userPrepaidESBalance.toHexString());
-        console.log('this.state.monthlyCommitmentAmount', this.state.monthlyCommitmentAmount);
 
         const isDepositAtleastMinimum = ethers.utils
           .parseEther(event.target.value || '0')
           .gte(this.state.monthlyCommitmentAmount.toHexString());
-        console.log(
-          'isLiquidAvailable',
-          isLiquidAvailable,
-          'isPrepaidAvailable',
-          isPrepaidAvailable
-        );
+
         console.log('2');
         let insufficientBalance = false;
         let insufficientBalanceText = '';
         if (+event.target.value) {
           if (isDepositAtleastMinimum) {
-            if (isLiquidAvailable && isPrepaidAvailable) {
+            if (isLiquidAvailable) {
               insufficientBalanceText = `You can use either your liquid tokens (${hexToNum(
                 this.state.userLiquidEsBalance
-              )} ES) or your TimeAlly PET prepaidES tokens (${hexToNum(
-                this.state.userPrepaidESBalance
               )} ES) for this PET.`;
-            } else if (isLiquidAvailable && !isPrepaidAvailable) {
-              insufficientBalanceText = this.state.userPrepaidESBalance.gt(0)
-                ? `You can use your liquid ES tokens (${hexToNum(
-                    this.state.userLiquidEsBalance
-                  )} ES) for this PET as there aren't enough tokens in your TimeAlly PET prepaidES.`
-                : '';
-            } else if (!isLiquidAvailable && isPrepaidAvailable) {
-              insufficientBalanceText = `You can use your TimeAlly PET prepaidES tokens (${hexToNum(
-                this.state.userPrepaidESBalance
-              )} ES) for this PET.`;
-            } else {
+            }
+            //  else if (isLiquidAvailable && !isPrepaidAvailable) {
+            //   insufficientBalanceText = this.state.userPrepaidESBalance.gt(0)
+            //     ? `You can use your liquid ES tokens (${hexToNum(
+            //         this.state.userLiquidEsBalance
+            //       )} ES) for this PET as there aren't enough tokens in your TimeAlly PET prepaidES.`
+            //     : '';
+            // }
+            else {
               insufficientBalance = true;
               insufficientBalanceText = `Insufficient ES balance. You only have ${hexToNum(
                 this.state.userLiquidEsBalance
-              )} liquid ES tokens${
-                this.state.userPrepaidESBalance.gt(0)
-                  ? ` and ${hexToNum(
-                      this.state.userPrepaidESBalance
-                    )} TimeAlly PET prepaidES tokens.`
-                  : '.'
-              }`;
+              )} liquid ES tokens`;
             }
           } else {
             console.log('3');
@@ -162,7 +135,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
         await this.setState({
           userAmount: event.target.value,
           isLiquidAvailable,
-          isPrepaidAvailable,
           insufficientBalance,
           insufficientBalanceText,
         });
@@ -296,34 +268,17 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       );
     } else if (this.state.currentScreen === 1) {
       let displayText: any = '';
-      if (this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
+      if (this.state.isLiquidAvailable) {
         displayText = (
           <p>
             This dApp just noticed that you have{' '}
             <strong>{hexToNum(this.state.userLiquidEsBalance)} liquid ES tokens</strong> as well as{' '}
-            <strong>{hexToNum(this.state.userPrepaidESBalance)} TimeAlly PET prepaidES</strong>.
             Please choose which you want to use to deposit the{' '}
             <strong>
               {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} monthly
               installment of {this.state.userAmount} ES
             </strong>{' '}
             of your PET with initial monthly commitment of ES.
-          </p>
-        );
-      } else if (this.state.isLiquidAvailable && !this.state.isPrepaidAvailable) {
-        displayText = (
-          <p>
-            You have enough tokens (<strong>{hexToNum(this.state.userLiquidEsBalance)} ES</strong>)
-            in your wallet for PET. Go to Step 3 for doing approval procedure of{' '}
-            <strong>{this.state.userAmount} ES</strong> to TimeAlly PET Smart Contract.
-          </p>
-        );
-      } else if (!this.state.isLiquidAvailable && this.state.isPrepaidAvailable) {
-        displayText = (
-          <p>
-            You have enough tokens in your TimeAlly PET prepaidES to make a deposit of{' '}
-            <strong>{this.state.userAmount} ES</strong> in your PET with initial monthly commitment
-            of ES.
           </p>
         );
       } else {
@@ -333,13 +288,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             <strong>{this.state.userAmount} ES</strong> for{' '}
             {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} Month. Your
             liquid balance is <strong>{hexToNum(this.state.userLiquidEsBalance)} ES</strong>
-            {this.state.userPrepaidESBalance.gt(0) ? (
-              <>
-                {' '}
-                and prepaidES balance is{' '}
-                <strong>{hexToNum(this.state.userPrepaidESBalance)} ES</strong>
-              </>
-            ) : null}
+
             . Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens.
             ES tokens are also trading on Probit Exchange, where you can exchange your other crypto
             assets with the exchange community for ES.
@@ -372,19 +321,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               }
             >
               From Liquid: {hexToNum(this.state.userLiquidEsBalance)}
-            </Button>
-            <Button
-              variant="warning"
-              style={{ display: 'block', width: '100%' }}
-              disabled={!this.state.isPrepaidAvailable}
-              onClick={() =>
-                this.setState({
-                  usePrepaidES: true,
-                  currentScreen: 3,
-                })
-              }
-            >
-              From PrepaidES: {hexToNum(this.state.userPrepaidESBalance)}
             </Button>
           </div>
         </Card>

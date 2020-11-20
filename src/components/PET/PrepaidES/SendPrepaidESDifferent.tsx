@@ -323,7 +323,7 @@ class SendPrepaidESDifferent extends Component {
         title="Send Prepaid ES Different"
         subtitle="Send multiple Prepaid ES in one transaction!"
         buttonName="Add to Prepaid ES"
-        // buttonOnClick={() => this.props.history.push('/pet/prepaid-es/add-to-prepaid')}
+        // buttonOnClick={() => this.props.history.push('/pet-old/prepaid-es/add-to-prepaid')}
       >
         <p style={{ marginTop: '.5rem' }}>
           Your PrepaidES balance:{' '}

@@ -93,7 +93,7 @@ class PET extends Component<PETProps, State> {
     return (
       <Layout
         breadcrumb={['Home', 'PET']}
-        title="Personal EraSwap Teller"
+        title="Personal EraSwap Teller: Old"
         transparent={true}
         buttonName="New PET"
         buttonOnClick={

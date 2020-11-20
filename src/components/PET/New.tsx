@@ -626,7 +626,7 @@ class New extends Component<PropsInterface, State> {
             //@ts-ignore
             transactor: window.petInstance?.connect(window.wallet?.connect(window.provider)).newPET,
             // estimator: window.petInstance.estimate.newPET,
-            estimator: window.petInstance.estimateGas.newPET,
+            estimator: () => ethers.constants.Zero,
             contract: window.petInstance,
             contractName: 'TimeAllyPET',
             arguments: [this.state.plan, ethers.utils.parseEther(this.state.userAmount || '0')],

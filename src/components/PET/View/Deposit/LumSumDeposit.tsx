@@ -647,7 +647,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //@ts-ignore
             transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider))
               .approve,
-            estimator: window.prepaidEsInstance.estimateGas.approve,
+            estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [window.petInstance.address, ethers.utils.parseEther(userAmountWithFees)],
@@ -672,7 +672,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //@ts-ignore
             transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
               .makeFrequencyModeDeposit,
-            estimator: window.petInstance.estimateGas.makeFrequencyModeDeposit,
+            estimator: () => ethers.constants.Zero,
             contract: window.petInstance,
             contractName: 'TimeAllyPET',
             arguments: [
