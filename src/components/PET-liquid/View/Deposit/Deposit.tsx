@@ -68,9 +68,12 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
         this.props.match.params.id
       );
       await Promise.all([userLiquidEsBalancePromise, petPromise]);
-      console.log('here',Math.floor(
-        (this.state.currentTime - (await petPromise).initTimestamp.toNumber()) / 2629744
-      ) + 1);
+      console.log(
+        'here',
+        Math.floor(
+          (this.state.currentTime - (await petPromise).initTimestamp.toNumber()) / 2629744
+        ) + 1
+      );
 
       this.setState({
         userLiquidEsBalance: await userLiquidEsBalancePromise,
@@ -291,10 +294,9 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             Seems that you don't have enough ES tokens for making deposit of{' '}
             <strong>{this.state.userAmount} ES</strong> for{' '}
             {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} Month. Your
-            liquid balance is <strong>{hexToNum(this.state.userLiquidEsBalance)} ES</strong>
-
-            . Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens.
-            ES tokens are also trading on Probit Exchange, where you can exchange your other crypto
+            liquid balance is <strong>{hexToNum(this.state.userLiquidEsBalance)} ES</strong>. Are
+            you sure you want to proceed? You can get ES tokens from anyone who has ES tokens. ES
+            tokens are also trading on Probit Exchange, where you can exchange your other crypto
             assets with the exchange community for ES.
           </p>
         );
@@ -506,7 +508,9 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 </a>
               </Alert>
               <Button
-                onClick={() => this.props.history.push('/pet-new/view/' + this.props.match.params.id)}
+                onClick={() =>
+                  this.props.history.push('/pet-new/view/' + this.props.match.params.id)
+                }
               >
                 Go to PET Deposits Page
               </Button>

@@ -132,7 +132,9 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
               </p>
               <Button
                 onClick={() =>
-                  this.props.history.push(`/pet-old/view/${this.props.match.params.id}/lum-sum-deposit`)
+                  this.props.history.push(
+                    `/pet-old/view/${this.props.match.params.id}/lum-sum-deposit`
+                  )
                 }
               >
                 Make LumpSum Deposit

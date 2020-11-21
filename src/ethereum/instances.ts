@@ -87,7 +87,10 @@ window.tsgapLiquidInstance = TsgapFactory.connect(config.ESN.tsgap, window.provi
 
 // window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
 window.petInstance = PetPrepaidTimeAllyPetFactory.connect(config.ESN.petPrepaid, window.provider);
-window.petLiquidInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petLiquid, window.provider);
+window.petLiquidInstance = PetLiquidTimeAllyPetFactory.connect(
+  config.ESN.petLiquid,
+  window.provider
+);
 
 window.petFundsInstance = PetLiquidFundsBucketFactory.connect(
   config.ESN.petPrepaid,

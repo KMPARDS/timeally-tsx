@@ -39,7 +39,10 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       // const currentTime = process.env.network === 'homestead' ? Math.floor(Date.now() / 1000) : (await window.esInstance.functions.mou()).toNumber();
 
       const depositMonth = (
-        await window.petLiquidInstance.getDepositMonth(window.wallet.address, this.props.match.params.id)
+        await window.petLiquidInstance.getDepositMonth(
+          window.wallet.address,
+          this.props.match.params.id
+        )
       ).toNumber();
 
       const pet = await window.petLiquidInstance.pets(
@@ -132,7 +135,9 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
               </p>
               <Button
                 onClick={() =>
-                  this.props.history.push(`/pet-new/view/${this.props.match.params.id}/lum-sum-deposit`)
+                  this.props.history.push(
+                    `/pet-new/view/${this.props.match.params.id}/lum-sum-deposit`
+                  )
                 }
               >
                 Make LumpSum Deposit

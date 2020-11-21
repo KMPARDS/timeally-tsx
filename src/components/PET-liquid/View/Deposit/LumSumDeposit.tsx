@@ -311,8 +311,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
         displayText = (
           <p>
             This dApp just noticed that you have{' '}
-            <strong>{lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens</strong>.
-            Please choose which you want to use to deposit the{' '}
+            <strong>{lessDecimals(this.state.userLiquidEsBalance)} liquid ES tokens</strong>. Please
+            choose which you want to use to deposit the{' '}
             <strong>
               {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} monthly
               installment of {this.state.userAmount} ES
@@ -326,9 +326,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             Seems that you don't have enough ES tokens for making deposit of{' '}
             <strong>{this.state.userAmount} ES</strong> for{' '}
             {this.state.monthId ? getOrdinalString(this.state.monthId) : 'Loading...'} Month. Your
-            liquid balance is <strong>{lessDecimals(this.state.userLiquidEsBalance)} ES</strong>
-
-            . Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens.
+            liquid balance is <strong>{lessDecimals(this.state.userLiquidEsBalance)} ES</strong>.
+            Are you sure you want to proceed? You can get ES tokens from anyone who has ES tokens.
             ES tokens are also trading on Probit Exchange, where you can exchange your other crypto
             assets with the exchange community for ES.
           </p>
@@ -362,7 +361,6 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
               From Liquid:
               {lessDecimals(this.state.userLiquidEsBalance)}
             </Button>
-
           </div>
         </Card>
       );
@@ -543,7 +541,9 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
                 </a>
               </Alert>
               <Button
-                onClick={() => this.props.history.push('/pet-new/view/' + this.props.match.params.id)}
+                onClick={() =>
+                  this.props.history.push('/pet-new/view/' + this.props.match.params.id)
+                }
               >
                 Go to PET Deposits Page
               </Button>
@@ -576,7 +576,10 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
-            arguments: [window.petLiquidInstance.address, ethers.utils.parseEther(userAmountWithFees)],
+            arguments: [
+              window.petLiquidInstance.address,
+              ethers.utils.parseEther(userAmountWithFees),
+            ],
             ESAmount: userAmountWithFees,
             headingName: 'Approval Status',
             functionName: 'Approve',

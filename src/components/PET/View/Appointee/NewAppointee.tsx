@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Layout from '../../../Layout/LayoutPET';
 
-
 interface RouteParams {
   id: string;
 }

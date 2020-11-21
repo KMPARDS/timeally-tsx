@@ -4,7 +4,7 @@ import Layout from '../../../Layout/LayoutPET';
 
 interface RouteParams {
   id: string;
-};
+}
 type Props = {};
 type State = {};
 

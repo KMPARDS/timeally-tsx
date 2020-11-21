@@ -35,7 +35,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
     benefitAmount: -1,
     selectedPowerBooster: -1,
     powerBoosterAmount: -1,
-    showPowerBoosterWithdrawModal: false
+    showPowerBoosterWithdrawModal: false,
   };
 
   componentDidMount = async () => {
@@ -48,7 +48,10 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         this.props.match.params.id
       );
 
-      const powerBoosterAmount = await window.petLiquidInstance.calculatePowerBoosterAmount(window.wallet.address,this.props.match.params.id);
+      const powerBoosterAmount = await window.petLiquidInstance.calculatePowerBoosterAmount(
+        window.wallet.address,
+        this.props.match.params.id
+      );
 
       const pets = await window.petLiquidInstance.pets(
         window.wallet?.address,
@@ -60,7 +63,12 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       const TWELVETH_MONTH = 12;
       for (let i = 1; i <= TWELVETH_MONTH; i++) {
         monthlyBenefitAmountArray.push(
-          await window.petLiquidInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+          await window.petLiquidInstance.getSumOfMonthlyAnnuity(
+            window.wallet.address,
+            pets.planId,
+            i,
+            i
+          )
         );
       }
       // const monthlyBenefitAmountPromiseArray = []
@@ -96,7 +104,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       this.setState({
         monthlyBenefitAmountArray,
         currentMonth: hexToNum(currentMonth),
-        powerBoosterAmount: hexToNum(powerBoosterAmount)
+        powerBoosterAmount: hexToNum(powerBoosterAmount),
         // depositStatusArray,
       });
     }
@@ -164,7 +172,9 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         benefitTableElementArray.push(
           <tr style={{ backgroundColor: '#aaa' }}>
             <td>Power Booster {Math.ceil(i / 36)}</td>
-            <td>{this.state.powerBoosterAmount > -1 ? this.state.powerBoosterAmount : 'Loading...'}</td>
+            <td>
+              {this.state.powerBoosterAmount > -1 ? this.state.powerBoosterAmount : 'Loading...'}
+            </td>
             <td>
               <Button
                 onClick={async (e) => {
@@ -172,11 +182,13 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
                     this.setState({
                       selectedPowerBooster: powerBoosterCount,
                       benefitAmount: this.state.powerBoosterAmount,
-                      showPowerBoosterWithdrawModal: true
+                      showPowerBoosterWithdrawModal: true,
                     });
                   }
                 }}
-              >Withdraw</Button>
+              >
+                Withdraw
+              </Button>
             </td>
           </tr>
         );
@@ -229,7 +241,9 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         </div>
         <TransactionModal
           show={this.state.showPowerBoosterWithdrawModal}
-          hideFunction={() => this.setState({ showPowerBoosterWithdrawModal: false, spinner: false })}
+          hideFunction={() =>
+            this.setState({ showPowerBoosterWithdrawModal: false, spinner: false })
+          }
           ethereum={{
             //@ts-ignore
             transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
@@ -240,7 +254,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             arguments: [
               window.wallet?.address,
               this.props.match.params.id,
-              this.state.selectedPowerBooster
+              this.state.selectedPowerBooster,
             ],
             ESAmount: this.state.benefitAmount,
             headingName: 'Withdraw Power Booster',

@@ -624,7 +624,8 @@ class New extends Component<PropsInterface, State> {
           location={this.props.location}
           ethereum={{
             //@ts-ignore
-            transactor: window.petLiquidInstance?.connect(window.wallet?.connect(window.provider)).newPET,
+            transactor: window.petLiquidInstance?.connect(window.wallet?.connect(window.provider))
+              .newPET,
             // estimator: window.petLiquidInstance.estimate.newPET,
             estimator: () => ethers.constants.Zero,
             contract: window.petLiquidInstance,
