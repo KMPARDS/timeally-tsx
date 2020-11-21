@@ -30,7 +30,7 @@ import { PETLiquid } from './components/PET-liquid/PET';
 //   }
 //   return lessDecimals.join('.');
 // }
-// window.sliceDataTo32Bytes = (data, index = 0) => {
+// sliceDataTo32Bytes = (data, index = 0) => {
 //   return '0x'+data.slice(2+64*index, 2+64*(index+1));
 // }
 

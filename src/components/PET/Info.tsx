@@ -80,7 +80,7 @@ class PET extends Component<PETProps, State> {
     //     toBlock: 'latest',
     //     topics:[ethers.utils.id('FundsDeposited(address,uint256)')]
     //   })).map(log => {
-    //     const bn = ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1));
+    //     const bn = ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data,1));
     //     console.log(ethers.utils.formatEther(bn));
     //     return bn;
     //   } ).reduce( (sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
