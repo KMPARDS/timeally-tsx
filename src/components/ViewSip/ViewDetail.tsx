@@ -3,12 +3,11 @@ import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { es } from 'eraswap-sdk/dist';
 import { BigNumber, ethers } from 'ethers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {TsgapFactory} from 'eraswap-sdk/dist/typechain/ESN';
-import {Tsgap} from 'eraswap-sdk/dist/typechain/ESN'
+import { TsgapFactory } from 'eraswap-sdk/dist/typechain/ESN';
+import { Tsgap } from 'eraswap-sdk/dist/typechain/ESN';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
-type Props ={
-}
+type Props = {};
 
 type State = {
   spinner: boolean;
@@ -18,7 +17,6 @@ type State = {
   sipId:number,
   staker:string
 };
-
 
 interface MatchParams {
   staker: string;
@@ -43,22 +41,19 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
   constructor(props: Props) {
     //@ts-ignore
     super(props);
-  
+
     this.state = {
       NewDeposit: [],
       newSipEvent: [],
       spinner: false,
       open: false,
-      sipId:0,
-      staker:''
+      sipId: 0,
+      staker: '',
     };
   }
 
   componentDidMount = async () => {
-    this.tsgapInstance = TsgapFactory.connect(
-     this.props.match.params.staker,
-    	window.provider
-    );
+    this.tsgapInstance = TsgapFactory.connect(this.props.match.params.staker, window.provider);
     this.fetchNewSip().catch((e) => console.log(e));
     this.getDepositStatus().catch((e) => console.log(e));
     this.sips().catch((e) => console.log(e));
@@ -66,10 +61,10 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
 
     const sipData = this.state.newSipEvent.map((log) => {
       this.setState({
-        sipId:log.sipId,
-        staker:log.staker
-      })
-    })
+        sipId: log.sipId,
+        staker: log.staker,
+      });
+    });
   };
 
   async fetchNewSip() {
@@ -84,11 +79,11 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     const newSipData = sipNew.map((log) => ({
       staker: log.args['staker'],
       sipId: log.args['sipId'],
-      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount']
+      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount'],
     }));
     this.setState({
       newSipEvent: newSipData,
-    })
+    });
   }
 
   getDepositStatus = async () => {
@@ -99,12 +94,10 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .monthlyDeposit(this.props.match.params.staker,this.state.sipId,1);
+        .monthlyDeposit(this.props.match.params.staker, this.state.sipId, 1);
       const receipt = tx;
       console.log('Deposit is *****', receipt);
-      this.setState({
-       
-      })
+      this.setState({});
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
       console.log(`Error of deposit: ${readableError}`);
@@ -122,13 +115,11 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
       }
       const tx = await window.tsgapLiquidInstance
         .connect(window.wallet.connect(window.provider))
-        .sips(this.props.match.params.staker,this.state.sipId);
+        .sips(this.props.match.params.staker, this.state.sipId);
       const receipt = tx;
       console.log('sips is *****', receipt);
-    
-      this.setState({
-       
-      })
+
+      this.setState({});
     } catch (error) {
       const readableError = es.utils.parseEthersJsError(error);
       console.log(`Error of sips: ${readableError}`);
@@ -238,7 +229,7 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
 
         </div>
         </div>
-       </div>
+      </div>
       </div>
     );
   }

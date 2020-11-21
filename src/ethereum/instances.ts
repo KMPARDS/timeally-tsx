@@ -11,23 +11,6 @@ import {
   DayswappersWithMigrationFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-// const config = {
-//   ESN: {
-//     nrtManager: 'NRT_MANAGER',
-//     timeallyManager: 'TIMEALLY_MANAGER',
-//     timeallyStakingTarget: 'TIMEALLY_STAKING_TARGET',
-//     validatorSet: 'VALIDATOR_SET',
-//     validatorManager: 'VALIDATOR_MANAGER',
-//     randomnessManager: 'RANDOMNESS_MANAGER',
-//     blockRewardManager: 'BLOCK_REWARD',
-//     prepaidEs: 'PREPAID_ES',
-//     dayswappers: 'DAYSWAPPERS',
-//     kycdapp: addresses['development'].ESN.kycdapp,
-//     timeallyclub: 'TIMEALLY_CLUB',
-//     timeAllyPromotionalBucket: 'TIMEALLY_PROMOTIONAL_BUCKET',
-//     tsgapManager: '0x98dD383CE722eFc881354cE38922d50017C3eE89',
-//   },
-// };
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
 window.provider = new CustomProvider(

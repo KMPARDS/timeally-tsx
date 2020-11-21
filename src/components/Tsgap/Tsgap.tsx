@@ -7,7 +7,6 @@ import './Tsgap';
 
 type Props = {};
 
-
 type State = {
   showLoginModal: boolean;
   newSipEvent: NewSipEvent[];
@@ -15,8 +14,6 @@ type State = {
   open: boolean;
   walletAddress: string | undefined;
 };
-
-
 
 interface NewSipEvent {
   staker: string;
@@ -30,23 +27,22 @@ export class Tsgap extends Component<Props, State> {
     this.state = {
       spinner: false,
       open: false,
-      newSipEvent:[],
+      newSipEvent: [],
       showLoginModal: false,
-      walletAddress:'',
+      walletAddress: '',
     };
   }
-
 
   componentDidMount = async () => {
     this.fetchAdress();
     this.fetchNewSip().catch((e) => console.log(e));
   };
 
-  fetchAdress = async () =>{
-   this.setState({
-     walletAddress : window.wallet?.address
-   })
-  }
+  fetchAdress = async () => {
+    this.setState({
+      walletAddress: window.wallet?.address,
+    });
+  };
 
   onOpenModal = () => {
     this.setState({ open: true });
@@ -55,7 +51,7 @@ export class Tsgap extends Component<Props, State> {
   onCloseModal = () => {
     this.setState({ open: false });
   };
-  
+
   async fetchNewSip() {
     const data = await window.tsgapLiquidInstance.queryFilter(
       window.tsgapLiquidInstance.filters.NewSIP(null, null, null)
@@ -65,18 +61,18 @@ export class Tsgap extends Component<Props, State> {
       return window.tsgapLiquidInstance.interface.parseLog(log);
     });
     console.log('check a', sipNew);
-    const newSipData= sipNew.map((log) => ({
+    const newSipData = sipNew.map((log) => ({
       staker: log.args['staker'],
-      sipId:log.args['sipId'],
-      monthlyCommitmentAmount:log.args['monthlyCommitmentAmount']
+      sipId: log.args['sipId'],
+      monthlyCommitmentAmount: log.args['monthlyCommitmentAmount'],
     }));
     this.setState({
       newSipEvent: newSipData,
-    })
+    });
   }
 
   render() {
- console.log("walletAddress is " ,this.state.walletAddress)
+    console.log('walletAddress is ', this.state.walletAddress);
     return (
       <div>
         <div className="page-header-pet page-header-tsgap ">
@@ -109,9 +105,11 @@ export class Tsgap extends Component<Props, State> {
                 helping hand to support you achieving your goal & make the most of your golden years
                 with financial independence{' '}
               </p>
-           
+
               <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                <Button href={"/view/" + this.state.walletAddress} className="custom-button">View My SIP</Button>
+                <Button href={'/view/' + this.state.walletAddress} className="custom-button">
+                  View My SIP
+                </Button>
               </div>
             </div>
 
@@ -210,7 +208,10 @@ export class Tsgap extends Component<Props, State> {
                     SAP Calculator
                   </Button>
 
-                  <Button href={"/view/" + this.state.walletAddress} style={{ marginLeft: '10px', marginTop: '10px' }}>
+                  <Button
+                    href={'/view/' + this.state.walletAddress}
+                    style={{ marginLeft: '10px', marginTop: '10px' }}
+                  >
                     View My SAPs
                   </Button>
                   <p style={{ marginTop: '1rem' }}>

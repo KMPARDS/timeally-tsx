@@ -99,9 +99,9 @@ export class NewDelegation extends Component<Props, State> {
                 title={this.state.delegateeAddress || 'Select Validator'}
               >
                 {[
-                  '0x08D85Bd1004E3e674042EAddF81Fb3beb4853a22',
-                  '0xB4FB9d198047fe763472d58045f1D9341161eb73',
-                  '0x36560493644fbb79f1c38D12fF096F7ec5D333b7',
+                  '0x664236321865100cA76323c80e604eD271D9cEc6',
+                  '0x01A1E61c5e993b4F2083c145FB4f2Dd294e23E87',
+                  '0xd64473841Ad909411Eb559e2afe5F447508CC78f',
                 ].map((addr) => (
                   <Dropdown.Item
                     className="break"

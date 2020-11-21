@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { Button, Spinner, Alert } from 'react-bootstrap';
 import { TimeAllyStaking } from 'eraswap-sdk/dist/typechain/ESN';
 import { renderEthersJsError } from '../../../../../utils';
 import { AddressDisplayer } from '../../../../../AddressDisplayer';
+import { formatEther } from 'ethers/lib/utils';
 
 export interface Delegation {
   month: number;
@@ -20,12 +21,38 @@ type Props = {
 type State = {
   spinner: boolean;
   displayMessage: string;
+  delegationShare: BigNumber | null;
+  withdrawn: boolean | null;
+  currentMonth: number | null;
 };
 
 export class DelegationElement extends Component<Props, State> {
   state: State = {
     spinner: false,
     displayMessage: '',
+    delegationShare: null,
+    withdrawn: null,
+    currentMonth: null,
+  };
+
+  componentDidMount = async () => {
+    try {
+      const currentMonth = await window.nrtManagerInstance.currentNrtMonth();
+      const delegationShare = await window.validatorManagerInstance.getDelegationShare(
+        this.props.delegation.month,
+        this.props.delegation.delegatee,
+        this.props.instance.address
+      );
+      this.setState({ delegationShare, currentMonth });
+      const { withdrawn } = await window.validatorManagerInstance.getDelegatorByAddress(
+        this.props.delegation.month,
+        this.props.delegation.delegatee,
+        this.props.instance.address
+      );
+      this.setState({ withdrawn });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   withdrawBenefit = async () => {
@@ -63,6 +90,18 @@ export class DelegationElement extends Component<Props, State> {
             <AddressDisplayer address={this.props.delegation.delegatee} />
           </td>
           <td>
+            {this.state.currentMonth !== null &&
+            this.props.delegation.month > this.state.currentMonth !== null ? (
+              this.state.delegationShare !== null ? (
+                <>{formatEther(this.state.delegationShare)} ES</>
+              ) : (
+                'Loading share...'
+              )
+            ) : (
+              'Not available yet'
+            )}
+          </td>
+          <td>
             {this.state.displayMessage ? (
               <Alert variant="info">{this.state.displayMessage}</Alert>
             ) : null}
@@ -72,7 +111,7 @@ export class DelegationElement extends Component<Props, State> {
                 this.props.delegation.month,
                 this.props.delegation.delegatee
               )}
-              disabled={this.state.spinner}
+              disabled={this.state.spinner || !!this.state.withdrawn}
             >
               {this.state.spinner ? (
                 <Spinner
@@ -84,7 +123,11 @@ export class DelegationElement extends Component<Props, State> {
                   style={{ marginRight: '2px' }}
                 />
               ) : null}
-              {this.state.spinner ? 'Withdrawing...' : 'Withdraw Benefit'}
+              {this.state.withdrawn
+                ? 'Withdrawn'
+                : this.state.spinner
+                ? 'Withdrawing...'
+                : 'Withdraw Benefit'}
             </Button>
           </td>
         </tr>
