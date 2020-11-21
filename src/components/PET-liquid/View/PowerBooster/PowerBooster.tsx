@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import Layout from '../../../Layout/LayoutPET';
 
-class PowerBooster extends Component {
+interface RouteParams {
+  id: string;
+}
+type Props = {};
+type State = {};
+
+class PowerBooster extends Component<Props & RouteComponentProps<RouteParams>, State> {
   render = () => {
     return (
       <Layout

@@ -31,7 +31,7 @@ class PET extends Component<PETProps, State> {
   };
 
   componentDidMount = async () => {
-    // const fundsBucketAddress = await window.petInstance.functions.fundsBucket();
+    // const fundsBucketAddress = await window.petLiquidInstance.functions.fundsBucket();
 
     (async () => {
       const response = await Axios.get('https://apis.eraswap.info/third-party/es-price');
@@ -66,7 +66,7 @@ class PET extends Component<PETProps, State> {
     //     topics:[
     //       '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
     //       ethers.utils.hexZeroPad(fundsBucketAddress, 32),
-    //       ethers.utils.hexZeroPad(window.petInstance.address, 32)
+    //       ethers.utils.hexZeroPad(window.petLiquidInstance.address, 32)
     //     ]
     //   })).map(log => ethers.utils.bigNumberify(log.data) ).reduce( (sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
 
@@ -93,16 +93,16 @@ class PET extends Component<PETProps, State> {
     return (
       <Layout
         breadcrumb={['Home', 'PET']}
-        title="Personal EraSwap Teller: Old"
+        title="Personal EraSwap Teller: New"
         transparent={true}
         buttonName="New PET"
         buttonOnClick={
           window.wallet && window.wallet.address
-            ? () => this.props.history.push('/pet-old/new')
+            ? () => this.props.history.push('/pet-new/new')
             : () => (
                 (window.returnLocationAfterLoadWallet = {
                   name: 'New PET',
-                  location: '/pet-old/new',
+                  location: '/pet-new/new',
                   sourceLocation: this.props.location.pathname,
                 }),
                 this.setState({ showLoginModal: true })
@@ -127,11 +127,11 @@ class PET extends Component<PETProps, State> {
           <Button
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/view')
+                ? () => this.props.history.push('/pet-new/view')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'View My PETs',
-                      location: '/pet-old/view',
+                      location: '/pet-new/view',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })
@@ -292,11 +292,11 @@ class PET extends Component<PETProps, State> {
             style={{ margin: '10px auto' }}
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/prepaid-es')
+                ? () => this.props.history.push('/pet-new/prepaid-es')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'PET Prepaid ES',
-                      location: '/pet-old/prepaid-es',
+                      location: '/pet-new/prepaid-es',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })
@@ -308,11 +308,11 @@ class PET extends Component<PETProps, State> {
           <Button
             onClick={
               window.wallet && window.wallet.address
-                ? () => this.props.history.push('/pet-old/view')
+                ? () => this.props.history.push('/pet-new/view')
                 : () => (
                     (window.returnLocationAfterLoadWallet = {
                       name: 'View My PETs',
-                      location: '/pet-old/view',
+                      location: '/pet-new/view',
                       sourceLocation: this.props.location.pathname,
                     }),
                     this.setState({ showLoginModal: true })

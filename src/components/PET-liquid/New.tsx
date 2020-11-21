@@ -127,7 +127,7 @@ class New extends Component<PropsInterface, State> {
 
     await this.setState({ spinner: true, errorDisplay: false, errorDisplayText: '' });
 
-    const petPlan = await window.petInstance.petPlans(this.state.plan);
+    const petPlan = await window.petLiquidInstance.petPlans(this.state.plan);
     console.log({ petPlan });
 
     if (
@@ -599,7 +599,7 @@ class New extends Component<PropsInterface, State> {
                 . You are yet to make ES deposit to your PET and you can do this by going to View
                 PETs page and opening your PET to make ES deposit.
               </Alert>
-              <Button onClick={() => this.props.history.push('/pet-old/view')}>
+              <Button onClick={() => this.props.history.push('/pet-new/view')}>
                 Go to View PETs page
               </Button>
             </div>
@@ -624,10 +624,11 @@ class New extends Component<PropsInterface, State> {
           location={this.props.location}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance?.connect(window.wallet?.connect(window.provider)).newPET,
-            // estimator: window.petInstance.estimate.newPET,
+            transactor: window.petLiquidInstance?.connect(window.wallet?.connect(window.provider))
+              .newPET,
+            // estimator: window.petLiquidInstance.estimate.newPET,
             estimator: () => ethers.constants.Zero,
-            contract: window.petInstance,
+            contract: window.petLiquidInstance,
             contractName: 'TimeAllyPET',
             arguments: [this.state.plan, ethers.utils.parseEther(this.state.userAmount || '0')],
             ESAmount: '0.0',

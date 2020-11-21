@@ -20,25 +20,25 @@ export class PET extends Component {
   render() {
     return (
       <>
-        <Route path="/pet" exact component={Info} />
+        <Route path="/pet-old" exact component={Info} />
 
-        <Route path="/pet/new" exact component={New} />
+        <Route path="/pet-old/new" exact component={New} />
 
-        <Route path="/pet/view" exact component={View} />
+        <Route path="/pet-old/view" exact component={View} />
 
-        <Route path="/pet/view/:id" exact component={PETId} />
+        <Route path="/pet-old/view/:id" exact component={PETId} />
 
-        <Route path="/pet/view/:id/benefits/" exact component={Benefits} />
+        <Route path="/pet-old/view/:id/benefits/" exact component={Benefits} />
 
-        <Route path="/pet/view/:id/deposit/" exact component={Deposit} />
-        <Route path="/pet/view/:id/lum-sum-deposit/" exact component={LumSumDeposit} />
+        <Route path="/pet-old/view/:id/deposit/" exact component={Deposit} />
+        <Route path="/pet-old/view/:id/lum-sum-deposit/" exact component={LumSumDeposit} />
 
-        <Route path="/pet/view/:id/nominees" exact component={Nominee} />
-        <Route path="/pet/view/:id/nominees/new" exact component={NewNominee} />
+        <Route path="/pet-old/view/:id/nominees" exact component={Nominee} />
+        <Route path="/pet-old/view/:id/nominees/new" exact component={NewNominee} />
 
-        <Route path="/pet/prepaid-es/" exact component={PrepaidES} />
-        <Route path="/pet/prepaid-es/add-to-prepaid" exact component={AddToPrepaid} />
-        <Route path="/pet/prepaid-es/send" exact component={SendPrepaidESDifferent} />
+        <Route path="/pet-old/prepaid-es/" exact component={PrepaidES} />
+        <Route path="/pet-old/prepaid-es/add-to-prepaid" exact component={AddToPrepaid} />
+        <Route path="/pet-old/prepaid-es/send" exact component={SendPrepaidESDifferent} />
       </>
     );
   }
