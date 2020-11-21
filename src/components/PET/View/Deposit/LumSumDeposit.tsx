@@ -97,7 +97,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
         userPrepaidESBalance: await userPrepaidESBalancePromise,
         monthId:
           Math.floor(
-            (this.state.currentTime - hexToNum((await petPromise).initTimestamp)) / 2629744
+            (this.state.currentTime - (await petPromise).initTimestamp.toNumber()) / 2629744
           ) + 1,
         monthlyCommitmentAmount: (await petPromise).monthlyCommitmentAmount,
         spinner: false,
