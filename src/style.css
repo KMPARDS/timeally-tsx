@@ -5589,3 +5589,12 @@ input:checked + .slider:before {
 .nav-tabs .nav-link.active {
   border-bottom: 3px solid #263f8b;
 }
+
+
+.view-bgd-color{
+  background-color: #263f8b !important;
+}
+
+.view-anchor{
+  color: #fff !important;
+}
