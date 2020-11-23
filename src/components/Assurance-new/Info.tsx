@@ -32,9 +32,9 @@ class PET extends Component<PropsInterface, State> {
     (async() => {
       const response = await axios.get('https://apis.eraswap.info/third-party/es-price');
 
-      if(!response.data.data.success) return console.log('Error in Probit API:', response);
+      if(!response?.data?.status) return console.log('Error in Probit API:', response);
 
-      this.setState({ eraSwapPrice: +response.data.data.probitResponse.data[0].last })
+      this.setState({ eraSwapPrice: +response.data.probitResponse.data[0].last })
     })();
 
     (async() => {
@@ -80,11 +80,11 @@ class PET extends Component<PropsInterface, State> {
       transparent={true}
       buttonName="New SIP"
       buttonOnClick={window.wallet && window.wallet.address
-        ? () => this.props.history.push('/pet/new')
+        ? () => this.props.history.push('/assurance/new')
         : () => (
           window.returnLocationAfterLoadWallet={
             name:'New SIP',
-            location:'/pet/new',
+            location:'/assurance/new',
             sourceLocation:this.props.location.pathname
           },this.setState({showLoginModal:true})
         )}
@@ -146,23 +146,23 @@ class PET extends Component<PropsInterface, State> {
         <img src="./images/timeally-tsgap.png" className="robo-img" />
         <p className="text-white" style={{textShadow: '0 0 3px #000a'}}><strong>Till now Consumed (out of 20M ES):</strong> {this.state.pendingBenefits ? lessDecimals(this.state.pendingBenefits) + ' ES' : 'Loading...'}{this.state.eraSwapPrice && this.state.pendingBenefits ? ` (~${(this.state.pendingBenefits?(+ethers.utils.formatEther(this.state.pendingBenefits)):0) * (this.state.eraSwapPrice || 0)} USDT)` : null}</p>
         <Button style={{margin: '10px auto'}} onClick={window.wallet && window.wallet.address
-          ? () => this.props.history.push('/pet/prepaid-es')
+          ? () => this.props.history.push('/assurance/prepaid-es')
           : () => (
             window.returnLocationAfterLoadWallet={
               name:'PET Prepaid ES',
-              location:'/pet/prepaid-es',
+              location:'/assurance/prepaid-es',
               sourceLocation:this.props.location.pathname
             },this.setState({showLoginModal:true})
           )}>PET Prepaid ES</Button>
         <Button onClick={window.wallet && window.wallet.address
-          ? () => this.props.history.push('/pet/view')
+          ? () => this.props.history.push('/assurance/view')
           : () => (
             window.returnLocationAfterLoadWallet={
               name:'View My PETs',
-              location:'/pet/view',
+              location:'/assurance/view',
               sourceLocation:this.props.location.pathname
             },this.setState({showLoginModal:true})
-          )}>View My PETs</Button>
+          )}>View My SIPs</Button>
           <br />
           <div style={{display:'block', maxWidth: '500px', margin:'0 auto'}}>
             <Button className="text-white pet-links" href="/excel/PET_Calculator.xlsx" target="_blank" style={{color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a'}}>PET Illustration Excel</Button>

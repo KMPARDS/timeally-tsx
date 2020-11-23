@@ -32,7 +32,7 @@ interface PropsInterface extends RouteComponentProps<any> {}
 class New extends Component<PropsInterface, State> {
   state: State = {
     currentScreen: 0,
-    userAmount: -1,
+    userAmount: 0,
     plan: -1,
     spinner: false,
     waiting: false,
@@ -468,8 +468,9 @@ class New extends Component<PropsInterface, State> {
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            transactor: window.prepaidEsInstance.functions.approve,
-            estimator: window.prepaidEsInstance.estimate.approve,
+            //@ts-ignore
+            transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider)).functions.approve,
+            estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [window.tsgapLiquidInstance.address, ethers.utils.parseEther(this.state.userAmount.toString())],
@@ -490,8 +491,9 @@ class New extends Component<PropsInterface, State> {
             show={this.state.showStakeTransactionModal}
             hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.tsgapLiquidInstance.functions.newSIP,
-              estimator: window.tsgapLiquidInstance.estimate.newSIP,
+              //@ts-ignore
+              transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).functions.newSIP,
+              estimator: () => ethers.constants.Zero,
               contract: window.tsgapLiquidInstance,
               contractName: 'TimeAllySIP',
               arguments: [this.state.plan,ethers.utils.parseEther(this.state.userAmount.toString()), false],

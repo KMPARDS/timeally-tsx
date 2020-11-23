@@ -22,26 +22,34 @@ class View extends Component<PropsInterface, State> {
 
   componentDidMount = async() => {
     if(window.wallet){
-      const newSIPEventSig = ethers.utils.id('NewSIP(address,uint256,uint256)');
-      const topics = [ newSIPEventSig, ethers.utils.hexZeroPad(window.wallet.address, 32) ];
+      // const newSIPEventSig = ethers.utils.id('NewSIP(address,uint256,uint256)');
+      // const topics = [ newSIPEventSig, ethers.utils.hexZeroPad(window.wallet.address, 32) ];
 
-      const logs = await window.provider.getLogs({
-        address: window.tsgapLiquidInstance.address,
-        fromBlock: 0,
-        toBlock: 'latest',
-        topics
-      });
+      // const logs = await window.provider.getLogs({
+      //   address: window.tsgapLiquidInstance.address,
+      //   fromBlock: 0,
+      //   toBlock: 'latest',
+      //   topics
+      // });
 
-      console.log('logs', logs);
-      const sips = [];
-      for(let i = logs.length - 1; i >= 0; i--) {
-        const log = logs[i];
-        const sipId = Number(sliceDataTo32Bytes(log.data,0));
-        const monthlyCommitmentAmount = ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data,1));
-        sips.push({
-          sipId, monthlyCommitmentAmount
-        });
-      }
+      // console.log('logs', logs);
+      // const sips = [];
+      // for(let i = logs.length - 1; i >= 0; i--) {
+      //   const log = logs[i];
+      //   const sipId = Number(sliceDataTo32Bytes(log.data,0));
+      //   const monthlyCommitmentAmount = ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data,1));
+      //   sips.push({
+      //     sipId, monthlyCommitmentAmount
+      //   });
+      // }
+      const sips = (await window.tsgapLiquidInstance.queryFilter(
+        window.tsgapLiquidInstance.filters.NewSIP(window.wallet.address,null,null)
+      ))
+      .map(log => window.tsgapLiquidInstance.interface.parseLog(log))
+      .map(log => ({
+        sipId: log.args['sipId'],
+        monthlyCommitmentAmount: log.args['monthlyCommitmentAmount']
+      }))
       this.setState({ sips, loading: false });
     }
   };

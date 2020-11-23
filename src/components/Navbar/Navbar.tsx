@@ -198,7 +198,7 @@ export class NavbarMain extends Component<{}, State> {
                         <div className="navbar-item">Nominee</div>
                       </Link>
 
-                      <Link to="/tsgap">
+                      <Link to="/assurance">
                         <div className="navbar-item">TSGAP</div>
                       </Link>
 

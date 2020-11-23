@@ -22,6 +22,7 @@ import { ViewDetail } from './components/ViewSip/ViewDetail';
 import { BenefitPage } from './components/Tsgap/BenefitPage/BenefitPage';
 import './style.css';
 import { PETLiquid } from './components/PET-liquid/PET';
+import Assurance from './components/Assurance-new/Assurance';
 
 // window.lessDecimals = (ethersBigNumber, decimals = 2) => {
 //   let lessDecimals = ethers.utils.formatEther(ethersBigNumber).split('.');
@@ -52,6 +53,7 @@ function App() {
           <Route path="/load-wallet" component={LoadWallet} />
           <Route path="/nominee" component={Nominee} />
           <Route path="/tsgap" component={Tsgap} />
+          <Route path="/assurance" component={Assurance} />
           <Route path="/pet-old" component={PET} />
           <Route path="/pet-new" component={PETLiquid} />
           <Route path="/calculate" component={TsgapCalculator} />
