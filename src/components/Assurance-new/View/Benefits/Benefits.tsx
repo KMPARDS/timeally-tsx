@@ -90,7 +90,11 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
   render = () => {
     const benefitTableElementArray = [];
     let powerBoosterCount = 0;
+    let currentMonthAmt = 0;
     for(let i = 0; i < 108; i++) {
+      if(this.state.monthlyBenefitAmountArray[i%12])
+        currentMonthAmt += hexToNum(this.state.monthlyBenefitAmountArray[i%12]);
+
       benefitTableElementArray.push(
         <tr>
           <td>{i+1}</td>
