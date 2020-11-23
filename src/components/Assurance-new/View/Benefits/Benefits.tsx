@@ -23,25 +23,25 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
   componentDidMount = async() => {
     if(window.wallet){
-      const sip = await window.tsgapLiquidInstance.functions.sips(
+      const sip = await window.tsgapLiquidInstance.sips(
         window.wallet.address,
         this.props.match.params.id
       );
-      const sipPlan = await window.tsgapLiquidInstance.functions.sipPlans(sip.planId);
+      const sipPlan = await window.tsgapLiquidInstance.sipPlans(sip.planId);
 
       const monthlyBenefitAmountPromiseArray = []
       , depositDoneStatusPromiseArray = [];
 
       for(let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
         monthlyBenefitAmountPromiseArray.push(
-          window.tsgapLiquidInstance.functions.viewMonthlyBenefitAmount(
+          window.tsgapLiquidInstance.viewMonthlyBenefitAmount(
             window.wallet.address,
             this.props.match.params.id,
             i
           )
         );
         depositDoneStatusPromiseArray.push(
-          window.tsgapLiquidInstance.functions.getDepositDoneStatus(
+          window.tsgapLiquidInstance.getDepositDoneStatus(
             window.wallet.address,
             this.props.match.params.id,
             i
