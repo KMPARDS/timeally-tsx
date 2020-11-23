@@ -11,6 +11,12 @@ interface RouteParams {
 }
 type Props = {};
 
+interface SIPS {
+  sipId: number;
+  nomineeAddress: string;
+  nomineeStatus: boolean;
+};
+
 type State = {
   loading: boolean,
   activeNominees: string[],
@@ -28,28 +34,54 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
 
   componentDidMount = async() => {
     if(window.wallet){
-      const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
-      const topics = [
-        nomineeNewEventSig,
-        ethers.utils.hexZeroPad(window.wallet.address, 32),
-        ethers.utils.hexZeroPad(ethers.utils.bigNumberify(this.props.match.params.id)._hex, 32)
-      ];
+      // const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
+      // const topics = [
+      //   nomineeNewEventSig,
+      //   ethers.utils.hexZeroPad(window.wallet.address, 32),
+      //   ethers.utils.hexZeroPad(ethers.utils.bigNumberify(this.props.match.params.id)._hex, 32)
+      // ];
 
-      const logs = await window.provider.getLogs({
-        address:  process.env.REACT_APP_ENV === 'development' ? addresses.development.ESN.tsgap : addresses.production.ESN.tsgap,
-        fromBlock: 0,
-        toBlock: 'latest',
-        topics
-      });
+      // const logs = await window.provider.getLogs({
+      //   address:  process.env.REACT_APP_ENV === 'development' ? addresses.development.ESN.tsgap : addresses.production.ESN.tsgap,
+      //   fromBlock: 0,
+      //   toBlock: 'latest',
+      //   topics
+      // });
 
-      console.log(logs);
+      // console.log(logs);
+
+      // const nominees: any = {};
+      // logs.forEach(log => {
+      //   const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
+      //   const status = Boolean(+log.data);
+      //   nominees[address] = status;
+      // });
+      console.log('window.wallet.address',window.wallet.address);
+
+      console.log('this.props.match.params.id',this.props.match.params.id);
 
       const nominees: any = {};
-      logs.forEach(log => {
-        const address = ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(log.topics[3]), 20);
-        const status = Boolean(+log.data);
-        nominees[address] = status;
-      });
+      (await window.tsgapLiquidInstance.queryFilter(
+        window.tsgapLiquidInstance.filters.NomineeUpdated(
+          window.wallet.address,
+          ethers.utils.parseEther(this.props.match.params.id),
+          null,
+          null
+        )
+      ))
+      .map(log => window.tsgapLiquidInstance.interface.parseLog(log))
+      .map(log =>  ({
+        nomineeAddress: log.args['nomineeAddress'],
+        nomineeStatus: log.args['nomineeStatus']
+      }))
+      .map(log =>{
+        nominees[log.nomineeAddress] = log.nomineeStatus;
+      })
+      // .map(log => ({
+      //   sipId: log.args['sipId'],
+      //   nomineeAddress: log.args['nomineeAddress'],
+      //   nomineeStatus: log.args['nomineeStatus']
+      // }));
 
       console.log('nominees', nominees);
       this.setState({
@@ -64,6 +96,10 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
       <Layout
         // breadcrumb={['Home', 'Assurance','View', this.props.match.params.id, 'Nominee']}
         title='Nominee'
+        button = {{
+          name: 'New Nominee',
+          link: this.props.location.pathname+'/new'
+        }}
         // buttonName="New Nominee"
         // buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
       >
@@ -102,8 +138,9 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
               show={this.state.showRemoveNomineeModal}
               hideFunction={() => this.setState({ showRemoveNomineeModal: false })}
               ethereum={{
-                transactor: window.tsgapLiquidInstance.functions.toogleNominee,
-                estimator: window.tsgapLiquidInstance.estimate.toogleNominee,
+                //@ts-ignore
+                transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).functions.toogleNominee,
+                estimator: () => ethers.constants.Zero,
                 contract: window.tsgapLiquidInstance,
                 contractName: 'TimeAllySIP',
                 arguments: [

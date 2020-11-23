@@ -319,11 +319,15 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           show={this.state.showApproveTransactionModal}
           hideFunction={() => this.setState({ showApproveTransactionModal: false, spinner: false })}
           ethereum={{
-            transactor: window.prepaidEsInstance.functions.approve,
-            estimator: window.prepaidEsInstance.estimate.approve,
+            //@ts-ignore
+            transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider)).functions.approve,
+            estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
-            arguments: [window.tsgapLiquidInstance.address, ethers.utils.parseEther(this.state.userAmount.toString())],
+            arguments: [
+              window.tsgapLiquidInstance.address,
+              ethers.utils.parseEther(this.state.userAmount.toString())
+            ],
             ESAmount: this.state.userAmount,
             headingName: 'Approval Status',
             functionName: 'Approve',
@@ -341,16 +345,15 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             show={this.state.showStakeTransactionModal}
             hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.tsgapLiquidInstance.functions.monthlyDeposit,
-              estimator: window.tsgapLiquidInstance.estimate.monthlyDeposit,
+              //@ts-ignore
+              transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).functions.monthlyDeposit,
+              estimator: () => ethers.constants.Zero,
               contract: window.tsgapLiquidInstance,
               contractName: 'TimeAllySIP',
               arguments: [
                 window.wallet?.address,
                 this.props.match.params.id,
-                ethers.utils.parseEther(this.state.userAmount.toString()),
-                Number(this.props.match.params.month),
-                false
+                Number(this.props.match.params.month)
               ],
               ESAmount: this.state.userAmount,
               headingName: getOrdinalString(Number(this.props.match.params.month))+' Monthly Deposit',

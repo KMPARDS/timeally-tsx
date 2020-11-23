@@ -56,7 +56,7 @@ class NewNominee extends Component<Props & RouteComponentProps<RouteParams>, Sta
 
               }}
               type="text"
-              placeholder="Enter ETH address of Nominee"
+              placeholder="Enter ESN address of Nominee"
               style={{width: '325px'}}
               autoComplete="off"
             />
@@ -149,8 +149,9 @@ class NewNominee extends Component<Props & RouteComponentProps<RouteParams>, Sta
             show={this.state.showNomineeTransactionModal}
             hideFunction={() => this.setState({ showNomineeTransactionModal: false, spinner: false })}
             ethereum={{
-              transactor: window.tsgapLiquidInstance.functions.toogleNominee,
-              estimator: window.tsgapLiquidInstance.estimate.toogleNominee,
+              //@ts-ignore
+              transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).functions.toogleNominee,
+              estimator: () => ethers.constants.Zero,
               contract: window.tsgapLiquidInstance,
               contractName: 'TimeAllySIP',
               arguments: [
