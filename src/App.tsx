@@ -23,6 +23,7 @@ import {BenefitPage} from './components/Tsgap/BenefitPage/BenefitPage';
 import {NomineePage} from './components/Tsgap/NomineePage/NomineePage';
 import './style.css';
 import { PETLiquid } from './components/PET-liquid/PET';
+import Assurance from './components/Assurance-new/Assurance';
 
 // window.lessDecimals = (ethersBigNumber, decimals = 2) => {
 //   let lessDecimals = ethers.utils.formatEther(ethersBigNumber).split('.');
@@ -31,7 +32,7 @@ import { PETLiquid } from './components/PET-liquid/PET';
 //   }
 //   return lessDecimals.join('.');
 // }
-// window.sliceDataTo32Bytes = (data, index = 0) => {
+// sliceDataTo32Bytes = (data, index = 0) => {
 //   return '0x'+data.slice(2+64*index, 2+64*(index+1));
 // }
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="/load-wallet" component={LoadWallet} />
           <Route path="/nominee" component={Nominee} />
           <Route path="/tsgap" component={Tsgap} />
+          <Route path="/assurance" component={Assurance} />
           <Route path="/pet-old" component={PET} />
           <Route path="/pet-new" component={PETLiquid} />
           <Route path="/calculate" component={TsgapCalculator} />

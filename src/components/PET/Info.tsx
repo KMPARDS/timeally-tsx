@@ -80,7 +80,7 @@ class PET extends Component<PETProps, State> {
     //     toBlock: 'latest',
     //     topics:[ethers.utils.id('FundsDeposited(address,uint256)')]
     //   })).map(log => {
-    //     const bn = ethers.utils.bigNumberify(window.sliceDataTo32Bytes(log.data,1));
+    //     const bn = ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data,1));
     //     console.log(ethers.utils.formatEther(bn));
     //     return bn;
     //   } ).reduce( (sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
@@ -95,13 +95,13 @@ class PET extends Component<PETProps, State> {
         breadcrumb={['Home', 'PET']}
         title="Personal EraSwap Teller: Old"
         transparent={true}
-        buttonName="New PET"
+        buttonName="Create PET"
         buttonOnClick={
           window.wallet && window.wallet.address
             ? () => this.props.history.push('/pet-old/new')
             : () => (
                 (window.returnLocationAfterLoadWallet = {
-                  name: 'New PET',
+                  name: 'Create PET',
                   location: '/pet-old/new',
                   sourceLocation: this.props.location.pathname,
                 }),
