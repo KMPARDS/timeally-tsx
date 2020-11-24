@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button,Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
-import {Layout} from '../../../Layout/Layout';
+import { Layout } from '../../../Layout/Layout';
 import DepositElement from './DepositElement';
 import '../../Assurance.css';
 import { RouteComponentProps } from 'react-router-dom';
@@ -18,9 +18,9 @@ type Props = {
   depositAmount: string;
 };
 type State = {
-  months: [],
-  loading: boolean,
-}
+  months: [];
+  loading: boolean;
+};
 
 class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state: State = {
@@ -28,8 +28,8 @@ class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, St
     loading: true,
   };
 
-  componentDidMount = async() => {
-    if(window.wallet){
+  componentDidMount = async () => {
+    if (window.wallet) {
       const sip = await window.tsgapLiquidInstance.functions.sips(
         window.wallet.address,
         this.props.match.params.id
@@ -38,86 +38,107 @@ class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, St
       const accumulationPeriodMonths = sipPlan.accumulationPeriodMonths;
 
       const months: any = [];
-      for(let i = 1; i <= accumulationPeriodMonths; i++) {
+      for (let i = 1; i <= accumulationPeriodMonths; i++) {
         months.push({
           number: i,
           depositAmount: null,
           status: null,
-          stakingTimestamp: sip.stakingTimestamp
+          stakingTimestamp: sip.stakingTimestamp,
         });
       }
 
-      const newDepositSig = ethers.utils.id('NewDeposit(address,uint256,uint256,uint256,uint256,address)');
+      const newDepositSig = ethers.utils.id(
+        'NewDeposit(address,uint256,uint256,uint256,uint256,address)'
+      );
 
       const topics = [
         newDepositSig,
         ethers.utils.hexZeroPad(window.wallet.address, 32),
-        ethers.utils.hexZeroPad('0x'+Number(this.props.match.params.id).toString(16), 32)
+        ethers.utils.hexZeroPad('0x' + Number(this.props.match.params.id).toString(16), 32),
       ];
 
       const logs = await window.provider.getLogs({
         address: window.tsgapLiquidInstance.address,
         fromBlock: 0,
         toBlock: 'latest',
-        topics
+        topics,
       });
 
       console.log('deposits logs', logs);
 
-      logs.forEach(log => {
-        const month = Number(sliceDataTo32Bytes(log.data,0));
-        months[month - 1].depositAmount = ethers.utils.formatEther(ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data,1)));
+      logs.forEach((log) => {
+        const month = Number(sliceDataTo32Bytes(log.data, 0));
+        months[month - 1].depositAmount = ethers.utils.formatEther(
+          ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data, 1))
+        );
       });
 
       this.setState({ months });
     }
-  }
+  };
 
   render = () => (
     <Layout
       // breadcrumb={['Home', 'Assurance','View']}
-      title={`SIP ID: ${this.props.match.params.id}`}>
-      {this.state.months.length ? <>
-        <Table responsive>
-          <thead>
-            <tr>
-              <th>Deposit Month</th>
-              <th>Deposit Amounts</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.months.map((month: any) => (
-              //@ts-ignore
-              <DepositElement
-                sipId={this.props.match.params.id}
-                monthId={month.number}
-                depositAmount={month.depositAmount}
-                status={month.status}
-                stakingTimestamp={month.stakingTimestamp}
-                history={this.props.history}
-                location={this.props.location}
-              />
-            ))}
-          </tbody>
-        </Table>
-        <p>Grace penalty is 1% per graced months on Power Booster. Default penalty is 2% per defaulted months on Power Booster.</p>
-        <div className="details">
-          <Button onClick={() => this.props.history.push(`/assurance/view/${this.props.match.params.id}/benefits`)}>Benefit Page</Button>
-        </div>
+      title={`SIP ID: ${this.props.match.params.id}`}
+    >
+      {this.state.months.length ? (
+        <>
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>Deposit Month</th>
+                <th>Deposit Amounts</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.months.map((month: any) => (
+                //@ts-ignore
+                <DepositElement
+                  sipId={this.props.match.params.id}
+                  monthId={month.number}
+                  depositAmount={month.depositAmount}
+                  status={month.status}
+                  stakingTimestamp={month.stakingTimestamp}
+                  history={this.props.history}
+                  location={this.props.location}
+                />
+              ))}
+            </tbody>
+          </Table>
+          <p>
+            Grace penalty is 1% per graced months on Power Booster. Default penalty is 2% per
+            defaulted months on Power Booster.
+          </p>
+          <div className="details">
+            <Button
+              onClick={() =>
+                this.props.history.push(`/assurance/view/${this.props.match.params.id}/benefits`)
+              }
+            >
+              Benefit Page
+            </Button>
+          </div>
 
-        <div className="details">
-          <Button onClick={() => this.props.history.push(`/assurance/view/${this.props.match.params.id}/nominees`)}>Nominee Page</Button>
-        </div>
-      </> : (
-        this.state.loading
-        ? <p>Please wait loading...</p>
-        : <p>There is nothing to show.</p>
+          <div className="details">
+            <Button
+              onClick={() =>
+                this.props.history.push(`/assurance/view/${this.props.match.params.id}/nominees`)
+              }
+            >
+              Nominee Page
+            </Button>
+          </div>
+        </>
+      ) : this.state.loading ? (
+        <p>Please wait loading...</p>
+      ) : (
+        <p>There is nothing to show.</p>
       )}
     </Layout>
-
-    );
+  );
 }
 
 export default AssuranceId;

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button,Spinner,Table } from 'react-bootstrap';
+import { Button, Spinner, Table } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
-import {Layout} from '../../../Layout/Layout';
+import { Layout } from '../../../Layout/Layout';
 import '../../Assurance.css';
-import { ethers } from  'ethers';
+import { ethers } from 'ethers';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 import { hexToNum } from '../../../../utils';
 
@@ -12,8 +12,8 @@ interface RouteParams {
 }
 type Props = {};
 type State = {
-  monthlyBenefitAmountArray: ethers.BigNumber[],
-  depositStatusArray: number[],
+  monthlyBenefitAmountArray: ethers.BigNumber[];
+  depositStatusArray: number[];
   selectedMonth: number;
   withdrawMessage: string;
   showWithdrawModal: boolean;
@@ -22,7 +22,7 @@ type State = {
   selectedPowerBooster: number;
   powerBoosterAmount: number;
   showPowerBoosterWithdrawModal: boolean;
-}
+};
 
 class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state: State = {
@@ -38,20 +38,18 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
     showPowerBoosterWithdrawModal: false,
   };
 
-  componentDidMount = async() => {
-    if(window.wallet){
-
-
+  componentDidMount = async () => {
+    if (window.wallet) {
       const sip = await window.tsgapLiquidInstance.sips(
         window.wallet.address,
         this.props.match.params.id
       );
       const sipPlan = await window.tsgapLiquidInstance.sipPlans(sip.planId);
 
-      const monthlyBenefitAmountPromiseArray = []
-      , depositDoneStatusPromiseArray = [];
+      const monthlyBenefitAmountPromiseArray = [],
+        depositDoneStatusPromiseArray = [];
 
-      for(let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
+      for (let i = 1; i <= sipPlan.accumulationPeriodMonths; i++) {
         monthlyBenefitAmountPromiseArray.push(
           window.tsgapLiquidInstance.viewMonthlyBenefitAmount(
             window.wallet.address,
@@ -70,45 +68,46 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       //@ts-ignore
       await Promise.all([...monthlyBenefitAmountPromiseArray, ...depositDoneStatusPromiseArray]);
 
-      const monthlyBenefitAmountArray = []
-      , depositStatusArray = [];
+      const monthlyBenefitAmountArray = [],
+        depositStatusArray = [];
 
-      for(let i = 0; i < sipPlan.accumulationPeriodMonths; i++) {
+      for (let i = 0; i < sipPlan.accumulationPeriodMonths; i++) {
         monthlyBenefitAmountArray.push(await monthlyBenefitAmountPromiseArray[i]);
         depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
       }
 
-
-      const powerBoosterAmt = hexToNum(sipPlan.minimumMonthlyCommitmentAmount)*12/3;
+      const powerBoosterAmt = (hexToNum(sipPlan.minimumMonthlyCommitmentAmount) * 12) / 3;
       this.setState({
         monthlyBenefitAmountArray,
         depositStatusArray,
-        powerBoosterAmount: powerBoosterAmt
+        powerBoosterAmount: powerBoosterAmt,
       });
     }
-
-
-  }
+  };
   render = () => {
     const benefitTableElementArray = [];
     let powerBoosterCount = 0;
     let currentMonthAmt = 0;
-    for(let i = 0; i < 108; i++) {
-      if(this.state.monthlyBenefitAmountArray[i%12])
-        currentMonthAmt += hexToNum(this.state.monthlyBenefitAmountArray[i%12]);
+    for (let i = 0; i < 108; i++) {
+      if (this.state.monthlyBenefitAmountArray[i % 12])
+        currentMonthAmt += hexToNum(this.state.monthlyBenefitAmountArray[i % 12]);
 
       benefitTableElementArray.push(
         <tr>
-          <td>{i+1}</td>
-          <td>{this.state.monthlyBenefitAmountArray[i%12] ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i%12]) + ' ES' : 'Loading...'}</td>
+          <td>{i + 1}</td>
           <td>
-          <Button
+            {this.state.monthlyBenefitAmountArray[i % 12]
+              ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i % 12]) + ' ES'
+              : 'Loading...'}
+          </td>
+          <td>
+            <Button
               onClick={async (e) => {
                 if (window.wallet) {
                   const benefitAmount = await window.tsgapLiquidInstance.viewMonthlyBenefitAmount(
                     window.wallet?.address,
                     this.props.match.params.id,
-                    i+1
+                    i + 1
                   );
                   this.setState({
                     selectedMonth: i + 1,
@@ -119,10 +118,11 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
               // disabled={this.state.selectedMonth > (i+1)}
             >
               {this.state.selectedMonth >= i + 1 ? 'Selected' : 'Select'}
-            </Button></td>
+            </Button>
+          </td>
         </tr>
       );
-      if((i+1)%36===0) {
+      if ((i + 1) % 36 === 0) {
         benefitTableElementArray.push(
           <tr style={{ backgroundColor: '#aaa' }}>
             <td>Power Booster {Math.ceil(i / 36)}</td>
@@ -152,10 +152,11 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
     return (
       <Layout
-          // breadcrumb={['Home', 'Assurance','View', this.props.match.params.id, 'Benefits']}
-          title={this.props.match.params.id}>
-          {/* <p>This page is under construction. On this page user can see their monthly benefits in advance and withdraw them after the withdraw window is open for the month.</p> */}
-          <Table responsive>
+        // breadcrumb={['Home', 'Assurance','View', this.props.match.params.id, 'Benefits']}
+        title={this.props.match.params.id}
+      >
+        {/* <p>This page is under construction. On this page user can see their monthly benefits in advance and withdraw them after the withdraw window is open for the month.</p> */}
+        <Table responsive>
           <thead>
             <tr>
               <th>Month Number</th>
@@ -163,13 +164,11 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
               <th>Click on buttons to Select</th>
             </tr>
           </thead>
-          <tbody>
-            {benefitTableElementArray}
-          </tbody>
+          <tbody>{benefitTableElementArray}</tbody>
         </Table>
 
-      <div className="details">
-      <Button
+        <div className="details">
+          <Button
             disabled={this.state.selectedMonth === -1 || this.state.spinner}
             onClick={() => {
               this.setState({
@@ -190,8 +189,8 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
             ) : null}
             {this.state.spinner ? 'Please wait...' : 'Withdraw'}
           </Button>
-      </div>
-      <TransactionModal
+        </div>
+        <TransactionModal
           show={this.state.showPowerBoosterWithdrawModal}
           hideFunction={() =>
             this.setState({ showPowerBoosterWithdrawModal: false, spinner: false })
@@ -222,7 +221,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
               }),
           }}
         />
-      <TransactionModal
+        <TransactionModal
           show={this.state.showWithdrawModal}
           hideFunction={() => this.setState({ showWithdrawModal: false, spinner: false })}
           ethereum={{
@@ -252,9 +251,8 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           }}
         />
       </Layout>
-
     );
-  }
+  };
 }
 
 export default Benefits;

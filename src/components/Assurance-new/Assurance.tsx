@@ -20,28 +20,28 @@ class Assurance extends Component {
   render() {
     return (
       <>
-        <Route path ="/assurance" exact component={Info} />
+        <Route path="/assurance" exact component={Info} />
 
-        <Route path ="/assurance/calculate" exact component={Calculate} />
+        <Route path="/assurance/calculate" exact component={Calculate} />
 
-        <Route path ="/assurance/new" exact component={New} />
+        <Route path="/assurance/new" exact component={New} />
 
-        <Route path ="/assurance/view" exact component={View} />
+        <Route path="/assurance/view" exact component={View} />
 
-        <Route path ="/assurance/view/:id" exact component={AssuranceId} />
+        <Route path="/assurance/view/:id" exact component={AssuranceId} />
 
-        <Route path ="/assurance/view/:id/deposit/:month" exact component={Deposit} />
+        <Route path="/assurance/view/:id/deposit/:month" exact component={Deposit} />
 
-        <Route path ="/assurance/view/:id/benefits" exact component={Benefits} />
+        <Route path="/assurance/view/:id/benefits" exact component={Benefits} />
 
-        <Route path ="/assurance/view/:id/nominees" exact component={Nominee} />
-        <Route path ="/assurance/view/:id/nominees/new" exact component={NewNominee} />
+        <Route path="/assurance/view/:id/nominees" exact component={Nominee} />
+        <Route path="/assurance/view/:id/nominees/new" exact component={NewNominee} />
 
-        <Route path ="/assurance/view/:id/appointees" exact component={Appointee} />
-        <Route path ="/assurance/view/:id/appointees/new" exact component={NewAppointee} />
+        <Route path="/assurance/view/:id/appointees" exact component={Appointee} />
+        <Route path="/assurance/view/:id/appointees/new" exact component={NewAppointee} />
       </>
     );
   }
-};
+}
 
 export default Assurance;

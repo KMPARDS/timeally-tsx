@@ -2,7 +2,7 @@ import { addresses } from 'eraswap-sdk/dist';
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
-import {Layout} from '../../../Layout/Layout';
+import { Layout } from '../../../Layout/Layout';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 const ethers = require('ethers');
 
@@ -15,13 +15,13 @@ interface SIPS {
   sipId: number;
   nomineeAddress: string;
   nomineeStatus: boolean;
-};
+}
 
 type State = {
-  loading: boolean,
-  activeNominees: string[],
-  removeNomineeAddress: string,
-  showRemoveNomineeModal: boolean
+  loading: boolean;
+  activeNominees: string[];
+  removeNomineeAddress: string;
+  showRemoveNomineeModal: boolean;
 };
 
 class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State> {
@@ -29,11 +29,11 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
     loading: true,
     activeNominees: [],
     removeNomineeAddress: '',
-    showRemoveNomineeModal: false
+    showRemoveNomineeModal: false,
   };
 
-  componentDidMount = async() => {
-    if(window.wallet){
+  componentDidMount = async () => {
+    if (window.wallet) {
       // const nomineeNewEventSig = ethers.utils.id("NomineeUpdated(address,uint256,address,bool)");
       // const topics = [
       //   nomineeNewEventSig,
@@ -56,27 +56,29 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
       //   const status = Boolean(+log.data);
       //   nominees[address] = status;
       // });
-      console.log('window.wallet.address',window.wallet.address);
+      console.log('window.wallet.address', window.wallet.address);
 
-      console.log('this.props.match.params.id',this.props.match.params.id);
+      console.log('this.props.match.params.id', this.props.match.params.id);
 
       const nominees: any = {};
-      (await window.tsgapLiquidInstance.queryFilter(
-        window.tsgapLiquidInstance.filters.NomineeUpdated(
-          window.wallet.address,
-          ethers.utils.parseEther(this.props.match.params.id),
-          null,
-          null
+      (
+        await window.tsgapLiquidInstance.queryFilter(
+          window.tsgapLiquidInstance.filters.NomineeUpdated(
+            window.wallet.address,
+            ethers.utils.parseEther(this.props.match.params.id),
+            null,
+            null
+          )
         )
-      ))
-      .map(log => window.tsgapLiquidInstance.interface.parseLog(log))
-      .map(log =>  ({
-        nomineeAddress: log.args['nomineeAddress'],
-        nomineeStatus: log.args['nomineeStatus']
-      }))
-      .map(log =>{
-        nominees[log.nomineeAddress] = log.nomineeStatus;
-      })
+      )
+        .map((log) => window.tsgapLiquidInstance.interface.parseLog(log))
+        .map((log) => ({
+          nomineeAddress: log.args['nomineeAddress'],
+          nomineeStatus: log.args['nomineeStatus'],
+        }))
+        .map((log) => {
+          nominees[log.nomineeAddress] = log.nomineeStatus;
+        });
       // .map(log => ({
       //   sipId: log.args['sipId'],
       //   nomineeAddress: log.args['nomineeAddress'],
@@ -85,8 +87,10 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
 
       console.log('nominees', nominees);
       this.setState({
-        activeNominees: Object.entries(nominees).filter(entry => entry[1]).map(entry => entry[0]),
-        loading: false
+        activeNominees: Object.entries(nominees)
+          .filter((entry) => entry[1])
+          .map((entry) => entry[0]),
+        loading: false,
       });
     }
   };
@@ -95,21 +99,23 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
     return (
       <Layout
         // breadcrumb={['Home', 'Assurance','View', this.props.match.params.id, 'Nominee']}
-        title='Nominee'
-        button = {{
+        title="Nominee"
+        button={{
           name: 'New Nominee',
-          link: this.props.location.pathname+'/new'
+          link: this.props.location.pathname + '/new',
         }}
         // buttonName="New Nominee"
         // buttonOnClick={() => this.props.history.push(this.props.location.pathname+'/new')}
       >
         <h2>Nominees of this SIP</h2>
-        {this.state.loading
-          ? <p>Please wait scanning the blockchain for Nominees...</p>
-          : <>
-            {!this.state.activeNominees.length
-              ? <p>No nominees found</p>
-              : <Table responsive>
+        {this.state.loading ? (
+          <p>Please wait scanning the blockchain for Nominees...</p>
+        ) : (
+          <>
+            {!this.state.activeNominees.length ? (
+              <p>No nominees found</p>
+            ) : (
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>Nominee Address</th>
@@ -117,13 +123,18 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.activeNominees.map(address => (
+                  {this.state.activeNominees.map((address) => (
                     <tr>
                       <td>{address}</td>
                       <td>
                         <Button
                           variant="danger"
-                          onClick={() => this.setState({ removeNomineeAddress: address, showRemoveNomineeModal: true })}
+                          onClick={() =>
+                            this.setState({
+                              removeNomineeAddress: address,
+                              showRemoveNomineeModal: true,
+                            })
+                          }
                         >
                           Remove
                         </Button>
@@ -131,36 +142,35 @@ class Nominee extends Component<Props & RouteComponentProps<RouteParams>, State>
                     </tr>
                   ))}
                 </tbody>
-              </Table>}
-          </> }
+              </Table>
+            )}
+          </>
+        )}
 
-          <TransactionModal
-              show={this.state.showRemoveNomineeModal}
-              hideFunction={() => this.setState({ showRemoveNomineeModal: false })}
-              ethereum={{
-                //@ts-ignore
-                transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).functions.toogleNominee,
-                estimator: () => ethers.constants.Zero,
-                contract: window.tsgapLiquidInstance,
-                contractName: 'TimeAllySIP',
-                arguments: [
-                  this.props.match.params.id,
-                  this.state.removeNomineeAddress,
-                  false
-                ],
-                ESAmount: '0',
-                headingName: `Remove Nominee (${this.state.removeNomineeAddress})`,
-                functionName: 'Remove Nominee',
-                directGasScreen: true,
-                continueFunction: () => {
-                  this.setState({ showRemoveNomineeModal: false });
-                  this.componentDidMount();
-                }
-              }}
-            />
+        <TransactionModal
+          show={this.state.showRemoveNomineeModal}
+          hideFunction={() => this.setState({ showRemoveNomineeModal: false })}
+          ethereum={{
+            //@ts-ignore
+            transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
+              .functions.toogleNominee,
+            estimator: () => ethers.constants.Zero,
+            contract: window.tsgapLiquidInstance,
+            contractName: 'TimeAllySIP',
+            arguments: [this.props.match.params.id, this.state.removeNomineeAddress, false],
+            ESAmount: '0',
+            headingName: `Remove Nominee (${this.state.removeNomineeAddress})`,
+            functionName: 'Remove Nominee',
+            directGasScreen: true,
+            continueFunction: () => {
+              this.setState({ showRemoveNomineeModal: false });
+              this.componentDidMount();
+            },
+          }}
+        />
       </Layout>
     );
-  }
+  };
 }
 
 export default Nominee;
