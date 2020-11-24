@@ -78,10 +78,12 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         depositStatusArray.push(await depositDoneStatusPromiseArray[i]);
       }
 
+
+      const powerBoosterAmt = hexToNum(sipPlan.minimumMonthlyCommitmentAmount)*12/3;
       this.setState({
         monthlyBenefitAmountArray,
         depositStatusArray,
-
+        powerBoosterAmount: powerBoosterAmt
       });
     }
 
