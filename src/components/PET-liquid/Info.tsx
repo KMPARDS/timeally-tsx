@@ -95,13 +95,13 @@ class PET extends Component<PETProps, State> {
         breadcrumb={['Home', 'PET']}
         title="Personal EraSwap Teller: New"
         transparent={true}
-        buttonName="New PET"
+        buttonName="Create PET"
         buttonOnClick={
           window.wallet && window.wallet.address
             ? () => this.props.history.push('/pet-new/new')
             : () => (
                 (window.returnLocationAfterLoadWallet = {
-                  name: 'New PET',
+                  name: 'Create PET',
                   location: '/pet-new/new',
                   sourceLocation: this.props.location.pathname,
                 }),
