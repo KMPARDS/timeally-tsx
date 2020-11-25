@@ -644,7 +644,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               this.state.usePrepaidES,
             ],
             ESAmount: this.state.userAmount,
-            transferAmount: this.state.userAmount,
+            transferAmount: this.state.usePrepaidES ? 0 : this.state.userAmount,
             headingName: getOrdinalString(this.state.monthId) + ' Monthly Deposit',
             functionName: 'makeDeposit',
             // stakingPlan: this.state.plan,

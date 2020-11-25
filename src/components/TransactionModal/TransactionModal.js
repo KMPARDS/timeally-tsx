@@ -145,6 +145,7 @@ class TransactionModal extends Component {
       const overides = {
         gasPrice: ethers.utils.parseUnits(String(this.state.selectedGwei), 'gwei'),
       };
+      console.log('this.props.ethereum',this.props.ethereum);
       if (this.props.ethereum.transferAmount)
         overides.value = ethers.utils.parseEther(this.props.ethereum.transferAmount);
       console.log({ args, overides });
