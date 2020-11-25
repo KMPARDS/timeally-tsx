@@ -142,9 +142,14 @@ class TransactionModal extends Component {
       const args = this.props.ethereum.directGasScreen
         ? this.props.ethereum.arguments
         : [this.state.stakingPlan];
-      const response = await this.props.ethereum.transactor(...args, {
+      const overides = {
         gasPrice: ethers.utils.parseUnits(String(this.state.selectedGwei), 'gwei'),
-      });
+      };
+      console.log('this.props.ethereum', this.props.ethereum);
+      if (this.props.ethereum.transferAmount)
+        overides.value = ethers.utils.parseEther(this.props.ethereum.transferAmount);
+      console.log({ args, overides });
+      const response = await this.props.ethereum.transactor(...args, overides);
       console.log(response, `time taken: ${new Date() - start}`);
       this.setState({ transactionStatus: 2, hash: response.hash });
       await response.wait();

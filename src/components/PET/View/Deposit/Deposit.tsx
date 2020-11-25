@@ -611,6 +611,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 : ethers.constants.Zero.toHexString(),
             ],
             ESAmount: this.state.userAmount,
+            transferAmount: this.state.userAmount,
             headingName: 'Approval Status',
             functionName: 'Approve',
             // stakingPlan: this.state.plan,
@@ -624,6 +625,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               }),
           }}
         />
+
         <TransactionModal
           show={this.state.showStakeTransactionModal}
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
@@ -643,6 +645,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               this.state.usePrepaidES,
             ],
             ESAmount: this.state.userAmount,
+            transferAmount: this.state.usePrepaidES ? 0 : this.state.userAmount,
             headingName: getOrdinalString(this.state.monthId) + ' Monthly Deposit',
             functionName: 'makeDeposit',
             // stakingPlan: this.state.plan,

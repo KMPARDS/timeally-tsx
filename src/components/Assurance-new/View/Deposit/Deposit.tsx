@@ -148,7 +148,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
 
   render() {
     let screen;
-
     const startOverAgainButton = (
       <span
         style={{ display: 'block', textAlign: 'left', cursor: 'pointer' }}
@@ -506,7 +505,8 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           ethereum={{
             //@ts-ignore
             transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
-              .functions.monthlyDeposit,
+              .monthlyDeposit,
+            // transactor: this.checkMethod,
             estimator: () => ethers.constants.Zero,
             contract: window.tsgapLiquidInstance,
             contractName: 'TimeAllySIP',
@@ -516,6 +516,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               Number(this.props.match.params.month),
             ],
             ESAmount: this.state.userAmount,
+            transferAmount: this.state.userAmount,
             headingName:
               getOrdinalString(Number(this.props.match.params.month)) + ' Monthly Deposit',
             functionName: 'monthlyDeposit',
