@@ -60,8 +60,11 @@ export class Transfer extends Component<Props, State> {
               />
 
               {this.state.displayMessage ? (
-                <Alert variant="info">{this.state.displayMessage}</Alert>
+                <Alert variant="primary">{this.state.displayMessage}</Alert>
               ) : null}
+
+
+              <p className="text-info">Note:- Transfer Staking only to Wallet address (Or entering "user name" wallet address) for which somebody is holding a Private Key OR Keystore file-Password OR Mnemonic Phrase. Do not transfer staking to any contract address, which may result in loss of staking."</p>
             </Col>
 
             <Col xs="auto" className="my-1">
