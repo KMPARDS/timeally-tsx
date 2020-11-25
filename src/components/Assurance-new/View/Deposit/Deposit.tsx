@@ -148,7 +148,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
 
   render() {
     let screen;
-
     const startOverAgainButton = (
       <span
         style={{ display: 'block', textAlign: 'left', cursor: 'pointer' }}
