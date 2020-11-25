@@ -146,16 +146,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     }
   };
 
-  checkMethod(args: any) {
-    console.log({ args });
-    if (window.wallet) {
-      //@ts-ignore
-      return window.tsgapLiquidInstance
-        .connect(window.wallet?.connect(window.provider))
-        .monthlyDeposit(...args);
-    }
-  }
-
   render() {
     let screen;
 
