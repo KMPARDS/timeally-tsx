@@ -146,11 +146,13 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     }
   };
 
-  checkMethod(args: any){
-    console.log({args});
-    if(window.wallet){
+  checkMethod(args: any) {
+    console.log({ args });
+    if (window.wallet) {
       //@ts-ignore
-      return window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).monthlyDeposit(...args)
+      return window.tsgapLiquidInstance
+        .connect(window.wallet?.connect(window.provider))
+        .monthlyDeposit(...args);
     }
   }
 
@@ -468,8 +470,6 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       );
     }
 
-
-
     return (
       <Layout
         // breadcrumb={['Home', ...(() => {
@@ -515,7 +515,8 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider)).monthlyDeposit,
+            transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
+              .monthlyDeposit,
             // transactor: this.checkMethod,
             estimator: () => ethers.constants.Zero,
             contract: window.tsgapLiquidInstance,
