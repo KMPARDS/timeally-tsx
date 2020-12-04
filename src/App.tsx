@@ -18,8 +18,9 @@ import { PET } from './components/PET/PET';
 import { TsgapCalculator } from './components/TsgapCalculator/TsgapCalculator';
 import { NewSip } from './components/Assurance/NewSip';
 import { ViewSip } from './components/ViewSip/ViewSip';
-import { ViewDetail } from './components/ViewSip/ViewDetail';
-import { BenefitPage } from './components/Tsgap/BenefitPage/BenefitPage';
+import {ViewDetail} from './components/ViewSip/ViewDetail';
+import {BenefitPage} from './components/Tsgap/BenefitPage/BenefitPage';
+import {NomineePage} from './components/Tsgap/NomineePage/NomineePage';
 import './style.css';
 import { PETLiquid } from './components/PET-liquid/PET';
 import Assurance from './components/Assurance-new/Assurance';
@@ -59,8 +60,9 @@ function App() {
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
           <Route path="/view/:staker" component={ViewSip} />
-          <Route path="/view-detail/:staker" component={ViewDetail} />
-          <Route path="/benefits/:staker" component={BenefitPage} />
+          <Route path= "/view-detail/:staker" component={ViewDetail} />
+          <Route path= "/benefits/:staker" component={BenefitPage} />
+          <Route path= "/nominee/:staker" component={NomineePage} />
         </Switch>
         <Footer />
       </BrowserRouter>

@@ -356,16 +356,16 @@ class TransactionModal extends Component {
         <Modal.Body style={{ padding: '15px' }}>
           <h5>Advanced gas settings</h5>
           {[
-            { name: 'Slow', gwei: this.state.ethGasStation[0], time: 'around 30 mins to confirm' },
+            { name: 'Slow', gwei: '1 ESMETER', time: 'around 30 mins to confirm' },
             {
               name: 'Average',
-              gwei: this.state.ethGasStation[1],
+              gwei: '5 ESMETER',
               time: 'around 10 mins to confirm',
             },
-            { name: 'Fast', gwei: this.state.ethGasStation[2], time: 'around 2 mins to confirm' },
+            { name: 'Fast', gwei: '10 ESMETER', time: 'around 2 mins to confirm' },
             {
               name: 'Faster',
-              gwei: this.state.ethGasStation[3],
+              gwei: '20 ESMETER',
               time: 'around 30 secs to confirm',
             },
           ].map((plan) => (
@@ -382,7 +382,7 @@ class TransactionModal extends Component {
               }}
             >
               <Card.Title>
-                {plan.name} ({plan.gwei} gwei)
+                {plan.name} ({plan.gwei} per unit gas)
               </Card.Title>
               <Card.Subtitle>
                 {Math.round(this.state.estimatedGas * plan.gwei) / 10 ** 9} ETH
@@ -405,8 +405,12 @@ class TransactionModal extends Component {
               </InputGroup.Append>
             </InputGroup>
             <Card.Text>
-              Network fee: {Math.round(this.state.estimatedGas * this.state.selectedGwei) / 10 ** 9}{' '}
-              ETH
+              {/* Network fee: {Math.round(this.state.estimatedGas * this.state.selectedGwei) / 10 ** 9}{' '}
+              ETH */}
+              Estimated Gas Fee :0.001014025 ES <br/>
+              More You pay the gas fee,more quickly <br/>
+              your transaction will be confirmed, as it'd be preferred<br/>
+              by validators to include in the next block they're sealing.
             </Card.Text>
             <p>
               You can refer to{' '}

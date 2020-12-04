@@ -86,7 +86,7 @@ export class Tsgap extends Component<Props, State> {
                     </div>
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12">
-                    <Button href="/new" className="custom-button">
+                    <Button className="custom-button" onClick={this.onOpenModal}>
                       New SAP
                     </Button>
                   </div>
@@ -368,7 +368,7 @@ export class Tsgap extends Component<Props, State> {
                   OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
                   <br></br>
                   <br></br>
-                  <a onClick={this.onCloseModal} className="btn btn-primary btn-sm">
+                  <a href="/new" className="btn btn-primary btn-sm">
                     <span className="text-white">Proceed</span>
                   </a>
                 </p>
