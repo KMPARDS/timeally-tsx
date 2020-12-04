@@ -20,11 +20,11 @@ class View extends Component<Props & RouteComponentProps, State> {
   componentDidMount = async () => {
     if (window.wallet) {
       const pets = (
-        await window.petInstance.queryFilter(
-          window.petInstance.filters.NewPET(window.wallet?.address, null, null)
+        await window.petLiquidInstance.queryFilter(
+          window.petLiquidInstance.filters.NewPET(window.wallet?.address, null, null)
         )
       )
-        .map((log) => window.petInstance.interface.parseLog(log))
+        .map((log) => window.petLiquidInstance.interface.parseLog(log))
         .map((log) => ({ petId: hexToNum(log.args['_petId']) }));
 
       this.setState({ pets, loading: false });

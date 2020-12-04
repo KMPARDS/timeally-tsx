@@ -34,10 +34,10 @@ class PETElement extends Component<Props, State> {
     if (window.wallet) {
       console.log('this.props.petId', this.props.petId);
 
-      const pet = await window.petInstance.pets(window.wallet?.address, this.props.petId);
+      const pet = await window.petLiquidInstance.pets(window.wallet?.address, this.props.petId);
       console.log(pet);
       const stakingTime = new Date(pet.initTimestamp.toNumber() * 1000).toLocaleString();
-      const petPlan = await window.petInstance.petPlans(pet.planId);
+      const petPlan = await window.petLiquidInstance.petPlans(pet.planId);
       console.log(petPlan);
       const minimumMonthlyCommitmentAmount = petPlan.minimumMonthlyCommitmentAmount;
       const monthlyBenefitFactorPerThousand = petPlan.monthlyBenefitFactorPerThousand;
