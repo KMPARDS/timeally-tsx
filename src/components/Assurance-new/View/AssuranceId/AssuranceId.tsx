@@ -72,17 +72,27 @@ class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, St
       //     ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data, 1))
       //   );
       // });
-      (await window.tsgapLiquidInstance.queryFilter(
-        window.tsgapLiquidInstance.filters.NewDeposit(window.wallet.address,null,null,null,null,null)
-      )).map(log => window.tsgapLiquidInstance.interface.parseLog(log))
-      .map(log => ({
-        monthId: log.args['monthId'],
-        depositAmount: log.args['depositAmount'],
-        benefitQueued: log.args['benefitQueued'],
-      }))
-      .map(deposit =>{
-        months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount)
-      });
+      (
+        await window.tsgapLiquidInstance.queryFilter(
+          window.tsgapLiquidInstance.filters.NewDeposit(
+            window.wallet.address,
+            null,
+            null,
+            null,
+            null,
+            null
+          )
+        )
+      )
+        .map((log) => window.tsgapLiquidInstance.interface.parseLog(log))
+        .map((log) => ({
+          monthId: log.args['monthId'],
+          depositAmount: log.args['depositAmount'],
+          benefitQueued: log.args['benefitQueued'],
+        }))
+        .map((deposit) => {
+          months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
+        });
 
       this.setState({ months });
     }

@@ -16,7 +16,7 @@ class View extends Component<Props & RouteComponentProps, State> {
   state = {
     pets: [],
     loading: true,
-    withdrawMessage: ''
+    withdrawMessage: '',
   };
 
   componentDidMount = async () => {
@@ -39,11 +39,11 @@ class View extends Component<Props & RouteComponentProps, State> {
     return '0x' + data.slice(2 + 64 * index, 2 + 64 * (index + 1));
   };
 
-  async withdrawIncentives(){
-    try{
-      if(window.wallet){
+  async withdrawIncentives() {
+    try {
+      if (window.wallet) {
         const resp = await withdrawPetPrepaidIncentives(window.wallet.address);
-        if(resp.ok){
+        if (resp.ok) {
           // this.setState({
           //   withdrawMessage: resp?.data?.message || 'Success'
           // });
@@ -57,7 +57,7 @@ class View extends Component<Props & RouteComponentProps, State> {
           alert(resp?.data?.message || 'Unable to process request, try again later');
         }
       }
-    }catch(e){
+    } catch (e) {
       console.log(e);
       // this.setState({
       //   withdrawMessage: e.message
@@ -70,17 +70,19 @@ class View extends Component<Props & RouteComponentProps, State> {
     <Layout
       breadcrumb={['Home', 'PET', 'View']}
       title="List of your PETs"
-      buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : 'Withdraw Incentives'}
-      buttonOnClick={() =>{
-        if(this.state.pets.length === 0){
-        window.wallet && window.wallet.address
-          ? () => this.props.history.push('/pet-old/new')
-          : () => this.setState({ showLoginModal: true })
-        } else {
-          if(confirm('Are you sure to pet prepaid withdraw incentives ?'))
-            this.withdrawIncentives();
-        }}
+      buttonName={
+        !this.state.loading && this.state.pets.length === 0 ? 'New PET' : 'Withdraw Incentives'
       }
+      buttonOnClick={() => {
+        if (this.state.pets.length === 0) {
+          window.wallet && window.wallet.address
+            ? () => this.props.history.push('/pet-old/new')
+            : () => this.setState({ showLoginModal: true });
+        } else {
+          if (confirm('Are you sure to pet prepaid withdraw incentives ?'))
+            this.withdrawIncentives();
+        }
+      }}
     >
       {this.state.pets.length ? (
         <Table style={{ marginBottom: '0' }} responsive>
