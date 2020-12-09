@@ -407,9 +407,10 @@ class TransactionModal extends Component {
             <Card.Text>
               {/* Network fee: {Math.round(this.state.estimatedGas * this.state.selectedGwei) / 10 ** 9}{' '}
               ETH */}
-              Estimated Gas Fee :0.001014025 ES <br/>
-              More You pay the gas fee,more quickly <br/>
-              your transaction will be confirmed, as it'd be preferred<br/>
+              Estimated Gas Fee :0.001014025 ES <br />
+              More You pay the gas fee,more quickly <br />
+              your transaction will be confirmed, as it'd be preferred
+              <br />
               by validators to include in the next block they're sealing.
             </Card.Text>
             <p>
