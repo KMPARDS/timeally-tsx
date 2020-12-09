@@ -5,6 +5,7 @@ import PETElement from './PETElement';
 import '../PET.css';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { hexToNum } from '../../../utils';
+import { withdrawPetPrepaidIncentives } from '../../../lib/Apis';
 
 const ethers = require('ethers');
 type State = {};
@@ -15,6 +16,7 @@ class View extends Component<Props & RouteComponentProps, State> {
   state = {
     pets: [],
     loading: true,
+    withdrawMessage: '',
   };
 
   componentDidMount = async () => {
@@ -37,16 +39,50 @@ class View extends Component<Props & RouteComponentProps, State> {
     return '0x' + data.slice(2 + 64 * index, 2 + 64 * (index + 1));
   };
 
+  async withdrawIncentives() {
+    try {
+      if (window.wallet) {
+        const resp = await withdrawPetPrepaidIncentives(window.wallet.address);
+        if (resp.ok) {
+          // this.setState({
+          //   withdrawMessage: resp?.data?.message || 'Success'
+          // });
+          //@ts-ignore
+          window.alert(resp?.data?.message || 'Success');
+        } else {
+          // this.setState({
+          //   withdrawMessage: resp?.data?.message || 'Unable to process request, try again later'
+          // });
+          //@ts-ignore
+          window.alert(resp?.data?.message || 'Unable to process request, try again later');
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      // this.setState({
+      //   withdrawMessage: e.message
+      // });
+      alert(e.message);
+    }
+  }
+
   render = () => (
     <Layout
       breadcrumb={['Home', 'PET', 'View']}
       title="List of your PETs"
-      buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
-      buttonOnClick={
-        window.wallet && window.wallet.address
-          ? () => this.props.history.push('/pet-old/new')
-          : () => this.setState({ showLoginModal: true })
+      buttonName={
+        !this.state.loading && this.state.pets.length === 0 ? 'New PET' : 'Withdraw Incentives'
       }
+      buttonOnClick={() => {
+        if (this.state.pets.length === 0) {
+          window.wallet && window.wallet.address
+            ? this.props.history.push('/pet-old/new')
+            : this.setState({ showLoginModal: true });
+        } else {
+          if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
+            this.withdrawIncentives();
+        }
+      }}
     >
       {this.state.pets.length ? (
         <Table style={{ marginBottom: '0' }} responsive>
