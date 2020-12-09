@@ -76,8 +76,8 @@ class View extends Component<Props & RouteComponentProps, State> {
       buttonOnClick={() => {
         if (this.state.pets.length === 0) {
           window.wallet && window.wallet.address
-            ? () => this.props.history.push('/pet-old/new')
-            : () => this.setState({ showLoginModal: true });
+            ? this.props.history.push('/pet-old/new')
+            : this.setState({ showLoginModal: true });
         } else {
           if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
             this.withdrawIncentives();
