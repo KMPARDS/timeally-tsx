@@ -83,7 +83,10 @@ window.dayswappersInstance = DayswappersWithMigrationFactory.connect(
 
 window.prepaidEsInstance = PrepaidEsFactory.connect(config.ESN.prepaidEs, window.provider);
 
-window.tsgapLiquidInstance = TsgapFactory.connect(/*config.ESN.tsgap*/'0xa7D57ED5cF343db3BCa98a4e5E3310439dC03199', window.provider);
+window.tsgapLiquidInstance = TsgapFactory.connect(
+  /*config.ESN.tsgap*/ '0xa7D57ED5cF343db3BCa98a4e5E3310439dC03199',
+  window.provider
+);
 
 // window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
 window.petInstance = PetPrepaidTimeAllyPetFactory.connect(config.ESN.petPrepaid, window.provider);

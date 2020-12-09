@@ -28,7 +28,7 @@ class View extends Component<Props & RouteComponentProps, State> {
       )
         .map((log) => window.petInstance.interface.parseLog(log))
         .map((log) => ({ petId: hexToNum(log.args['_petId']) }));
-        console.log(pets);
+      console.log(pets);
       this.setState({ pets, loading: false });
     }
   };

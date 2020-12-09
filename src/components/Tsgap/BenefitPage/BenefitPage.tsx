@@ -108,24 +108,31 @@ export class BenefitPage extends Component<RouteComponentProps<MatchParams>, Sta
   };
 
   render() {
-    console.log("benef value is====", this.state.benefitValue)
+    console.log('benef value is====', this.state.benefitValue);
     const benefitTableElementArray = [];
-    
-    for(let i = 0; i < 108; i++) {
+
+    for (let i = 0; i < 108; i++) {
       benefitTableElementArray.push(
         <tr>
-          <td>{i+1}</td>
-          <td>{this.state.benefitValue !== null  ? ethers.utils.formatEther(this.state.benefitValue)
-                        : 'Loading...'}</td>
-          <td><Button disabled>Select</Button></td>
+          <td>{i + 1}</td>
+          <td>
+            {this.state.benefitValue !== null
+              ? ethers.utils.formatEther(this.state.benefitValue)
+              : 'Loading...'}
+          </td>
+          <td>
+            <Button disabled>Select</Button>
+          </td>
         </tr>
       );
-      if((i+1)%36===0) {
+      if ((i + 1) % 36 === 0) {
         benefitTableElementArray.push(
-          <tr style={{backgroundColor:'#aaa'}}>
-            <td>Power Booster {Math.ceil(i/36)}</td>
+          <tr style={{ backgroundColor: '#aaa' }}>
+            <td>Power Booster {Math.ceil(i / 36)}</td>
             <td></td>
-            <td><Button disabled>Select</Button></td>
+            <td>
+              <Button disabled>Select</Button>
+            </td>
           </tr>
         );
       }
@@ -159,17 +166,12 @@ export class BenefitPage extends Component<RouteComponentProps<MatchParams>, Sta
               <th>Benefits Amounts</th>
               <th>Status</th>
             </tr>
-            <tbody>
-            {benefitTableElementArray}
-          </tbody>
+            <tbody>{benefitTableElementArray}</tbody>
           </thead>
-         
-        
-            
         </div>
         <div className="row">
-           <div className="col-xl-3 col-lg-3 col-md-9 col-sm-12 col-12"></div>
-       </div>
+          <div className="col-xl-3 col-lg-3 col-md-9 col-sm-12 col-12"></div>
+        </div>
       </div>
     );
   }

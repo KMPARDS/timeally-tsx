@@ -118,47 +118,47 @@ export const Footer = () => {
               className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center"
               style={{ margin: '0 auto' }}
             >
-              <p style={{color:'#fff'}}>EraSwap DAO and Layer 2 Plasma Smart Contracts</p>
-              <p style={{color:'#fff'}}>
-              <a
-                rel="noopener noreferrer mb10"
-                href="https://github.com/KMPARDS/esn-contracts/blob/master/DEPLOYMENT_GUIDE.md#running-a-listner-node"
-                target="_blank"
-              >
-               To run ESN Node.
-              </a>
-              &nbsp; | &nbsp;
-              <a
-                rel="noopener noreferrer mb10"
-                href="https://mainnet.eraswap.network/"
-                target="_blank"
-              >
-              To use Public RPC.
-              </a>
-              &nbsp;
-              <a
-                rel="noopener noreferrer mb10"
-                href="https://eth.wiki/json-rpc/API"
-                target="_blank"
-              >
-              Documentation.
-              </a>
-              &nbsp; | &nbsp;
-              <a
-                rel="noopener noreferrer mb10"
-                href="https://etherscan.io/token/0x72108a8CC3254813C6BE2F1b77be53E185abFdD9"
-                target="_blank"
-              >
-              To use ERC20.
-              </a>
-              &nbsp;
-              <a
-                rel="noopener noreferrer mb10"
-                href="https://eips.ethereum.org/EIPS/eip-20"
-                target="_blank"
-              >
-            Documentation
-              </a>
+              <p style={{ color: '#fff' }}>EraSwap DAO and Layer 2 Plasma Smart Contracts</p>
+              <p style={{ color: '#fff' }}>
+                <a
+                  rel="noopener noreferrer mb10"
+                  href="https://github.com/KMPARDS/esn-contracts/blob/master/DEPLOYMENT_GUIDE.md#running-a-listner-node"
+                  target="_blank"
+                >
+                  To run ESN Node.
+                </a>
+                &nbsp; | &nbsp;
+                <a
+                  rel="noopener noreferrer mb10"
+                  href="https://mainnet.eraswap.network/"
+                  target="_blank"
+                >
+                  To use Public RPC.
+                </a>
+                &nbsp;
+                <a
+                  rel="noopener noreferrer mb10"
+                  href="https://eth.wiki/json-rpc/API"
+                  target="_blank"
+                >
+                  Documentation.
+                </a>
+                &nbsp; | &nbsp;
+                <a
+                  rel="noopener noreferrer mb10"
+                  href="https://etherscan.io/token/0x72108a8CC3254813C6BE2F1b77be53E185abFdD9"
+                  target="_blank"
+                >
+                  To use ERC20.
+                </a>
+                &nbsp;
+                <a
+                  rel="noopener noreferrer mb10"
+                  href="https://eips.ethereum.org/EIPS/eip-20"
+                  target="_blank"
+                >
+                  Documentation
+                </a>
               </p>
 
               <p style={{ color: '#fff' }}>

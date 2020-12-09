@@ -12,10 +12,10 @@ type Props = {};
 type State = {
   spinner: boolean;
   open: boolean;
-  newSipEvent: NewSipEvent[],
-  NewDeposit: NewDeposit[],
-  sipId:number,
-  staker:string
+  newSipEvent: NewSipEvent[];
+  NewDeposit: NewDeposit[];
+  sipId: number;
+  staker: string;
 };
 
 interface MatchParams {
@@ -29,10 +29,10 @@ interface NewSipEvent {
 }
 
 interface NewDeposit {
-  monthId: number |null,
-  depositAmount: number,
-  benefitQueued: number,
-  depositedBy: string
+  monthId: number | null;
+  depositAmount: number;
+  benefitQueued: number;
+  depositedBy: string;
 }
 
 export class ViewDetail extends Component<RouteComponentProps<MatchParams>, State> {
@@ -131,13 +131,7 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
 
   async NewDeposit() {
     const data = await window.tsgapLiquidInstance.queryFilter(
-      window.tsgapLiquidInstance.filters.NewDeposit(
-        null, 
-        null, 
-        null,
-        null, 
-        null, 
-        null)
+      window.tsgapLiquidInstance.filters.NewDeposit(null, null, null, null, null, null)
     );
     console.log('fetchsip', data);
     const NewDeposit = data.map((log) => {
@@ -145,16 +139,15 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
     });
     console.log('NewDeposit22', NewDeposit);
     const newDeposit = NewDeposit.map((log) => ({
-      benefitQueued:log.args['benefitQueued'],
-      depositAmount:log.args['depositAmount'],
-      depositedBy:log.args['depositedBy'],
-      monthId:log.args['monthId']
+      benefitQueued: log.args['benefitQueued'],
+      depositAmount: log.args['depositAmount'],
+      depositedBy: log.args['depositedBy'],
+      monthId: log.args['monthId'],
     }));
     this.setState({
-      NewDeposit:newDeposit
-    })
+      NewDeposit: newDeposit,
+    });
   }
-
 
   onOpenModal = () => {
     this.setState({ open: true });
@@ -165,7 +158,7 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
   };
 
   render() {
-      console.log("check NewDeposit",this.state.NewDeposit)
+    console.log('check NewDeposit', this.state.NewDeposit);
     return (
       <div>
         <div className="page-header">
@@ -196,40 +189,40 @@ export class ViewDetail extends Component<RouteComponentProps<MatchParams>, Stat
               <th>Deposit Benefits</th>
               <th>Beneficiary</th>
             </tr>
-            
+
             {this.state.NewDeposit?.length ? (
               this.state.NewDeposit.map((event) => (
                 <tr>
-              <td>{event.monthId}</td>
-              <td>{ethers.utils.formatEther(event.depositAmount)}</td>
-              <td>{ethers.utils.formatEther(event.benefitQueued)}</td>
-              <td>{event.depositedBy}</td>
-              </tr>
-             ))
-             ) : (
-                 <div>No Deposit To show</div>
-               )}
-            
+                  <td>{event.monthId}</td>
+                  <td>{ethers.utils.formatEther(event.depositAmount)}</td>
+                  <td>{ethers.utils.formatEther(event.benefitQueued)}</td>
+                  <td>{event.depositedBy}</td>
+                </tr>
+              ))
+            ) : (
+              <div>No Deposit To show</div>
+            )}
           </thead>
         </div>
         <div className="row">
-           <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12"></div>
-       <div>
-        <p className="view-para">Grace penalty is 1% per graced months on Power Booster. <br/>Default penalty is 2% per defaulted months on Power Booster.</p>
-      
-      <div  className="view-flex-style">
+          <div className="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-12"></div>
+          <div>
+            <p className="view-para">
+              Grace penalty is 1% per graced months on Power Booster. <br />
+              Default penalty is 2% per defaulted months on Power Booster.
+            </p>
 
-        <div className="details">
-          <Button href={"/benefits/"+ this.props.match.params.staker}>Benefit Page</Button>
-        </div>
+            <div className="view-flex-style">
+              <div className="details">
+                <Button href={'/benefits/' + this.props.match.params.staker}>Benefit Page</Button>
+              </div>
 
-        <div className="details">
-          <Button href={"/nominee/"+ this.props.match.params.staker}>Nominee Page</Button>
+              <div className="details">
+                <Button href={'/nominee/' + this.props.match.params.staker}>Nominee Page</Button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        </div>
-        </div>
-      </div>
       </div>
     );
   }
