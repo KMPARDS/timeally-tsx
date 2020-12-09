@@ -48,13 +48,13 @@ class View extends Component<Props & RouteComponentProps, State> {
           //   withdrawMessage: resp?.data?.message || 'Success'
           // });
           //@ts-ignore
-          alert(resp?.data?.message || 'Success');
+          window.alert(resp?.data?.message || 'Success');
         } else {
           // this.setState({
           //   withdrawMessage: resp?.data?.message || 'Unable to process request, try again later'
           // });
           //@ts-ignore
-          alert(resp?.data?.message || 'Unable to process request, try again later');
+          window.alert(resp?.data?.message || 'Unable to process request, try again later');
         }
       }
     } catch (e) {
@@ -79,7 +79,7 @@ class View extends Component<Props & RouteComponentProps, State> {
             ? () => this.props.history.push('/pet-old/new')
             : () => this.setState({ showLoginModal: true });
         } else {
-          if (confirm('Are you sure to pet prepaid withdraw incentives ?'))
+          if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
             this.withdrawIncentives();
         }
       }}
