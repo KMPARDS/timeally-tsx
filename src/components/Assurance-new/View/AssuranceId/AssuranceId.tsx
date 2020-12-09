@@ -5,7 +5,7 @@ import { Layout } from '../../../Layout/Layout';
 import DepositElement from './DepositElement';
 import '../../Assurance.css';
 import { RouteComponentProps } from 'react-router-dom';
-import { getTimeRemaining, sliceDataTo32Bytes } from '../../../../utils';
+import { getTimeRemaining, hexToNum, sliceDataTo32Bytes } from '../../../../utils';
 
 const ethers = require('ethers');
 interface RouteParams {
@@ -47,30 +47,41 @@ class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, St
         });
       }
 
-      const newDepositSig = ethers.utils.id(
-        'NewDeposit(address,uint256,uint256,uint256,uint256,address)'
-      );
+      // const newDepositSig = ethers.utils.id(
+      //   'NewDeposit(address,uint256,uint256,uint256,uint256,address)'
+      // );
 
-      const topics = [
-        newDepositSig,
-        ethers.utils.hexZeroPad(window.wallet.address, 32),
-        ethers.utils.hexZeroPad('0x' + Number(this.props.match.params.id).toString(16), 32),
-      ];
+      // const topics = [
+      //   newDepositSig,
+      //   ethers.utils.hexZeroPad(window.wallet.address, 32),
+      //   ethers.utils.hexZeroPad('0x' + Number(this.props.match.params.id).toString(16), 32),
+      // ];
 
-      const logs = await window.provider.getLogs({
-        address: window.tsgapLiquidInstance.address,
-        fromBlock: 0,
-        toBlock: 'latest',
-        topics,
-      });
+      // const logs = await window.provider.getLogs({
+      //   address: window.tsgapLiquidInstance.address,
+      //   fromBlock: 0,
+      //   toBlock: 'latest',
+      //   topics,
+      // });
 
-      console.log('deposits logs', logs);
+      // console.log('deposits logs', logs);
 
-      logs.forEach((log) => {
-        const month = Number(sliceDataTo32Bytes(log.data, 0));
-        months[month - 1].depositAmount = ethers.utils.formatEther(
-          ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data, 1))
-        );
+      // logs.forEach((log) => {
+      //   const month = Number(sliceDataTo32Bytes(log.data, 0));
+      //   months[month - 1].depositAmount = ethers.utils.formatEther(
+      //     ethers.utils.bigNumberify(sliceDataTo32Bytes(log.data, 1))
+      //   );
+      // });
+      (await window.tsgapLiquidInstance.queryFilter(
+        window.tsgapLiquidInstance.filters.NewDeposit(window.wallet.address,null,null,null,null,null)
+      )).map(log => window.tsgapLiquidInstance.interface.parseLog(log))
+      .map(log => ({
+        monthId: log.args['monthId'],
+        depositAmount: log.args['depositAmount'],
+        benefitQueued: log.args['benefitQueued'],
+      }))
+      .map(deposit =>{
+        months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount)
       });
 
       this.setState({ months });
