@@ -76,7 +76,7 @@ class AssuranceId extends Component<Props & RouteComponentProps<RouteParams>, St
         await window.tsgapLiquidInstance.queryFilter(
           window.tsgapLiquidInstance.filters.NewDeposit(
             window.wallet.address,
-            null,
+            Number(this.props.match.params.id),
             null,
             null,
             null,
