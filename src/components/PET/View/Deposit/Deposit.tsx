@@ -627,7 +627,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
         />
 
         <TransactionModal
-          show=                                             {this.state.showStakeTransactionModal}
+          show={this.state.showStakeTransactionModal}
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             transactor:
