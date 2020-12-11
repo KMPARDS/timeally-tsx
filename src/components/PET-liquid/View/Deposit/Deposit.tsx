@@ -553,7 +553,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
                 : ethers.constants.Zero.toHexString(),
             ],
             ESAmount: this.state.userAmount,
-            transferAmount: this.state.userAmount,
+            // transferAmount: this.state.userAmount,
             headingName: 'Approval Status',
             functionName: 'Approve',
             // stakingPlan: this.state.plan,
