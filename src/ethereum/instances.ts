@@ -15,7 +15,7 @@ import {
   PetLiquidTimeAllyPet,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-import {PetLiquidFlattenTimeAllyPetFactory} from './PetLiquidFlattenTimeAllyPetFactory'
+import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
 
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 

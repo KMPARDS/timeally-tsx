@@ -12,7 +12,7 @@ import {
   PetPrepaidTimeAllyPet,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
-import {PetLiquidFlattenTimeAllyPet} from './ethereum/PetLiquidFlattenTimeAllyPet';
+import { PetLiquidFlattenTimeAllyPet } from './ethereum/PetLiquidFlattenTimeAllyPet';
 
 import { CustomProvider } from 'eraswap-sdk';
 
