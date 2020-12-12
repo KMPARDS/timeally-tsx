@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { Layout } from '../../Layout/Layout';
+// import { Layout } from '../../Layout/Layout';
+import { LayoutTSGAP as Layout } from '../../Layout/LayoutTSGAP';
 import SIPElement from './SIPElement';
 import '../Assurance.css';
 import { sliceDataTo32Bytes } from '../../../utils';
 import { RouteComponentProps } from 'react-router-dom';
+import { withdrawTsgapIncentives } from '../../../lib/Apis';
 
 const ethers = require('ethers');
 interface SIP {
@@ -59,10 +61,42 @@ class View extends Component<PropsInterface, State> {
     }
   };
 
+  async withdrawIncentives() {
+    try {
+      if (window.wallet) {
+        const resp = await withdrawTsgapIncentives(window.wallet.address);
+        if (resp.ok) {
+          // this.setState({
+          //   withdrawMessage: resp?.data?.message || 'Success'
+          // });
+          //@ts-ignore
+          window.alert(resp?.data?.message || 'Success');
+        } else {
+          // this.setState({
+          //   withdrawMessage: resp?.data?.message || 'Unable to process request, try again later'
+          // });
+          //@ts-ignore
+          window.alert(resp?.data?.message || 'Unable to process request, try again later');
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      // this.setState({
+      //   withdrawMessage: e.message
+      // });
+      alert(e.message);
+    }
+  }
+
   render = () => (
     <Layout
       // breadcrumb={['Home', 'Assurance','View']}
       title="Assurance View"
+      buttonName='Withdraw Incentives'
+      buttonOnClick={() => {
+          if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
+            this.withdrawIncentives();
+      }}
     >
       {this.state.sips.length ? (
         <Table responsive>
