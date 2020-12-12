@@ -15,6 +15,7 @@ import {
   PetLiquidTimeAllyPet,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
+import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
 window.provider = new CustomProvider(
@@ -90,8 +91,13 @@ window.tsgapLiquidInstance = TsgapFactory.connect(
 
 // window.petInstance = PetLiquidTimeAllyPetFactory.connect(config.ESN.petPrepaid,window.provider);
 window.petInstance = PetPrepaidTimeAllyPetFactory.connect(config.ESN.petPrepaid, window.provider);
-window.petLiquidInstance = PetLiquidTimeAllyPetFactory.connect(
-  config.ESN.petLiquid,
+// window.petLiquidInstance = PetLiquidTimeAllyPetFactory.connect(
+//   config.ESN.petLiquid,
+//   window.provider
+// );
+
+window.petLiquidInstance = PetLiquidFlattenTimeAllyPetFactory.connect(
+  '0x0009006c385CE986A576D6ADCA928888AFC8cDDB',
   window.provider
 );
 
