@@ -31,7 +31,7 @@ declare global {
     petInstance: PetPrepaidTimeAllyPet;
     // petLiquidInstance: PetLiquidTimeAllyPet;
     petLiquidInstance: PetLiquidFlattenTimeAllyPet;
-    petFundsInstance: PetLiquidFlattenTimeAllyPet;
+    petFundsInstance: PetLiquidFundsBucket;
     returnLocationAfterLoadWallet: any;
   }
 }
