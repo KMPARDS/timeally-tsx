@@ -96,6 +96,28 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         );
       });
 
+
+(
+        await window.petInstance.queryFilter(
+          window.petInstance.filters.NewDeposit(
+            window.wallet.address,
+            Number(this.props.match.params.id),
+            null,
+            null,
+            null,
+            null
+          )
+        )
+      )
+        .map((log) => window.petInstance.interface.parseLog(log))
+        .map((log) => ({
+          monthId: log.args['_monthId'],
+          depositAmount: log.args['_depositAmount']
+        }))
+        .map((deposit) => {
+          months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
+        });
+
       this.setState({
         months,
         commitmentAmount: pet.monthlyCommitmentAmount,
