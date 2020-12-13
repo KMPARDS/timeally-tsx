@@ -113,8 +113,8 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       )
         .map((log) => window.petLiquidInstance.interface.parseLog(log))
         .map((log) => ({
-          monthId: log.args['monthId'],
-          depositAmount: log.args['depositAmount']
+          monthId: log.args['_monthId'],
+          depositAmount: log.args['_depositAmount']
         }))
         .map((deposit) => {
           months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
