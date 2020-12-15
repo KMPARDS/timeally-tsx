@@ -29,7 +29,7 @@ class View extends Component<Props & RouteComponentProps, State> {
         )
       )
         .map((log) => window.petInstance.interface.parseLog(log))
-        .map((log) => ({ petId: hexToNum(log.args['_petId']) }));
+        .map((log) => ({ petId: log.args['_petId'].toNumber() }));
       console.log(pets);
       this.setState({ pets, loading: false });
     }
