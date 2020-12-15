@@ -698,10 +698,11 @@ class New extends Component<PropsInterface, State> {
             contractName: 'TimeAllySIP',
             arguments: [
               this.state.plan,
-              ethers.utils.parseEther(this.state.userAmount.toString()),
-              false,
+              // ethers.utils.parseEther(this.state.userAmount.toString()),
+              // false,
             ],
             ESAmount: this.state.userAmount,
+            transferAmount: this.state.userAmount,
             headingName: 'New SIP',
             functionName: 'New SIP',
             stakingPlan: this.state.plan,
