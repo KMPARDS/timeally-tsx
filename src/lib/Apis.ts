@@ -6,6 +6,12 @@ const api = create({
 });
 
 export const withdrawPetPrepaidIncentives = async (walletAddress: string) =>
-  await api.post(`/withdraw-request/make-request`,{ requester: walletAddress, typeOfWithdraw: 'PET_PREPAID_INCENTIVE' });
+  await api.post(`/withdraw-request/make-request`, {
+    requester: walletAddress,
+    typeOfWithdraw: 'PET_PREPAID_INCENTIVE',
+  });
 export const withdrawTsgapIncentives = async (walletAddress: string) =>
-  await api.post(`/withdraw-request/make-request`,{ requester: walletAddress, typeOfWithdraw: 'TSGAP_INCENTIVE' });
+  await api.post(`/withdraw-request/make-request`, {
+    requester: walletAddress,
+    typeOfWithdraw: 'TSGAP_INCENTIVE',
+  });
