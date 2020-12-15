@@ -195,6 +195,9 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                 const MONTH_LENGTH = 2629744;
                 const windowOpenUntil = this.state.initTimestamp + 2629744 * monthId;
                 const currentTimestamp = Math.floor(Date.now() / 1000);
+                console.log('this.state.depositMonth',this.state.depositMonth);
+                console.log({monthId});
+                console.log(depositAmount,this.state.commitmentAmount);
 
                 let targetStatus = '',
                   backgroundColor,
@@ -224,13 +227,15 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                   }
                 }
 
-                if (this.state.depositMonth > monthId) {
-                  statusText = 'Deposit time elapsed.';
-                } else if (this.state.depositMonth === monthId) {
-                  statusText = 'Deposit window is open.';
-                  showDepositButton = true;
-                } else {
+                if (this.state.depositMonth < monthId) {
                   statusText = 'Deposit window is not yet open.';
+                } else if (this.state.depositMonth === monthId && depositAmount.lt(this.state.commitmentAmount)) {
+                  statusText = 'Deposit window is open.';
+                  if(depositAmount.lte(this.state.commitmentAmount))
+                    showDepositButton = true;
+                } else {
+                  statusText = 'Deposit time elapsed.';
+
                 }
 
                 return (

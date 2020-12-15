@@ -68,33 +68,33 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
 
       //   });
 
-      const newDepositSig = ethers.utils.id(
-        'NewDeposit(address,uint256,uint256,uint256,address,bool)'
-      );
+      // const newDepositSig = ethers.utils.id(
+      //   'NewDeposit(address,uint256,uint256,uint256,address,bool)'
+      // );
 
-      const topics = [
-        newDepositSig,
-        ethers.utils.hexZeroPad(window.wallet.address, 32),
-        ethers.utils.hexZeroPad('0x' + Number(this.props.match.params.id).toString(16), 32),
-      ];
+      // const topics = [
+      //   newDepositSig,
+      //   ethers.utils.hexZeroPad(window.wallet.address, 32),
+      //   ethers.utils.hexZeroPad('0x' + Number(this.props.match.params.id).toString(16), 32),
+      // ];
 
-      const logs = await window.provider.getLogs({
-        address: window.petInstance.address,
-        fromBlock: 0,
-        toBlock: 'latest',
-        topics,
-      });
+      // const logs = await window.provider.getLogs({
+      //   address: window.petInstance.address,
+      //   fromBlock: 0,
+      //   toBlock: 'latest',
+      //   topics,
+      // });
 
-      console.log('deposits logs', logs);
+      // console.log('deposits logs', logs);
 
-      logs.forEach((log) => {
-        const month = Number(sliceDataTo32Bytes(log.data, 0));
-        months[month - 1].push(
-          // window.lessDecimals(
-          ethers.BigNumber.from(sliceDataTo32Bytes(log.data, 1))
-          // )
-        );
-      });
+      // logs.forEach((log) => {
+      //   const month = Number(sliceDataTo32Bytes(log.data, 0));
+      //   months[month - 1].push(
+      //     // window.lessDecimals(
+      //     ethers.BigNumber.from(sliceDataTo32Bytes(log.data, 1))
+      //     // )
+      //   );
+      // });
 
       (
         await window.petInstance.queryFilter(
@@ -114,8 +114,9 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           depositAmount: log.args['_depositAmount'],
         }))
         .map((deposit) => {
-          months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
+          months[deposit.monthId - 1].depositAmount += deposit.depositAmount.toNumber();
         });
+
 
       this.setState({
         months,
@@ -223,7 +224,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
 
                 if (this.state.depositMonth > monthId) {
                   statusText = 'Deposit time elapsed.';
-                } else if (this.state.depositMonth === monthId) {
+                } else if (this.state.depositMonth === monthId && depositAmount.lte(this.state.commitmentAmount)) {
                   statusText = 'Deposit window is open.';
                   showDepositButton = true;
                 } else {
@@ -256,7 +257,8 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                             }
                           >
                             {depositAmount.gte(this.state.commitmentAmount) ? (
-                              <>Make Topup</>
+                              // <>Make Topup</>
+                              <></>
                             ) : (
                               <>Make Monthly Deposit</>
                             )}
