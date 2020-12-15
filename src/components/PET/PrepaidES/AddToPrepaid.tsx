@@ -307,7 +307,7 @@ class AddToPrepaid extends Component {
               </a>
             </Alert>
             <Button
-            // onClick={() => this.props.history.push('/pet-old/prepaid-es')}
+            // onClick={() => this.props.history.push('/pet-new/prepaid-es')}
             >
               Go to PrepaidES
             </Button>

@@ -618,7 +618,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
               </Alert>
               <Button
                 onClick={() =>
-                  this.props.history.push('/pet-old/view/' + this.props.match.params.id)
+                  this.props.history.push('/pet-new/view/' + this.props.match.params.id)
                 }
               >
                 Go to PET Deposits Page

@@ -155,7 +155,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
               <Button
                 onClick={() =>
                   this.props.history.push(
-                    `/pet-old/view/${this.props.match.params.id}/lum-sum-deposit`
+                    `/pet-new/view/${this.props.match.params.id}/lum-sum-deposit`
                   )
                 }
               >
@@ -307,7 +307,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             </p>
             <Button
               onClick={() =>
-                this.props.history.push(`/pet-old/view/${this.props.match.params.id}/deposit`)
+                this.props.history.push(`/pet-new/view/${this.props.match.params.id}/deposit`)
               }
             >
               Make a Deposit
@@ -317,7 +317,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           <div className="details">
             <Button
               onClick={() =>
-                this.props.history.push(`/pet-old/view/${this.props.match.params.id}/benefits`)
+                this.props.history.push(`/pet-new/view/${this.props.match.params.id}/benefits`)
               }
             >
               Benefit Page
@@ -327,7 +327,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           <div className="details" style={{ margin: '10px auto' }}>
             <Button
               onClick={() =>
-                this.props.history.push(`/pet-old/view/${this.props.match.params.id}/nominees`)
+                this.props.history.push(`/pet-new/view/${this.props.match.params.id}/nominees`)
               }
             >
               Nominee Page

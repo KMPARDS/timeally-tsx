@@ -76,7 +76,7 @@ class View extends Component<Props & RouteComponentProps, State> {
       buttonOnClick={() => {
         if (this.state.pets.length === 0) {
           window.wallet && window.wallet.address
-            ? this.props.history.push('/pet-old/new')
+            ? this.props.history.push('/pet-new/new')
             : this.setState({ showLoginModal: true });
         } else {
           if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
@@ -101,7 +101,7 @@ class View extends Component<Props & RouteComponentProps, State> {
               <PETElement
                 petId={pet.petId}
                 onClick={() => {
-                  this.props.history.push('/pet-old/view/' + pet.petId);
+                  this.props.history.push('/pet-new/view/' + pet.petId);
                   return null;
                 }}
               />

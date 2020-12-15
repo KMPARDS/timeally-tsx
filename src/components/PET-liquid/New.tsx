@@ -599,7 +599,7 @@ class New extends Component<PropsInterface, State> {
                 . You are yet to make ES deposit to your PET and you can do this by going to View
                 PETs page and opening your PET to make ES deposit.
               </Alert>
-              <Button onClick={() => this.props.history.push('/pet-new/view')}>
+              <Button onClick={() => this.props.history.push('/pet-old/view')}>
                 Go to View PETs page
               </Button>
             </div>

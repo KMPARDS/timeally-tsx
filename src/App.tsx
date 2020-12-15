@@ -55,8 +55,8 @@ function App() {
           <Route path="/nominee" component={Nominee} />
           <Route path="/tsgap" component={Tsgap} />
           <Route path="/assurance" component={Assurance} />
-          <Route path="/pet-old" component={PET} />
-          <Route path="/pet-new" component={PETLiquid} />
+          <Route path="/pet-old" component={PETLiquid} />
+          <Route path="/pet-new" component={PET} />
           <Route path="/calculate" component={TsgapCalculator} />
           <Route path="/new" component={NewSip} />
           <Route path="/view/:staker" component={ViewSip} />
