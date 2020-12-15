@@ -25,7 +25,7 @@ class View extends Component<Props & RouteComponentProps, State> {
         )
       )
         .map((log) => window.petLiquidInstance.interface.parseLog(log))
-        .map((log) => ({ petId: hexToNum(log.args['_petId']) }));
+        .map((log) => ({ petId: log.args['_petId'].toNumber() }));
 
       this.setState({ pets, loading: false });
     }
@@ -42,7 +42,7 @@ class View extends Component<Props & RouteComponentProps, State> {
       buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
       buttonOnClick={
         window.wallet && window.wallet.address
-          ? () => this.props.history.push('/pet-new/new')
+          ? () => this.props.history.push('/pet-old/new')
           : () => this.setState({ showLoginModal: true })
       }
     >
@@ -63,7 +63,7 @@ class View extends Component<Props & RouteComponentProps, State> {
               <PETElement
                 petId={pet.petId}
                 onClick={() => {
-                  this.props.history.push('/pet-new/view/' + pet.petId);
+                  this.props.history.push('/pet-old/view/' + pet.petId);
                   return null;
                 }}
               />

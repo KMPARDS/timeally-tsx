@@ -92,10 +92,10 @@ class View extends Component<PropsInterface, State> {
     <Layout
       // breadcrumb={['Home', 'Assurance','View']}
       title="Assurance View"
-      buttonName='Withdraw Incentives'
+      buttonName="Withdraw Incentives"
       buttonOnClick={() => {
-          if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
-            this.withdrawIncentives();
+        if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
+          this.withdrawIncentives();
       }}
     >
       {this.state.sips.length ? (
