@@ -117,7 +117,6 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           months[deposit.monthId - 1].depositAmount += deposit.depositAmount.toNumber();
         });
 
-
       this.setState({
         months,
         commitmentAmount: pet.monthlyCommitmentAmount,
@@ -224,7 +223,10 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
 
                 if (this.state.depositMonth > monthId) {
                   statusText = 'Deposit time elapsed.';
-                } else if (this.state.depositMonth === monthId && depositAmount.lte(this.state.commitmentAmount)) {
+                } else if (
+                  this.state.depositMonth === monthId &&
+                  depositAmount.lte(this.state.commitmentAmount)
+                ) {
                   statusText = 'Deposit window is open.';
                   showDepositButton = true;
                 } else {
