@@ -12,6 +12,8 @@ import {
   PetPrepaidTimeAllyPet,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
+import { PetLiquidFlattenTimeAllyPet } from './ethereum/PetLiquidFlattenTimeAllyPet';
+
 import { CustomProvider } from 'eraswap-sdk';
 
 declare global {
@@ -27,7 +29,8 @@ declare global {
     provider: CustomProvider;
     tsgapLiquidInstance: Tsgap;
     petInstance: PetPrepaidTimeAllyPet;
-    petLiquidInstance: PetLiquidTimeAllyPet;
+    // petLiquidInstance: PetLiquidTimeAllyPet;
+    petLiquidInstance: PetLiquidFlattenTimeAllyPet;
     petFundsInstance: PetLiquidFundsBucket;
     returnLocationAfterLoadWallet: any;
   }
