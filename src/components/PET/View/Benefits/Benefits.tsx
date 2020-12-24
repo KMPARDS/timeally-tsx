@@ -42,7 +42,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
     console.log('mounted');
 
     if (window.wallet) {
-      console.log('called');
+      console.log('called1 ');
       const currentMonth = await window.petInstance.getDepositMonth(
         window.wallet.address,
         this.props.match.params.id
@@ -50,7 +50,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
       const powerBoosterAmount = await window.petLiquidInstance.calculatePowerBoosterAmount(
         window.wallet.address,
-        this.props.match.params.id
+        this.props.match.params.id.toString()
       );
 
       const pets = await window.petInstance.pets(
@@ -58,10 +58,19 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         this.props.match.params.id
       );
 
-      const petPlan = await window.petInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
       const TWELVETH_MONTH = 12;
+      console.log({ TWELVETH_MONTH });
+
       for (let i = 1; i <= TWELVETH_MONTH; i++) {
+        console.log(
+          window.wallet.address,
+          pets.planId,
+          i,
+          i,
+          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+        );
+
         monthlyBenefitAmountArray.push(
           await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
         );
@@ -162,10 +171,10 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           </td>
         </tr>
       );
-      if ((i + 1) % 36 === 0) {
+      if ((i + 1) % 5 === 0) {
         benefitTableElementArray.push(
           <tr style={{ backgroundColor: '#aaa' }}>
-            <td>Power Booster {Math.ceil(i / 36)}</td>
+            <td>Power Booster {Math.ceil(i / 5)}</td>
             <td>
               {this.state.powerBoosterAmount > -1 ? this.state.powerBoosterAmount : 'Loading...'}
             </td>
