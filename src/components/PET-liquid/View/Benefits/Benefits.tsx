@@ -168,10 +168,10 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         </tr>
       );
 
-      if ((i + 1) % 36 === 0) {
+      if ((i + 1) % 5 === 0) {
         benefitTableElementArray.push(
           <tr style={{ backgroundColor: '#aaa' }}>
-            <td>Power Booster {Math.ceil(i / 36)}</td>
+            <td>Power Booster {Math.ceil(i / 5)}</td>
             <td>
               {this.state.powerBoosterAmount > -1 ? this.state.powerBoosterAmount : 'Loading...'}
             </td>

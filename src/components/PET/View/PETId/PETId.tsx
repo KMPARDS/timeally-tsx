@@ -114,7 +114,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           depositAmount: log.args['_depositAmount'],
         }))
         .map((deposit) => {
-          months[deposit.monthId - 1].depositAmount += deposit.depositAmount.toNumber();
+          months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
         });
 
       this.setState({
