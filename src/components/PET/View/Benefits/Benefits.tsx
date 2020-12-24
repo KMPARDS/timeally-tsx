@@ -60,10 +60,16 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
 
       const monthlyBenefitAmountArray = [];
       const TWELVETH_MONTH = 12;
-      console.log({TWELVETH_MONTH});
+      console.log({ TWELVETH_MONTH });
 
       for (let i = 1; i <= TWELVETH_MONTH; i++) {
-        console.log(window.wallet.address, pets.planId, i, i,await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i));
+        console.log(
+          window.wallet.address,
+          pets.planId,
+          i,
+          i,
+          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+        );
 
         monthlyBenefitAmountArray.push(
           await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
