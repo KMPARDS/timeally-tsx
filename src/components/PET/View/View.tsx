@@ -48,7 +48,7 @@ class View extends Component<Props & RouteComponentProps, State> {
           //   withdrawMessage: resp?.data?.message || 'Success'
           // });
           //@ts-ignore
-          window.alert(resp?.data?.message || 'Success');
+          window.alert('You have successfully claimed your Incentive from this smart . Please visit Dayswappers & Timeally Club dashboard to withdraw same in preferred mode' || resp?.data?.message || 'Success');
         } else {
           // this.setState({
           //   withdrawMessage: resp?.data?.message || 'Unable to process request, try again later'
