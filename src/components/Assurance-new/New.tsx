@@ -5,6 +5,7 @@ import TransactionModal from '../TransactionModal/TransactionModal';
 import { lessDecimals } from '../../utils';
 import { ethers } from 'ethers';
 import { RouteComponentProps } from 'react-router-dom';
+import config from '../../config';
 
 type State = {
   currentScreen: number;
@@ -195,6 +196,26 @@ class New extends Component<PropsInterface, State> {
   onCloseModal = () => {
     this.setState({ open: false });
   };
+
+
+  newSIP = async () => {
+    if(window.wallet && config.dayswappersAuthorizedWallet){
+      const walletInst = window.wallet?.connect(window.provider);
+      //@ts-ignore
+      const txn = await  window.tsgapLiquidInstance?.connect(walletInst)
+        .newSIP(this.state.plan,{ value: ethers.utils.parseEther(this.state.userAmount.toString()) })
+      await txn.wait();
+      const dayswappersAuthorizedWallet = (new ethers.Wallet(config.dayswappersAuthorizedWallet)).connect(window.provider);
+      const reportTxn = await window.distributeIncentiveInstance.connect(dayswappersAuthorizedWallet).sendIncentive(
+        window.tsgapLiquidInstance.address,
+        window.wallet.address,
+        ethers.utils.parseEther(this.state.userAmount.toString()),
+        ethers.constants.Zero
+      );
+      await reportTxn.wait();
+      return txn;
+    }
+  }
 
   render() {
     let screen;
@@ -691,8 +712,9 @@ class New extends Component<PropsInterface, State> {
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
-              .functions.newSIP,
+            // transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
+            //   .functions.newSIP,
+            transactor: this.newSIP,
             estimator: () => ethers.constants.Zero,
             contract: window.tsgapLiquidInstance,
             contractName: 'TimeAllySIP',

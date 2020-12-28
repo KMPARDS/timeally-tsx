@@ -16,6 +16,7 @@ import {
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
+import { DistributeIncentiveFactory } from './DistributeIncentive/DistributeIncentiveFactory';
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
 window.provider = new CustomProvider(
@@ -105,3 +106,5 @@ window.petFundsInstance = PetLiquidFundsBucketFactory.connect(
   config.ESN.petPrepaid,
   window.provider
 );
+
+window.distributeIncentiveInstance = DistributeIncentiveFactory.connect('0x4a64095E0f4Fcf0fF201FF0984E928908c269F25',window.provider);
