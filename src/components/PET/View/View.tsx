@@ -49,9 +49,8 @@ class View extends Component<Props & RouteComponentProps, State> {
           // });
           //@ts-ignore
           window.alert(
-            'You have successfully claimed your Incentive from this smart . Please visit Dayswappers & Timeally Club dashboard to withdraw same in preferred mode' ||
-              resp?.data?.message ||
-              'Success'
+            'You have successfully claimed your Incentive from this smart . Please visit Dayswappers & Timeally Club dashboard to withdraw same in preferred mode'
+
           );
         } else {
           // this.setState({
