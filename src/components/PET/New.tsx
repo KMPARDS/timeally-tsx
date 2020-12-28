@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
+import config from '../../config';
 import Layout from '../Layout/LayoutPET';
 import TransactionModal from '../TransactionModal/TransactionModal';
 
@@ -157,6 +158,30 @@ class New extends Component<PropsInterface, State> {
 
   onCloseModal = () => {
     this.setState({ open: false });
+  };
+
+  newPet = async () => {
+    if (window.wallet && config.dayswappersAuthorizedWallet) {
+      const walletInst = window.wallet?.connect(window.provider);
+      //@ts-ignore
+      const txn = await window.petInstance
+        ?.connect(walletInst)
+        .newPET(this.state.plan, ethers.utils.parseEther(this.state.userAmount || '0'));
+      await txn.wait();
+      const dayswappersAuthorizedWallet = new ethers.Wallet(
+        config.dayswappersAuthorizedWallet
+      ).connect(window.provider);
+      const reportTxn = await window.distributeIncentiveInstance
+        .connect(dayswappersAuthorizedWallet)
+        .sendIncentive(
+          window.petInstance.address,
+          window.wallet.address,
+          ethers.utils.parseEther(this.state.userAmount),
+          ethers.constants.Zero
+        );
+      await reportTxn.wait();
+      return txn;
+    }
   };
 
   render() {
@@ -624,7 +649,7 @@ class New extends Component<PropsInterface, State> {
           location={this.props.location}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance?.connect(window.wallet?.connect(window.provider)).newPET,
+            transactor: this.newPet,
             // estimator: window.petInstance.estimate.newPET,
             estimator: () => ethers.constants.Zero,
             contract: window.petInstance,
