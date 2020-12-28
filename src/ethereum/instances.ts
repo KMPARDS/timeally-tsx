@@ -107,4 +107,7 @@ window.petFundsInstance = PetLiquidFundsBucketFactory.connect(
   window.provider
 );
 
-window.distributeIncentiveInstance = DistributeIncentiveFactory.connect('0x4a64095E0f4Fcf0fF201FF0984E928908c269F25',window.provider);
+window.distributeIncentiveInstance = DistributeIncentiveFactory.connect(
+  '0x4a64095E0f4Fcf0fF201FF0984E928908c269F25',
+  window.provider
+);

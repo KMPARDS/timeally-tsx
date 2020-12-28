@@ -197,25 +197,31 @@ class New extends Component<PropsInterface, State> {
     this.setState({ open: false });
   };
 
-
   newSIP = async () => {
-    if(window.wallet && config.dayswappersAuthorizedWallet){
+    if (window.wallet && config.dayswappersAuthorizedWallet) {
       const walletInst = window.wallet?.connect(window.provider);
       //@ts-ignore
-      const txn = await  window.tsgapLiquidInstance?.connect(walletInst)
-        .newSIP(this.state.plan,{ value: ethers.utils.parseEther(this.state.userAmount.toString()) })
+      const txn = await window.tsgapLiquidInstance
+        ?.connect(walletInst)
+        .newSIP(this.state.plan, {
+          value: ethers.utils.parseEther(this.state.userAmount.toString()),
+        });
       await txn.wait();
-      const dayswappersAuthorizedWallet = (new ethers.Wallet(config.dayswappersAuthorizedWallet)).connect(window.provider);
-      const reportTxn = await window.distributeIncentiveInstance.connect(dayswappersAuthorizedWallet).sendIncentive(
-        window.tsgapLiquidInstance.address,
-        window.wallet.address,
-        ethers.utils.parseEther(this.state.userAmount.toString()),
-        ethers.constants.Zero
-      );
+      const dayswappersAuthorizedWallet = new ethers.Wallet(
+        config.dayswappersAuthorizedWallet
+      ).connect(window.provider);
+      const reportTxn = await window.distributeIncentiveInstance
+        .connect(dayswappersAuthorizedWallet)
+        .sendIncentive(
+          window.tsgapLiquidInstance.address,
+          window.wallet.address,
+          ethers.utils.parseEther(this.state.userAmount.toString()),
+          ethers.constants.Zero
+        );
       await reportTxn.wait();
       return txn;
     }
-  }
+  };
 
   render() {
     let screen;

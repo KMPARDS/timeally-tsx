@@ -34,6 +34,6 @@ declare global {
     petLiquidInstance: PetLiquidFlattenTimeAllyPet;
     petFundsInstance: PetLiquidFundsBucket;
     returnLocationAfterLoadWallet: any;
-    distributeIncentiveInstance: DistributeIncentive
+    distributeIncentiveInstance: DistributeIncentive;
   }
 }
