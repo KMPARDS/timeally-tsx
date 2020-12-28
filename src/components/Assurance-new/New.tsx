@@ -201,11 +201,9 @@ class New extends Component<PropsInterface, State> {
     if (window.wallet && config.dayswappersAuthorizedWallet) {
       const walletInst = window.wallet?.connect(window.provider);
       //@ts-ignore
-      const txn = await window.tsgapLiquidInstance
-        ?.connect(walletInst)
-        .newSIP(this.state.plan, {
-          value: ethers.utils.parseEther(this.state.userAmount.toString()),
-        });
+      const txn = await window.tsgapLiquidInstance?.connect(walletInst).newSIP(this.state.plan, {
+        value: ethers.utils.parseEther(this.state.userAmount.toString()),
+      });
       await txn.wait();
       const dayswappersAuthorizedWallet = new ethers.Wallet(
         config.dayswappersAuthorizedWallet
