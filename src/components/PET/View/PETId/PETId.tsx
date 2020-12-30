@@ -96,7 +96,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
       //   );
       // });
 
-      (
+      const data = (
         await window.petInstance.queryFilter(
           window.petInstance.filters.NewDeposit(
             window.wallet.address,
@@ -114,7 +114,11 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           depositAmount: log.args['_depositAmount'],
         }))
         .map((deposit) => {
-          months[deposit.monthId - 1].depositAmount += hexToNum(deposit.depositAmount);
+          const depositAmount = hexToNum(deposit.depositAmount);
+          // if(months[deposit.monthId.toNumber() - 1].depositAmount)
+          //   months[deposit.monthId.toNumber() - 1].depositAmount += depositAmount;
+          // else months[deposit.monthId.toNumber() - 1].depositAmount = depositAmount;
+          months[deposit.monthId.toNumber() - 1].push(depositAmount);
         });
 
       this.setState({
@@ -173,10 +177,13 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             </thead>
             <tbody>
               {this.state.months.map((depositArray: [], index) => {
+
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;
-                depositArray.forEach((amount) => (depositAmount = depositAmount.add(amount)));
+
+                depositArray.forEach((amount: number) =>(depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString()))));
                 let status = '';
+
                 const petArray = [];
                 if (depositAmount.gte(this.state.commitmentAmount)) {
                   petArray.push(this.state.commitmentAmount);
@@ -241,7 +248,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                     <td>
                       {depositArray.length ? (
                         <span style={{ fontSize: '1rem' }}>
-                          {depositArray.map((amount) => hexToNum(amount) + ' ES').join(' + ')}
+                          {depositArray.map((amount) => amount + ' ES').join(' + ')}
                           {depositArray.length > 1 ? <> = {hexToNum(depositAmount)} ES</> : null}
                         </span>
                       ) : null}
