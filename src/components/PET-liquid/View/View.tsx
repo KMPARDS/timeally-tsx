@@ -39,7 +39,7 @@ class View extends Component<Props & RouteComponentProps, State> {
     <Layout
       breadcrumb={['Home', 'PET', 'View']}
       title="List of your PETs"
-      buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
+      // buttonName={!this.state.loading && this.state.pets.length === 0 ? 'New PET' : null}
       buttonOnClick={
         window.wallet && window.wallet.address
           ? () => this.props.history.push('/pet-old/new')
