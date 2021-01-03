@@ -380,7 +380,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
               onClick={() =>
                 this.setState({
                   usePrepaidES: true,
-                  currentScreen: 3,
+                  currentScreen: 2,
                 })
               }
             >
