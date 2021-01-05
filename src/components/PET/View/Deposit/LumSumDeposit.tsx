@@ -430,7 +430,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
               onClick={() =>
                 this.setState({
                   usePrepaidES: true,
-                  currentScreen: 3,
+                  currentScreen: 2,
                 })
               }
             >
@@ -649,10 +649,13 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //@ts-ignore
             transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider))
               .approve,
-            estimator: () => ethers.constants.Zero,
+            estimator: () =>ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
-            arguments: [window.petInstance.address, ethers.utils.parseEther(userAmountWithFees)],
+            arguments: [
+              window.petInstance.address,
+              ethers.utils.parseEther(userAmountWithFees).toHexString(),
+            ],
             ESAmount: userAmountWithFees,
             headingName: 'Approval Status',
             functionName: 'Approve',
@@ -674,7 +677,12 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //@ts-ignore
             transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
               .makeFrequencyModeDeposit,
-            estimator: () => ethers.constants.Zero,
+            estimator: () => {
+              const {userAmount, usePrepaidES } = this.state
+              console.log({userAmount, usePrepaidES});
+
+              return ethers.constants.Zero
+            },
             contract: window.petInstance,
             contractName: 'TimeAllyPET',
             arguments: [
@@ -685,6 +693,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
               this.state.usePrepaidES,
             ],
             ESAmount: userAmountWithFees,
+            transferAmount: this.state.usePrepaidES ? 0 : userAmountWithFees,
             headingName: `Lump Sum Deposit (${this.state.frequencyMode} Months)`,
             functionName: 'makeFrequencyModeDeposit',
             // stakingPlan: this.state.plan,
