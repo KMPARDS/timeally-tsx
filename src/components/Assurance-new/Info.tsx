@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 import { LayoutTSGAP as Layout } from '../Layout/LayoutTSGAP';
 import axios from 'axios';
-import { lessDecimals, sliceDataTo32Bytes } from '../../utils';
+import { hexToNum, lessDecimals, sliceDataTo32Bytes } from '../../utils';
 import { ethers } from 'ethers';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ type State = {
   pendingBenefits: ethers.BigNumber;
   showLoginModal: boolean;
   eraSwapPrice: number;
-  fundsAdded: ethers.BigNumber;
+  fundsAdded: number;
 };
 
 interface PropsInterface extends RouteComponentProps<any> {}
@@ -23,7 +23,7 @@ class PET extends Component<PropsInterface, State> {
     pendingBenefits: ethers.constants.Zero,
     showLoginModal: false,
     eraSwapPrice: 0,
-    fundsAdded: ethers.constants.Zero,
+    fundsAdded: 0,
   };
 
   componentDidMount = async () => {
@@ -62,27 +62,38 @@ class PET extends Component<PropsInterface, State> {
     })();
 
     (async () => {
-      const sumBN = (
-        await window.provider.getLogs({
-          address: fundsBucketAddress,
-          fromBlock: 0,
-          toBlock: 'latest',
-          topics: [ethers.utils.id('FundsDeposited(address,uint256)')],
-        })
-      )
-        .map((log) => {
-          const bn = ethers.BigNumber.from(sliceDataTo32Bytes(log.data, 1));
-          console.log(ethers.utils.formatEther(bn));
-          return bn;
-        })
-        .reduce((sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
+      // const sumBN = (
+      //   await window.provider.getLogs({
+      //     address: fundsBucketAddress,
+      //     fromBlock: 0,
+      //     toBlock: 'latest',
+      //     topics: [ethers.utils.id('FundsDeposited(address,uint256)')],
+      //   })
+      // )
+      //   .map((log) => {
+      //     const bn = ethers.BigNumber.from(sliceDataTo32Bytes(log.data, 1));
+      //     console.log(ethers.utils.formatEther(bn));
+      //     return bn;
+      //   })
+      //   .reduce((sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
+
+      const sumBN = (await window.tsgapLiquidInstance.queryFilter(
+        window.tsgapLiquidInstance.filters.FundsDeposited(null)
+      ))
+      .map(log => window.tsgapLiquidInstance.interface.parseLog(log))
+      .map(log => hexToNum(log.args['depositAmount']))
+      .reduce((prevValue,currValue) => +prevValue + currValue,0);
+
+      console.log({sumBN});
 
       this.setState({ fundsAdded: sumBN });
     })();
   };
 
-  render = () => (
-    <Layout
+  render = () => {
+    const oldTotalBountAllocated = 3791312;
+    const totalBountAllocated: number = oldTotalBountAllocated + this.state.fundsAdded;
+    return <Layout
       breadcrumb={['Home', 'PET']}
       title="TSGAP Right SAP for Achievers "
       transparent={true}
@@ -192,12 +203,12 @@ class PET extends Component<PropsInterface, State> {
       </div>
       <div className="outline pinside30 custom-background">
         <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
-          <strong>Total bounty allocated budget for TimeAlly PET:</strong> 20000000 ES
-          {this.state.eraSwapPrice ? ` (~${20000000 * (this.state.eraSwapPrice || 0)} USDT)` : null}
+          <strong>Total bounty allocated budget for TimeAlly PET:</strong> {totalBountAllocated} ES
+          {this.state.eraSwapPrice ? ` (~${totalBountAllocated * this.state.eraSwapPrice} USDT)` : null}
           {this.state.fundsAdded ? (
             <>
               <br />
-              Currently {lessDecimals(this.state.fundsAdded)} ES available (out of 20M), and next
+              Currently {this.state.fundsAdded} ES available (out of 20M), and next
               will be released when current bucket is consumed
             </>
           ) : null}
@@ -261,38 +272,9 @@ class PET extends Component<PropsInterface, State> {
         </Button>
         <br />
         <div style={{ display: 'block', maxWidth: '500px', margin: '0 auto' }}>
-          <Button
-            className="text-white pet-links"
-            href="/excel/PET_Calculator.xlsx"
-            target="_blank"
-            style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-          >
-            PET Illustration Excel
-          </Button>
-          <Button
-            className="text-white pet-links"
-            href="/pdf/TimeAllyPET.pdf"
-            target="_blank"
-            style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-          >
-            PET Presenter
-          </Button>
-          <Button
-            className="text-white pet-links"
-            href="/pdf/PETFAQs.pdf"
-            target="_blank"
-            style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-          >
-            PET FAQs
-          </Button>
-          <Button
-            className="text-white pet-links"
-            href="https://etherscan.io/address/0x69e7960f6A1d6332a4be7e22916F627a3d95b1bc#code"
-            target="_blank"
-            style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-          >
-            PET Smart Contract
-          </Button>
+        <Button
+          onClick={() => this.props.history.push('/assurance/calculate')}
+          >SAP Calculator</Button>
         </div>
       </div>
       <Modal
@@ -313,8 +295,8 @@ class PET extends Component<PropsInterface, State> {
           </Button>
         </Modal.Body>
       </Modal>
-    </Layout>
-  );
+    </Layout>;
+  }
 }
 
 export default PET;

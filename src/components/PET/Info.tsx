@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { addresses } from 'eraswap-sdk/dist';
+import { PetPrepaidFundsBucket, PetPrepaidFundsBucketFactory } from 'eraswap-sdk/dist/typechain/ESN';
 import React, { Component, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { RouteComponentProps, useHistory, withRouter } from 'react-router-dom';
@@ -43,19 +44,10 @@ class PET extends Component<PETProps, State> {
 
     (async () => {
       const fundsDeposit = await window.provider.getBalance(
-        process.env.REACT_APP_NODE_ENV
-          ? addresses.development.ESN.petPrepaid
-          : addresses.production.ESN.petPrepaid
+        window.prepaidEsInstance.address
       );
 
       this.setState({ fundsDeposit: hexToNum(fundsDeposit) });
-    })();
-
-    (async () => {
-      const sumBN = await window.petFundsInstance.queryFilter(
-        window.petFundsInstance.filters.FundsDeposited(null, null)
-      );
-      console.log({ sumBN });
     })();
 
     // (async() => {
@@ -87,7 +79,28 @@ class PET extends Component<PETProps, State> {
 
     //   this.setState({ fundsAdded: sumBN });
     // })();
+
+    this.getFundsAddedToBucket();
   };
+
+  async getFundsAddedToBucket(){
+    const petFundsBucketAddress = await window.petInstance.fundsBucket();
+    const petFundsBucketInst: PetPrepaidFundsBucket = PetPrepaidFundsBucketFactory.connect(
+      petFundsBucketAddress,
+      window.provider
+    );
+    const totalFundsAdded = (
+      await petFundsBucketInst.queryFilter(
+        petFundsBucketInst.filters.FundsDeposited(null,null)
+      ))
+      .map(log =>petFundsBucketInst.interface.parseLog(log))
+      .map(log => hexToNum(log.args['_depositAmount']))
+      .reduce((prevValue,currValue) => +prevValue+currValue);
+
+    this.setState({
+      fundsAdded: totalFundsAdded
+    });
+  }
 
   render() {
     return (
