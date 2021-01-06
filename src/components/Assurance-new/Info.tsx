@@ -57,26 +57,12 @@ class PET extends Component<PropsInterface, State> {
       )
         .map((log) => ethers.BigNumber.from(log.data))
         .reduce((sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
+        console.log({sumBN});
 
       this.setState({ pendingBenefits: sumBN });
     })();
 
     (async () => {
-      // const sumBN = (
-      //   await window.provider.getLogs({
-      //     address: fundsBucketAddress,
-      //     fromBlock: 0,
-      //     toBlock: 'latest',
-      //     topics: [ethers.utils.id('FundsDeposited(address,uint256)')],
-      //   })
-      // )
-      //   .map((log) => {
-      //     const bn = ethers.BigNumber.from(sliceDataTo32Bytes(log.data, 1));
-      //     console.log(ethers.utils.formatEther(bn));
-      //     return bn;
-      //   })
-      //   .reduce((sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
-
       const sumBN = (await window.tsgapLiquidInstance.queryFilter(
         window.tsgapLiquidInstance.filters.FundsDeposited(null)
       ))
@@ -93,6 +79,9 @@ class PET extends Component<PropsInterface, State> {
   render = () => {
     const oldTotalBountAllocated = 3791312;
     const totalBountAllocated: number = oldTotalBountAllocated + this.state.fundsAdded;
+    const tillNowConsumed = hexToNum(this.state.pendingBenefits) + oldTotalBountAllocated;
+    const currentAvailableBounty = totalBountAllocated - tillNowConsumed;
+
     return <Layout
       breadcrumb={['Home', 'PET']}
       title="TSGAP Right SAP for Achievers "
@@ -215,24 +204,31 @@ class PET extends Component<PropsInterface, State> {
         </p>
         <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
           <strong>Current available bounty (out of 20M ES):</strong>{' '}
-          {this.state.fundsDeposit ? lessDecimals(this.state.fundsDeposit) + ' ES' : 'Loading...'}
+          {/* {this.state.fundsDeposit ? lessDecimals(this.state.fundsDeposit) + ' ES' : 'Loading...'}
           {this.state.eraSwapPrice && this.state.fundsDeposit
             ? ` (~${
                 (this.state.fundsDeposit ? +ethers.utils.formatEther(this.state.fundsDeposit) : 0) *
                 (this.state.eraSwapPrice || 0)
+              } USDT)`
+            : null} */}
+            {currentAvailableBounty ? currentAvailableBounty + ' ES' : 'Loading...'}
+            {this.state.eraSwapPrice && currentAvailableBounty
+            ? ` (~${
+                (currentAvailableBounty ? + currentAvailableBounty : 0) *
+                this.state.eraSwapPrice
               } USDT)`
             : null}
         </p>
         <img src="./images/timeally-tsgap.png" className="robo-img" />
         <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
           <strong>Till now Consumed (out of 20M ES):</strong>{' '}
-          {this.state.pendingBenefits
-            ? lessDecimals(this.state.pendingBenefits) + ' ES'
+          {tillNowConsumed
+            ? tillNowConsumed + ' ES'
             : 'Loading...'}
-          {this.state.eraSwapPrice && this.state.pendingBenefits
+          {this.state.eraSwapPrice && tillNowConsumed
             ? ` (~${
-                (this.state.pendingBenefits
-                  ? +ethers.utils.formatEther(this.state.pendingBenefits)
+                (tillNowConsumed
+                  ? +tillNowConsumed
                   : 0) * (this.state.eraSwapPrice || 0)
               } USDT)`
             : null}
