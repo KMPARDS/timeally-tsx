@@ -23,6 +23,7 @@ type State = {
 const ethers = require('ethers');
 
 class PET extends Component<PETProps, State> {
+  petFundsBucketAddress: string = ethers.constants.AddressZero;
   state: State = {
     fundsDeposit: -1,
     pendingBenefits: -1,
@@ -33,6 +34,7 @@ class PET extends Component<PETProps, State> {
 
   componentDidMount = async () => {
     // const fundsBucketAddress = await window.petInstance.functions.fundsBucket();
+    this.petFundsBucketAddress = await window.petInstance.fundsBucket();
 
     (async () => {
       const response = await Axios.get('https://apis.eraswap.info/third-party/es-price');
@@ -50,20 +52,22 @@ class PET extends Component<PETProps, State> {
       this.setState({ fundsDeposit: hexToNum(fundsDeposit) });
     })();
 
-    // (async() => {
-    //   const sumBN = (await window.provider.getLogs({
-    //     address: window.esInstance.address,
-    //     fromBlock: 0,
-    //     toBlock: 'latest',
-    //     topics:[
-    //       '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
-    //       ethers.utils.hexZeroPad(fundsBucketAddress, 32),
-    //       ethers.utils.hexZeroPad(window.petInstance.address, 32)
-    //     ]
-    //   })).map(log => ethers.utils.bigNumberify(log.data) ).reduce( (sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
+    (async() => {
+      const sumBN = (await window.provider.getLogs({
+        address: window.prepaidEsInstance.address,
+        fromBlock: 0,
+        toBlock: 'latest',
+        topics:[
+          '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+          ethers.utils.hexZeroPad(this.petFundsBucketAddress, 32),
+          ethers.utils.hexZeroPad(window.petInstance.address, 32)
+        ]
+      }))
+      .map((log) => ethers.BigNumber.from(log.data))
+      .reduce((sumBN, valueBN) => sumBN.add(valueBN), ethers.constants.Zero);
 
-    //   this.setState({ pendingBenefits: sumBN });
-    // })();
+      this.setState({ pendingBenefits: hexToNum(sumBN) });
+    })();
 
     // (async() => {
     //   const sumBN = (await window.provider.getLogs({
@@ -84,9 +88,9 @@ class PET extends Component<PETProps, State> {
   };
 
   async getFundsAddedToBucket(){
-    const petFundsBucketAddress = await window.petInstance.fundsBucket();
+
     const petFundsBucketInst: PetPrepaidFundsBucket = PetPrepaidFundsBucketFactory.connect(
-      petFundsBucketAddress,
+      this.petFundsBucketAddress,
       window.provider
     );
     const totalFundsAdded = (
@@ -261,10 +265,10 @@ class PET extends Component<PETProps, State> {
         </div>
         <div className="outline pinside30 custom-background">
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
-            <strong>Total bounty allocated budget for TimeAlly PET:</strong> 20000000 ES
+            <strong>Total bounty allocated budget for TimeAlly PET:</strong> {this.state.fundsAdded} ES
             {this.state.eraSwapPrice
               ? ` (~${
-                  20000000 * (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
+                  this.state.fundsAdded * (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
                 } USDT)`
               : null}
             {this.state.fundsAdded ? (
@@ -272,7 +276,7 @@ class PET extends Component<PETProps, State> {
                 <br />
                 Currently{' '}
                 {
-                  // window.lessDecimals(this.state.fundsAdded)
+                  this.state.fundsAdded
                 }{' '}
                 ES available (out of 20M), and next will be released when current bucket is consumed
               </>
@@ -280,12 +284,13 @@ class PET extends Component<PETProps, State> {
           </p>
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
             <strong>Current available bounty (out of 20M ES):</strong>
-            {this.state.fundsDeposit !== -1 ? this.state.fundsDeposit + ' ES' : 'Loading...'}
+            {this.state.fundsAdded - this.state.pendingBenefits}
+            {/* {this.state.fundsDeposit !== -1 ? this.state.fundsDeposit + ' ES' : 'Loading...'}
             {this.state.eraSwapPrice && this.state.fundsDeposit
               ? ` (~${
                   (this.state.fundsDeposit ? +this.state.fundsDeposit : 0) * this.state.eraSwapPrice
                 } USDT)`
-              : null}
+              : null} */}
           </p>
           <img src="./images/pet-robo.png" className="robo-img" />
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
@@ -293,12 +298,7 @@ class PET extends Component<PETProps, State> {
             {this.state.pendingBenefits ? this.state.pendingBenefits + ' ES' : 'Loading...'}
             {this.state.eraSwapPrice && this.state.pendingBenefits
               ? ` (~${
-                  (this.state.pendingBenefits
-                    ? +ethers.utils.formatEther(this.state.pendingBenefits)
-                    : 0) * this.state.eraSwapPrice
-                    ? this.state.eraSwapPrice
-                    : 0
-                } USDT)`
+                  this.state.pendingBenefits * this.state.eraSwapPrice} USDT)`
               : null}
           </p>
           <Button

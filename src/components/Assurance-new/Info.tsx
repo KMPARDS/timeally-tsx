@@ -51,7 +51,7 @@ class PET extends Component<PropsInterface, State> {
           topics: [
             '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
             ethers.utils.hexZeroPad(fundsBucketAddress, 32),
-            ethers.utils.hexZeroPad(window.petInstance.address, 32),
+            ethers.utils.hexZeroPad(window.tsgapLiquidInstance.address, 32),
           ],
         })
       )
