@@ -90,6 +90,7 @@ class PET extends Component<PETProps, State> {
   };
 
   render() {
+    const totalBountyAllocated = 17730556;
     return (
       <Layout
         breadcrumb={['Home', 'PET']}
@@ -248,10 +249,10 @@ class PET extends Component<PETProps, State> {
         </div>
         <div className="outline pinside30 custom-background">
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
-            <strong>Total bounty allocated budget for TimeAlly PET:</strong> 20000000 ES
+            <strong>Total bounty allocated budget for TimeAlly PET:</strong> {totalBountyAllocated} ES
             {this.state.eraSwapPrice
               ? ` (~${
-                  20000000 * (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
+                  totalBountyAllocated * (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
                 } USDT)`
               : null}
             {this.state.fundsAdded ? (
@@ -266,22 +267,22 @@ class PET extends Component<PETProps, State> {
             ) : null}
           </p>
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
-            <strong>Current available bounty (out of 20M ES):</strong>
-            {this.state.fundsDeposit !== -1 ? this.state.fundsDeposit + ' ES' : 'Loading...'}
-            {this.state.eraSwapPrice && this.state.fundsDeposit
+            <strong>Current available bounty (out of 20M ES):</strong> 0 ES
+            {/* {totalBountyAllocated !== -1 ? totalBountyAllocated + ' ES' : 'Loading...'}
+            {this.state.eraSwapPrice && totalBountyAllocated
               ? ` (~${
-                  (this.state.fundsDeposit ? +this.state.fundsDeposit : 0) * this.state.eraSwapPrice
+                  (totalBountyAllocated ? +totalBountyAllocated : 0) * this.state.eraSwapPrice
                 } USDT)`
-              : null}
+              : null} */}
           </p>
           <img src="./images/pet-robo.png" className="robo-img" />
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
             <strong>Till now Consumed (out of 20M ES):</strong>
-            {this.state.pendingBenefits ? this.state.pendingBenefits + ' ES' : 'Loading...'}
-            {this.state.eraSwapPrice && this.state.pendingBenefits
+            {totalBountyAllocated ? totalBountyAllocated + ' ES' : 'Loading...'}
+            {this.state.eraSwapPrice && totalBountyAllocated
               ? ` (~${
-                  (this.state.pendingBenefits
-                    ? +ethers.utils.formatEther(this.state.pendingBenefits)
+                  (totalBountyAllocated
+                    ? +totalBountyAllocated
                     : 0) * this.state.eraSwapPrice
                     ? this.state.eraSwapPrice
                     : 0
