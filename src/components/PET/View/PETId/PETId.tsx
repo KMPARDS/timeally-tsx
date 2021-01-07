@@ -176,7 +176,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
               </tr>
             </thead>
             <tbody>
-              {this.state.months.map((depositArray: [], index) => {
+              {this.state.months?.map((depositArray: [], index) => {
 
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;

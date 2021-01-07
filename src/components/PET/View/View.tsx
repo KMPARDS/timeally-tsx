@@ -21,7 +21,6 @@ class View extends Component<Props & RouteComponentProps, State> {
 
   componentDidMount = async () => {
     if (window.wallet) {
-      console.log('hello');
 
       const pets = (
         await window.petInstance.queryFilter(
@@ -44,27 +43,18 @@ class View extends Component<Props & RouteComponentProps, State> {
       if (window.wallet) {
         const resp = await withdrawPetPrepaidIncentives(window.wallet.address);
         if (resp.ok) {
-          // this.setState({
-          //   withdrawMessage: resp?.data?.message || 'Success'
-          // });
           //@ts-ignore
           window.alert(
             'You have successfully claimed your Incentive from this smart . Please visit Dayswappers & Timeally Club dashboard to withdraw same in preferred mode'
 
           );
         } else {
-          // this.setState({
-          //   withdrawMessage: resp?.data?.message || 'Unable to process request, try again later'
-          // });
           //@ts-ignore
           window.alert(resp?.data?.message || 'Unable to process request, try again later');
         }
       }
     } catch (e) {
       console.log(e);
-      // this.setState({
-      //   withdrawMessage: e.message
-      // });
       alert(e.message);
     }
   }
