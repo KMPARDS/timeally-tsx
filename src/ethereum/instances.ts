@@ -1,6 +1,5 @@
 import { ethers, providers } from 'ethers';
 import { CustomProvider, addresses } from 'eraswap-sdk';
-
 import {
   NrtManagerFactory,
   TimeAllyManagerFactory,
@@ -20,8 +19,9 @@ import { DistributeIncentiveFactory } from './DistributeIncentive/DistributeInce
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
 window.provider = new CustomProvider(
-  process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
+ process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
 );
+
 
 // if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
 //   config.ESN = {
