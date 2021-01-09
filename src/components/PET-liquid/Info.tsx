@@ -289,7 +289,7 @@ class PET extends Component<PETProps, State> {
                 } USDT)`
               : null}
           </p>
-          <Button
+          {/* <Button
             style={{ margin: '10px auto' }}
             onClick={
               window.wallet && window.wallet.address
@@ -305,7 +305,7 @@ class PET extends Component<PETProps, State> {
             }
           >
             PET Prepaid ES
-          </Button>
+          </Button> */}
           <Button
             onClick={
               window.wallet && window.wallet.address

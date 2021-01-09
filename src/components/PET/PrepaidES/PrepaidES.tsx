@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Layout from '../../Layout/LayoutPET';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { hexToNum, lessDecimals } from '../../../utils';
 
 const ethers = require('ethers');
+type State = {
+  showLoginModal: boolean,
+  prepaidESBalance: number,
+};
 
-class PrepaidES extends Component {
-  state = {
-    fundsDeposit: null,
-    pendingBenefits: null,
+type Props = {};
+
+class PrepaidES extends Component<Props & RouteComponentProps, State> {
+  state:State = {
     showLoginModal: false,
-    prepaidESBalance: '',
+    prepaidESBalance: 0,
   };
 
   componentDidMount = async () => {
-    // const prepaidESBalance = await window.petInstance.functions.prepaidES(window.walletInstance.address);
-    // console.log(prepaidESBalance);
-    // this.setState({ prepaidESBalance });
+    if(window.wallet){
+      const prepaidESBalance = await window.prepaidEsInstance.balanceOf(window.wallet.address);
+      console.log(prepaidESBalance);
+      this.setState({ prepaidESBalance: hexToNum(prepaidESBalance) });
+    }
   };
 
   render = () => (
@@ -39,25 +47,25 @@ class PrepaidES extends Component {
       >
         <p>
           <strong>PrepaidES Balance:</strong>
-          {/* {this.state.prepaidESBalance ? window.lessDecimals(this.state.prepaidESBalance) + ' ES' : 'Loading...'} */}
+          {' '}{this.state.prepaidESBalance + ' ES'}
         </p>
         <Button
           className="margin-custom"
-          // onClick={() => this.props.history.push('/pet-new/prepaid-es/add-to-prepaid')}
+          onClick={() => this.props.history.push('/pet-new/prepaid-es/add-to-prepaid')}
         >
           Add ES To Prepaid
         </Button>
         <Button
           className="margin-custom"
-          // onClick={() => this.props.history.push('/pet-new/view')}
+          onClick={() => this.props.history.push('/pet-new/view')}
         >
           Go to PETs
         </Button>
-        <Button
-        // onClick={() => this.props.history.push('/pet-new/prepaid-es/send')}
+        {/* <Button
+        onClick={() => this.props.history.push('/pet-new/prepaid-es/send')}
         >
           Send Prepaid ES to Peers
-        </Button>
+        </Button> */}
       </div>
       <Modal
         show={this.state.showLoginModal}
@@ -73,7 +81,7 @@ class PrepaidES extends Component {
             to go to the load wallet page.
           </p>
           <Button
-            // onClick={() => this.props.history.push('/load-wallet')}
+            onClick={() => this.props.history.push('/load-wallet')}
             variant="primary"
           >
             Go to Load Wallet Page
@@ -84,4 +92,4 @@ class PrepaidES extends Component {
   );
 }
 
-export default PrepaidES;
+export default withRouter(PrepaidES);
