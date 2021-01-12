@@ -4,7 +4,7 @@ const devConfig = {
 };
 
 const prodConfig = {
-  baseUrl: 'http://localhost:8001' || 'https://apis.eraswap.info',
+  baseUrl: 'https://apis.eraswap.info',
   dayswappersAuthorizedWallet: process.env.REACT_APP_DAYSWAPPERS_AUTHORIZED_WALLET,
 };
 
