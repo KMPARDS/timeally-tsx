@@ -115,9 +115,6 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         }))
         .map((deposit) => {
           const depositAmount = hexToNum(deposit.depositAmount);
-          // if(months[deposit.monthId.toNumber() - 1].depositAmount)
-          //   months[deposit.monthId.toNumber() - 1].depositAmount += depositAmount;
-          // else months[deposit.monthId.toNumber() - 1].depositAmount = depositAmount;
           months[deposit.monthId.toNumber() - 1].push(depositAmount);
         });
 
@@ -181,7 +178,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;
 
-                depositArray.forEach((amount: number) =>(depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString()))));
+                depositArray.forEach((amount) => (depositAmount = depositAmount.add(amount)));
                 let status = '';
 
                 const petArray = [];
