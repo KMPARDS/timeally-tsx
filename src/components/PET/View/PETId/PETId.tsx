@@ -117,6 +117,8 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           const depositAmount = hexToNum(deposit.depositAmount);
           months[deposit.monthId.toNumber() - 1].push(depositAmount);
         });
+        console.log(months);
+
 
       this.setState({
         months,
@@ -178,7 +180,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;
 
-                depositArray.forEach((amount) => (depositAmount = depositAmount.add(amount)));
+                depositArray.forEach((amount: number) => (depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString()))));
                 let status = '';
 
                 const petArray = [];
@@ -254,7 +256,11 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                       {showDepositButton ? (
                         <>
                           <br />
-                          <Button
+                            {depositAmount.gte(this.state.commitmentAmount) ? (
+                              // <>Make Topup</>
+                              <></>
+                            ) :
+                            <Button
                             variant={
                               depositAmount.gte(this.state.commitmentAmount) ? 'warning' : 'primary'
                             }
@@ -262,13 +268,10 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                               this.props.history.push(this.props.location.pathname + '/deposit/')
                             }
                           >
-                            {depositAmount.gte(this.state.commitmentAmount) ? (
-                              // <>Make Topup</>
-                              <></>
-                            ) : (
                               <>Make Monthly Deposit</>
-                            )}
-                          </Button>
+                              </Button>
+                              }
+
                         </>
                       ) : null}
                     </td>
