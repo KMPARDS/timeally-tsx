@@ -243,7 +243,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                   <tr
                     style={{ backgroundColor: backgroundColor ? backgroundColor + '77' : '#fff' }}
                   >
-                    <td>{monthId}</td>
+                    <td>{monthId-1}</td>
                     <td>
                       {depositArray.length ? (
                         <span style={{ fontSize: '1rem' }}>
