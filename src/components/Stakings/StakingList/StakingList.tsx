@@ -89,7 +89,6 @@ export class StakingList extends Component<RouteComponentProps, StakingListState
       const filterred = stakingTransfers.filter((staking) => {
         return staking.stakingContract === stakingTransfer.stakingContract;
       });
-      console.log(stakingTransfer.stakingContract, filterred);
 
       let acquiredIndex: number = -1;
       for (const [i, filterredStakingTransfer] of Object.entries(filterred)) {
