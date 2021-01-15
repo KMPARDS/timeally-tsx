@@ -1,5 +1,5 @@
 import { ethers, providers } from 'ethers';
-import { CustomProvider, addresses } from 'eraswap-sdk';
+import { CustomProvider, addresses,CustomJsonRpcProvider } from 'eraswap-sdk';
 import {
   NrtManagerFactory,
   TimeAllyManagerFactory,
@@ -18,9 +18,9 @@ import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPe
 import { DistributeIncentiveFactory } from './DistributeIncentive/DistributeIncentiveFactory';
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
-window.provider = new CustomProvider(
- process.env.REACT_APP_ENV === 'production' ? 'mainnet' : 'testnet'
-);
+// window.provider = new CustomProvider('mainnet');
+
+window.provider = new CustomJsonRpcProvider('https://rpc-mumbai.mainnet.eraswap.network');
 
 
 // if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
@@ -54,11 +54,11 @@ window.provider = new CustomProvider(
 
 // Temporary wallet
 // if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
-//   window.wallet = new ethers.Wallet(
-//     '0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07' ||
-//       process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY,
-//     window.provider
-//   );
+  window.wallet = new ethers.Wallet(
+    '0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07' ||
+      process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY,
+    window.provider
+  );
 // }
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);

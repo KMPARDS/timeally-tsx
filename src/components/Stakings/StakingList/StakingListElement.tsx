@@ -47,6 +47,15 @@ export class StakingListElement extends Component<
       const endMonthPromise = this.instance.endMonth();
       const timestampPromise = this.instance.timestamp();
 
+      console.log({
+        stakingContract: this.props.stakingContract,
+        principalPromise,
+        issTimeLimitPromise,
+        startMonthPromise,
+        endMonthPromise,
+        timestampPromise,
+      });
+
       // sets the state when all the promises are resolved
       this.setState({
         principal: ethers.utils.formatEther(await principalPromise),

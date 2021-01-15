@@ -14,7 +14,7 @@ import {
 
 import { PetLiquidFlattenTimeAllyPet } from './ethereum/PetLiquidFlattenTimeAllyPet';
 
-import { CustomProvider } from 'eraswap-sdk';
+import { CustomProvider, CustomJsonRpcProvider } from 'eraswap-sdk';
 import { DistributeIncentive } from './ethereum/DistributeIncentive/DistributeIncentive';
 
 declare global {
@@ -27,7 +27,7 @@ declare global {
     timeallyPromotionalBucketInstance: TimeAllyPromotionalBucket;
     dayswappersInstance: DayswappersWithMigration;
     ethereum: ethers.providers.ExternalProvider;
-    provider: CustomProvider;
+    provider: CustomProvider | CustomJsonRpcProvider;
     tsgapLiquidInstance: Tsgap;
     petInstance: PetPrepaidTimeAllyPet;
     // petLiquidInstance: PetLiquidTimeAllyPet;
