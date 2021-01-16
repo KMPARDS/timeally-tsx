@@ -4,7 +4,7 @@ import { Layout } from '../../../Layout/Layout';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 import { ethers } from 'ethers';
 import { RouteComponentProps } from 'react-router-dom';
-import { getOrdinalString, lessDecimals } from '../../../../utils';
+import { getOrdinalString, lessDecimals, reportTxn } from '../../../../utils';
 
 type State = {
   currentScreen: number;
@@ -145,6 +145,28 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       }
     }
   };
+
+
+
+  monthlyDeposit = async () => {
+    if(window.wallet){
+      const txn = await window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
+      .monthlyDeposit(
+        window.wallet.address,
+        this.props.match.params.id,
+        this.props.match.params.month,
+        {
+          value: ethers.utils.parseEther(this.state.userAmount.toString())
+        }
+      );
+      reportTxn({
+        from: window.wallet.address,
+        to: window.tsgapLiquidInstance.address,
+        amount: this.state.userAmount
+      });
+      return txn;
+    }
+  }
 
   render() {
     let screen;
@@ -504,8 +526,9 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
-              .monthlyDeposit,
+            // transactor: window.tsgapLiquidInstance.connect(window.wallet?.connect(window.provider))
+            //   .monthlyDeposit,
+            transactor: this.monthlyDeposit,
             // transactor: this.checkMethod,
             estimator: () => ethers.constants.Zero,
             contract: window.tsgapLiquidInstance,

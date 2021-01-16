@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import React, { Component } from 'react';
 import { Button, Card, Form, Spinner, Alert, Modal } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
-import { getOrdinalString, hexToNum, lessDecimals } from '../../../../utils';
+import { getOrdinalString, hexToNum, lessDecimals, reportTxn } from '../../../../utils';
 import Layout from '../../../Layout/LayoutPET';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 
@@ -212,6 +212,27 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
       }
     }
   };
+
+  makeFrequencyModeDeposit = async() => {
+    if(window.wallet){
+      const txn = await window.petInstance
+        .connect(window.wallet?.connect(window.provider))
+        .makeFrequencyModeDeposit(
+          window.wallet.address,
+          this.props.match.params.id,
+          ethers.utils.parseEther(this.state.userAmount.toString()),
+          this.state.frequencyMode,
+          this.state.usePrepaidES,
+        );
+      // await txn.wait();
+      await reportTxn({
+        from: window.wallet.address,
+        to: window.petInstance.address,
+        amount: this.state.userAmount
+      });
+      return txn;
+    }
+  }
 
   render() {
     let screen;
@@ -675,8 +696,9 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
           hideFunction={() => this.setState({ showStakeTransactionModal: false, spinner: false })}
           ethereum={{
             //@ts-ignore
-            transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
-              .makeFrequencyModeDeposit,
+            // transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
+            //   .makeFrequencyModeDeposit,
+            transactor: this.makeFrequencyModeDeposit,
             estimator: () => {
               const {userAmount, usePrepaidES } = this.state
               console.log({userAmount, usePrepaidES});

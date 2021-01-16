@@ -168,18 +168,6 @@ class New extends Component<PropsInterface, State> {
         ?.connect(walletInst)
         .newPET(this.state.plan, ethers.utils.parseEther(this.state.userAmount || '0'));
       await txn.wait();
-      const dayswappersAuthorizedWallet = new ethers.Wallet(
-        config.dayswappersAuthorizedWallet
-      ).connect(window.provider);
-      const reportTxn = await window.distributeIncentiveInstance
-        .connect(dayswappersAuthorizedWallet)
-        .sendIncentive(
-          window.petInstance.address,
-          window.wallet.address,
-          ethers.utils.parseEther(this.state.userAmount),
-          ethers.constants.Zero
-        );
-      await reportTxn.wait();
       return txn;
     }
   };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout } from '../Layout';
 import { Table, Alert } from 'react-bootstrap';
 import { EraswapInfo, routine } from '../../utils';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { formatEther } from 'ethers/lib/utils';
 import copy from 'copy-to-clipboard';
 
@@ -27,8 +27,8 @@ export class Wallet extends Component<{}, State> {
     this.intervalIds.push(routine(this.updateBalances, 10000));
     if (window.wallet) {
       try {
-        const kycName = await window.provider.resolveUsername(window.wallet.address);
-        this.setState({ kycName });
+        const kycName = await window.kycInst.resolveUsername(window.wallet.address);
+        this.setState({ kycName: ethers.utils.parseBytes32String(kycName) });
       } catch {
         this.setState({
           kycName: 'Kyc name does not exist for this wallet. Get yours by registering on Kyc Dapp!',

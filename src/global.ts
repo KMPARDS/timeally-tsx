@@ -10,6 +10,7 @@ import {
   PetLiquidTimeAllyPet,
   DayswappersWithMigration,
   PetPrepaidTimeAllyPet,
+  KycDapp,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { PetLiquidFlattenTimeAllyPet } from './ethereum/PetLiquidFlattenTimeAllyPet';
@@ -35,5 +36,6 @@ declare global {
     petFundsInstance: PetLiquidFundsBucket;
     returnLocationAfterLoadWallet: any;
     distributeIncentiveInstance: DistributeIncentive;
+    kycInst: KycDapp
   }
 }
