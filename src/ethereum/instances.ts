@@ -12,6 +12,7 @@ import {
   PetLiquidTimeAllyPetFactory,
   PetLiquidFundsBucketFactory,
   PetLiquidTimeAllyPet,
+  KycDappFactory,
 } from 'eraswap-sdk/dist/typechain/ESN';
 
 import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
@@ -60,6 +61,8 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
     window.provider
   );
 }
+
+window.kycInst = KycDappFactory.connect(config.ESN.kycdapp,window.provider);
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
 
