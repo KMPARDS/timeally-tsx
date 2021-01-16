@@ -53,7 +53,7 @@ window.provider = new CustomJsonRpcProvider('https://rpc-mumbai.mainnet.eraswap.
 // }
 
 // Temporary wallet
-if (process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY) {
+if (process.env.REACT_APP_NODE_ENV === 'development') {
   window.wallet = new ethers.Wallet(
     '0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07' ||
       process.env.REACT_APP_TEST_WALLET_PRIVATE_KEY,
