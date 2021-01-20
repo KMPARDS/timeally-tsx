@@ -42,7 +42,7 @@ export function UsingAddress() {
       addressInput !== checkedAddressInputRef.current
     ) {
       try {
-        await window.provider.resolveAddress(addressInput);
+        await window.kycInst.resolveAddress(ethers.utils.formatBytes32String(addressInput));
         setIsCorrectKycName(true);
       } catch (error) {
         console.log('check address error', error);
@@ -70,9 +70,11 @@ export function UsingAddress() {
   }, []);
 
   const readAccountMethod = async () => {
+    console.log({addressInput});
+
     // @ts-ignore
     window.wallet = new ethers.VoidSigner(
-      await window.provider.resolveAddress(addressInput),
+      await window.kycInst.resolveAddress(ethers.utils.formatBytes32String(addressInput)),
       window.provider
     );
 
