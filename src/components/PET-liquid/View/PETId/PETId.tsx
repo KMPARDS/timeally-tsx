@@ -252,7 +252,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                       {depositArray.length ? (
                         <span style={{ fontSize: '1rem' }}>
                           {depositArray.map((amount) => amount + ' ES').join(' + ')}
-                          {depositArray.length > 1 ? <> = {depositAmount} ES</> : null}
+                          {depositArray.length > 1 ? <> = {depositAmount.toNumber()} ES</> : null}
                         </span>
                       ) : null}
                       <br />
