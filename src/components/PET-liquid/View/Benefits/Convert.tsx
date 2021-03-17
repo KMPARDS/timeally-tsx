@@ -124,7 +124,7 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
       });
     }
   };
-  ConvertWES = async (e) => {
+  ConvertWES = async (e: any) => {
     e.preventDefault();
     if (window.wallet) {
       await window.prepaidEsInstance
