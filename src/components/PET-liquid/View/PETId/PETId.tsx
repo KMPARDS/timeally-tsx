@@ -341,6 +341,13 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             >
               Benefit Page
             </Button>
+            <Button style={{ marginLeft: '10px auto' }}
+              onClick={() =>
+                this.props.history.push(`/pet-old/view/${this.props.match.params.id}/convert`)
+              } 
+            >
+              Convert WES
+            </Button>
           </div>
 
           <div className="details" style={{ margin: '10px auto' }}>
