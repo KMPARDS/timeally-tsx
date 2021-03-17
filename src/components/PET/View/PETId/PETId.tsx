@@ -117,8 +117,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           const depositAmount = hexToNum(deposit.depositAmount);
           months[deposit.monthId.toNumber() - 1].push(depositAmount);
         });
-        console.log(months);
-
+      console.log(months);
 
       this.setState({
         months,
@@ -176,11 +175,13 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             </thead>
             <tbody>
               {this.state.months?.map((depositArray: [], index) => {
-
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;
 
-                depositArray.forEach((amount: number) => (depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString()))));
+                depositArray.forEach(
+                  (amount: number) =>
+                    (depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString())))
+                );
                 let status = '';
 
                 const petArray = [];
@@ -243,7 +244,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                   <tr
                     style={{ backgroundColor: backgroundColor ? backgroundColor + '77' : '#fff' }}
                   >
-                    <td>{monthId-1}</td>
+                    <td>{monthId - 1}</td>
                     <td>
                       {depositArray.length ? (
                         <span style={{ fontSize: '1rem' }}>
@@ -256,22 +257,23 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                       {showDepositButton ? (
                         <>
                           <br />
-                            {depositAmount.gte(this.state.commitmentAmount) ? (
-                              // <>Make Topup</>
-                              <></>
-                            ) :
+                          {depositAmount.gte(this.state.commitmentAmount) ? (
+                            // <>Make Topup</>
+                            <></>
+                          ) : (
                             <Button
-                            variant={
-                              depositAmount.gte(this.state.commitmentAmount) ? 'warning' : 'primary'
-                            }
-                            onClick={() =>
-                              this.props.history.push(this.props.location.pathname + '/deposit/')
-                            }
-                          >
-                              <>Make Monthly Deposit</>
-                              </Button>
+                              variant={
+                                depositAmount.gte(this.state.commitmentAmount)
+                                  ? 'warning'
+                                  : 'primary'
                               }
-
+                              onClick={() =>
+                                this.props.history.push(this.props.location.pathname + '/deposit/')
+                              }
+                            >
+                              <>Make Monthly Deposit</>
+                            </Button>
+                          )}
                         </>
                       ) : null}
                     </td>

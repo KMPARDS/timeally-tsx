@@ -24,9 +24,9 @@ type State = {
   selectedPowerBooster: number;
   powerBoosterAmount: number;
   showPowerBoosterWithdrawModal: boolean;
-  ClaimedWES : string;
-  AllowedWES : string;
-  ConvertAmount : string;
+  ClaimedWES: string;
+  AllowedWES: string;
+  ConvertAmount: string;
 };
 class Convert extends Component<Props & RouteComponentProps<RouteParams>, State> {
   state: State = {
@@ -42,9 +42,9 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
     selectedPowerBooster: -1,
     powerBoosterAmount: -1,
     showPowerBoosterWithdrawModal: false,
-    ClaimedWES : '0',
-    AllowedWES : '0',
-    ConvertAmount : '0',
+    ClaimedWES: '0',
+    AllowedWES: '0',
+    ConvertAmount: '0',
   };
 
   componentDidMount = async () => {
@@ -66,8 +66,12 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
         window.wallet?.address,
         this.props.match.params.id
       );
-      const AllowedWES = ethers.utils.formatEther(await window.petConvert.AllowedWES(window.wallet.address));
-      const ClaimedWES = ethers.utils.formatEther(await window.petConvert.ClaimedWES(window.wallet.address));
+      const AllowedWES = ethers.utils.formatEther(
+        await window.petConvert.AllowedWES(window.wallet.address)
+      );
+      const ClaimedWES = ethers.utils.formatEther(
+        await window.petConvert.ClaimedWES(window.wallet.address)
+      );
 
       const petPlan = await window.petLiquidInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
@@ -120,12 +124,15 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
       });
     }
   };
-  ConvertWES = async () => {
-      if(window.wallet){
-        await window.prepaidEsInstance.connect(window.wallet).approve(window.petConvert.address,ethers.utils.parseEther(this.state.ConvertAmount))
-        this.setState({showWithdrawModal1: true})
+  ConvertWES = async (e) => {
+    e.preventDefault();
+    if (window.wallet) {
+      await window.prepaidEsInstance
+        .connect(window.wallet)
+        .approve(window.petConvert.address, ethers.utils.parseEther(this.state.ConvertAmount));
+      this.setState({ showWithdrawModal1: true });
     }
-  }
+  };
 
   withdrawAnnuity = async () => {
     try {
@@ -228,35 +235,26 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
               style={{ borderRadius: '.25rem', padding: '20px 40px', margin: '15px auto' }}
             >
               <h3 style={{ marginBottom: '15px' }}> Convert WES to ES</h3>
-              <p>You have Convert {this.state.ClaimedWES} {' '}ES out of {this.state.AllowedWES} {' '}ES .</p>
+              <p>
+                You have Convert {this.state.ClaimedWES} ES out of {this.state.AllowedWES} ES .
+              </p>
 
-              <Form.Group >
+              <Form.Group>
                 <Form.Control
                   className="stakingInput"
-                  onChange={e => this.setState({ConvertAmount : e.target.value})}
+                  onChange={(e) => this.setState({ ConvertAmount: e.target.value })}
                   autoFocus
-
                   type="number"
                   placeholder="Enter amount for convert"
                   style={{ width: '100%' }}
                 />
-                
               </Form.Group>
 
-              <Button
-                variant="primary"
-                id="firstSubmit"
-                type="submit"
-              >
-               Convert
+              <Button variant="primary" id="firstSubmit" type="submit">
+                Convert
               </Button>
             </Form>
           </Card>
-          
-
-
-
-
         </div>
         {/* <p>
           This page is under construction. On this page user can see their monthly benefits in
@@ -312,7 +310,7 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
               window.wallet?.address,
               this.props.match.params.id,
               this.state.selectedPowerBooster,
-            ], 
+            ],
             ESAmount: this.state.benefitAmount,
             headingName: 'Convert Power Booster',
             functionName: 'Withdraw',
@@ -366,9 +364,7 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
             estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
-            arguments: [
-              ethers.utils.parseEther(this.state.ConvertAmount)
-            ],
+            arguments: [ethers.utils.parseEther(this.state.ConvertAmount)],
             ESAmount: this.state.benefitAmount,
             headingName: 'Convert Benefit',
             functionName: 'Withdraw',

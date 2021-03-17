@@ -121,7 +121,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
           months[deposit.monthId.toNumber() - 1].push(depositAmount);
         });
 
-        console.log({depositMonth,months});
+      console.log({ depositMonth, months });
 
       this.setState({
         months,
@@ -179,10 +179,12 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             </thead>
             <tbody>
               {this.state.months.map((depositArray: [], index) => {
-
                 const monthId = index + 1;
                 let depositAmount = ethers.constants.Zero;
-                depositArray.forEach((amount: number) => (depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString()))));
+                depositArray.forEach(
+                  (amount: number) =>
+                    (depositAmount = depositAmount.add(ethers.utils.parseEther(amount.toString())))
+                );
                 let status = '';
 
                 const petArray = [];
@@ -197,57 +199,55 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
                 let petAmount = ethers.constants.Zero;
                 petArray.forEach((amount) => (petAmount = petAmount.add(amount)));
 
-
                 const MONTH_LENGTH = 2629744;
                 const windowOpenUntil = this.state.initTimestamp + 2629744 * monthId;
                 const currentTimestamp = Math.floor(Date.now() / 1000);
 
                 let targetStatus = '',
-                backgroundColor,
-                showDepositButton = false,
-                statusText = '';
-              if (depositAmount.gte(this.state.commitmentAmount)) {
-                targetStatus = `Target of ${hexToNum(
-                  this.state.commitmentAmount
-                )} ES is Acheived!`;
-                backgroundColor = '#90EE90';
-              } else if (depositAmount.gte(this.state.commitmentAmount.div(2))) {
-                targetStatus = `Half of ${hexToNum(
-                  this.state.commitmentAmount
-                )} ES Target Acheived.`;
-                backgroundColor = '#CBA580';
-              } else if (this.state.depositMonth > monthId) {
-                targetStatus = `Target of ${hexToNum(
-                  this.state.commitmentAmount
-                )} ES is not achieved.`;
-                backgroundColor = '#E19FAF';
-              } else {
-                targetStatus = `Target of ${hexToNum(
-                  this.state.commitmentAmount
-                )} ES is yet to be achieved.`;
-                if (depositAmount.gt(0)) {
+                  backgroundColor,
+                  showDepositButton = false,
+                  statusText = '';
+                if (depositAmount.gte(this.state.commitmentAmount)) {
+                  targetStatus = `Target of ${hexToNum(
+                    this.state.commitmentAmount
+                  )} ES is Acheived!`;
+                  backgroundColor = '#90EE90';
+                } else if (depositAmount.gte(this.state.commitmentAmount.div(2))) {
+                  targetStatus = `Half of ${hexToNum(
+                    this.state.commitmentAmount
+                  )} ES Target Acheived.`;
+                  backgroundColor = '#CBA580';
+                } else if (this.state.depositMonth > monthId) {
+                  targetStatus = `Target of ${hexToNum(
+                    this.state.commitmentAmount
+                  )} ES is not achieved.`;
                   backgroundColor = '#E19FAF';
+                } else {
+                  targetStatus = `Target of ${hexToNum(
+                    this.state.commitmentAmount
+                  )} ES is yet to be achieved.`;
+                  if (depositAmount.gt(0)) {
+                    backgroundColor = '#E19FAF';
+                  }
                 }
-              }
 
-              if (this.state.depositMonth > monthId) {
-                statusText = 'Deposit time elapsed.';
-              } else if (
-                this.state.depositMonth === monthId &&
-                depositAmount.lte(this.state.commitmentAmount)
-              ) {
-                statusText = 'Deposit window is open.';
-                showDepositButton = true;
-              } else {
-                statusText = 'Deposit window is not yet open.';
-              }
-
+                if (this.state.depositMonth > monthId) {
+                  statusText = 'Deposit time elapsed.';
+                } else if (
+                  this.state.depositMonth === monthId &&
+                  depositAmount.lte(this.state.commitmentAmount)
+                ) {
+                  statusText = 'Deposit window is open.';
+                  showDepositButton = true;
+                } else {
+                  statusText = 'Deposit window is not yet open.';
+                }
 
                 return (
                   <tr
                     style={{ backgroundColor: backgroundColor ? backgroundColor + '77' : '#fff' }}
                   >
-                    <td>{monthId-1}</td>
+                    <td>{monthId - 1}</td>
                     <td>
                       {depositArray.length ? (
                         <span style={{ fontSize: '1rem' }}>
@@ -313,25 +313,23 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             </tbody>
           </Table>
 
-          {this.state.depositMonth < 13
-            ?
-          <div style={{ backgroundColor: '#eee', padding: '1rem', borderRadius: '.25rem' }}>
-            <p>
-              To make a deposit for the current month in your PET you can click the below button.
-            </p>
+          {this.state.depositMonth < 13 ? (
+            <div style={{ backgroundColor: '#eee', padding: '1rem', borderRadius: '.25rem' }}>
+              <p>
+                To make a deposit for the current month in your PET you can click the below button.
+              </p>
 
-            <Button
-            onClick={() =>
-              this.props.history.push(`/pet-old/view/${this.props.match.params.id}/deposit`)
-            }
-          >
-            Make a Deposit
-          </Button>
-
-          </div>
-          :
-          ''}
-
+              <Button
+                onClick={() =>
+                  this.props.history.push(`/pet-old/view/${this.props.match.params.id}/deposit`)
+                }
+              >
+                Make a Deposit
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
 
           <div className="details">
             <Button
@@ -341,10 +339,11 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
             >
               Benefit Page
             </Button>
-            <Button style={{ marginLeft: '10px auto' }}
+            <Button
+              style={{ marginLeft: '10px auto' }}
               onClick={() =>
                 this.props.history.push(`/pet-old/view/${this.props.match.params.id}/convert`)
-              } 
+              }
             >
               Convert WES
             </Button>

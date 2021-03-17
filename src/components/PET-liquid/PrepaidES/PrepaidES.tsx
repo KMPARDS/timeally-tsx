@@ -6,8 +6,8 @@ import Layout from '../../Layout/LayoutPET';
 
 const ethers = require('ethers');
 type State = {
-  showLoginModal: boolean,
-  prepaidESBalance: number,
+  showLoginModal: boolean;
+  prepaidESBalance: number;
 };
 
 type Props = {};
@@ -19,7 +19,7 @@ class PrepaidES extends Component<Props & RouteComponentProps, State> {
   };
 
   componentDidMount = async () => {
-    if(window.wallet){
+    if (window.wallet) {
       const prepaidESBalance = await window.petInstance.prepaidES(window.wallet.address);
       this.setState({ prepaidESBalance: hexToNum(prepaidESBalance) });
     }
@@ -54,10 +54,7 @@ class PrepaidES extends Component<Props & RouteComponentProps, State> {
         >
           Add ES To Prepaid
         </Button>
-        <Button
-          className="margin-custom"
-          onClick={() => this.props.history.push('/pet-old/view')}
-        >
+        <Button className="margin-custom" onClick={() => this.props.history.push('/pet-old/view')}>
           Go to PETs
         </Button>
         {/* <Button

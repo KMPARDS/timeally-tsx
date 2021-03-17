@@ -249,10 +249,12 @@ class PET extends Component<PETProps, State> {
         </div>
         <div className="outline pinside30 custom-background">
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
-            <strong>Total bounty allocated budget for TimeAlly PET:</strong> {totalBountyAllocated} ES
+            <strong>Total bounty allocated budget for TimeAlly PET:</strong> {totalBountyAllocated}{' '}
+            ES
             {this.state.eraSwapPrice
               ? ` (~${
-                  totalBountyAllocated * (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
+                  totalBountyAllocated *
+                  (this.state.eraSwapPrice !== null ? this.state.eraSwapPrice : 0)
                 } USDT)`
               : null}
             {this.state.fundsAdded ? (
@@ -281,9 +283,7 @@ class PET extends Component<PETProps, State> {
             {totalBountyAllocated ? totalBountyAllocated + ' ES' : 'Loading...'}
             {this.state.eraSwapPrice && totalBountyAllocated
               ? ` (~${
-                  (totalBountyAllocated
-                    ? +totalBountyAllocated
-                    : 0) * this.state.eraSwapPrice
+                  (totalBountyAllocated ? +totalBountyAllocated : 0) * this.state.eraSwapPrice
                     ? this.state.eraSwapPrice
                     : 0
                 } USDT)`

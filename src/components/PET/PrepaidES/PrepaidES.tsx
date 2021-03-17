@@ -6,20 +6,20 @@ import { hexToNum, lessDecimals } from '../../../utils';
 
 const ethers = require('ethers');
 type State = {
-  showLoginModal: boolean,
-  prepaidESBalance: number,
+  showLoginModal: boolean;
+  prepaidESBalance: number;
 };
 
 type Props = {};
 
 class PrepaidES extends Component<Props & RouteComponentProps, State> {
-  state:State = {
+  state: State = {
     showLoginModal: false,
     prepaidESBalance: 0,
   };
 
   componentDidMount = async () => {
-    if(window.wallet){
+    if (window.wallet) {
       const prepaidESBalance = await window.prepaidEsInstance.balanceOf(window.wallet.address);
       console.log(prepaidESBalance);
       this.setState({ prepaidESBalance: hexToNum(prepaidESBalance) });
@@ -46,8 +46,7 @@ class PrepaidES extends Component<Props & RouteComponentProps, State> {
         style={{ marginBottom: '1rem', backgroundColor: '#fff' }}
       >
         <p>
-          <strong>PrepaidES Balance:</strong>
-          {' '}{this.state.prepaidESBalance + ' ES'}
+          <strong>PrepaidES Balance:</strong> {this.state.prepaidESBalance + ' ES'}
         </p>
         <Button
           className="margin-custom"
@@ -55,10 +54,7 @@ class PrepaidES extends Component<Props & RouteComponentProps, State> {
         >
           Add ES To Prepaid
         </Button>
-        <Button
-          className="margin-custom"
-          onClick={() => this.props.history.push('/pet-new/view')}
-        >
+        <Button className="margin-custom" onClick={() => this.props.history.push('/pet-new/view')}>
           Go to PETs
         </Button>
         {/* <Button
@@ -80,10 +76,7 @@ class PrepaidES extends Component<Props & RouteComponentProps, State> {
             You need to load your ethereum wallet in order to proceed. Please click the below button
             to go to the load wallet page.
           </p>
-          <Button
-            onClick={() => this.props.history.push('/load-wallet')}
-            variant="primary"
-          >
+          <Button onClick={() => this.props.history.push('/load-wallet')} variant="primary">
             Go to Load Wallet Page
           </Button>
         </Modal.Body>

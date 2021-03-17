@@ -11,11 +11,11 @@ const esContract = '';
 const pet = '';
 
 type State = {
-  currentScreen: number,
-  userAmount: number,
+  currentScreen: number;
+  userAmount: number;
   plan: number;
-  spinner: boolean,
-  waiting: boolean,
+  spinner: boolean;
+  waiting: boolean;
   approveTxHash: string;
   txHash: string;
   open: boolean;
@@ -27,10 +27,10 @@ type State = {
   userLiquidEsBalance: number;
   insufficientBalance: boolean;
   errorText: string;
-}
+};
 type Props = {};
 
-class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
+class AddToPrepaid extends Component<Props & RouteComponentProps, State> {
   state: State = {
     currentScreen: 0,
     userAmount: -1,
@@ -51,7 +51,7 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
   };
 
   componentDidMount = async () => {
-    if(window.wallet) {
+    if (window.wallet) {
       const userLiquidEsBalance = await window.provider.getBalance(window.wallet.address);
       this.setState({ userLiquidEsBalance: hexToNum(userLiquidEsBalance) });
     }
@@ -59,7 +59,7 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
 
   onAmountUpdate = async (event: any) => {
     try {
-      console.log('event.target.value',event.target.value);
+      console.log('event.target.value', event.target.value);
       console.log();
 
       if (this.state.userLiquidEsBalance) {
@@ -90,26 +90,30 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
 
   onFirstSubmit = async (event: any) => {
     event.preventDefault();
-    if(window.wallet){
+    if (window.wallet) {
       await this.setState({ spinner: true });
       const allowance = await window.prepaidEsInstance.allowance(
         window.wallet?.address,
         window.petInstance.address
       );
 
-      console.log('allowance', allowance, allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString())));
+      console.log(
+        'allowance',
+        allowance,
+        allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))
+      );
 
-      if(allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))) {
+      if (allowance.gte(ethers.utils.parseEther(this.state.userAmount.toString()))) {
         this.setState({
           spinner: false,
           currentScreen: 1,
-          approveAlreadyDone: true
+          approveAlreadyDone: true,
         });
       } else {
         this.setState({ spinner: false, currentScreen: 1, approveAlreadyDone: false });
       }
     }
-  }
+  };
 
   render() {
     let screen;
@@ -327,9 +331,7 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
                 Eraswap.info
               </a>
             </Alert>
-            <Button
-              onClick={() => this.props.history.push('/pet-new/prepaid-es')}
-            >
+            <Button onClick={() => this.props.history.push('/pet-new/prepaid-es')}>
               Go to PrepaidES
             </Button>
           </div>
@@ -354,13 +356,16 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
             }
             ethereum={{
               //@ts-ignore
-              transactor: window.prepaidEsInstance.connect(window.wallet?.connect(provider)).approve,
+              transactor: window.prepaidEsInstance.connect(window.wallet?.connect(provider))
+                .approve,
               estimator: () => ethers.constants.Zero,
               contract: window.prepaidEsInstance,
               contractName: 'EraSwap',
               arguments: [
                 window.petInstance.address,
-                ethers.utils.parseEther(this.state.userAmount ? this.state.userAmount.toString() : '0'),
+                ethers.utils.parseEther(
+                  this.state.userAmount ? this.state.userAmount.toString() : '0'
+                ),
               ],
               ESAmount: this.state.userAmount,
               headingName: 'Approval Status',
@@ -383,13 +388,12 @@ class AddToPrepaid extends Component<Props & RouteComponentProps,State> {
             }
             ethereum={{
               //@ts-ignore
-              transactor: window.prepaidEsInstance.connect(window.wallet?.connect(provider)).convertToESP,
+              transactor: window.prepaidEsInstance.connect(window.wallet?.connect(provider))
+                .convertToESP,
               estimator: () => ethers.constants.Zero,
               contract: window.prepaidEsInstance,
               contractName: 'TimeAlly Prepaid',
-              arguments: [
-                window.wallet?.address
-              ],
+              arguments: [window.wallet?.address],
               transferAmount: this.state.userAmount,
               ESAmount: this.state.userAmount,
               headingName: 'Add To Prepaid',

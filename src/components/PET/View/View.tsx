@@ -21,7 +21,6 @@ class View extends Component<Props & RouteComponentProps, State> {
 
   componentDidMount = async () => {
     if (window.wallet) {
-
       const pets = (
         await window.petInstance.queryFilter(
           window.petInstance.filters.NewPET(window.wallet?.address, null, null)
@@ -46,7 +45,6 @@ class View extends Component<Props & RouteComponentProps, State> {
           //@ts-ignore
           window.alert(
             'You have successfully claimed your Incentive from this smart . Please visit Dayswappers & Timeally Club dashboard to withdraw same in preferred mode'
-
           );
         } else {
           //@ts-ignore
