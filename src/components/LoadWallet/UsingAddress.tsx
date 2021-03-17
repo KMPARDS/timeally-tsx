@@ -70,15 +70,11 @@ export function UsingAddress() {
   }, []);
 
   const readAccountMethod = async () => {
-    console.log({addressInput});
-    console.log('is correct string',ethers.utils.isHexString(addressInput));
-    if(ethers.utils.isHexString(addressInput)){
-
+    console.log({ addressInput });
+    console.log('is correct string', ethers.utils.isHexString(addressInput));
+    if (ethers.utils.isHexString(addressInput)) {
       // @ts-ignore
-      window.wallet = new ethers.VoidSigner(
-        addressInput,
-        window.provider
-      );
+      window.wallet = new ethers.VoidSigner(addressInput, window.provider);
     } else {
       // @ts-ignore
       window.wallet = new ethers.VoidSigner(
@@ -86,7 +82,6 @@ export function UsingAddress() {
         window.provider
       );
     }
-
 
     setDisplayMessage('Address loaded. Redirecting to wallet page...');
     setTimeout(() => history.push('/wallet'), 1500);

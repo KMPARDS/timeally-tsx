@@ -17,6 +17,7 @@ import { PetLiquidFlattenTimeAllyPet } from './ethereum/PetLiquidFlattenTimeAlly
 
 import { CustomProvider, CustomJsonRpcProvider } from 'eraswap-sdk';
 import { DistributeIncentive } from './ethereum/DistributeIncentive/DistributeIncentive';
+import { PetConvert } from './ethereum/PetConvert/PetConvert';
 
 declare global {
   interface Window {
@@ -36,6 +37,7 @@ declare global {
     petFundsInstance: PetLiquidFundsBucket;
     returnLocationAfterLoadWallet: any;
     distributeIncentiveInstance: DistributeIncentive;
-    kycInst: KycDapp
+    kycInst: KycDapp;
+    petConvert: PetConvert;
   }
 }

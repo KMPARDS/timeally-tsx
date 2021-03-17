@@ -1,5 +1,5 @@
 import { ethers, providers } from 'ethers';
-import { CustomProvider, addresses,CustomJsonRpcProvider } from 'eraswap-sdk';
+import { CustomProvider, addresses, CustomJsonRpcProvider } from 'eraswap-sdk';
 import {
   NrtManagerFactory,
   TimeAllyManagerFactory,
@@ -17,12 +17,12 @@ import {
 
 import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
 import { DistributeIncentiveFactory } from './DistributeIncentive/DistributeIncentiveFactory';
+import { PetConvertFactory } from './PetConvert/PetConvertFactory';
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
-// window.provider = new CustomProvider('mainnet');
+window.provider = new CustomProvider('mainnet');
 
-window.provider = new CustomJsonRpcProvider('https://rpc-mumbai.mainnet.eraswap.network');
-
+// window.provider = new CustomJsonRpcProvider('https://rpc-mumbai.mainnet.eraswap.network');
 
 // if (process.env.REACT_APP_LOCAL_BLOCKCHAIN === 'true') {
 //   config.ESN = {
@@ -62,7 +62,7 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
   );
 }
 
-window.kycInst = KycDappFactory.connect(config.ESN.kycdapp,window.provider);
+window.kycInst = KycDappFactory.connect(config.ESN.kycdapp, window.provider);
 
 window.nrtManagerInstance = NrtManagerFactory.connect(config.ESN.nrtManager, window.provider);
 
@@ -112,5 +112,10 @@ window.petFundsInstance = PetLiquidFundsBucketFactory.connect(
 
 window.distributeIncentiveInstance = DistributeIncentiveFactory.connect(
   '0x4a64095E0f4Fcf0fF201FF0984E928908c269F25',
+  window.provider
+);
+
+window.petConvert = PetConvertFactory.connect(
+  '0x34646B0B42438a4dAd8f6Dc1DFA878D9CC84f7fc',
   window.provider
 );

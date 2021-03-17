@@ -4,7 +4,7 @@ import Layout from '../../../Layout/LayoutPET';
 import TransactionModal from '../../../TransactionModal/TransactionModal';
 import { ethers } from 'ethers';
 import { RouteComponentProps } from 'react-router-dom';
-import { getOrdinalString, hexToNum,reportTxn } from '../../../../utils';
+import { getOrdinalString, hexToNum, reportTxn } from '../../../../utils';
 
 interface RouteParams {
   id: string;
@@ -227,23 +227,25 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
     }
   };
 
-  makeDeposit = async () =>{
-    if(window.wallet){
-      const txn = await window.petLiquidInstance.connect(window.wallet?.connect(window.provider)).makeDeposit(
-        window.wallet.address,
-        this.props.match.params.id,
-        ethers.utils.parseEther(this.state.userAmount.toString()).toHexString(),
-        this.state.usePrepaidES
-      )
+  makeDeposit = async () => {
+    if (window.wallet) {
+      const txn = await window.petLiquidInstance
+        .connect(window.wallet?.connect(window.provider))
+        .makeDeposit(
+          window.wallet.address,
+          this.props.match.params.id,
+          ethers.utils.parseEther(this.state.userAmount.toString()).toHexString(),
+          this.state.usePrepaidES
+        );
       // await txn.wait();
       await reportTxn({
         to: window.wallet.address,
         from: window.petLiquidInstance.address,
-        amount: this.state.userAmount
-      })
+        amount: this.state.userAmount,
+      });
       return txn;
-    };
-  }
+    }
+  };
 
   render() {
     let screen;

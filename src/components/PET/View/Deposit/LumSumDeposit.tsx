@@ -213,8 +213,8 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
     }
   };
 
-  makeFrequencyModeDeposit = async() => {
-    if(window.wallet){
+  makeFrequencyModeDeposit = async () => {
+    if (window.wallet) {
       const txn = await window.petInstance
         .connect(window.wallet?.connect(window.provider))
         .makeFrequencyModeDeposit(
@@ -222,17 +222,17 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
           this.props.match.params.id,
           ethers.utils.parseEther(this.state.userAmount.toString()),
           this.state.frequencyMode,
-          this.state.usePrepaidES,
+          this.state.usePrepaidES
         );
       // await txn.wait();
       await reportTxn({
         from: window.wallet.address,
         to: window.petInstance.address,
-        amount: this.state.userAmount
+        amount: this.state.userAmount,
       });
       return txn;
     }
-  }
+  };
 
   render() {
     let screen;
@@ -670,7 +670,7 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //@ts-ignore
             transactor: window.prepaidEsInstance.connect(window.wallet?.connect(window.provider))
               .approve,
-            estimator: () =>ethers.constants.Zero,
+            estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [
@@ -700,10 +700,10 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
             //   .makeFrequencyModeDeposit,
             transactor: this.makeFrequencyModeDeposit,
             estimator: () => {
-              const {userAmount, usePrepaidES } = this.state
-              console.log({userAmount, usePrepaidES});
+              const { userAmount, usePrepaidES } = this.state;
+              console.log({ userAmount, usePrepaidES });
 
-              return ethers.constants.Zero
+              return ethers.constants.Zero;
             },
             contract: window.petInstance,
             contractName: 'TimeAllyPET',

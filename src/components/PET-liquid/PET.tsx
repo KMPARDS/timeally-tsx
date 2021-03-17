@@ -13,6 +13,7 @@ import PrepaidES from './PrepaidES/PrepaidES';
 import AddToPrepaid from './PrepaidES/AddToPrepaid';
 import SendPrepaidESDifferent from './PrepaidES/SendPrepaidESDifferent';
 import Benefits from './View/Benefits/Benefits';
+import Convert from './View/Benefits/Convert';
 
 // import './PET.css';
 
@@ -29,6 +30,7 @@ export class PETLiquid extends Component {
         <Route path="/pet-old/view/:id" exact component={PETId} />
 
         <Route path="/pet-old/view/:id/benefits/" exact component={Benefits} />
+        <Route path="/pet-old/view/:id/convert/" exact component={Convert} />
 
         <Route path="/pet-old/view/:id/deposit/" exact component={Deposit} />
         <Route path="/pet-old/view/:id/lum-sum-deposit/" exact component={LumSumDeposit} />

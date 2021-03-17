@@ -110,21 +110,25 @@ export const getOrdinalString = (number: number) => {
   return numberString + ordinalString;
 };
 
-export const reportTxn = async ({from,to,amount,wait = false}: {from:string,to:string,amount:number,wait ?: boolean}) => {
-  if(config.dayswappersAuthorizedWallet){
-  const dayswappersAuthorizedWallet = new ethers.Wallet(
-    config.dayswappersAuthorizedWallet
-  ).connect(window.provider);
-  const reportTxn = await window.distributeIncentiveInstance
-    .connect(dayswappersAuthorizedWallet)
-    .sendIncentive(
-      from,
-      to,
-      ethers.utils.parseEther(amount.toString()),
-      ethers.constants.Zero
-    );
-    if(wait) await reportTxn.wait();
+export const reportTxn = async ({
+  from,
+  to,
+  amount,
+  wait = false,
+}: {
+  from: string;
+  to: string;
+  amount: number;
+  wait?: boolean;
+}) => {
+  if (config.dayswappersAuthorizedWallet) {
+    const dayswappersAuthorizedWallet = new ethers.Wallet(
+      config.dayswappersAuthorizedWallet
+    ).connect(window.provider);
+    const reportTxn = await window.distributeIncentiveInstance
+      .connect(dayswappersAuthorizedWallet)
+      .sendIncentive(from, to, ethers.utils.parseEther(amount.toString()), ethers.constants.Zero);
+    if (wait) await reportTxn.wait();
     return reportTxn.hash;
   }
-}
-
+};
