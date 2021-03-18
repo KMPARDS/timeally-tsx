@@ -73,6 +73,9 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
         await window.petConvert.ClaimedWES(window.wallet.address)
       );
 
+      console.log('Claimed : ',ClaimedWES);
+      console.log('Allowed : ',AllowedWES);
+
       const petPlan = await window.petLiquidInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
       const TWELVETH_MONTH = 12;
@@ -120,6 +123,8 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
         monthlyBenefitAmountArray,
         currentMonth: hexToNum(currentMonth),
         powerBoosterAmount: hexToNum(powerBoosterAmount),
+        AllowedWES,
+        ClaimedWES,
         // depositStatusArray,
       });
     }
@@ -365,7 +370,7 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
             contract: window.prepaidEsInstance,
             contractName: 'EraSwap',
             arguments: [ethers.utils.parseEther(this.state.ConvertAmount)],
-            ESAmount: this.state.benefitAmount,
+            ESAmount: parseInt(this.state.ConvertAmount),
             headingName: 'Convert Benefit',
             functionName: 'Withdraw',
             // stakingPlan: this.state.plan,
