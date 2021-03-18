@@ -241,7 +241,7 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
             >
               <h3 style={{ marginBottom: '15px' }}> Convert WES to ES</h3>
               <p>
-                You have Convert {this.state.ClaimedWES} ES out of {this.state.AllowedWES} ES .
+                You have <Converted></Converted> {this.state.ClaimedWES} ES out of {this.state.AllowedWES} ES .
               </p>
 
               <Form.Group>
