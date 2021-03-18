@@ -116,6 +116,6 @@ window.distributeIncentiveInstance = DistributeIncentiveFactory.connect(
 );
 
 window.petConvert = PetConvertFactory.connect(
-  '0x34646B0B42438a4dAd8f6Dc1DFA878D9CC84f7fc',
+  '0x1E902AC1C2376e15306d9b9CBE96a2b0aCC31182',
   window.provider
 );
