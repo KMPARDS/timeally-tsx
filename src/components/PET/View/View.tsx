@@ -61,19 +61,19 @@ class View extends Component<Props & RouteComponentProps, State> {
     <Layout
       breadcrumb={['Home', 'PET', 'View']}
       title="List of your PETs"
-      buttonName={
-        !this.state.loading && this.state.pets.length === 0 ? 'New PET' : 'Withdraw Incentives'
-      }
-      buttonOnClick={() => {
-        if (this.state.pets.length === 0) {
-          window.wallet && window.wallet.address
-            ? this.props.history.push('/pet-new/new')
-            : this.setState({ showLoginModal: true });
-        } else {
-          if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
-            this.withdrawIncentives();
-        }
-      }}
+      // buttonName={
+      //   !this.state.loading && this.state.pets.length === 0 ? 'New PET' : 'Withdraw Incentives'
+      // }
+      // buttonOnClick={() => {
+      //   if (this.state.pets.length === 0) {
+      //     window.wallet && window.wallet.address
+      //       ? this.props.history.push('/pet-new/new')
+      //       : this.setState({ showLoginModal: true });
+      //   } else {
+      //     if (window.confirm('Are you sure to pet prepaid withdraw incentives ?'))
+      //       this.withdrawIncentives();
+      //   }
+      // }}
     >
       {this.state.pets.length ? (
         <Table style={{ marginBottom: '0' }} responsive>

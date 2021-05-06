@@ -127,7 +127,7 @@ export const reportTxn = async ({
     ).connect(window.provider);
     const reportTxn = await window.distributeIncentiveInstance
       .connect(dayswappersAuthorizedWallet)
-      .sendIncentive(from, to, ethers.utils.parseEther(amount.toString()), ethers.constants.Zero);
+      .sendIncentive(from, to, ethers.utils.parseEther(amount.toString()), 9);
     if (wait) await reportTxn.wait();
     return reportTxn.hash;
   }

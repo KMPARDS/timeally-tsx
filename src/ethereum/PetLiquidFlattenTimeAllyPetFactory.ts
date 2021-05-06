@@ -18,11 +18,9 @@ export class PetLiquidFlattenTimeAllyPetFactory extends ContractFactory {
     _nrtManager: string,
     overrides?: Overrides
   ): Promise<PetLiquidFlattenTimeAllyPet> {
-    return super.deploy(
-      _prepaidEs,
-      _nrtManager,
-      overrides || {}
-    ) as Promise<PetLiquidFlattenTimeAllyPet>;
+    return super.deploy(_prepaidEs, _nrtManager, overrides || {}) as Promise<
+      PetLiquidFlattenTimeAllyPet
+    >;
   }
   getDeployTransaction(
     _prepaidEs: string,
