@@ -73,8 +73,8 @@ class Convert extends Component<Props & RouteComponentProps<RouteParams>, State>
         await window.petConvert.ClaimedWES(window.wallet.address)
       );
 
-      console.log('Claimed : ',ClaimedWES);
-      console.log('Allowed : ',AllowedWES);
+      console.log('Claimed : ', ClaimedWES);
+      console.log('Allowed : ', AllowedWES);
 
       const petPlan = await window.petLiquidInstance.petPlans(pets.planId);
       const monthlyBenefitAmountArray = [];
