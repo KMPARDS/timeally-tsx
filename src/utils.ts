@@ -125,9 +125,9 @@ export const reportTxn = async ({
     const dayswappersAuthorizedWallet = new ethers.Wallet(
       config.dayswappersAuthorizedWallet
     ).connect(window.provider);
-    const reportTxn = await window.distributeIncentiveInstance
+    const reportTxn = await window.incentiveInst
       .connect(dayswappersAuthorizedWallet)
-      .sendIncentive(from, to, ethers.utils.parseEther(amount.toString()), 9);
+      .sendIncentive(to, ethers.utils.parseEther(amount.toString()), 9, 9);
     if (wait) await reportTxn.wait();
     return reportTxn.hash;
   }

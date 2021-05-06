@@ -18,6 +18,7 @@ import {
 import { PetLiquidFlattenTimeAllyPetFactory } from './PetLiquidFlattenTimeAllyPetFactory';
 import { DistributeIncentiveFactory } from './DistributeIncentive/DistributeIncentiveFactory';
 import { PetConvertFactory } from './PetConvert/PetConvertFactory';
+import { IncentiveFactory } from './DistributeIncentive/IncentiveFactory';
 const config = addresses[process.env.REACT_APP_ENV === 'production' ? 'production' : 'development'];
 
 window.provider = new CustomProvider('mainnet');
@@ -112,6 +113,11 @@ window.petFundsInstance = PetLiquidFundsBucketFactory.connect(
 
 window.distributeIncentiveInstance = DistributeIncentiveFactory.connect(
   '0x4a64095E0f4Fcf0fF201FF0984E928908c269F25',
+  window.provider
+);
+
+window.incentiveInst = IncentiveFactory.connect(
+  '0x077B0367f303E364E7C06B281bD94b3ed76bF460',
   window.provider
 );
 
