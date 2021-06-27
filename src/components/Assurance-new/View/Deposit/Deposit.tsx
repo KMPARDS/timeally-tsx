@@ -158,9 +158,9 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
             value: ethers.utils.parseEther(this.state.userAmount.toString()),
           }
         );
-      reportTxn({
-        from: window.wallet.address,
-        to: window.tsgapLiquidInstance.address,
+      await reportTxn({
+        to: window.wallet.address,
+        from: window.tsgapLiquidInstance.address,
         amount: this.state.userAmount,
       });
       return txn;
