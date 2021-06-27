@@ -163,7 +163,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       reportTxn({
         from: window.wallet.address,
         to: window.tsgapLiquidInstance.address,
-        amount: this.state.userAmount.toString(),
+        amount: this.state.userAmount,
       });
       return txn;
     }
