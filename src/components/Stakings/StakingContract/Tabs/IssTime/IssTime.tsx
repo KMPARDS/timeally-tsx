@@ -94,12 +94,15 @@ export class IssTime extends Component<Props, State> {
   startIssTime = async () => {
     this.setState({ spinner: true });
     const principal = await this.instance.nextMonthPrincipalAmount();
-    if(parseFloat(this.state.valueInput) >=( parseFloat(ethers.utils.formatEther(principal)) *0.97)){
-       alert("You can't take loan more then of 97%* of ES staked");
-       this.setState({ spinner: false });
-       return;
+    if (
+      parseFloat(this.state.valueInput) >=
+      parseFloat(ethers.utils.formatEther(principal)) * 0.97
+    ) {
+      alert("You can't take loan more then of 97%* of ES staked");
+      this.setState({ spinner: false });
+      return;
     }
-        
+
     try {
       const tx = await this.instance.startIssTime(
         ethers.utils.parseEther(this.state.valueInput),

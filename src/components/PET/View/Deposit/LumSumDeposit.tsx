@@ -223,7 +223,11 @@ class LumSumDeposit extends Component<Props & RouteComponentProps<RouteParams>, 
           ethers.utils.parseEther(this.state.userAmount.toString()),
           this.state.frequencyMode,
           this.state.usePrepaidES,
-          {value : this.state.usePrepaidES ? 0 : ethers.utils.parseEther(this.state.userAmount.toString())}
+          {
+            value: this.state.usePrepaidES
+              ? 0
+              : ethers.utils.parseEther(this.state.userAmount.toString()),
+          }
         );
       // await txn.wait();
       await reportTxn({
