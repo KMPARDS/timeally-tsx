@@ -147,6 +147,8 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
   };
 
   monthlyDeposit = async () => {
+    
+   try{
     if (window.wallet) {
       const txn = await window.tsgapLiquidInstance
         .connect(window.wallet?.connect(window.provider))
@@ -165,6 +167,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
       });
       return txn;
     }
+   } catch(error){console.error(error);}
   };
 
   render() {
