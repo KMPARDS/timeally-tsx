@@ -56,7 +56,7 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
 
   componentDidMount = async () => {
     if (window.wallet) {
-      const userLiquidEsBalancePromise = window.prepaidEsInstance.balanceOf(window.wallet.address);
+      const userLiquidEsBalancePromise = window.provider.getBalance(window.wallet.address);
       const sipPromise = window.tsgapLiquidInstance.functions.sips(
         window.wallet.address,
         this.props.match.params.id

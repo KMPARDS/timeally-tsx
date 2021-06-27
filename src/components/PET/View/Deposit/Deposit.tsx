@@ -237,7 +237,12 @@ class Deposit extends Component<Props & RouteComponentProps<RouteParams>, State>
           window.wallet.address,
           this.props.match.params.id,
           ethers.utils.parseEther(this.state.userAmount.toString()).toHexString(),
-          this.state.usePrepaidES,{value : this.state.usePrepaidES ? 0 : ethers.utils.parseEther(this.state.userAmount.toString()).toHexString()}
+          this.state.usePrepaidES,
+          {
+            value: this.state.usePrepaidES
+              ? 0
+              : ethers.utils.parseEther(this.state.userAmount.toString()).toHexString(),
+          }
         );
       // await txn.wait();
       await reportTxn({
