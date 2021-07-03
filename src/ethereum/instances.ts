@@ -117,7 +117,7 @@ window.distributeIncentiveInstance = DistributeIncentiveFactory.connect(
 );
 
 window.incentiveInst = IncentiveFactory.connect(
-  '0x077B0367f303E364E7C06B281bD94b3ed76bF460',
+  '0xA5C01Ce399F6dBE3b6279d2cdde625E16b522CEA',
   window.provider
 );
 
