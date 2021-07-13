@@ -74,7 +74,7 @@ class PET extends Component<PropsInterface, State> {
 
       console.log({ sumBN });
 
-      this.setState({ fundsAdded: sumBN });
+      this.setState({ fundsAdded: sumBN });  
     })();
   };
 
@@ -224,7 +224,7 @@ class PET extends Component<PropsInterface, State> {
                 } USDT)`
               : null}
           </p>
-          <img src="./images/timeally-tsgap.png" className="robo-img" />
+          <img style={{ margin: '10px auto', zIndex : -1}} src="./images/timeally-tsgap.png" className="robo-img" />
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
             <strong>Till now Consumed (out of 20M ES):</strong>{' '}
             {tillNowConsumed ? tillNowConsumed + ' ES' : 'Loading...'}
@@ -235,21 +235,9 @@ class PET extends Component<PropsInterface, State> {
               : null}
           </p>
           <Button
-            style={{ margin: '10px auto' }}
-            onClick={
-              window.wallet && window.wallet.address
-                ? () => this.props.history.push('/assurance/prepaid-es')
-                : () => (
-                    (window.returnLocationAfterLoadWallet = {
-                      name: 'PET Prepaid ES',
-                      location: '/assurance/prepaid-es',
-                      sourceLocation: this.props.location.pathname,
-                    }),
-                    this.setState({ showLoginModal: true })
-                  )
-            }
-          >
-            PET Prepaid ES
+            style={{ margin: '10px auto', zIndex : +1}}
+            href="/pdf/TSGAP_PPT.pdf">
+            TSGAP PPT
           </Button>
           <Button
             onClick={
@@ -269,7 +257,7 @@ class PET extends Component<PropsInterface, State> {
           </Button>
           <br />
           <div style={{ display: 'block', maxWidth: '500px', margin: '0 auto' }}>
-            <Button onClick={() => this.props.history.push('/assurance/calculate')}>
+            <Button href="https://eraswap.info/timeally-goals">
               SAP Calculator
             </Button>
           </div>

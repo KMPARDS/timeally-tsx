@@ -345,27 +345,11 @@ class PET extends Component<PETProps, State> {
             </Button>
             <Button
               className="text-white pet-links"
-              href="/pdf/TimeAlly_PET_without_DaySwappers_Incentive.pdf"
+              href="/pdf/TimeAlly_PET_PPT.pdf"
               target="_blank"
               style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
             >
               PET Presenter
-            </Button>
-            <Button
-              className="text-white pet-links"
-              href="/pdf/PETFAQs.pdf"
-              target="_blank"
-              style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-            >
-              PET FAQs
-            </Button>
-            <Button
-              className="text-white pet-links"
-              href="https://etherscan.io/address/0x69e7960f6A1d6332a4be7e22916F627a3d95b1bc#code"
-              target="_blank"
-              style={{ color: '#000', textDecoration: 'underline', textShadow: '0 0 3px #000a' }}
-            >
-              PET Smart Contract
             </Button>
           </div>
         </div>
