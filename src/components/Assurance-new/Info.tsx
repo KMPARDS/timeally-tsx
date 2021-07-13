@@ -74,7 +74,7 @@ class PET extends Component<PropsInterface, State> {
 
       console.log({ sumBN });
 
-      this.setState({ fundsAdded: sumBN });
+      this.setState({ fundsAdded: sumBN });  
     })();
   };
 
@@ -236,20 +236,8 @@ class PET extends Component<PropsInterface, State> {
           </p>
           <Button
             style={{ margin: '10px auto' }}
-            onClick={
-              window.wallet && window.wallet.address
-                ? () => this.props.history.push('/assurance/prepaid-es')
-                : () => (
-                    (window.returnLocationAfterLoadWallet = {
-                      name: 'PET Prepaid ES',
-                      location: '/assurance/prepaid-es',
-                      sourceLocation: this.props.location.pathname,
-                    }),
-                    this.setState({ showLoginModal: true })
-                  )
-            }
-          >
-            PET Prepaid ES
+            href="%PUBLIC_URL%/pdf/TSGAP_PPT.pdf">
+            TSGAP PPT
           </Button>
           <Button
             onClick={
@@ -269,7 +257,7 @@ class PET extends Component<PropsInterface, State> {
           </Button>
           <br />
           <div style={{ display: 'block', maxWidth: '500px', margin: '0 auto' }}>
-            <Button onClick={() => this.props.history.push('/assurance/calculate')}>
+            <Button href="https://eraswap.info/timeally-goals">
               SAP Calculator
             </Button>
           </div>
