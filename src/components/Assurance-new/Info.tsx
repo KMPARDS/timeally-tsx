@@ -224,7 +224,7 @@ class PET extends Component<PropsInterface, State> {
                 } USDT)`
               : null}
           </p>
-          <img src="./images/timeally-tsgap.png" className="robo-img" />
+          <img style={{ margin: '10px auto', zIndex : -1}} src="./images/timeally-tsgap.png" className="robo-img" />
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
             <strong>Till now Consumed (out of 20M ES):</strong>{' '}
             {tillNowConsumed ? tillNowConsumed + ' ES' : 'Loading...'}
@@ -235,8 +235,8 @@ class PET extends Component<PropsInterface, State> {
               : null}
           </p>
           <Button
-            style={{ margin: '10px auto' }}
-            href="%PUBLIC_URL%/pdf/TSGAP_PPT.pdf">
+            style={{ margin: '10px auto', zIndex : +1}}
+            href="/pdf/TSGAP_PPT.pdf">
             TSGAP PPT
           </Button>
           <Button
