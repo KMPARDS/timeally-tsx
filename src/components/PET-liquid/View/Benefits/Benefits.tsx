@@ -179,8 +179,9 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
               <Button
                 onClick={async (e) => {
                   if (window.wallet) {
+                    console.log('this.state.selectedPowerBooster',this.state.selectedPowerBooster)
                     this.setState({
-                      selectedPowerBooster: powerBoosterCount,
+                      selectedPowerBooster: Math.ceil(i / 5),
                       benefitAmount: this.state.powerBoosterAmount,
                       showPowerBoosterWithdrawModal: true,
                     });
