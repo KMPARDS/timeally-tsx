@@ -74,7 +74,7 @@ class PET extends Component<PropsInterface, State> {
 
       console.log({ sumBN });
 
-      this.setState({ fundsAdded: sumBN });  
+      this.setState({ fundsAdded: sumBN });
     })();
   };
 
@@ -224,7 +224,11 @@ class PET extends Component<PropsInterface, State> {
                 } USDT)`
               : null}
           </p>
-          <img style={{ margin: '10px auto', zIndex : -1}} src="./images/timeally-tsgap.png" className="robo-img" />
+          <img
+            style={{ margin: '10px auto', zIndex: -1 }}
+            src="./images/timeally-tsgap.png"
+            className="robo-img"
+          />
           <p className="text-white" style={{ textShadow: '0 0 3px #000a' }}>
             <strong>Till now Consumed (out of 20M ES):</strong>{' '}
             {tillNowConsumed ? tillNowConsumed + ' ES' : 'Loading...'}
@@ -234,9 +238,7 @@ class PET extends Component<PropsInterface, State> {
                 } USDT)`
               : null}
           </p>
-          <Button
-            style={{ margin: '10px auto', zIndex : +1}}
-            href="/pdf/TSGAP_PPT.pdf">
+          <Button style={{ margin: '10px auto', zIndex: +1 }} href="/pdf/TSGAP_PPT.pdf">
             TSGAP PPT
           </Button>
           <Button
@@ -257,9 +259,7 @@ class PET extends Component<PropsInterface, State> {
           </Button>
           <br />
           <div style={{ display: 'block', maxWidth: '500px', margin: '0 auto' }}>
-            <Button href="https://eraswap.info/timeally-goals">
-              SAP Calculator
-            </Button>
+            <Button href="https://eraswap.info/timeally-goals">SAP Calculator</Button>
           </div>
         </div>
         <Modal
