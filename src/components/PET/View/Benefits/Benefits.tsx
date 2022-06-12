@@ -65,14 +65,14 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
       for (let i = 1; i <= TWELVETH_MONTH; i++) {
         console.log(
           window.wallet.address,
-          pets.planId,
+           this.props.match.params.id,
           i,
           i,
-          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address,  this.props.match.params.id, i, i)
         );
 
         monthlyBenefitAmountArray.push(
-          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address, pets.planId, i, i)
+          await window.petInstance.getSumOfMonthlyAnnuity(window.wallet.address,  this.props.match.params.id, i, i)
         );
       }
       // const monthlyBenefitAmountPromiseArray = []
@@ -145,7 +145,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           <td>{i + 1}</td>
           <td>
             {this.state.monthlyBenefitAmountArray[i % 12]
-              ? this.state.monthlyBenefitAmountArray[i % 12] + ' ES'
+              ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i % 12]) + ' ES'
               : 'Loading...'}
           </td>
           <td>
@@ -249,7 +249,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           }
           ethereum={{
             //@ts-ignore
-            transactor: window.petLiquidInstance.connect(window.wallet?.connect(window.provider))
+            transactor: window.petInstance.connect(window.wallet?.connect(window.provider))
               .withdrawPowerBooster,
             estimator: () => ethers.constants.Zero,
             contract: window.prepaidEsInstance,
