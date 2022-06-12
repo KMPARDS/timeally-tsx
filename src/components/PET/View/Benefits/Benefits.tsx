@@ -48,7 +48,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
         this.props.match.params.id
       );
 
-      const powerBoosterAmount = await window.petLiquidInstance.calculatePowerBoosterAmount(
+      const powerBoosterAmount = await window.petInstance.calculatePowerBoosterAmount(
         window.wallet.address,
         this.props.match.params.id.toString()
       );
@@ -145,7 +145,7 @@ class Benefits extends Component<Props & RouteComponentProps<RouteParams>, State
           <td>{i + 1}</td>
           <td>
             {this.state.monthlyBenefitAmountArray[i % 12]
-              ? ethers.utils.formatEther(this.state.monthlyBenefitAmountArray[i % 12]) + ' ES'
+              ? this.state.monthlyBenefitAmountArray[i % 12] + ' ES'
               : 'Loading...'}
           </td>
           <td>
