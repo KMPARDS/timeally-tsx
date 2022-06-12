@@ -124,7 +124,7 @@ class PETId extends Component<Props & RouteComponentProps<RouteParams>, State> {
         commitmentAmount: pet.monthlyCommitmentAmount,
         initTimestamp: pet.initTimestamp.toNumber(),
         depositMonth,
-        lumSum: months[depositMonth - 1].length === 0,
+        lumSum: months[depositMonth - 1]?.length == 0,
       });
     }
   };
